@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSocket } from './models/Socket';
+import SliderPage from './Components/SliderPage';
+import socketio from 'socket.io-client';
+import { RootState } from './models';
+import SignInForm from "./Components/Login/SignInForm";
 
 function App() {
+
+  const socket = useSelector((state: RootState) => state.Socket.socket);
+  const [loginCheck, setLoginCheck] = useState(false);
+
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {loginCheck ? <SliderPage width={window.innerWidth} socket={socket}></SliderPage> : <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>}
     </div>
   );
 }

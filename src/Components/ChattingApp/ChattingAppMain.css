@@ -1,0 +1,175 @@
+.Chatting_Box{
+    width: 400px;
+    height: 100vh;
+    background-color: #efefef;
+    position: relative;
+}
+.ChattingApp_Nav_div{
+    width: 100%;
+    position: absolute;
+    bottom:0;
+    border-top: 2px solid black;
+}
+.ChattingApp_Nav_div > ul{
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.ChattingApp_Nav_div > ul > li{
+    border:1px solid black;
+    width: 100%;
+    text-align: center;
+    font-size: x-large;
+    padding-top: 17px;
+    padding-bottom: 3px;
+}
+
+.ChattingApp_Nav_div > ul > li:hover{
+    cursor: pointer;
+}
+
+.Chatting_Friend_Box{
+    border-bottom:1px solid lightgrey
+}
+.Chatting_Friend_Box:hover{
+    cursor: pointer;
+}
+.Chatting_Friend_Box::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.Chatting_Friend_Box_left{
+    float: left;
+    width: 20%;
+    height:90px;
+    padding:20px;
+    
+}
+.Chatting_Friend_Box_left > div >svg{
+    width: 100%;
+    height: 65px;
+}
+.Chatting_Friend_Box_right:first-child{
+    float: right;
+    width: 40%;
+    display: inline-block;
+}
+.Chatting_Friend_Box_right{
+    width: 40%;
+    display: inline-block;
+    
+}
+.Chatting_Friend_Box_right >div{
+    padding-top:20px;
+    padding-bottom:20px;
+}
+.Chatting_Friend_Box_right >div h3{
+    
+    display: inline-block;
+}
+.Chatting_Friend_Box_right >div h5{
+    margin-bottom: 10px;
+    color:darkgray;
+}
+.Chatting_Friend_Box_right >div h4{
+    color:darkgray;
+}
+.Chatting_Chatting_Box::before{
+    content: "";
+    display: block;
+    margin-top:10px;
+}
+
+.Chatting_Chatting_Box{
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    flex-flow: wrap;
+}
+.Chatting_Chatting_Box:first-child{
+    
+    border-top: 1px solid lightgray;
+}
+
+.Chatting_Chatting_Box:hover{
+    cursor: pointer;
+}
+.Chatting_Chatting_Box::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+.Chatting_Chatting_Box_left{
+    float: left;
+    width: 20%;
+    height:90px;
+    padding:20px;
+    
+}
+.Chatting_Chatting_Box_left > div >svg{
+    width: 100%;
+    height: 45px;
+}
+.Chatting_Chatting_right{
+    float: right;
+    width: 80%;
+}
+.Chatting_Chatting_right >div >div{
+    margin-bottom: 10px;
+}
+.Chatting_Chatting_right >div >div >h4,h5{
+    display: inline-block;
+}
+.Chatting_Chatting_right >div >.Chatting_Chatting_desc{
+    color:darkgray;
+    text-overflow: hidden;
+    width: 95%;
+    height: 22px;
+    overflow: hidden;
+}
+.Chatting_Chatting_right >div >.Chatting_Chatting_desc>h3{
+    font-size:17px;
+    color:dimgrey
+}
+.Chatting_Chatting_timeSpan{
+    position: absolute;
+    top:0;
+    right:30px;
+    font-size: 13px;
+    color:gray;
+}
+
+.Chatting_overflowBox{
+    height: 90vh;
+    overflow: auto;
+}
+
+.Chatting_relativeBox{
+    position: relative;
+}
+.Chatting_ChattingFlex > h2{
+    display: inline-block;
+
+}
+.Chatting_ChattingFlex{
+    display: flex;
+    justify-content:space-between;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.Chatting_ChattingFlex_line{
+    border:0.1px solid gray;
+}
+.Chatting_ChattingFlex > span>svg{
+    width: 30px;
+    height: 20px;
+}
+.Chatting_ChattingFlex > span>svg:hover{
+    
+    cursor: pointer;
+}
