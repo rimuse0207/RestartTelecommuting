@@ -2,7 +2,7 @@ const GETPERSONALINFO = "PersonalInfo/GETPERSONALINFO" as const;
 
 
 
-export const getPersionalInfo = (data: { name: string, email: string, team: string, position: string }) => ({
+export const getPersionalInfo = (data: { name: string, email: string, team: string, position: string, loginCheck: boolean }) => ({
     type: GETPERSONALINFO,
     payload: data
 });
@@ -14,6 +14,7 @@ type PersonalInfoAction =
 
 
 type PersonalInfoState = {
+    loginCheck: boolean,
     infomation: {
         name: string,
         email: string,
@@ -25,11 +26,13 @@ type PersonalInfoState = {
 
 
 const initialState: PersonalInfoState = {
+    loginCheck: false,
     infomation: {
         name: "",
         email: "",
         team: "",
-        position: ""
+        position: "",
+
     }
 
 };
@@ -40,7 +43,10 @@ function PersonalInfo(
 ): PersonalInfoState {
     switch (action.type) {
         case GETPERSONALINFO:
-            return { infomation: action.payload };
+            return {
+                loginCheck: true,
+                infomation: action.payload
+            };
         default:
             return state;
     }

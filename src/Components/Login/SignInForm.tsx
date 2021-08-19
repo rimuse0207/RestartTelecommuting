@@ -28,11 +28,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             } else {
                 alert(loginCheck.data.message);
                 localStorage.setItem("id", (loginCheck.data.datas[0].email))
-                sessionStorage.setItem("team", loginCheck.data.datas[0].team)
-                sessionStorage.setItem("name", loginCheck.data.datas[0].name)
-                sessionStorage.setItem("position", loginCheck.data.datas[0].position)
-                sessionStorage.setItem("id", loginCheck.data.datas[0].email)
-                sessionStorage.setItem("loginChecked", JSON.stringify(loginCheck.data.searchOn))
                 dispatch(getPersionalInfo(loginCheck.data.datas[0]));
                 setLoginCheck(true);
 

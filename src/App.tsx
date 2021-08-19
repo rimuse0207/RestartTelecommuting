@@ -10,13 +10,15 @@ import SignInForm from "./Components/Login/SignInForm";
 function App() {
 
   const socket = useSelector((state: RootState) => state.Socket.socket);
+  const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
+
   const [loginCheck, setLoginCheck] = useState(false);
 
 
   return (
 
     <div className="App">
-      {loginCheck ? <SliderPage width={window.innerWidth} socket={socket}></SliderPage> : <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>}
+      {loginChecked ? <SliderPage width={window.innerWidth} socket={socket}></SliderPage> : <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>}
     </div>
   );
 }

@@ -3,12 +3,13 @@ import Socket from './Socket';
 import ChattingMember from "./ChattingMeber"
 import PersonalInfo from "./PersonalInfo"
 
+
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
-    PersonalInfo
-});
+    PersonalInfo,
 
+});
 // 루트 리듀서를 내보내주세요.
 export default rootReducer;
 
