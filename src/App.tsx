@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { getSocket } from './models/Socket';
+import { useSelector } from 'react-redux';
 import SliderPage from './Components/SliderPage';
-import socketio from 'socket.io-client';
 import { RootState } from './models';
 import SignInForm from "./Components/Login/SignInForm";
 import HambergerMenu from "./Components/Navigation/HambergerMenu"

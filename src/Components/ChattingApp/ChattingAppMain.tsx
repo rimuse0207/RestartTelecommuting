@@ -57,7 +57,7 @@ const ChattingAppMain = () => {
     return (
         <div className="Chatting_Box">
             <Navigation handleClicksMenus={handleClicksMenus} ShowChattingFriend={ShowChattingView.SearchFriendsClick} ShowChattingChatting={ShowChattingView.SearchChattingClicks}></Navigation>
-            {ShowChattingDesc.showChattingDesc ? <ChattingDesc name={ShowChattingDesc.name} handleClickChattingDescReturn={() => handleClickChattingDescReturn()}></ChattingDesc> :
+            {ShowChattingDesc.showChattingDesc ? <ChattingDesc connectReal={ShowChattingDesc.connectReal} email={ShowChattingDesc.email} name={ShowChattingDesc.name} handleClickChattingDescReturn={() => handleClickChattingDescReturn()}></ChattingDesc> :
                 <>
                     {ShowChattingView.SearchFriendsClick ? <SearchFriends handleClickChattingDesc={(socketId: string, connectReal: boolean, email: string, name: string) => handleClickChattingDesc(socketId, connectReal, email, name)}></SearchFriends> : <></>}
                     {ShowChattingView.SearchChattingClicks ? <SearchChattings></SearchChattings> : <></>}
