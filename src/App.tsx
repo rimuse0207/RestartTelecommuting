@@ -6,6 +6,7 @@ import SliderPage from './Components/SliderPage';
 import socketio from 'socket.io-client';
 import { RootState } from './models';
 import SignInForm from "./Components/Login/SignInForm";
+import HambergerMenu from "./Components/Navigation/HambergerMenu"
 
 function App() {
 
@@ -18,7 +19,12 @@ function App() {
   return (
 
     <div className="App">
-      {loginChecked ? <SliderPage width={window.innerWidth} socket={socket}></SliderPage> : <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>}
+      {loginChecked ?
+        <div >
+          <HambergerMenu titles="menu"></HambergerMenu>
+          <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
+        </div>
+        : <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>}
     </div>
   );
 }

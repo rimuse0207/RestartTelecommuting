@@ -43,13 +43,14 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
             style={{
                 transform: `translatex(${xPosition}px)`,
                 width: "400px",
-                height: "100vh"
+                height: "90vh"
             }}
         >
             <button
                 onClick={() => toggleMenu()}
                 className="toggle-menu"
             ></button>
+
             <MainPage></MainPage>
         </div>
     )
