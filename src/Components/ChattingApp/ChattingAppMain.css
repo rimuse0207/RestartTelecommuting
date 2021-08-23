@@ -8,7 +8,7 @@
     width: 100%;
     position: absolute;
     bottom:0;
-    border-top: 2px solid black;
+    border-top: 1px solid burlywood;
 }
 .ChattingApp_Nav_div > ul{
     display: flex;
@@ -17,20 +17,31 @@
 }
 
 .ChattingApp_Nav_div > ul > li{
-    border:1px solid black;
+    border:0.2px solid burlywood;
     width: 100%;
     text-align: center;
     font-size: x-large;
     padding-top: 17px;
     padding-bottom: 3px;
 }
+.ChattingApp_Nav_div > ul > li:first-child{
+    border-left: none;
+}
 
 .ChattingApp_Nav_div > ul > li:hover{
     cursor: pointer;
+    background-color: #e9e9de;
+    transition: 0.1s ease-out;
 }
 
 .Chatting_Friend_Box{
-    border-bottom:1px solid lightgrey
+    border-bottom:1px solid burlywood;
+}
+.Chatting_Friend_Box:hover{
+    cursor: pointer;
+    border-bottom: 1px solid orange;
+    background-color: #e9e9de;
+    transition: 0.9s ease-out;
 }
 .Chatting_Friend_Box:hover{
     cursor: pointer;
@@ -84,14 +95,14 @@
 }
 
 .Chatting_Chatting_Box{
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid burlywood;
     display: flex;
     align-items: center;
     flex-flow: wrap;
 }
 .Chatting_Chatting_Box:first-child{
     
-    border-top: 1px solid lightgray;
+    border-top: 1px solid burlywood;
 }
 
 .Chatting_Chatting_Box:hover{
@@ -172,4 +183,33 @@
 .Chatting_ChattingFlex > span>svg:hover{
     
     cursor: pointer;
+}
+
+.Chatting_Search_divBox{
+    width: 100%;
+    height: 5vh;
+}
+.Chatting_Search_divBox > input{
+    height: 100%;
+    width: 97%;
+    border: none;
+    padding: 15px;
+    margin: 5px;
+    background: burlywood;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.Chatting_Search_divBox > input::placeholder{
+    color:black;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.Chatting_Search_divBox > input:focus{
+    border:3px solid orange;
+    border-radius: 10px;
+    outline: none;
+    
+    
 }

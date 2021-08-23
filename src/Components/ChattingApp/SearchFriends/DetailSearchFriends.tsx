@@ -25,7 +25,7 @@ const DetailSearchFriends = ({ email, name, company, team, position, connectReal
                 <div>
                     <div>
                         <h4>{company}</h4>
-                        <h5>{team}팀</h5>
+                        <h5>{team}</h5>
                     </div>
                     <div>
                         <h3 key={socketId}>{name}</h3>

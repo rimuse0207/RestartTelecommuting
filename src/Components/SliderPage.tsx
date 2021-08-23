@@ -10,20 +10,15 @@ type SliderPageProps = {
 
 
 const SliderPage = ({ width, socket }: SliderPageProps) => {
-    const [xPosition, setX] = React.useState(width - 400);
+    const [xPosition, setX] = React.useState(false);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const dispatch = useDispatch();
 
     const toggleMenu = () => {
-        if (xPosition < width) {
-            setX(width);
-        } else {
-            setX(width - 400);
-        }
+        setX(!xPosition);
     };
 
     useEffect(() => {
-        setX(width);
         socket.emit(("hi"), {
             name: InfomationState.name,
             id: InfomationState.email,
@@ -41,7 +36,7 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
         <div
             className="side-bar"
             style={{
-                transform: `translatex(${xPosition}px)`,
+                transform: `translatex(${xPosition ? 0 : 400}px)`,
                 width: "400px",
                 height: "90vh"
             }}

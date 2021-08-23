@@ -15,7 +15,7 @@ const SearchFriends = ({ handleClickChattingDesc }: SearchFriendsProps) => {
     return (
         <div className="Chatting_overflowBox">
             <div>
-                <div>
+                <div className="Chatting_Search_divBox">
                     <input value={SearchName} onChange={(e) => setSearchName(e.target.value)} placeholder="찾으실 이름 또는 팀명을 입력해주세요....."></input>
                 </div>
                 {members.length > 0 ? members.filter((info: { name: string, team: string }) => {
