@@ -10,13 +10,19 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { PersistGate } from "redux-persist/integration/react"
 import { persistStore } from "redux-persist";
 import store, { persistor } from "./models/Store";
-
-
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import ErrorPage from "./Components/ErrorPage/ErrorPage"
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor} ></PersistGate>
     <React.StrictMode>
-      <App />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={App}></Route>
+          <Route path="*" component={ErrorPage} />
+          <Redirect path="*" to="/ErrorPage" />
+        </Switch>
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>,
   document.getElementById('root')

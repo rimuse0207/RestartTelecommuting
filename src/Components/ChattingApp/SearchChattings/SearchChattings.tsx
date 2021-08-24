@@ -12,7 +12,7 @@ const SearchChattings = () => {
     const [Rooms, setRooms] = useState([]);
     useEffect(() => {
         socket.emit("getChattingRoom", {
-            id: Infomation.email,
+            id: Infomation.id,
         })
         socket.on("sendChattingRoom", (data: { data: [] }) => {
             console.log(data);

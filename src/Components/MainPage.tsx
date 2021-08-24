@@ -5,13 +5,7 @@ import ErrorPage from "./ErrorPage/ErrorPage";
 
 const MainPage = () => {
     return (
-        <BrowserRouter>
-            <Switch>
-                <Route exact path="/" component={ChattingAppMain}></Route>
-                <Route path="*" component={ErrorPage} />
-                <Redirect path="*" to="/ErrorPage" />
-            </Switch>
-        </BrowserRouter>
+        <ChattingAppMain></ChattingAppMain>
     )
 }
 

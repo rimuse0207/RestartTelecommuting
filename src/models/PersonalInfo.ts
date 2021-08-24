@@ -2,7 +2,7 @@ const GETPERSONALINFO = "PersonalInfo/GETPERSONALINFO" as const;
 
 
 
-export const getPersionalInfo = (data: { name: string, email: string, team: string, position: string, loginCheck: boolean }) => ({
+export const getPersionalInfo = (data: { name: string, email: string, team: string, position: string, loginCheck: boolean, id: string }) => ({
     type: GETPERSONALINFO,
     payload: data
 });
@@ -20,6 +20,7 @@ type PersonalInfoState = {
         email: string,
         team: string,
         position: string,
+        id: string
     }
 
 };
@@ -32,6 +33,7 @@ const initialState: PersonalInfoState = {
         email: "",
         team: "",
         position: "",
+        id: "",
 
     }
 

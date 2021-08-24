@@ -1,11 +1,13 @@
 import React from "react";
 import { IoPeopleCircleOutline } from "react-icons/io5"
-
+import moment from "moment";
 type DetailSearchChattingsProps = {
     datas: {
         name: string,
         position: string,
-        room_id: string
+        room_id: string,
+        message_desc: string,
+        maxDate: string
     }
 }
 
@@ -22,10 +24,10 @@ const DetailSearchChattings = ({ datas }: DetailSearchChattingsProps) => {
                     <div className="Chatting_relativeBox">
                         <h4>{datas.name}</h4>
                         <h5>{datas.position}</h5>
-                        <div className="Chatting_Chatting_timeSpan">2021-07-27 19:11</div>
+                        <div className="Chatting_Chatting_timeSpan">{moment(datas.maxDate).format("YYYY-MM-DD HH:mm:ss")}</div>
                     </div>
                     <div className="Chatting_Chatting_desc">
-                        <h3>메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.</h3>
+                        <h3>{datas.message_desc}</h3>
 
                     </div>
                 </div>
