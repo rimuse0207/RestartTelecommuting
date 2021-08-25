@@ -1,21 +1,29 @@
-import React from "react";
-import { CgProfile } from "react-icons/cg";
+import React from 'react';
+import { CgProfile } from 'react-icons/cg';
 
 type DetailSearchFriendsProps = {
-    email: string,
-    name: string,
-    company: string,
-    team: string,
-    position: string,
-    connectReal: boolean,
-    socketId: string,
-    handleClickChattingDesc: (socketId: string, connectReal: boolean, email: string, name: string) => void
+    id: string;
+    name: string;
+    company: string;
+    team: string;
+    position: string;
+    socketId: string;
+    roomId: string;
+    handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
+};
 
-}
-
-const DetailSearchFriends = ({ email, name, company, team, position, connectReal, socketId, handleClickChattingDesc }: DetailSearchFriendsProps) => {
+const DetailSearchFriends = ({
+    id,
+    name,
+    company,
+    team,
+    position,
+    roomId,
+    socketId,
+    handleClickChattingDesc,
+}: DetailSearchFriendsProps) => {
     return (
-        <div className="Chatting_Friend_Box" onClick={() => handleClickChattingDesc(socketId, connectReal, email, name)}>
+        <div className="Chatting_Friend_Box" onClick={() => handleClickChattingDesc(socketId, roomId, id, name)}>
             <div className="Chatting_Friend_Box_left">
                 <div>
                     <CgProfile></CgProfile>
@@ -29,17 +37,15 @@ const DetailSearchFriends = ({ email, name, company, team, position, connectReal
                     </div>
                     <div>
                         <h3 key={socketId}>{name}</h3>
-                        <span style={{ marginLeft: "10px", fontSize: "13px" }}>{position}</span>
+                        <span style={{ marginLeft: '10px', fontSize: '13px' }}>{position}</span>
                     </div>
                 </div>
             </div>
             <div className="Chatting_Friend_Box_right">
-                <div>
-                    {connectReal ? "실시간 접속중" : "접속 중이 아닙니다."}
-                </div>
+                <div>{socketId === 'notConnecting' ? '접속 중이 아닙니다.' : '실시간 접속중'}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DetailSearchFriends;
