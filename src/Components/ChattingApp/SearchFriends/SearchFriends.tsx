@@ -23,47 +23,47 @@ const SearchFriends = ({ handleClickChattingDesc }: SearchFriendsProps) => {
                 </div>
                 {members.length > 0
                     ? members
-                          .filter((info: { name: string; team: string }) => {
-                              if (info.name.indexOf(SearchName) !== -1) {
-                                  return info;
-                              } else if (info.team.indexOf(SearchName) !== -1) {
-                                  return info;
-                              }
-                          })
-                          .map(
-                              (
-                                  list: {
-                                      room_id: string;
-                                      team: string;
-                                      name: string;
-                                      position: string;
-                                      connect_status: string;
-                                      company: string;
-                                      id: string;
-                                  },
-                                  i
-                              ) => {
-                                  return (
-                                      <DetailSearchFriends
-                                          key={list.id}
-                                          id={list.id}
-                                          name={list.name}
-                                          company={list.company}
-                                          team={list.team}
-                                          position={list.position}
-                                          roomId={list.room_id}
-                                          socketId={list.connect_status}
-                                          handleClickChattingDesc={(socketId: string, roomId: string, id: string, name: string) =>
-                                              handleClickChattingDesc(socketId, roomId, id, name)
-                                          }
-                                      ></DetailSearchFriends>
-                                  );
-                              }
-                          )
+                        .filter((info: { name: string; team: string }) => {
+                            if (info.name.indexOf(SearchName) !== -1) {
+                                return info;
+                            } else if (info.team.indexOf(SearchName) !== -1) {
+                                return info;
+                            }
+                        })
+                        .map(
+                            (
+                                list: {
+                                    room_id: string;
+                                    team: string;
+                                    name: string;
+                                    position: string;
+                                    connect_status: string;
+                                    company: string;
+                                    id: string;
+                                },
+                                i
+                            ) => {
+                                return (
+                                    <DetailSearchFriends
+                                        key={list.id}
+                                        id={list.id}
+                                        name={list.name}
+                                        company={list.company}
+                                        team={list.team}
+                                        position={list.position}
+                                        roomId={list.room_id}
+                                        socketId={list.connect_status}
+                                        handleClickChattingDesc={(socketId: string, roomId: string, id: string, name: string) =>
+                                            handleClickChattingDesc(socketId, roomId, id, name)
+                                        }
+                                    ></DetailSearchFriends>
+                                );
+                            }
+                        )
                     : '서버와 연결중에 있습니다.'}
             </div>
         </div>
     );
 };
 
-export default SearchFriends;
+export default React.memo(SearchFriends);

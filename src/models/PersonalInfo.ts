@@ -9,7 +9,6 @@ export const getPersionalInfo = (data: {
     loginCheck: boolean;
     id: string;
 }) => ({
->>>>>>> origin/company
     type: GETPERSONALINFO,
     payload: data,
 });

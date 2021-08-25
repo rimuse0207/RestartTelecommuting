@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useCallback } from 'react';
+import { useMemo } from 'react';
 type SearchChattingsProps = {
     handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
 };
@@ -13,7 +15,6 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
     const Infomation = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [Rooms, setRooms] = useState([]);
     useEffect(() => {
-
         socket.emit('getChattingRoom', {
             id: Infomation.id,
         });
@@ -38,9 +39,18 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
             </div>
             <div className="Chatting_ChattingFlex_line"> </div>
 
-            {Rooms.map((list, i) => {
+            {Rooms.map((list: {
+                name: string;
+                position: string;
+                room_id: string;
+                maxDate: string;
+                message_desc: string;
+                user_id: string;
+                user_id2: string;
+            }, i) => {
                 return (
                     <DetailSearchChattings
+                        key={list.user_id2}
                         datas={list}
                         handleClickChattingDesc={(socketId: string, roomId: string, id: string, name: string) =>
                             handleClickChattingDesc(socketId, roomId, id, name)
@@ -52,4 +62,4 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
     );
 };
 
-export default SearchChattings;
+export default React.memo(SearchChattings);

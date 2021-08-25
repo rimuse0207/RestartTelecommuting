@@ -27,7 +27,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 setPassword("");
             } else {
                 alert(loginCheck.data.message);
-                localStorage.setItem("id", (loginCheck.data.datas[0].email))
+                localStorage.setItem("id", (loginCheck.data.datas[0].id))
                 dispatch(getPersionalInfo(loginCheck.data.datas[0]));
                 setLoginCheck(true);
 
