@@ -1,17 +1,22 @@
-import React from "react";
-import { IoPeopleCircleOutline } from "react-icons/io5"
+import React from 'react';
+import { IoPeopleCircleOutline } from 'react-icons/io5';
 
 type DetailSearchChattingsProps = {
     datas: {
-        name: string,
-        position: string,
-        room_id: string
-    }
-}
+        name: string;
+        position: string;
+        room_id: string;
+    };
+    handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
+};
 
-const DetailSearchChattings = ({ datas }: DetailSearchChattingsProps) => {
+const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchChattingsProps) => {
     return (
-        <div className="Chatting_Chatting_Box" key={datas.room_id}>
+        <div
+            className="Chatting_Chatting_Box"
+            key={datas.room_id}
+            onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.name, datas.name)}
+        >
             <div className="Chatting_Chatting_Box_left">
                 <div>
                     <IoPeopleCircleOutline></IoPeopleCircleOutline>
@@ -26,12 +31,11 @@ const DetailSearchChattings = ({ datas }: DetailSearchChattingsProps) => {
                     </div>
                     <div className="Chatting_Chatting_desc">
                         <h3>메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.메시지 내용이 들어갑니다.</h3>
-
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DetailSearchChattings;
