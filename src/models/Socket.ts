@@ -2,7 +2,6 @@ import socketio from "socket.io-client"
 const GETSOCKET = "Socket/GETSOCKET" as const;
 
 
-
 export const getSocket = (socket: any) => ({
     type: GETSOCKET,
     payload: socket
