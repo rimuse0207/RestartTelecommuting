@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -18,12 +19,22 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     const messageSend = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         alert(messages);
-        socket.emit('messageSendServer', {
-            messages,
-            To_Name: name,
-            From_Name: infomation.id,
-            RoomId: roomId,
-        });
+        if (roomId !== 'nothing') {
+            socket.emit('messageSendServer', {
+                messages,
+                To_Name: name,
+                From_Name: infomation.id,
+                RoomId: roomId,
+            });
+        } else {
+            socket.emit('messageSendServerNothings', {
+                messages,
+                To_Name: name,
+                From_Name: infomation.id,
+                RoomId: roomId,
+            });
+        }
+
         setMessages('');
     };
     useEffect(() => {
@@ -37,18 +48,19 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
             console.log(datas);
             setAllDesc(datas.data);
         });
-    }, [roomId]);
+    }, []);
     return (
         <div>
             <button onClick={handleClickChattingDescReturn}>뒤로 가기 </button>
             <div>
                 <h1>{name}</h1>
                 <div>
-                    {allDesc.map((list: { user_id: string; message_desc: string }, i) => {
+                    {allDesc.map((list: { user_id: string; message_desc: string; write_date: string }, i) => {
                         return (
                             <div>
                                 <div>{list.user_id}</div>
                                 <div>{list.message_desc}</div>
+                                <div>{moment(list.write_date).format('YYYY-MM-DD HH:mm:ss')}</div>
                             </div>
                         );
                     })}
@@ -68,4 +80,4 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     );
 };
 
-export default ChattingDesc;
+export default React.memo(ChattingDesc);

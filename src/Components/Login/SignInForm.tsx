@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./SignInForm.css";
-import { useDispatch } from "react-redux";
-import { getPersionalInfo } from "../../models/PersonalInfo"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './SignInForm.css';
+import { useDispatch } from 'react-redux';
+import { getPersionalInfo } from '../../models/PersonalInfo';
 
 type SignInFormProps = {
-    setLoginCheck: (data: boolean) => void
-}
+    setLoginCheck: (data: boolean) => void;
+};
 
 const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
-
-    const [email, setEmail] = useState<string | any>(localStorage.getItem("id") ? localStorage.getItem("id") : "")
-    const [password, setPassword] = useState("");
+    const [id, setIds] = useState<string | any>(localStorage.getItem('id') ? localStorage.getItem('id') : '');
+    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
     const handleSubmit = async (event: React.SyntheticEvent) => {
@@ -19,15 +18,16 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
 
         try {
             const loginCheck = await axios.post(`${process.env.REACT_APP_DB_HOST}/Login_app_servers/loginCheck`, {
-                id: email,
-                password: password
-            })
+                id: id,
+                password: password,
+            });
             if (!loginCheck.data.searchOn) {
                 alert(loginCheck.data.message);
-                setPassword("");
+                setPassword('');
             } else {
                 alert(loginCheck.data.message);
-                localStorage.setItem("id", (loginCheck.data.datas[0].id))
+                localStorage.setItem('id', loginCheck.data.datas[0].id);
+
                 dispatch(getPersionalInfo(loginCheck.data.datas[0]));
                 setLoginCheck(true);
 
@@ -35,21 +35,19 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             }
         } catch (error) {
             console.log(error);
-            alert("Login Error 서버 차단");
+            alert('Login Error 서버 차단');
         }
-
-    }
+    };
 
     return (
         <div>
-            <div className="appAside" >
+            <div className="appAside">
                 <div className="logo_center">
                     <img src="/dhks.jpg" width="70%"></img>
                 </div>
             </div>
             <div className="appForm">
                 <div className="formCenter">
-
                     <form className="formFields" onSubmit={(event: React.SyntheticEvent) => handleSubmit(event)}>
                         <h1>DHKS</h1>
                         <h2>종합 프로그램</h2>
@@ -63,8 +61,8 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                                 className="formFieldInput"
                                 placeholder="Enter your email"
                                 name="email"
-                                value={email}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                                value={id}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIds(e.target.value)}
                             />
                         </div>
 
@@ -86,13 +84,11 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                         <div className="formField">
                             <button className="formFieldButton">Sign In</button>
                         </div>
-
-
                     </form>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SignInForm;
