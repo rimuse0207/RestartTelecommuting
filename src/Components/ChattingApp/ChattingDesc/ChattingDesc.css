@@ -1,0 +1,144 @@
+.Chatting_app_DESC_BigBox_div{
+    width: 100%;
+    height: 90%;
+    position: relative;
+}
+.Chatting_app_inputText_MessageSend{
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    bottom:0;
+    padding-left: 10px;
+}
+.Chatting_app_inputText_MessageSend > form > input{
+    width: 90%;
+    padding-left: 10px;
+    height: 100%;
+    border: none;
+}
+.Chatting_app_inputText_MessageSend > form > input:focus{
+    outline: 0.1px solid chocolate;
+    /* border: 0.3px solid chocolate; */
+}
+.Chatting_app_inputText_MessageSend > form > button{
+    width: 10%;
+    height: 100%;
+    border: none;
+    font-weight: bolder;
+}
+.Chatting_app_inputText_MessageSend > form > button:hover{
+    cursor: pointer;
+    background-color: coral;
+}
+.Chatting_app_inputText_MessageSend > span{
+    
+    display: none;
+}
+.Chatting_app_DESC_div{
+    overflow: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top:20px;
+}
+
+.Chatting_app_DESC_div::after{
+    display: block;
+    content:" ";
+    clear: both;
+}
+.Chatting_app_DESC_left_div{
+    float: left;
+    width: 70%;
+    text-align: left;
+}
+.Chatting_app_DESC_right_div{
+    float: right;
+    width: 70%;
+    text-align: right;
+}
+.Chatting_app_Person_div{
+    display: flex;
+}
+.Chatting_app_Person_left_div > svg{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.Chatting_app_Person_Text_div{
+    background-color: lightgray;
+    margin-left: 40px;
+    padding-left: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    position: relative;
+	background: lightgray;
+    border-radius: 8px;
+    top:-7px
+}
+.Chatting_app_Person_Text_div > div{
+    font-size: medium;
+    font-weight:normal;
+}
+.Chatting_app_Person_Text_div::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 27%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-right-color: lightgray;
+    border-left: 0;
+    border-top: 0;
+    margin-top: -3px;
+    margin-left: -10px;
+}
+
+.Chatting_app_Persion_WriteDate_div{
+    position: absolute;
+    top:-15px;
+    right:0;
+    font-size: xx-small !important;
+    color:black;
+    font-weight: lighter !important;
+}
+.Chatting_app_Persion_WriteDate_div_right{
+    position: absolute;
+    top:-14px;
+    left:0;
+    font-size: xx-small !important;
+    color:black;
+    font-weight: lighter !important;
+}
+
+
+.Chatting_app_DESC_right_div{
+    background-color: navajowhite;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    position: relative;
+	background: navajowhite;
+    border-radius: 8px;
+    top:-7px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+.Chatting_app_DESC_right_div::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 27%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: navajowhite;
+    border-right: 0;
+    border-top: 0;
+    margin-top: -3px;
+    margin-right: -10px;
+}
+.Chatting_app_DESC_right_div > div{
+    font-size: medium;
+    font-weight:normal;
+}
