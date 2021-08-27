@@ -5,27 +5,28 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, createStore } from 'redux';
-import persistReducer from "./models"
+import persistReducer from './models';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { PersistGate } from "redux-persist/integration/react"
-import { persistStore } from "redux-persist";
-import store, { persistor } from "./models/Store";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import ErrorPage from "./Components/ErrorPage/ErrorPage"
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+import store, { persistor } from './models/Store';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import ErrorPage from './Components/ErrorPage/ErrorPage';
+import TelecommutingMainpage from './Components/Telecommuting/TelecommutingMainPage';
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor} ></PersistGate>
-    <React.StrictMode>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={App}></Route>
-          <Route path="*" component={ErrorPage} />
-          <Redirect path="*" to="/ErrorPage" />
-        </Switch>
-      </BrowserRouter>
-    </React.StrictMode>
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}></PersistGate>
+        <React.StrictMode>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" component={App}></Route>
+                    <Route path="*" component={ErrorPage} />
+                    <Redirect path="*" to="/ErrorPage" />
+                </Switch>
+            </BrowserRouter>
+        </React.StrictMode>
+    </Provider>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

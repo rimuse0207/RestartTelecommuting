@@ -1,15 +1,15 @@
-.Nav_firstbox{
+.Nav_firstbox {
     width: 15%;
     position: fixed;
     border-right: 3px solid gray;
     height: 100vh;
     background-color: white;
 }
-.MainBody_box{
+.MainBody_box {
     float: right;
     width: 95%;
 }
-.nav-links{
+.nav-links {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -17,45 +17,48 @@
     justify-content: space-around;
 }
 
-.link{
+.link {
     font-size: 1.2rem;
-    color:black;
+    color: black;
 }
-.link:hover{
-    color:blue
+.link:hover {
+    color: blue;
 }
-a { text-decoration:none } 
-li{    list-style: none;}
-ul{
-    margin:0;
-    padding:0;
+a {
+    text-decoration: none;
+}
+li {
+    list-style: none;
+}
+ul {
+    margin: 0;
+    padding: 0;
 }
 
-
-.MenuDisblock{
+.MenuDisblock {
     transform: translateY(0%);
     transition: 0.5s ease-in-out;
 }
 
-
-.menubar{
+.menubar {
     display: block;
     height: 10vh;
+    max-height: 70px;
     background-color: #f9b55c;
-    box-shadow: 2px 5px 5px 0 rgba(0,0,0,.12);
+    box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.12);
     text-align: center;
 }
-.MainTitles > h1{
+.MainTitles > h1 {
     margin-top: 12px;
 }
-.MainTitles{
+.MainTitles {
     position: absolute;
     top: -15px;
     left: 0;
     right: 0;
 }
-  
-.menubar span{
+
+.menubar span {
     display: inline-block;
     position: absolute;
     left: 50%;
@@ -63,20 +66,18 @@ ul{
     font-weight: 300;
     font-size: 2em;
     line-height: 60px;
-    top:20px;
+    top: 20px;
 }
-  
 
-
-#hambmenu{
+#hambmenu {
     position: relative;
     width: 40px;
     height: 45px;
     float: left;
-    transition: .5s ease-in-out;
+    transition: 0.5s ease-in-out;
     cursor: pointer;
 }
-#hambmenu span{
+#hambmenu span {
     position: absolute;
     height: 5px;
     width: 100%;
@@ -87,12 +88,11 @@ ul{
     opacity: 1;
     left: 0;
     transform: rotate(0deg);
-    transition: .25s ease-in-out;
+    transition: 0.25s ease-in-out;
     padding: 0px;
 }
-  
-    
-.hambclicker{
+
+.hambclicker {
     content: '';
     height: 48px;
     width: 55px;
@@ -102,48 +102,48 @@ ul{
     cursor: pointer;
     z-index: 9;
 }
-  
-#hambmenu  span:nth-child(1){
+
+#hambmenu span:nth-child(1) {
     top: 0px;
 }
- 
-#hambmenu  span:nth-child(2),#hambmenu  span:nth-child(3){
-    top: 10px
+
+#hambmenu span:nth-child(2),
+#hambmenu span:nth-child(3) {
+    top: 10px;
 }
-  
-#hambmenu  span:nth-child(4){
+
+#hambmenu span:nth-child(4) {
     top: 20px;
 }
-  
-#hambmenu.isopen span:nth-child(1){
+
+#hambmenu.isopen span:nth-child(1) {
     top: 18px;
     width: 0%;
     left: 50%;
     opacity: 0;
 }
-  
-#hambmenu.isopen span:nth-child(2){
+
+#hambmenu.isopen span:nth-child(2) {
     transform: rotate(45deg);
 }
-  
-#hambmenu.isopen span:nth-child(3){
+
+#hambmenu.isopen span:nth-child(3) {
     transform: rotate(-45deg);
 }
-  
-#hambmenu.isopen span:nth-child(4){
+
+#hambmenu.isopen span:nth-child(4) {
     top: 18px;
     width: 0%;
     left: 50%;
     opacity: 0;
 }
-  
 
-#menu{
+#menu {
     position: absolute;
     height: calc(100vh - 60px);
     width: 210px;
-    
-    background: #F9B55C;
+
+    background: #f9b55c;
     box-shadow: 2px 1px 1px 1px lightgrey;
 
     transform: translateX(-100%);
@@ -151,49 +151,45 @@ ul{
     z-index: 10;
     overflow: auto;
 }
-  
-#menu ul{
+
+#menu ul {
     margin-top: 0px;
     padding: 0px;
     color: black;
     list-style-type: none;
     text-align: left;
 }
-#menu li{
+#menu li {
     padding: 30px 0 20px 20px;
     font-size: 1.5em;
-    border-bottom: 1px solid rgba(0,0,0,.14);
-}  
-#menu li:last-child{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+#menu li:last-child {
     border-bottom: none;
 }
-    
-.fa{
+
+.fa {
     color: black;
     padding-right: 8px;
 }
-  
-li a{
+
+li a {
     text-decoration: none;
     color: white;
     font-weight: bolder;
 }
- 
 
-#menu.isopen{
+#menu.isopen {
     transform: none;
 }
-  
 
-@media screen and (max-width: 420px){
-    .menubar span{
-        font-size: 1.2em
+@media screen and (max-width: 420px) {
+    .menubar span {
+        font-size: 1.2em;
     }
-    
 }
-  
 
-a:hover{
+a:hover {
     cursor: pointer;
-    color:blue;
+    color: blue;
 }

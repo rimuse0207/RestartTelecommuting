@@ -1,0 +1,74 @@
+.Telecommuting_date_show_div {
+    font-size: large;
+    font-weight: bolder;
+}
+.Telecommuting_date_show_div > h1 {
+    margin-top: 10px;
+    text-align: center;
+}
+.control {
+    width: 100%;
+    text-align: center;
+}
+.control > span {
+    font-size: xx-large;
+}
+.Telecommuting_Table {
+    width: 100%;
+    height: 84%;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+.Telecommuting_Table > thead > tr > th {
+    padding: 0;
+    margin: 0;
+    border: 1px solid lightgray;
+    border-bottom: 1px solid gray;
+}
+.Telecommuting_Table > tbody > tr > td {
+    border: 1px solid lightgray;
+    max-height: 14%;
+    position: relative;
+    font-weight: lighter;
+    font-size: small;
+}
+.Telecommuting_table_today {
+    background-color: #edbf84;
+}
+.Telecommuting_Table_dayNumber {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.Telecommuting_Table_nextMonth {
+    background-color: lightgray;
+    border: 1px solid darkgray !important;
+}
+.Telecommuting_Table_Data_Insert {
+    width: 100%;
+    font-weight: bolder;
+    line-height: 150%;
+    border-radius: 5px;
+    margin-bottom: 2px;
+    background-color: #3174ad;
+    color: white;
+    padding-left: 10px;
+    padding-bottom: 2px;
+}
+.Telecommuting_Table_Data_Insert:hover {
+    cursor: pointer;
+}
+
+.control > button {
+    height: 100%;
+    border: none;
+    font-size: x-large;
+    background: none;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-weight: bolder;
+}
+.control > button:hover {
+    cursor: pointer;
+    color: #3174ad;
+}
