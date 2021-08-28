@@ -47,6 +47,8 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
                 message_desc: string;
                 user_id: string;
                 user_id2: string;
+                chatCount: number;
+                readed_checked: number;
             }, i) => {
                 return (
                     <DetailSearchChattings

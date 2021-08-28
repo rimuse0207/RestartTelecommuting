@@ -132,9 +132,10 @@ h5 {
 .Chatting_Chatting_right > div > .Chatting_Chatting_desc {
     color: darkgray;
     text-overflow: hidden;
-    width: 95%;
+    width: 80%;
     height: 22px;
     overflow: hidden;
+    display: inline-flex;
 }
 .Chatting_Chatting_right > div > .Chatting_Chatting_desc > h3 {
     font-size: 17px;
@@ -218,4 +219,18 @@ h5 {
     border: 3px solid orange;
     border-radius: 10px;
     outline: none;
+}
+
+
+.Chattong_app_not_yet_read {
+    background-color: red;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 50%;
+    display: inline;
+}
+.Chattong_app_not_yet_read > span{
+    margin: auto;
+    font-size: smaller;
+    color: yellow;
 }

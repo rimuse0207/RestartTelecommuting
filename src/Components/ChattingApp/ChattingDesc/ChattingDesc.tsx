@@ -55,6 +55,7 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
             console.log(datas);
             setAllDesc(datas.data);
         });
+
     }, []);
     return (
         <div className="Chatting_app_DESC_BigBox_div" style={{ width: '100%', height: '90%' }}>

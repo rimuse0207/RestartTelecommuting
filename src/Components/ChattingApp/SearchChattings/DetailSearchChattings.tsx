@@ -12,6 +12,8 @@ type DetailSearchChattingsProps = {
         message_desc: string;
         user_id: string;
         user_id2: string;
+        chatCount: number;
+        readed_checked: number;
     };
     handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
 };
@@ -26,7 +28,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchC
             onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.name, datas.name)}
         >
             <div className="Chatting_Chatting_Box_left">
-                <div >
+                <div style={datas.user_id !== "sjyoo@dhk.co.kr" ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
                     <IoPeopleCircleOutline></IoPeopleCircleOutline>
                 </div>
             </div>
@@ -40,6 +42,9 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchC
                     <div className="Chatting_Chatting_desc">
                         <h3 >{datas.message_desc}</h3>
                     </div>
+                    {datas.user_id !== "sjyoo@dhk.co.kr" ? (datas.chatCount - datas.readed_checked) > 0 ?
+                        <div className="Chattong_app_not_yet_read"><span>{(datas.chatCount - datas.readed_checked)}</span></div> : "" : ""}
+
                 </div>
             </div>
         </div>
