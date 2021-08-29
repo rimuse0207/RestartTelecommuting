@@ -27,8 +27,8 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             } else {
                 alert(loginCheck.data.message);
                 localStorage.setItem('id', loginCheck.data.datas[0].id);
-
                 dispatch(getPersionalInfo(loginCheck.data.datas[0]));
+
                 setLoginCheck(true);
 
                 // return <Redirect push to="/" />

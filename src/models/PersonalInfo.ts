@@ -1,4 +1,10 @@
+import crypto from "crypto-js";
 
+const ciphertext = (datas: string) => {
+    const keys: any = `${process.env.REACT_APP_SECRETKEY}`;
+    return crypto.AES.encrypt(datas, keys).toString();
+}
+console.log(ciphertext("name"))
 const GETPERSONALINFO = 'PersonalInfo/GETPERSONALINFO' as const;
 
 export const getPersionalInfo = (data: {
@@ -43,7 +49,13 @@ function PersonalInfo(state: PersonalInfoState = initialState, action: PersonalI
         case GETPERSONALINFO:
             return {
                 loginCheck: true,
-                infomation: action.payload,
+                infomation: {
+                    name: ciphertext(action.payload.name),
+                    email: ciphertext(action.payload.id),
+                    team: action.payload.team,
+                    position: action.payload.position,
+                    id: ciphertext(action.payload.id),
+                }
             };
         default:
             return state;

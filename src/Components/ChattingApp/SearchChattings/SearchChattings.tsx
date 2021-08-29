@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useCallback } from 'react';
-import { useMemo } from 'react';
+import { DecryptKey } from "../../../config"
 type SearchChattingsProps = {
     handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
 };
@@ -16,7 +15,7 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
     const [Rooms, setRooms] = useState([]);
     useEffect(() => {
         socket.emit('getChattingRoom', {
-            id: Infomation.id,
+            id: DecryptKey(Infomation.id),
         });
         socket.on('sendChattingRoom', (data: { data: [] }) => {
             console.log(data);
@@ -24,7 +23,7 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
         });
         socket.on('disconnected', () => {
             socket.emit('hi', {
-                id: Infomation.id,
+                id: DecryptKey(Infomation.id),
             });
         });
     }, []);

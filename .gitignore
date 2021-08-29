@@ -13,6 +13,11 @@
 
 # production
 /build
+/config.ts
+*.config.ts
+/*.config.ts
+.config.ts
+/src/config.ts
 
 # misc
 .DS_Store

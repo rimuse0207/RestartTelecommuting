@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import './ChattingDesc.css';
 import { BsPersonSquare } from 'react-icons/bs';
+import { DecryptKey } from "../../../config"
 
 
 type ChattingDescProps = {
@@ -23,7 +24,6 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     const scrollRef = useRef<any>();
     const scrollToBottom = useCallback(() => {
         if (allDesc.length > 0) {
-            // 스크롤 내리기
             scrollRef.current.lastElementChild.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
         }
     }, [allDesc]);
@@ -36,14 +36,14 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
             socket.emit('messageSendServer', {
                 messages,
                 To_Name: name,
-                From_Name: infomation.id,
+                From_Name: DecryptKey(infomation.id),
                 RoomId: roomId,
             });
         } else {
             socket.emit('messageSendServerNothings', {
                 messages,
                 To_Name: name,
-                From_Name: infomation.id,
+                From_Name: DecryptKey(infomation.id),
 
             });
         }
@@ -56,12 +56,12 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
         if (!socket) return;
         if (roomId !== 'nothing') {
             socket.emit('getChattingDESC', {
-                id: infomation.id,
+                id: DecryptKey(infomation.id),
                 roomId,
             });
         }
         socket.on('successChatingDESC', (datas: { data: [] }) => {
-            console.log(datas);
+
             setAllDesc(datas.data);
         });
 
@@ -74,7 +74,7 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
 
                 <div className="Chatting_app_DESC_div" ref={scrollRef}>
                     {allDesc.map((list: { user_id: string; message_desc: string; write_date: string, name: string }, i) => {
-                        return list.user_id === infomation.id ? (
+                        return list.user_id === DecryptKey(infomation.id) ? (
                             <div>
                                 <div className="Chatting_app_DESC_right_div">
                                     <div>{list.message_desc}</div>

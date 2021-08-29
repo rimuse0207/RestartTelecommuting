@@ -2,6 +2,7 @@
 import React from "react";
 import { IoPeopleCircleOutline } from "react-icons/io5"
 import moment from "moment";
+import { DecryptKey } from "../../../config"
 
 type DetailSearchChattingsProps = {
     datas: {
@@ -23,7 +24,7 @@ type DetailSearchChattingsProps = {
 
 
 const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: DetailSearchChattingsProps) => {
-    console.log(datas);
+
     return (
         <div
             className="Chatting_Chatting_Box"
@@ -31,7 +32,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: D
             onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.name, datas.name)}
         >
             <div className="Chatting_Chatting_Box_left">
-                <div style={datas.user_id !== Infomation.id ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
+                <div style={datas.user_id !== DecryptKey(Infomation.id) ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
                     <IoPeopleCircleOutline></IoPeopleCircleOutline>
                 </div>
             </div>
@@ -45,7 +46,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: D
                     <div className="Chatting_Chatting_desc">
                         <h3 >{datas.message_desc}</h3>
                     </div>
-                    {datas.user_id !== Infomation.id ? (datas.chatCount - datas.readed_checked) > 0 ?
+                    {datas.user_id !== DecryptKey(Infomation.id) ? (datas.chatCount - datas.readed_checked) > 0 ?
                         <div className="Chattong_app_not_yet_read"><span>{(datas.chatCount - datas.readed_checked)}</span></div> : "" : ""}
 
                 </div>

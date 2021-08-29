@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Navigation from './Navigation/Navigation';
 import SearchChattings from './SearchChattings/SearchChattings';
 import SearchFriends from './SearchFriends/SearchFriends';
