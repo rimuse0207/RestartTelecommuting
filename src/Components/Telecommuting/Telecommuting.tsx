@@ -27,6 +27,10 @@ const Telecommuting = () => {
                                                 asdasd
                                             </div>
                                             <div className="Telecommuting_Table_Data_Insert">asdasd</div>
+                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
+                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
+                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
+
                                         </div>
                                     </td>
                                 );

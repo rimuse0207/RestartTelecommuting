@@ -19,7 +19,6 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
             id: Infomation.id,
         });
         socket.on('sendChattingRoom', (data: { data: [] }) => {
-
             console.log(data);
             setRooms(data.data);
         });
@@ -53,6 +52,7 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
                 return (
                     <DetailSearchChattings
                         key={list.user_id2}
+                        Infomation={Infomation}
                         datas={list}
                         handleClickChattingDesc={(socketId: string, roomId: string, id: string, name: string) =>
                             handleClickChattingDesc(socketId, roomId, id, name)

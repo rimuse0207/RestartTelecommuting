@@ -15,11 +15,14 @@ type DetailSearchChattingsProps = {
         chatCount: number;
         readed_checked: number;
     };
+    Infomation: {
+        id: string
+    }
     handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
 };
 
 
-const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchChattingsProps) => {
+const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: DetailSearchChattingsProps) => {
     console.log(datas);
     return (
         <div
@@ -28,7 +31,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchC
             onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.name, datas.name)}
         >
             <div className="Chatting_Chatting_Box_left">
-                <div style={datas.user_id !== "sjyoo@dhk.co.kr" ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
+                <div style={datas.user_id !== Infomation.id ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
                     <IoPeopleCircleOutline></IoPeopleCircleOutline>
                 </div>
             </div>
@@ -42,7 +45,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc }: DetailSearchC
                     <div className="Chatting_Chatting_desc">
                         <h3 >{datas.message_desc}</h3>
                     </div>
-                    {datas.user_id !== "sjyoo@dhk.co.kr" ? (datas.chatCount - datas.readed_checked) > 0 ?
+                    {datas.user_id !== Infomation.id ? (datas.chatCount - datas.readed_checked) > 0 ?
                         <div className="Chattong_app_not_yet_read"><span>{(datas.chatCount - datas.readed_checked)}</span></div> : "" : ""}
 
                 </div>

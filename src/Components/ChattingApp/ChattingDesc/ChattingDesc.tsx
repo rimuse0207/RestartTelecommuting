@@ -1,11 +1,11 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import './ChattingDesc.css';
 import { BsPersonSquare } from 'react-icons/bs';
-import { useRef } from 'react';
+
 
 type ChattingDescProps = {
     name: string;
@@ -20,9 +20,18 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     const [messages, setMessages] = useState('');
     const [allDesc, setAllDesc] = useState([]);
     const textInput = useRef<any>(null);
+    const scrollRef = useRef<any>();
+    const scrollToBottom = useCallback(() => {
+        if (allDesc.length > 0) {
+            // 스크롤 내리기
+            scrollRef.current.lastElementChild.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        }
+    }, [allDesc]);
+    useEffect(() => {
+        scrollToBottom();
+    }, [allDesc])
     const messageSend = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        alert(messages);
         if (roomId !== 'nothing') {
             socket.emit('messageSendServer', {
                 messages,
@@ -35,7 +44,7 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
                 messages,
                 To_Name: name,
                 From_Name: infomation.id,
-                RoomId: roomId,
+
             });
         }
 
@@ -60,11 +69,11 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     return (
         <div className="Chatting_app_DESC_BigBox_div" style={{ width: '100%', height: '90%' }}>
             <button onClick={handleClickChattingDescReturn}>뒤로 가기 </button>
-            <div>
+            <div style={{ height: "100%" }}>
                 <h1>{name}</h1>
 
-                <div className="Chatting_app_DESC_div">
-                    {allDesc.map((list: { user_id: string; message_desc: string; write_date: string }, i) => {
+                <div className="Chatting_app_DESC_div" ref={scrollRef}>
+                    {allDesc.map((list: { user_id: string; message_desc: string; write_date: string, name: string }, i) => {
                         return list.user_id === infomation.id ? (
                             <div>
                                 <div className="Chatting_app_DESC_right_div">
@@ -81,7 +90,7 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
                                         <BsPersonSquare></BsPersonSquare>
                                     </div>
                                     <div className="Chatting_app_Person_right_div">
-                                        <div>{list.user_id}</div>
+                                        <div>{list.name}</div>
                                     </div>
                                 </div>
                                 <div className="Chatting_app_Person_Text_div">
