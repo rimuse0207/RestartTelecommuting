@@ -1,0 +1,88 @@
+.Date_picker_bigBox_div > div {
+    width: 40%;
+
+    margin-top: 20px;
+}
+.Date_picker_bigBox_div > div > span {
+    font-size: small;
+    font-weight: bolder;
+}
+.example-custom-input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background-color: #36e;
+    font-size: larger;
+    font-weight: bolder;
+    color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.example-custom-input:hover {
+    cursor: pointer;
+    background-color: orange;
+    color: black;
+}
+.react-datepicker {
+    width: 150%;
+}
+.react-datepicker__header {
+    width: 150%;
+    font-size: large;
+    font-weight: bolder;
+}
+.react-datepicker__month {
+    width: 150%;
+    font-size: small;
+    font-weight: bold;
+}
+.react-datepicker__current-month {
+    font-size: larger;
+}
+
+.datePrev {
+    display: inline;
+    font-size: x-large;
+    font-weight: 1000;
+    line-height: 45px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.datePrev:hover {
+    cursor: pointer;
+    color: #36e;
+}
+.datePickBox {
+    display: flex;
+}
+.datePickBox > .DatePicker_container_div {
+    width: 100%;
+}
+
+#root-timeportal .react-datepicker__portal > div {
+    width: 0px;
+}
+#root-timeportal .react-datepicker__time {
+    height: 500px;
+    width: 300px;
+}
+#root-timeportal .react-datepicker__time-box {
+    width: 100%;
+    height: 100%;
+}
+#root-timeportal .react-datepicker__time-list {
+    width: 100%;
+    height: 500px !important;
+}
+#root-timeportal .react-datepicker__time-list-item {
+    padding: 0 !important;
+    height: 50px !important;
+    line-height: 50px;
+    font-size: medium;
+}
+#root-timeportal .react-datepicker__header--time--only {
+    width: 300px !important;
+}
+#root-timeportal .react-datepicker__time-box {
+    width: 300px !important;
+}

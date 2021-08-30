@@ -77,3 +77,52 @@
     cursor: pointer;
     color: #3174ad;
 }
+
+.Telecommutign_checkbox_div {
+    position: absolute;
+    top: 15px;
+    right: 0;
+}
+
+.Telecommutign_checkbox_div > ul {
+    display: flex;
+    font-size: small;
+}
+.Telecommutign_checkbox_div > ul > li {
+    margin-right: 10px;
+}
+.Telecommutign_checkbox_div > ul > li:hover {
+    cursor: pointer;
+}
+.Telecommuting_apply_div_box {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    height: 3vh;
+}
+.Telecommuting_apply_div_box > button {
+    width: 100px;
+    height: 100%;
+    border: none;
+    font-size: medium;
+    font-weight: bolder;
+    background-color: #3174ad;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 1px 1px 1px 1px skyblue;
+}
+.Telecommuting_apply_div_box > button:hover {
+    cursor: pointer;
+    color: black;
+    background-color: orange;
+}
+
+.Telecommuting_table_today:hover {
+    cursor: pointer;
+}
+.Telecommuting_Table_nextMonth:hover {
+    cursor: pointer;
+}
+.Telecommuting_Table_nowMonth {
+    cursor: pointer;
+}
