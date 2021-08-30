@@ -119,28 +119,28 @@ const Telecommuting = () => {
                                 settelecommutingApply_check(!telecommutingApply_check);
                             }}
                         >
-                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check}></input> 근무 신청
+                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check}></input> 근무 조회
                         </li>
                         <li
                             onClick={() => {
                                 setotApply_check(!otApply_check);
                             }}
                         >
-                            <input type="checkbox" name="otApply_check" checked={otApply_check}></input> OT 신청
+                            <input type="checkbox" name="otApply_check" checked={otApply_check}></input> OT 조회
                         </li>
                         <li
                             onClick={() => {
                                 setfoodApply_check(!foodApply_check);
                             }}
                         >
-                            <input type="checkbox" name="foodApply_check" checked={foodApply_check}></input> 식대 신청
+                            <input type="checkbox" name="foodApply_check" checked={foodApply_check}></input> 식대 조회
                         </li>
                         <li
                             onClick={() => {
                                 setusbApply_check(!usbApply_check);
                             }}
                         >
-                            <input type="checkbox" name="usbApply_check" checked={usbApply_check}></input> USB 신청
+                            <input type="checkbox" name="usbApply_check" checked={usbApply_check}></input> USB신청 조회
                         </li>
                     </ul>
                 </div>

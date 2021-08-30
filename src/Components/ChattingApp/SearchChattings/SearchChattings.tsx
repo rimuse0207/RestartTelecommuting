@@ -6,6 +6,7 @@ import { RootState } from '../../../models';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { DecryptKey } from "../../../config"
+import { useCallback } from 'react';
 type SearchChattingsProps = {
     handleClickChattingDesc: (socketId: string, roomId: string, id: string, name: string) => void;
 };
@@ -21,6 +22,13 @@ const SearchChattings = ({ handleClickChattingDesc }: SearchChattingsProps) => {
             console.log(data);
             setRooms(data.data);
         });
+        socket.on("sendMessageCome", () => {
+            console.log("adsad");
+            alert("메세지가 왔습니다.,")
+            socket.emit('getChattingRoom', {
+                id: DecryptKey(Infomation.id),
+            });
+        })
         socket.on('disconnected', () => {
             socket.emit('hi', {
                 id: DecryptKey(Infomation.id),

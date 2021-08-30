@@ -29,7 +29,7 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: D
         <div
             className="Chatting_Chatting_Box"
             key={datas.room_id}
-            onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.name, datas.name)}
+            onClick={() => handleClickChattingDesc(datas.room_id, datas.room_id, datas.user_id2, datas.name)}
         >
             <div className="Chatting_Chatting_Box_left">
                 <div style={datas.user_id !== DecryptKey(Infomation.id) ? (datas.chatCount - datas.readed_checked) > 0 ? { color: "red" } : { color: "black" } : {}}>
@@ -55,4 +55,4 @@ const DetailSearchChattings = ({ datas, handleClickChattingDesc, Infomation }: D
     );
 };
 
-export default DetailSearchChattings;
+export default React.memo(DetailSearchChattings);

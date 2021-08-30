@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePickerComponents.css';
 import ko from 'date-fns/locale/ko';
@@ -145,7 +145,7 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
                 ''
             )} */}
             <MainWorkSpace startDate={startDate}></MainWorkSpace>
-            <MainOtWorkSpace></MainOtWorkSpace>
+            {startDate ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : ""}
         </div>
     );
 };
