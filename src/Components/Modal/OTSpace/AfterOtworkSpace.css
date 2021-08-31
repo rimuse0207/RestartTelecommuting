@@ -1,0 +1,51 @@
+.DatePickerTimes_float_box_div {
+    padding: 10px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.DatePickerTimes_float_box_div::after {
+    clear: both;
+    display: block;
+    content: ' ';
+}
+
+.DatePickerTimes_left_div {
+    float: left;
+    width: 33%;
+}
+
+.DatePickerTimes_right_div {
+    float: left;
+    width: 40%;
+    padding-left: 50px;
+    border-left: 1px solid black;
+}
+.DatePickerTimes {
+    padding-left: 20px;
+}
+.DatePickerTimes > h2 {
+    margin-bottom: 20px;
+}
+.DatePickerTimes > span {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.react-datepicker__input-container > input {
+    width: 80%;
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    background-color: none;
+    height: 5vh;
+    background-color: lightblue;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 1px 1px skyblue;
+}
+.react-datepicker__input-container > input:hover {
+    cursor: pointer;
+    background-color: white;
+}

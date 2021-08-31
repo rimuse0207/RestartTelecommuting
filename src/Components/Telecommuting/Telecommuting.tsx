@@ -11,6 +11,25 @@ const Telecommuting = () => {
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
 
+    const [tele, setTele] = useState([
+        { name: '유성재', date: '2021-08-13', leaderchecK: true, type: '내근' },
+        { name: '유성재', date: '2021-08-18', leaderchecK: false, type: '외근' },
+        { name: '유성재', date: '2021-08-25', leaderchecK: true, type: '재택' },
+        { name: '유성재', date: '2021-08-31', leaderchecK: false, type: '내근' },
+    ]);
+
+    const [food, setFood] = useState([
+        { name: '유성재', date: '2021-08-13', leaderchecK: true },
+        { name: '유성재', date: '2021-08-18', leaderchecK: false },
+        { name: '유성재', date: '2021-08-31', leaderchecK: false },
+    ]);
+
+    const [OT, setOT] = useState([
+        { name: '유성재', date: '2021-08-18', leaderchecK: false },
+        { name: '유성재', date: '2021-08-25', leaderchecK: true },
+        { name: '유성재', date: '2021-08-31', leaderchecK: false },
+    ]);
+
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
     const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
@@ -40,11 +59,33 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
-                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
-                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
-                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
-                                            <div className="Telecommuting_Table_Data_Insert">asdasd</div>
+                                            {tele.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div className="Telecommuting_Table_Data_Insert">{`${list.name} ( ${list.type} )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
+                                            {OT.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#7a2d2d' }}
+                                                    >{`${list.name} ( OT )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
+                                            {food.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#5a267c' }}
+                                                    >{`${list.name} ( 식대 )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
                                         </div>
                                     </td>
                                 );
@@ -69,6 +110,33 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
+                                            {tele.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div className="Telecommuting_Table_Data_Insert">{`${list.name} ( ${list.type} ) )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
+                                            {OT.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#7a2d2d' }}
+                                                    >{`${list.name} ( OT )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
+                                            {food.map((list, i) => {
+                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#5a267c' }}
+                                                    >{`${list.name} ( 식대 )`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            })}
                                         </div>
                                     </td>
                                 );
@@ -116,6 +184,16 @@ const Telecommuting = () => {
                     <ul>
                         <li
                             onClick={() => {
+                                if (telecommutingApply_check) {
+                                    setTele([]);
+                                } else {
+                                    setTele([
+                                        { name: '유성재', date: '2021-08-13', leaderchecK: true, type: '내근' },
+                                        { name: '유성재', date: '2021-08-18', leaderchecK: false, type: '외근' },
+                                        { name: '유성재', date: '2021-08-25', leaderchecK: true, type: '재택' },
+                                        { name: '유성재', date: '2021-08-31', leaderchecK: false, type: '내근' },
+                                    ]);
+                                }
                                 settelecommutingApply_check(!telecommutingApply_check);
                             }}
                         >
@@ -123,6 +201,15 @@ const Telecommuting = () => {
                         </li>
                         <li
                             onClick={() => {
+                                if (otApply_check) {
+                                    setOT([]);
+                                } else {
+                                    setOT([
+                                        { name: '유성재', date: '2021-08-18', leaderchecK: false },
+                                        { name: '유성재', date: '2021-08-25', leaderchecK: true },
+                                        { name: '유성재', date: '2021-08-31', leaderchecK: false },
+                                    ]);
+                                }
                                 setotApply_check(!otApply_check);
                             }}
                         >
@@ -130,6 +217,15 @@ const Telecommuting = () => {
                         </li>
                         <li
                             onClick={() => {
+                                if (foodApply_check) {
+                                    setFood([]);
+                                } else {
+                                    setFood([
+                                        { name: '유성재', date: '2021-08-13', leaderchecK: true },
+                                        { name: '유성재', date: '2021-08-18', leaderchecK: false },
+                                        { name: '유성재', date: '2021-08-31', leaderchecK: false },
+                                    ]);
+                                }
                                 setfoodApply_check(!foodApply_check);
                             }}
                         >
