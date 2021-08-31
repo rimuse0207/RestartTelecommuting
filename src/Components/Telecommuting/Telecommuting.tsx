@@ -81,7 +81,7 @@ const Telecommuting = () => {
                                                     <div
                                                         className="Telecommuting_Table_Data_Insert"
                                                         style={{ backgroundColor: '#5a267c' }}
-                                                    >{`${list.name} ( 식대 )`}</div>
+                                                    >{`( 식대 )-7000`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -132,7 +132,7 @@ const Telecommuting = () => {
                                                     <div
                                                         className="Telecommuting_Table_Data_Insert"
                                                         style={{ backgroundColor: '#5a267c' }}
-                                                    >{`${list.name} ( 식대 )`}</div>
+                                                    >{`( 식대 )-7000원`}</div>
                                                 ) : (
                                                     <></>
                                                 );

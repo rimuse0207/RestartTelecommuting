@@ -13,6 +13,7 @@ import store, { persistor } from './models/Store';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import TelecommutingMainpage from './Components/Telecommuting/TelecommutingMainPage';
+import MealMainPage from './Components/MealSettlement/MealMainPage';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -20,6 +21,7 @@ ReactDOM.render(
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={App}></Route>
+                    <Route path="/meal_settlement" component={MealMainPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>
