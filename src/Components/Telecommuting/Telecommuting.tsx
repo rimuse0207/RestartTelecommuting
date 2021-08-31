@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import CreateModal from '../Modal/CreateModal';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from "../../models/index";
+import { DecryptKey } from "../../config"
 const Telecommuting = () => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [getMoment, setMoment] = useState(moment());
     const [onClicked, setOnClickedSet] = useState(false);
     const [clicksData, setClicksData] = useState<any | null>(null);
@@ -11,29 +17,62 @@ const Telecommuting = () => {
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
 
-    const [tele, setTele] = useState([
-        { name: '유성재', date: '2021-08-13', leaderchecK: true, type: '내근' },
-        { name: '유성재', date: '2021-08-18', leaderchecK: false, type: '외근' },
-        { name: '유성재', date: '2021-08-25', leaderchecK: true, type: '재택' },
-        { name: '유성재', date: '2021-08-31', leaderchecK: false, type: '내근' },
-    ]);
+    const [tele, setTele] = useState([]);
 
-    const [food, setFood] = useState([
-        { name: '유성재', date: '2021-08-13', leaderchecK: true },
-        { name: '유성재', date: '2021-08-18', leaderchecK: false },
-        { name: '유성재', date: '2021-08-31', leaderchecK: false },
-    ]);
-
+    const [food, setFood] = useState([]);
     const [OT, setOT] = useState([
         { name: '유성재', date: '2021-08-18', leaderchecK: false },
         { name: '유성재', date: '2021-08-25', leaderchecK: true },
         { name: '유성재', date: '2021-08-31', leaderchecK: false },
     ]);
 
+
+    useEffect(() => {
+        getDataFoodApply();
+        getDataTelecommuting();
+    }, [getMoment])
+    const getDataFoodApply = async () => {
+        try {
+            const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
+                selectDate: moment(getMoment).format("YYYY-MM")
+            })
+            if (dataget.data.dataSuccess) {
+                setFood(dataget.data.data);
+            } else {
+                alert("에러 발생! 권한이 없습니다.")
+            }
+        } catch (error) {
+            console.log(error);
+            alert("에러 발생: Errorcode: 식대 서버 정산 프론트 1")
+        }
+    }
+
+    const getDataTelecommuting = async () => {
+        try {
+            const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_Telecommuting`, {
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
+                selectDate: moment(getMoment).format("YYYY-MM")
+            })
+            if (dataget.data.dataSuccess) {
+                console.log(dataget)
+                setTele(dataget.data.data);
+            } else {
+                alert("에러 발생! 권한이 없습니다.")
+            }
+        } catch (error) {
+            console.log(error);
+            alert("에러 발생: Errorcode: 식대 서버 정산 프론트 1")
+        }
+    }
+
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
     const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
-
     const ModalOpensClick = (dataChecked: string) => {
         setClicksData(new Date(dataChecked));
         setOnClickedSet(!onClicked);
@@ -59,9 +98,9 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            {tele.map((list, i) => {
-                                                return list.date === days.format('YYYY-MM-DD') ? (
-                                                    <div className="Telecommuting_Table_Data_Insert">{`${list.name} ( ${list.type} )`}</div>
+                                            {tele.map((list: { day: string, approve: number }, i) => {
+                                                return moment(list.day).format("YYYY-MM-DD") === days.format('YYYY-MM-DD') ? (
+                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${list.approve === 0 ? "O" : "X"}`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -76,12 +115,12 @@ const Telecommuting = () => {
                                                     <></>
                                                 );
                                             })}
-                                            {food.map((list, i) => {
-                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                            {food.map((list: { dates: string, spending: number }, i) => {
+                                                return list.dates === days.format('YYYY-MM-DD') ? (
                                                     <div
                                                         className="Telecommuting_Table_Data_Insert"
                                                         style={{ backgroundColor: '#5a267c' }}
-                                                    >{`( 식대 )-7000`}</div>
+                                                    >{`( 식대 ) - ${(list.spending).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -110,9 +149,9 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            {tele.map((list, i) => {
-                                                return list.date === days.format('YYYY-MM-DD') ? (
-                                                    <div className="Telecommuting_Table_Data_Insert">{`${list.name} ( ${list.type} ) )`}</div>
+                                            {tele.map((list: { day: string, approve: number }, i) => {
+                                                return moment(list.day).format("YYYY-MM-DD") === days.format('YYYY-MM-DD') ? (
+                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${list.approve === 0 ? "X" : "O"}`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -127,12 +166,12 @@ const Telecommuting = () => {
                                                     <></>
                                                 );
                                             })}
-                                            {food.map((list, i) => {
-                                                return list.date === days.format('YYYY-MM-DD') ? (
+                                            {food.map((list: { dates: string, spending: number }, i) => {
+                                                return list.dates === days.format('YYYY-MM-DD') ? (
                                                     <div
                                                         className="Telecommuting_Table_Data_Insert"
                                                         style={{ backgroundColor: '#5a267c' }}
-                                                    >{`( 식대 )-7000원`}</div>
+                                                    >{`( 식대 ) - ${(list.spending).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -187,12 +226,7 @@ const Telecommuting = () => {
                                 if (telecommutingApply_check) {
                                     setTele([]);
                                 } else {
-                                    setTele([
-                                        { name: '유성재', date: '2021-08-13', leaderchecK: true, type: '내근' },
-                                        { name: '유성재', date: '2021-08-18', leaderchecK: false, type: '외근' },
-                                        { name: '유성재', date: '2021-08-25', leaderchecK: true, type: '재택' },
-                                        { name: '유성재', date: '2021-08-31', leaderchecK: false, type: '내근' },
-                                    ]);
+                                    getDataTelecommuting();
                                 }
                                 settelecommutingApply_check(!telecommutingApply_check);
                             }}
@@ -220,11 +254,7 @@ const Telecommuting = () => {
                                 if (foodApply_check) {
                                     setFood([]);
                                 } else {
-                                    setFood([
-                                        { name: '유성재', date: '2021-08-13', leaderchecK: true },
-                                        { name: '유성재', date: '2021-08-18', leaderchecK: false },
-                                        { name: '유성재', date: '2021-08-31', leaderchecK: false },
-                                    ]);
+                                    getDataFoodApply();
                                 }
                                 setfoodApply_check(!foodApply_check);
                             }}

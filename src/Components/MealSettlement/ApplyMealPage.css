@@ -26,6 +26,8 @@
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     margin-bottom: 20px;
+    height: 470px;
+    padding-top: 30px;
 }
 
 .feedback-input {
@@ -117,8 +119,24 @@ textarea:focus {
 /* h2 {
     text-align: center;
 } */
-
-/* select {
+.example-custom-input2{
+    color: #3c3c3c;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: #ffffff;
+    padding: 13px 13px 13px 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid rgba(0, 0, 0, 0);
+}
+.MealPage_first_box_div select {
     color: #3c3c3c;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 500;
@@ -136,10 +154,10 @@ textarea:focus {
     border: 3px solid rgba(0, 0, 0, 0);
 }
 
-select:focus {
+.MealPage_first_box_div select:focus {
     color: #30aed6;
     border: #30aed6 solid 3px;
-} */
+}
 
 .halfdiv {
     display: flex;
@@ -150,8 +168,13 @@ select:focus {
     width: 45%;
 }
 
-.halfdiv > p > input {
+.name{
+    width:45%;
 }
+.name2{
+    width: 100%;
+}
+
 
 .MealSettlement_Table_container_div_box table {
     width: 80%;
@@ -197,8 +220,25 @@ thead,
     color: blue;
 }
 .SelectMonth {
-    width: 20%;
+    width: 100%;
+    text-align: center;
+    font-size: x-large;
+    margin-bottom: 20px;
 }
-.SelectMonth select {
-    border: 1px solid black;
+
+
+#form-div{
+    margin-top: 30px;
+}
+
+.space_pre{
+    display: inline;
+    font-size: larger;
+    font-weight: bolder;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.space_pre:hover{
+    cursor: pointer;
+    color:darkblue
 }

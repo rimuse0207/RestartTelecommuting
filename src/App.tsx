@@ -17,7 +17,7 @@ function App() {
         <div className="App">
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="근무 현황"></HambergerMenu>
+                    <HambergerMenu titles="근무 현황" subtitles=""></HambergerMenu>
                     <div style={{ position: 'relative', height: '100%' }}>
                         <Telecommuting></Telecommuting>
                     </div>

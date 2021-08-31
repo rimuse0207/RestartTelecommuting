@@ -1,36 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models/index';
 import './ApplyMealPage.css';
 import { DecryptKey } from '../../config';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import ko from 'date-fns/locale/ko';
+import axios from "axios";
+import moment from "moment";
+registerLocale('ko', ko);
+type DatePickerComponentsProps = {
+    clicksData: string | null;
+};
 const ApplyMealPage = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    return (
-        <div style={{ width: '95%', margin: '0 auto' }}>
-            <div>
-                <div className="SelectMonth">
-                    <select name="SelectValue" id="TestSelect">
-                        <option>조회 월을 선택해주세요.</option>
-                        <option value="01">1월</option>
-                        <option value="02">2월</option>
-                        <option value="03">3월</option>
-                        <option value="04">4월</option>
-                        <option value="05">5월</option>
-                        <option value="06">6월</option>
-                        <option value="07">7월</option>
-                        <option value="08">8월</option>
-                        <option value="09">9월</option>
-                        <option value="10">10월</option>
-                        <option value="11">11월</option>
-                        <option value="12">12월</option>
-                    </select>
-                </div>
-                <h1>월 식대 조회 및 등록</h1>
+    const [startDate, setStartDate] = useState<any>(new Date());
+    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM"))
+    // 석식 및 중식 체크
+    const [Whatmeal, setWhatmeal] = useState("중식");
+    const [MealPrice, setMealPrice] = useState<any>(0);
+    const [MealPlace, setMealPlace] = useState("");
+    const [MealPosition, setMealPosition] = useState("");
 
+    const [applyedData, setApplyedData] = useState([]);
+
+    useEffect(() => {
+        data_get();
+    }, [selectDate])
+
+    const data_get = async () => {
+        try {
+            const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
+                selectDate
+            })
+            if (dataget.data.dataSuccess) {
+                setApplyedData(dataget.data.data);
+            } else {
+                alert("에러 발생! 권한이 없습니다.")
+            }
+        } catch (error) {
+            console.log(error);
+            alert("에러 발생: Errorcode: 식대 서버 정산 프론트 1")
+        }
+
+
+    }
+
+    const ExampleCustomInput = ({ value, onClick }: any) => (
+        <button className="example-custom-input2" onClick={onClick}>
+            {' '}
+            {value}{' '}
+        </button>
+    );
+    const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    }
+
+    const handleClick_select_date_pre = () => {
+        const preDate = moment(selectDate).subtract(1, 'months').format("YYYY-MM")
+        setSelectDate(preDate)
+    }
+
+    const handleClick_select_date_next = () => {
+        const nextDate = moment(selectDate).add(1, 'months').format("YYYY-MM")
+        setSelectDate(nextDate)
+    }
+
+    const Meal_sendData = async () => {
+        try {
+            const dataSend = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_send`, {
+                pick_dates: moment(startDate).format("YYYY-MM-DD"),
+                Whatmeal,
+                MealPrice,
+                MealPlace,
+                MealPosition,
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
+            })
+            if (dataSend.data.dataSuccess) {
+                data_get();
+                alert("데이터 저장 완료.");
+            } else {
+                alert("데이터 저장　실패");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("에러 발생 ErrorCode: 식대 정산 프론트 2")
+        }
+
+
+    }
+
+    return (
+        <div className="MealPage_first_box_div" style={{ width: '95%', margin: '0 auto' }}>
+            <div>
                 <div id="form-div">
-                    <form className="form" id="form1" action="foodchargesend.jsp" method="post">
+                    <form className="form" id="form1" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleChange(e)}>
                         <div className="halfdiv">
-                            <p className="name">
+                            <div className="name">
                                 <input
                                     name="team"
                                     value={InfomationState.team}
@@ -40,8 +110,8 @@ const ApplyMealPage = () => {
                                     id="team"
                                     readOnly
                                 />
-                            </p>
-                            <p className="name">
+                            </div>
+                            <div className="name">
                                 <input
                                     name="name"
                                     value={DecryptKey(InfomationState.name)}
@@ -51,61 +121,77 @@ const ApplyMealPage = () => {
                                     id="name"
                                     readOnly
                                 />
-                            </p>
+                            </div>
                         </div>
                         <div className="halfdiv">
-                            <p className="name">
-                                <input
+                            <div className="name">
+                                {/* <input
                                     name="workdate"
                                     type="text"
                                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                     placeholder="일자 (Click here)"
                                     id="datepicker"
                                     autoComplete="off"
+                                /> */}
+                                <DatePicker
+                                    placeholderText="보실 날짜를 선택해주세요."
+                                    dateFormat="yyyy-MM-dd(eee)"
+                                    locale="ko"
+                                    customInput={<ExampleCustomInput />}
+                                    selected={startDate}
+                                    withPortal
+                                    portalId="root-portal"
+                                    onChange={(date: any) => setStartDate(date)}
                                 />
-                            </p>
-                            <p>
-                                <select name="division">
-                                    <option value="중식" selected>
+                            </div>
+                            <div className="name">
+                                <select name="division" value={Whatmeal} onChange={(e) => setWhatmeal(e.target.value)}>
+                                    <option value="중식">
                                         중식
                                     </option>
                                     <option value="석식">석식</option>
                                 </select>
-                            </p>
+                            </div>
                         </div>
 
-                        <p className="name">
+                        <div className="name2">
                             <input
                                 name="spending"
                                 type="number"
                                 step="1000"
-                                min="0"
+                                min={0}
+                                value={MealPrice}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setMealPrice(e.target.value) }}
                                 className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                 placeholder="지출 금액 (숫자만 입력)"
                                 id="spending"
                             />
-                        </p>
-                        <p className="name">
+                        </div>
+                        <div className="name2">
                             <input
                                 name="place"
                                 type="text"
+                                value={MealPlace}
+                                onChange={(e) => setMealPlace(e.target.value)}
                                 className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                 placeholder="방문처 ex) SK하이닉스, 삼성전자"
                                 id="place"
                             />
-                        </p>
-                        <p className="name">
+                        </div>
+                        <div className="name2">
                             <input
                                 name="location"
                                 type="text"
+                                value={MealPosition}
+                                onChange={(e) => setMealPosition(e.target.value)}
                                 className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                 placeholder="지역 ex) 이천, 온양"
                                 id="location"
                             />
-                        </p>
+                        </div>
 
                         <div className="submit">
-                            <input type="button" value="등록하기" id="button-blue" />
+                            <input type="button" value="등록하기" id="button-blue" onClick={Meal_sendData} />
                             {/* <div className="textEx" style={{ color: 'rgba(93, 93, 93, 0.4)' }}>
                                 참고..
                             </div>
@@ -116,15 +202,22 @@ const ApplyMealPage = () => {
                         </div>
                     </form>
                 </div>
+                <div className="SelectMonth">
+                    <div>
+                        <div className="space_pre" onClick={handleClick_select_date_pre}> {" <<< "} </div>
+                        <h2 style={{ display: "inline" }}>{selectDate}</h2>
+                        <div className="space_pre" onClick={handleClick_select_date_next}> {" >>> "} </div>
+                    </div>
+                </div>
                 <div className="MealSettlement_Table_container_div_box">
                     <table>
                         <thead>
                             <tr>
                                 <th>부서</th>
-                                <th></th>
+                                <th>{InfomationState.team}</th>
                                 <th colSpan={2}></th>
                                 <th>성명</th>
-                                <th></th>
+                                <th>{DecryptKey(InfomationState.name)}</th>
                             </tr>
                             <tr>
                                 <th>일자</th>
@@ -136,20 +229,21 @@ const ApplyMealPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td className="removeTHis">삭제</td>
-                            </tr>
+                            {applyedData.map((list: { indexs: string, dates: string, division: string, spending: number, calculate: number, place: string, location: string }, i) => {
+                                return <tr key={list.indexs}>
+                                    <td>{list.dates}</td>
+                                    <td>{list.division}</td>
+                                    <td>{(list.spending).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</td>
+                                    <td>{(list.calculate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</td>
+                                    <td>{list.place}</td>
+                                    <td>{list.location}</td>
+                                </tr>
+                            })}
+
 
                             <tr className="tailtr">
                                 <td colSpan={3}>합계</td>
-
-                                <td>원</td>
+                                <td>{(applyedData.map((list: { calculate: number }) => list.calculate).reduce((prev, curr) => prev + curr, 0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</td>
                                 <td colSpan={2}></td>
                             </tr>
                         </tbody>

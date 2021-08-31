@@ -35,7 +35,7 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
         e.preventDefault();
         if (roomId === 'nothing') {
             if (roomnothing === "") {
-                console.log(roomId);
+
                 const a = NotThingRoom(infomation.id, name);
                 setRoomNothing(a);
 
@@ -79,7 +79,6 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
             });
         }
         socket.on('successChatingDESC', (datas: { data: [] }) => {
-
             setAllDesc(datas.data);
         });
 

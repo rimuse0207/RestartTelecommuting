@@ -6,6 +6,7 @@ const ciphertext = (datas: string) => {
 }
 console.log(ciphertext("name"))
 const GETPERSONALINFO = 'PersonalInfo/GETPERSONALINFO' as const;
+const LOGOUTSESSIONOFF = 'PersonalInfo/LOGOUTSESSIONOFF' as const
 
 export const getPersionalInfo = (data: {
     name: string;
@@ -19,7 +20,14 @@ export const getPersionalInfo = (data: {
     payload: data,
 });
 
-type PersonalInfoAction = ReturnType<typeof getPersionalInfo>;
+
+export const getPersionalLOGOUT = () => ({
+    type: LOGOUTSESSIONOFF,
+});
+
+type PersonalInfoAction = ReturnType<typeof getPersionalInfo> |
+    ReturnType<typeof getPersionalLOGOUT>;
+
 
 type PersonalInfoState = {
     loginCheck: boolean;
@@ -57,6 +65,8 @@ function PersonalInfo(state: PersonalInfoState = initialState, action: PersonalI
                     id: ciphertext(action.payload.id),
                 }
             };
+        case LOGOUTSESSIONOFF:
+            return initialState;
         default:
             return state;
     }

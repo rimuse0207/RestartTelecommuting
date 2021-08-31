@@ -3,9 +3,10 @@ import './Navigation.css';
 import Navigation from './Navigation';
 type HambergerMenu = {
     titles: string;
+    subtitles: string;
 };
 
-const HambergerMenu = ({ titles }: HambergerMenu) => {
+const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     const [hambergerOpen, setHambergerOpen] = useState(false);
     const [menuStatus, setMenuStatus] = useState('');
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
@@ -28,7 +29,7 @@ const HambergerMenu = ({ titles }: HambergerMenu) => {
                     <span></span>
                 </div>
                 <div className="title">
-                    <span></span>
+                    <span style={{ fontSize: "20px", fontWeight: "bolder" }}>{subtitles}</span>
                 </div>
             </div>
             <Navigation menuStatus={menuStatus} />
