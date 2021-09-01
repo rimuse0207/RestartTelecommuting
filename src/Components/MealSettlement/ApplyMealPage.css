@@ -62,20 +62,6 @@
     color: #30aed6;
     border: #30aed6 solid 3px;
 }
-/* 
-textarea {
-    width: 100%;
-    height: 150px;
-    line-height: 150%;
-    resize: vertical;
-}
-
-input:hover,
-textarea:hover,
-input:focus,
-textarea:focus {
-    background-color: white;
-} */
 
 #button-blue {
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
@@ -116,10 +102,7 @@ textarea:focus {
     background-color: white;
 }
 
-/* h2 {
-    text-align: center;
-} */
-.example-custom-input2{
+.example-custom-input2 {
     color: #3c3c3c;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 500;
@@ -135,6 +118,7 @@ textarea:focus {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     border: 3px solid rgba(0, 0, 0, 0);
+    padding-left: 0;
 }
 .MealPage_first_box_div select {
     color: #3c3c3c;
@@ -168,13 +152,12 @@ textarea:focus {
     width: 45%;
 }
 
-.name{
-    width:45%;
+.name {
+    width: 45%;
 }
-.name2{
+.name2 {
     width: 100%;
 }
-
 
 .MealSettlement_Table_container_div_box table {
     width: 80%;
@@ -205,9 +188,7 @@ thead,
     text-align: center;
     width: 30%;
 }
-.textEx {
-    font-size: 14px;
-}
+
 .removeTHis {
     border: 0px;
     font-size: 10px;
@@ -226,19 +207,53 @@ thead,
     margin-bottom: 20px;
 }
 
-
-#form-div{
+#form-div {
     margin-top: 30px;
 }
 
-.space_pre{
+.space_pre {
     display: inline;
     font-size: larger;
     font-weight: bolder;
     margin-left: 20px;
     margin-right: 20px;
 }
-.space_pre:hover{
+.space_pre:hover {
     cursor: pointer;
-    color:darkblue
+    color: darkblue;
+}
+.Float_parent_after::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+.Float_left_div {
+    float: left;
+    width: 50%;
+    border-right: 0.5px dashed black;
+}
+.Float_right_div {
+    float: right;
+    width: 50%;
+    border-left: 0.5px dashed black;
+}
+.MealSettlement_Table_container_div_box > table {
+    font-size: small;
+}
+.Caution {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10vh;
+}
+.Caution > div > h2 {
+    margin-bottom: 30px;
+}
+.textEx {
+    font-size: large;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+.Caution_button {
+    width: 30%;
+    margin: 20px auto;
 }

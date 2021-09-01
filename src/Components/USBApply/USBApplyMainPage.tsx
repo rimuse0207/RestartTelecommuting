@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
-import './App.css';
+import UsbApply from './UsbApply';
 import { useSelector } from 'react-redux';
-import SliderPage from './Components/SliderPage';
-import { RootState } from './models';
-import SignInForm from './Components/Login/SignInForm';
-import HambergerMenu from './Components/Navigation/HambergerMenu';
-import Telecommuting from './Components/Telecommuting/TelecommutingMainPage';
-
-function App() {
+import SliderPage from '../SliderPage';
+import { RootState } from '../../models';
+import SignInForm from '../Login/SignInForm';
+import HambergerMenu from '../Navigation/HambergerMenu';
+const USBApplyMainPage = () => {
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
 
     const [loginCheck, setLoginCheck] = useState(false);
-
     return (
-        <div className="App">
+        <div>
             {loginChecked ? (
-                <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="근무 현황" subtitles=""></HambergerMenu>
+                <div>
+                    <HambergerMenu titles="USB/CD 사전 신청" subtitles=""></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <Telecommuting></Telecommuting>
+                        <UsbApply></UsbApply>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>
@@ -28,6 +25,6 @@ function App() {
             )}
         </div>
     );
-}
+};
 
-export default App;
+export default USBApplyMainPage;
