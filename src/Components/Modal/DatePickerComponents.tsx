@@ -12,6 +12,9 @@ import getMonth from 'date-fns/getMonth';
 import moment from 'moment';
 import MainWorkSpace from './WorkSpace/MainWorkSpace';
 import MainOtWorkSpace from './OTSpace/MainOtWorkSpace';
+import USBApplyMainPage from '../USBApply/USBApplyMainPage';
+import UsbApply from '../USBApply/UsbApply';
+import ApplyMealPage from '../MealSettlement/ApplyMealPage';
 
 registerLocale('ko', ko);
 type DatePickerComponentsProps = {
@@ -146,6 +149,8 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
             )} */}
             <MainWorkSpace startDate={startDate}></MainWorkSpace>
             {startDate ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : ""}
+            <UsbApply pickerDate={startDate}></UsbApply>
+            <ApplyMealPage pickerDate={startDate}></ApplyMealPage>
         </div>
     );
 };

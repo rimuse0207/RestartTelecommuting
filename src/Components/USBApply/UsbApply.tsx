@@ -7,7 +7,12 @@ import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import moment from 'moment';
-const UsbApply = () => {
+
+type UsbApplyProps = {
+    pickerDate?: any
+}
+
+const UsbApply = ({ pickerDate }: UsbApplyProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const ExampleCustomInput = ({ value, onClick }: any) => (
         <button className="example-custom-input10" onClick={onClick}>
@@ -15,8 +20,11 @@ const UsbApply = () => {
             {value}{' '}
         </button>
     );
+    useEffect(() => {
+        setStartDate(pickerDate)
+    }, [pickerDate])
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(pickerDate ? pickerDate : new Date());
     const handleChangeData = (date: any) => {
         setStartDate(date);
     };

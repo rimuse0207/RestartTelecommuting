@@ -8,24 +8,27 @@ import ko from 'date-fns/locale/ko';
 import axios from 'axios';
 import moment from 'moment';
 registerLocale('ko', ko);
-type DatePickerComponentsProps = {
-    clicksData: string | null;
+type ApplyMealPageProps = {
+    pickerDate?: any
 };
-const ApplyMealPage = () => {
+const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const [startDate, setStartDate] = useState<any>(new Date());
+    const [startDate, setStartDate] = useState<any>(pickerDate ? pickerDate : new Date());
     const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM'));
     // 석식 및 중식 체크
     const [Whatmeal, setWhatmeal] = useState('중식');
     const [MealPrice, setMealPrice] = useState<any>(0);
     const [MealPlace, setMealPlace] = useState('');
     const [MealPosition, setMealPosition] = useState('');
-    const [Caution, setCaution] = useState(false);
+    const [Caution, setCaution] = useState(sessionStorage.getItem("FoodCaution") === "accept" ? true : false);
     const [applyedData, setApplyedData] = useState([]);
 
     useEffect(() => {
         data_get();
     }, [selectDate]);
+    useEffect(() => {
+        setStartDate(pickerDate);
+    }, [pickerDate])
 
     const data_get = async () => {
         try {
@@ -211,6 +214,7 @@ const ApplyMealPage = () => {
                                     <button
                                         className="Caution_button"
                                         onClick={() => {
+                                            sessionStorage.setItem("FoodCaution", "accept");
                                             setCaution(true);
                                         }}
                                     >
