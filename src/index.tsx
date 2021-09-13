@@ -15,6 +15,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import USBApplyMainPage from './Components/USBApply/USBApplyMainPage';
 import MealMainPage from './Components/MealSettlement/MealMainPage';
 import MealMonthSelect from './Components/AdminAcees/MealMonth/MealMonthSelect';
+import ChangePasswordPage from "./Components/Login/ChangePasswordPage"
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -25,6 +26,7 @@ ReactDOM.render(
                     <Route path="/meal_settlement" component={MealMainPage}></Route>
                     <Route path="/USbWrite" component={USBApplyMainPage}></Route>
                     <Route path="/Admin_meal_Select" component={MealMonthSelect}></Route>
+                    <Route path="/ChangePassword" component={ChangePasswordPage} ></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

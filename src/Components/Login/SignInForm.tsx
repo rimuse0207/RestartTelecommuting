@@ -3,12 +3,13 @@ import axios from 'axios';
 import './SignInForm.css';
 import { useDispatch } from 'react-redux';
 import { getPersionalInfo } from '../../models/PersonalInfo';
-
+import { useHistory } from "react-router-dom";
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
 };
 
 const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
+    let history = useHistory();
     const [id, setIds] = useState<string | any>(localStorage.getItem('id') ? localStorage.getItem('id') : '');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
@@ -20,17 +21,23 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             const loginCheck = await axios.post(`${process.env.REACT_APP_DB_HOST}/Login_app_servers/loginCheck`, {
                 id: id,
                 password: password,
-            });
+            })
+
             if (!loginCheck.data.searchOn) {
                 alert(loginCheck.data.message);
                 setPassword('');
+
             } else {
+                sessionStorage.setItem("DHKS_TOKEN", loginCheck.data.token);
                 alert(loginCheck.data.message);
-                localStorage.setItem('id', loginCheck.data.datas[0].id);
-                dispatch(getPersionalInfo(loginCheck.data.datas[0]));
+                console.log(loginCheck)
+                localStorage.setItem('id', loginCheck.data.data.id);
+                dispatch(getPersionalInfo(loginCheck.data.data));
 
                 setLoginCheck(true);
-
+                if (loginCheck.data.changePassword) {
+                    history.push("/ChangePassword");
+                }
                 // return <Redirect push to="/" />
             }
         } catch (error) {
