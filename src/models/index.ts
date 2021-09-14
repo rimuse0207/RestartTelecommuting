@@ -2,12 +2,13 @@ import { combineReducers } from 'redux';
 import Socket from './Socket';
 import ChattingMember from "./ChattingMeber"
 import PersonalInfo from "./PersonalInfo"
-
+import github from "./Thunk_models/FoodData"
 
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
     PersonalInfo,
+    github
 
 });
 // 루트 리듀서를 내보내주세요.

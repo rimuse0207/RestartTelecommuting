@@ -23,6 +23,12 @@ type DatePickerComponentsProps = {
 
 const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
     const [startDate, setStartDate] = useState<any>(clicksData);
+    const [selectedShow, setSelectedShow] = useState({
+        Before_OT_workspace: false,
+        After_OT_workspace: false,
+        Apply_Food_workspace: false,
+        Apply_USB_CD_workspace: false
+    })
     // const [menubarStatus, setMenubarStatus] = useState([
     //     {
     //         selected: true,
@@ -65,12 +71,27 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
         const a = moment(startDate).add(1, 'days').toString();
         setStartDate(new Date(a));
     };
+    const handleChangeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const initialSelectedState = {
+            Before_OT_workspace: e.target.value === "Before_OT_workspace" ? true : false,
+            After_OT_workspace: e.target.value === "After_OT_workspace" ? true : false,
+            Apply_Food_workspace: e.target.value === "Apply_Food_workspace" ? true : false,
+            Apply_USB_CD_workspace: e.target.value === "Apply_USB_CD_workspace" ? true : false,
+        }
+        setSelectedShow(initialSelectedState)
+    }
     return (
         <div>
             <div className="Date_picker_bigBox_div">
                 <div>
                     {startDate ? (
-                        ''
+                        <select onChange={e => handleChangeSelected(e)}>
+                            <option value="initial">항목을 선택 해 주세요.</option>
+                            <option value="Before_OT_workspace">OT사전 신청</option>
+                            <option value="After_OT_workspace">OT사후 신청</option>
+                            <option value="Apply_USB_CD_workspace">USB/CD 신청</option>
+                            <option value="Apply_Food_workspace">식대정산 신청</option>
+                        </select>
                     ) : (
                         <>
                             <span>
@@ -148,9 +169,12 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
                 ''
             )} */}
             <MainWorkSpace startDate={startDate}></MainWorkSpace>
-            {startDate ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : ""}
-            <UsbApply pickerDate={startDate}></UsbApply>
-            <ApplyMealPage pickerDate={startDate}></ApplyMealPage>
+
+            {startDate ? selectedShow.Before_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : "" : ""}
+            {startDate ? selectedShow.After_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : "" : ""}
+            {startDate ? selectedShow.Apply_USB_CD_workspace ? <UsbApply pickerDate={startDate}></UsbApply> : "" : ""}
+            {startDate ? selectedShow.Apply_Food_workspace ? <ApplyMealPage pickerDate={startDate}></ApplyMealPage> : "" : ""}
+
         </div>
     );
 };

@@ -6,8 +6,12 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models/index';
 import { DecryptKey } from '../../config';
+import { useDispatch } from 'react-redux';
+import { getUserProfileThunk } from "../../models/Thunk_models/FoodData"
 const Telecommuting = () => {
+    const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const FoodData = useSelector((state: RootState) => state.github.userProfile);
     const [getMoment, setMoment] = useState(moment());
     const [onClicked, setOnClickedSet] = useState(false);
     const [clicksData, setClicksData] = useState<any | null>(null);
@@ -25,9 +29,12 @@ const Telecommuting = () => {
         { name: '유성재', date: '2021-08-31', leaderchecK: false },
     ]);
     const [UsbApply, setUsbApply] = useState([]);
-
     useEffect(() => {
-        getDataFoodApply();
+        dispatch(getUserProfileThunk(getMoment, InfomationState))
+    }, [])
+    useEffect(() => {
+        //getDataFoodApply();
+        dispatch(getUserProfileThunk(getMoment, InfomationState))
         getDataTelecommuting();
         getDataUsbApply();
     }, [getMoment]);
@@ -118,9 +125,8 @@ const Telecommuting = () => {
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
                                             {tele.map((list: { day: string; approve: number }, i) => {
                                                 return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${
-                                                        list.approve === 0 ? 'O' : 'X'
-                                                    }`}</div>
+                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'
+                                                        }`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -147,6 +153,18 @@ const Telecommuting = () => {
                                                     <></>
                                                 );
                                             })}
+                                            {FoodData.data.length > 0 ? FoodData.data.map((list: any, i: any) => {
+                                                return list.dates === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#5a267c' }}
+                                                    >{`( 식대 ) - ${list.spending
+                                                        .toString()
+                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            }) : ""}
                                             {UsbApply.map((list: { workdate: string; leadercheck: number }, i) => {
                                                 return list.workdate === days.format('YYYY-MM-DD') ? (
                                                     <div
@@ -183,9 +201,8 @@ const Telecommuting = () => {
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
                                             {tele.map((list: { day: string; approve: number }, i) => {
                                                 return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${
-                                                        list.approve === 0 ? 'X' : 'O'
-                                                    }`}</div>
+                                                    <div className="Telecommuting_Table_Data_Insert">{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'X' : 'O'
+                                                        }`}</div>
                                                 ) : (
                                                     <></>
                                                 );
@@ -212,6 +229,20 @@ const Telecommuting = () => {
                                                     <></>
                                                 );
                                             })}
+
+                                            {FoodData.data.length > 0 ? FoodData.data.map((list: any, i: any) => {
+                                                return list.dates === days.format('YYYY-MM-DD') ? (
+                                                    <div
+                                                        className="Telecommuting_Table_Data_Insert"
+                                                        style={{ backgroundColor: '#5a267c' }}
+                                                    >{`( 식대 ) - ${list.spending
+                                                        .toString()
+                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            }) : ""}
+
                                             {UsbApply.map((list: { workdate: string; leadercheck: number }, i) => {
                                                 return list.workdate === days.format('YYYY-MM-DD') ? (
                                                     <div
