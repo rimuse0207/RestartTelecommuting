@@ -5,38 +5,38 @@ import { RootState } from '../../models/index';
 import { createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
-import { error } from 'console';
 
-interface FoodDataTypes {
-    indexs: number;
-    dates: string;
-    division: string;
-    spending: number;
-    calculate: number;
-    place: string;
-    location: string;
-    etc: string;
-    name: string;
-    department: string;
+interface TelecommutingDataTypes {
+    Time1: string;
+    Time2: string;
+    approve: number;
+    company: string;
+    day: string;
     id: string;
-    months: string;
+    image: string;
+    name: string;
+    no: number;
+    num: number;
+    position: string;
+    team: string;
+    work: string;
 }
 
-const GET_FoodData_GET = 'FoodData/GET_FoodData_GET';
-const GET_FoodData_SUCCESS = 'FoodData/GET_FoodData_SUCCESS';
-const GET_FoodData_ERROR = 'FoodData/GET_FoodData_ERROR';
-const FoodData_Show_FALSE = 'FoodData/FoodData_Show_FALSE';
-const FoodData_Show_TRUE = 'FoodData/FoodData_Show_TRUE';
+const GET_TelecommutingData_GET = 'TelecommutingData/GET_TelecommutingData_GET';
+const GET_TelecommutingData_SUCCESS = 'TelecommutingData/GET_TelecommutingData_SUCCESS';
+const GET_TelecommutingData_ERROR = 'TelecommutingData/GET_TelecommutingData_ERROR';
+const TelecommutingData_Show_FALSE = 'TelecommutingData/TelecommutingData_Show_FALSE';
+const TelecommutingData_Show_TRUE = 'TelecommutingData/TelecommutingData_Show_TRUE';
 
-const getFoodDataAsync = createAsyncAction(GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR)<
+const getUSBCDDataAsync = createAsyncAction(GET_TelecommutingData_GET, GET_TelecommutingData_SUCCESS, GET_TelecommutingData_ERROR)<
     undefined,
-    FoodDataTypes,
+    TelecommutingDataTypes,
     AxiosError
 >();
 
 const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_Telecommuting`, {
             id: DecryptKey(InfomationState.id),
             team: InfomationState.team,
             name: DecryptKey(InfomationState.name),
@@ -48,25 +48,31 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
         console.log(error);
     }
 };
-const actions = { GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR, FoodData_Show_TRUE, FoodData_Show_FALSE };
+const actions = {
+    GET_TelecommutingData_GET,
+    GET_TelecommutingData_SUCCESS,
+    GET_TelecommutingData_ERROR,
+    TelecommutingData_Show_FALSE,
+    TelecommutingData_Show_TRUE,
+};
 // type GithubAction = ActionType<typeof GET_FoodData_GET> | ActionType<typeof GET_FoodData_SUCCESS> | ActionType<typeof GET_FoodData_ERROR> | ActionType<any>
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 
 type GithubState = {
-    FoodDatas: {
+    TelecommutingDatas: {
         loading: boolean;
         error: Error | null;
-        data: FoodDataTypes | any;
+        data: TelecommutingDataTypes | any;
         dataChecked: boolean;
     };
 };
 
-export function getUserProfileThunk(
+export function getTelecommutingThunk(
     getMoment: {},
     InfomationState: { id: string; team: string; name: string }
 ): ThunkAction<void, RootState, null, GithubAction> {
     return async dispatch => {
-        const { request, success, failure } = getFoodDataAsync;
+        const { request, success, failure } = getUSBCDDataAsync;
         dispatch(request());
         try {
             const userProfile = await getDataFoodApply(getMoment, InfomationState);
@@ -76,15 +82,15 @@ export function getUserProfileThunk(
         }
     };
 }
-export const FoodDataShowCheckedFalse = () => ({
-    type: FoodData_Show_FALSE,
+export const TelecommutingDataShowCheckedFalse = () => ({
+    type: TelecommutingData_Show_FALSE,
 });
-export const FoodDataShowCheckedTrue = () => ({
-    type: FoodData_Show_TRUE,
+export const TelecommutingDataShowCheckedTrue = () => ({
+    type: TelecommutingData_Show_TRUE,
 });
 
 const initialState: GithubState = {
-    FoodDatas: {
+    TelecommutingDatas: {
         loading: false,
         error: null,
         data: [],
@@ -92,48 +98,48 @@ const initialState: GithubState = {
     },
 };
 
-const FoodDataGetting = createReducer<GithubState, GithubAction>(initialState, {
-    [GET_FoodData_GET]: state => ({
+const TelecommutingDataGetting = createReducer<GithubState, GithubAction>(initialState, {
+    [GET_TelecommutingData_GET]: state => ({
         ...state,
-        FoodDatas: {
+        TelecommutingDatas: {
             loading: true,
             error: null,
             data: [],
             dataChecked: false,
         },
     }),
-    [GET_FoodData_SUCCESS]: (state, action) => ({
+    [GET_TelecommutingData_SUCCESS]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        TelecommutingDatas: {
             loading: false,
             error: null,
             data: action.payload,
             dataChecked: true,
         },
     }),
-    [GET_FoodData_ERROR]: (state, action) => ({
+    [GET_TelecommutingData_ERROR]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        TelecommutingDatas: {
             loading: false,
             error: action.payload,
             data: [],
             dataChecked: false,
         },
     }),
-    [FoodData_Show_FALSE]: state => ({
+    [TelecommutingData_Show_FALSE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        TelecommutingDatas: {
+            ...state.TelecommutingDatas,
             dataChecked: false,
         },
     }),
-    [FoodData_Show_TRUE]: state => ({
+    [TelecommutingData_Show_TRUE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        TelecommutingDatas: {
+            ...state.TelecommutingDatas,
             dataChecked: true,
         },
     }),
 });
 
-export default FoodDataGetting;
+export default TelecommutingDataGetting;

@@ -1,0 +1,80 @@
+.TeleWorking_big_box_div {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.subBox {
+    width: 90%;
+    height: 35vh;
+    margin: 0 auto;
+}
+.mainBox {
+    width: 90%;
+    height: 55vh;
+    display: flex;
+    flex-flow: wrap;
+    margin: 0 auto;
+}
+
+.mainBox_ulup > ul {
+    position: relative;
+    width: 90%;
+    height: 100%;
+}
+.mainBox_ulup > ul > li {
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    background-color: goldenrod;
+    color: #fff;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: all 1.5s;
+    -webkit-transition: all 1.5s;
+    -moz-transition: all 1.5s;
+    -o-transition: all 1.5s;
+    font-size: xxx-large;
+    font-weight: bolder;
+    line-height: 6;
+}
+.mainBox_ulup > ul > li:hover {
+    cursor: pointer;
+}
+.showbox {
+    transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+}
+.noneshowbox {
+    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+}
+.mainBox_ulup {
+    width: 50%;
+    height: 50%;
+    border: 5px solid white;
+}
+.mainBox > li {
+    width: 50%;
+    height: 50%;
+    border: 1px solid white;
+}
+
+.nothing {
+    width: 50%;
+    height: 50%;
+    background-color: goldenrod;
+    font-size: xxx-large;
+    font-weight: bolder;
+    color: white;
+    line-height: 6;
+}
+.nothing:hover {
+    cursor: pointer;
+}

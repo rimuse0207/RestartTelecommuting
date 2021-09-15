@@ -1,15 +1,18 @@
 import { combineReducers } from 'redux';
 import Socket from './Socket';
-import ChattingMember from "./ChattingMeber"
-import PersonalInfo from "./PersonalInfo"
-import github from "./Thunk_models/FoodData"
+import ChattingMember from './ChattingMeber';
+import PersonalInfo from './PersonalInfo';
+import FoodDataGetting from './Thunk_models/FoodData';
+import USBCDDataGetting from './Thunk_models/USBCDData';
+import TelecommutingDataGetting from './Thunk_models/TelecommutingData';
 
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
     PersonalInfo,
-    github
-
+    FoodDataGetting,
+    USBCDDataGetting,
+    TelecommutingDataGetting,
 });
 // 루트 리듀서를 내보내주세요.
 export default rootReducer;

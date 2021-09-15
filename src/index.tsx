@@ -15,7 +15,8 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import USBApplyMainPage from './Components/USBApply/USBApplyMainPage';
 import MealMainPage from './Components/MealSettlement/MealMainPage';
 import MealMonthSelect from './Components/AdminAcees/MealMonth/MealMonthSelect';
-import ChangePasswordPage from "./Components/Login/ChangePasswordPage"
+import ChangePasswordPage from './Components/Login/ChangePasswordPage';
+import TeleWorkingContainer from './Components/Modal/TelecommutingSpace/TeleWorkignContainer';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -24,9 +25,10 @@ ReactDOM.render(
                 <Switch>
                     <Route exact path="/" component={App}></Route>
                     <Route path="/meal_settlement" component={MealMainPage}></Route>
+                    <Route path="/Telecommuting_workspace" component={TeleWorkingContainer}></Route>
                     <Route path="/USbWrite" component={USBApplyMainPage}></Route>
                     <Route path="/Admin_meal_Select" component={MealMonthSelect}></Route>
-                    <Route path="/ChangePassword" component={ChangePasswordPage} ></Route>
+                    <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

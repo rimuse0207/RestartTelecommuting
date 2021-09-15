@@ -5,38 +5,36 @@ import { RootState } from '../../models/index';
 import { createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
-import { error } from 'console';
 
-interface FoodDataTypes {
-    indexs: number;
-    dates: string;
-    division: string;
-    spending: number;
-    calculate: number;
-    place: string;
-    location: string;
-    etc: string;
+interface USBCDDataTypes {
+    applydate: string;
+    email: string;
+    equipment: string;
+    filename: string;
+    leadercheck: number;
     name: string;
-    department: string;
-    id: string;
-    months: string;
+    number: number;
+    ownership: string;
+    team: string;
+    text: string;
+    workdate: string;
 }
 
-const GET_FoodData_GET = 'FoodData/GET_FoodData_GET';
-const GET_FoodData_SUCCESS = 'FoodData/GET_FoodData_SUCCESS';
-const GET_FoodData_ERROR = 'FoodData/GET_FoodData_ERROR';
-const FoodData_Show_FALSE = 'FoodData/FoodData_Show_FALSE';
-const FoodData_Show_TRUE = 'FoodData/FoodData_Show_TRUE';
+const GET_USBCDData_GET = 'USBCDData/GET_USBCDData_GET';
+const GET_USBCDData_SUCCESS = 'USBCDData/GET_USBCDData_SUCCESS';
+const GET_USBCDData_ERROR = 'USBCDData/GET_USBCDData_ERROR';
+const USBCDData_Show_FALSE = 'USBCDData/USBCDData_Show_FALSE';
+const USBCDData_Show_TRUE = 'USBCDData/USBCDData_Show_TRUE';
 
-const getFoodDataAsync = createAsyncAction(GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR)<
+const getUSBCDDataAsync = createAsyncAction(GET_USBCDData_GET, GET_USBCDData_SUCCESS, GET_USBCDData_ERROR)<
     undefined,
-    FoodDataTypes,
+    USBCDDataTypes,
     AxiosError
 >();
 
 const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
             id: DecryptKey(InfomationState.id),
             team: InfomationState.team,
             name: DecryptKey(InfomationState.name),
@@ -48,25 +46,25 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
         console.log(error);
     }
 };
-const actions = { GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR, FoodData_Show_TRUE, FoodData_Show_FALSE };
+const actions = { GET_USBCDData_GET, GET_USBCDData_SUCCESS, GET_USBCDData_ERROR, USBCDData_Show_FALSE, USBCDData_Show_TRUE };
 // type GithubAction = ActionType<typeof GET_FoodData_GET> | ActionType<typeof GET_FoodData_SUCCESS> | ActionType<typeof GET_FoodData_ERROR> | ActionType<any>
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 
 type GithubState = {
-    FoodDatas: {
+    USBCDDatas: {
         loading: boolean;
         error: Error | null;
-        data: FoodDataTypes | any;
+        data: USBCDDataTypes | any;
         dataChecked: boolean;
     };
 };
 
-export function getUserProfileThunk(
+export function getUSBCDThunk(
     getMoment: {},
     InfomationState: { id: string; team: string; name: string }
 ): ThunkAction<void, RootState, null, GithubAction> {
     return async dispatch => {
-        const { request, success, failure } = getFoodDataAsync;
+        const { request, success, failure } = getUSBCDDataAsync;
         dispatch(request());
         try {
             const userProfile = await getDataFoodApply(getMoment, InfomationState);
@@ -76,15 +74,15 @@ export function getUserProfileThunk(
         }
     };
 }
-export const FoodDataShowCheckedFalse = () => ({
-    type: FoodData_Show_FALSE,
+export const USBCDDataShowCheckedFalse = () => ({
+    type: USBCDData_Show_FALSE,
 });
-export const FoodDataShowCheckedTrue = () => ({
-    type: FoodData_Show_TRUE,
+export const USBCDDataShowCheckedTrue = () => ({
+    type: USBCDData_Show_TRUE,
 });
 
 const initialState: GithubState = {
-    FoodDatas: {
+    USBCDDatas: {
         loading: false,
         error: null,
         data: [],
@@ -92,48 +90,48 @@ const initialState: GithubState = {
     },
 };
 
-const FoodDataGetting = createReducer<GithubState, GithubAction>(initialState, {
-    [GET_FoodData_GET]: state => ({
+const USBCDDataGetting = createReducer<GithubState, GithubAction>(initialState, {
+    [GET_USBCDData_GET]: state => ({
         ...state,
-        FoodDatas: {
+        USBCDDatas: {
             loading: true,
             error: null,
             data: [],
             dataChecked: false,
         },
     }),
-    [GET_FoodData_SUCCESS]: (state, action) => ({
+    [GET_USBCDData_SUCCESS]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        USBCDDatas: {
             loading: false,
             error: null,
             data: action.payload,
             dataChecked: true,
         },
     }),
-    [GET_FoodData_ERROR]: (state, action) => ({
+    [GET_USBCDData_ERROR]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        USBCDDatas: {
             loading: false,
             error: action.payload,
             data: [],
             dataChecked: false,
         },
     }),
-    [FoodData_Show_FALSE]: state => ({
+    [USBCDData_Show_FALSE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        USBCDDatas: {
+            ...state.USBCDDatas,
             dataChecked: false,
         },
     }),
-    [FoodData_Show_TRUE]: state => ({
+    [USBCDData_Show_TRUE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        USBCDDatas: {
+            ...state.USBCDDatas,
             dataChecked: true,
         },
     }),
 });
 
-export default FoodDataGetting;
+export default USBCDDataGetting;

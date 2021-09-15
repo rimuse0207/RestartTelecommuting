@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../models/index';
 import './ApplyMealPage.css';
 import { DecryptKey } from '../../config';
@@ -7,11 +7,14 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
 import axios from 'axios';
 import moment from 'moment';
+import { getUserProfileThunk } from '../../models/Thunk_models/FoodData';
+
 registerLocale('ko', ko);
 type ApplyMealPageProps = {
-    pickerDate?: any
+    pickerDate?: any;
 };
 const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
+    const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [startDate, setStartDate] = useState<any>(pickerDate ? pickerDate : new Date());
     const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM'));
@@ -20,7 +23,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     const [MealPrice, setMealPrice] = useState<any>(0);
     const [MealPlace, setMealPlace] = useState('');
     const [MealPosition, setMealPosition] = useState('');
-    const [Caution, setCaution] = useState(sessionStorage.getItem("FoodCaution") === "accept" ? true : false);
+    const [Caution, setCaution] = useState(sessionStorage.getItem('FoodCaution') === 'accept' ? true : false);
     const [applyedData, setApplyedData] = useState([]);
 
     useEffect(() => {
@@ -28,7 +31,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     }, [selectDate]);
     useEffect(() => {
         setStartDate(pickerDate);
-    }, [pickerDate])
+    }, [pickerDate]);
 
     const data_get = async () => {
         try {
@@ -83,6 +86,12 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
             });
             if (dataSend.data.dataSuccess) {
                 data_get();
+                dispatch(
+                    getUserProfileThunk(
+                        pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                        InfomationState
+                    )
+                );
                 alert('데이터 저장 완료.');
             } else {
                 alert('데이터 저장　실패');
@@ -214,7 +223,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                     <button
                                         className="Caution_button"
                                         onClick={() => {
-                                            sessionStorage.setItem("FoodCaution", "accept");
+                                            sessionStorage.setItem('FoodCaution', 'accept');
                                             setCaution(true);
                                         }}
                                     >

@@ -5,7 +5,7 @@ import SliderPage from './Components/SliderPage';
 import { RootState } from './models';
 import SignInForm from './Components/Login/SignInForm';
 import HambergerMenu from './Components/Navigation/HambergerMenu';
-import Telecommuting from './Components/Telecommuting/TelecommutingMainPage';
+import TelecommutingMainPage from './Components/Telecommuting/TelecommutingMainPage';
 
 function App() {
     const socket = useSelector((state: RootState) => state.Socket.socket);
@@ -19,7 +19,7 @@ function App() {
                 <div style={{ height: '100%' }}>
                     <HambergerMenu titles="근무 현황" subtitles=""></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <Telecommuting></Telecommuting>
+                        <TelecommutingMainPage></TelecommutingMainPage>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>

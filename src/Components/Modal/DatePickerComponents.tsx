@@ -5,7 +5,7 @@ import './DatePickerComponents.css';
 import ko from 'date-fns/locale/ko';
 import CompanyIn from './CompanyIn';
 import CompanyOut from './CompanyOut';
-import TeleWorking from './TeleWorking';
+import TeleWorking from './TelecommutingSpace/TeleWorking';
 import ApplyState from './ApplyState';
 import getYear from 'date-fns/getYear';
 import getMonth from 'date-fns/getMonth';
@@ -27,8 +27,9 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
         Before_OT_workspace: false,
         After_OT_workspace: false,
         Apply_Food_workspace: false,
-        Apply_USB_CD_workspace: false
-    })
+        Apply_USB_CD_workspace: false,
+        Telecommuting_workspace: false,
+    });
     // const [menubarStatus, setMenubarStatus] = useState([
     //     {
     //         selected: true,
@@ -73,13 +74,14 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
     };
     const handleChangeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const initialSelectedState = {
-            Before_OT_workspace: e.target.value === "Before_OT_workspace" ? true : false,
-            After_OT_workspace: e.target.value === "After_OT_workspace" ? true : false,
-            Apply_Food_workspace: e.target.value === "Apply_Food_workspace" ? true : false,
-            Apply_USB_CD_workspace: e.target.value === "Apply_USB_CD_workspace" ? true : false,
-        }
-        setSelectedShow(initialSelectedState)
-    }
+            Before_OT_workspace: e.target.value === 'Before_OT_workspace' ? true : false,
+            After_OT_workspace: e.target.value === 'After_OT_workspace' ? true : false,
+            Apply_Food_workspace: e.target.value === 'Apply_Food_workspace' ? true : false,
+            Apply_USB_CD_workspace: e.target.value === 'Apply_USB_CD_workspace' ? true : false,
+            Telecommuting_workspace: e.target.value === 'Telecommuting_workspace' ? true : false,
+        };
+        setSelectedShow(initialSelectedState);
+    };
     return (
         <div>
             <div className="Date_picker_bigBox_div">
@@ -170,11 +172,11 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
             )} */}
             <MainWorkSpace startDate={startDate}></MainWorkSpace>
 
-            {startDate ? selectedShow.Before_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : "" : ""}
-            {startDate ? selectedShow.After_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : "" : ""}
-            {startDate ? selectedShow.Apply_USB_CD_workspace ? <UsbApply pickerDate={startDate}></UsbApply> : "" : ""}
-            {startDate ? selectedShow.Apply_Food_workspace ? <ApplyMealPage pickerDate={startDate}></ApplyMealPage> : "" : ""}
-
+            {startDate ? selectedShow.Before_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : '' : ''}
+            {startDate ? selectedShow.After_OT_workspace ? <MainOtWorkSpace startDate={startDate}></MainOtWorkSpace> : '' : ''}
+            {startDate ? selectedShow.Apply_USB_CD_workspace ? <UsbApply pickerDate={startDate}></UsbApply> : '' : ''}
+            {startDate ? selectedShow.Apply_Food_workspace ? <ApplyMealPage pickerDate={startDate}></ApplyMealPage> : '' : ''}
+            {startDate ? selectedShow.Telecommuting_workspace ? <TeleWorking pickerDate={startDate}></TeleWorking> : '' : ''}
         </div>
     );
 };

@@ -126,3 +126,15 @@
 .Telecommuting_Table_nowMonth {
     cursor: pointer;
 }
+.Telecommuting_MainPage_SUM_Text_Div {
+    position: absolute;
+    top: -70px;
+    left: 200px;
+    font-size: small;
+    font-weight: bolder;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: darkgray;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
