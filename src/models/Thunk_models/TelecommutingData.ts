@@ -76,7 +76,10 @@ export function getTelecommutingThunk(
         dispatch(request());
         try {
             const userProfile = await getDataFoodApply(getMoment, InfomationState);
-            dispatch(success(userProfile));
+            if (userProfile) {
+                dispatch(success(userProfile));
+            }
+
         } catch (e: any) {
             dispatch(failure(e));
         }

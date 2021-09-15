@@ -82,52 +82,53 @@ const Telecommuting = () => {
                                                 );
                                             })}
 
+
                                             {FoodData.dataChecked
                                                 ? FoodData.data.map(
-                                                      (list: { dates: string; spending: string; indexs: number }, i: number) => {
-                                                          return list.dates === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.indexs}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                                  style={{ backgroundColor: '#5a267c' }}
-                                                              >{`( 식대 ) - ${list.spending
-                                                                  .toString()
-                                                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { dates: string; spending: number; indexs: number }, i: number) => {
+                                                        return list.dates === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.indexs}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#5a267c' }}
+                                                            >{`( 식대 ) - ${list.spending
+                                                                .toString()
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
                                             {USBCDData.dataChecked
                                                 ? USBCDData.data.map(
-                                                      (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                                                          return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.number}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                                  style={{ backgroundColor: '#2c512f' }}
-                                                              >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
+                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.number}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#2c512f' }}
+                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
                                             {TelecommutingData.dataChecked
                                                 ? TelecommutingData.data.map(
-                                                      (list: { day: string; approve: number; num: number }, i: number) => {
-                                                          return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.num}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                              >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { day: string; approve: number; num: number }, i: number) => {
+                                                        return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.num}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
                                         </div>
                                     </td>
                                 );
@@ -163,52 +164,54 @@ const Telecommuting = () => {
                                                     <></>
                                                 );
                                             })}
+
                                             {FoodData.dataChecked
                                                 ? FoodData.data.map(
-                                                      (list: { dates: string; spending: string; indexs: number }, i: number) => {
-                                                          return list.dates === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.indexs}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                                  style={{ backgroundColor: '#5a267c' }}
-                                                              >{`( 식대 ) - ${list.spending
-                                                                  .toString()
-                                                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { dates: string; spending: number; indexs: number }) => {
+                                                        return list.dates === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.indexs}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#5a267c' }}
+                                                            >{`( 식대 ) - ${list.spending
+                                                                .toString()
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
+
                                             {USBCDData.dataChecked
                                                 ? USBCDData.data.map(
-                                                      (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                                                          return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.number}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                                  style={{ backgroundColor: '#2c512f' }}
-                                                              >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
+                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.number}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#2c512f' }}
+                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
                                             {TelecommutingData.dataChecked
                                                 ? TelecommutingData.data.map(
-                                                      (list: { day: string; approve: number; num: number }, i: number) => {
-                                                          return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                                                              <div
-                                                                  key={list.num}
-                                                                  className="Telecommuting_Table_Data_Insert"
-                                                              >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
-                                                          ) : (
-                                                              <></>
-                                                          );
-                                                      }
-                                                  )
-                                                : ''}
+                                                    (list: { day: string; approve: number; num: number }, i: number) => {
+                                                        return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.num}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                                : <div></div>}
                                         </div>
                                     </td>
                                 );
@@ -359,7 +362,7 @@ const Telecommuting = () => {
                         <div>
                             식대 : {FoodData.data.length}회(
                             {FoodData.data
-                                .reduce((pre: number, next: { spending: number }) => pre + next.spending, 0)
+                                .reduce((pre: number, next: { calculate: number }) => pre + next.calculate, 0)
                                 .toString()
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             원)
