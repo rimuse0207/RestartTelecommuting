@@ -1,0 +1,17 @@
+.WeekAfterOTWorkSpace_big_div table {
+    margin: 0 auto;
+    border: 1px solid black;
+    width: 95%;
+}
+.WeekAfterOTWorkSpace_big_div th {
+    background: #f7c80e;
+    border: 1px solid black;
+}
+.WeekAfterOTWorkSpace_big_div tr > td {
+    border: 1px solid black;
+}
+
+.testss > td {
+    background: #f7c80e;
+    border: 1px solid black;
+}

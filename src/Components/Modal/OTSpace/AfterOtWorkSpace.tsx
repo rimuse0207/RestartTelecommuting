@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import moment from 'moment';
 import ko from 'date-fns/locale/ko';
@@ -22,6 +22,32 @@ const AfterOtWorkSpace = ({ startDate }: AfterOtWorkSpaceProps) => {
     const [restTime, setRestTime] = useState(
         new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))
     );
+    const [SumTime, setSumTime] = useState(0);
+
+    useEffect(() => {
+        let startPlusEnd = moment.duration(moment(endTime).diff(moment(startTime))).asHours();
+        const restPlusTime = moment
+            .duration(moment(restTime).diff(moment(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
+            .asHours();
+        if (startPlusEnd < 0) {
+            startPlusEnd = 24 + startPlusEnd;
+            if (startPlusEnd - restPlusTime < 0) {
+                alert('근무시간보다 휴게시간이 더 큽니다.');
+                setRestTime(new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')));
+                setSumTime(startPlusEnd);
+            } else {
+                setSumTime(startPlusEnd - restPlusTime);
+            }
+        } else {
+            if (startPlusEnd - restPlusTime < 0) {
+                alert('근무시간보다 휴게시간이 더 큽니다.');
+                setRestTime(new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')));
+                setSumTime(startPlusEnd);
+            } else {
+                setSumTime(startPlusEnd - restPlusTime);
+            }
+        }
+    }, [startTime, endTime, restTime]);
     return (
         <div>
             <div className="DatePickerTimes_float_box_div">
@@ -107,7 +133,10 @@ const AfterOtWorkSpace = ({ startDate }: AfterOtWorkSpaceProps) => {
                     </div>
                 </div>
             </div>
-
+            <div>
+                <div>소정 근로 시간: {moment.duration(moment(BasicendTime).diff(moment(BasicstartTime))).asHours() - 1} 시간 </div>
+                <div>연장 근로 시간: {SumTime} 시간</div>
+            </div>
             <div>
                 <button>저장하기</button>
             </div>

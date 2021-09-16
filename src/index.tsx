@@ -17,6 +17,7 @@ import MealMainPage from './Components/MealSettlement/MealMainPage';
 import MealMonthSelect from './Components/AdminAcees/MealMonth/MealMonthSelect';
 import ChangePasswordPage from './Components/Login/ChangePasswordPage';
 import TeleWorkingContainer from './Components/Modal/TelecommutingSpace/TeleWorkignContainer';
+import WeekAfterOTContainer from './Components/Modal/OTSpace/WeekAfterOTContainer';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -26,6 +27,7 @@ ReactDOM.render(
                     <Route exact path="/" component={App}></Route>
                     <Route path="/meal_settlement" component={MealMainPage}></Route>
                     <Route path="/Telecommuting_workspace" component={TeleWorkingContainer}></Route>
+                    <Route path="/AfterOtworkspace" component={WeekAfterOTContainer}></Route>
                     <Route path="/USbWrite" component={USBApplyMainPage}></Route>
                     <Route path="/Admin_meal_Select" component={MealMonthSelect}></Route>
                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
