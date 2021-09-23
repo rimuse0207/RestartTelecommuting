@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import moment from 'moment';
 import ko from 'date-fns/locale/ko';
-import './WeekAfterOT.css';
 import axios from 'axios';
 
 registerLocale('ko', ko);
 
-type WeekAfterOTWorkSpaceProps ={
+type WeekBeforeOTWorkSpaceProps ={
     startDate:any,
     endDate:any
     setStartDate:any
     setEndDate:any
 }
 
-const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAfterOTWorkSpaceProps) => {
-    
-    
+const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekBeforeOTWorkSpaceProps) => {
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -138,7 +135,7 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         OTnightSum: 0,
     });
     const getDataOTData = async () => {
-        const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_get_some_data`, {
+        const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/BeforeOT_get_some_data`, {
             id: 'sjyoo@dhk.co.kr',
             startDate: startDate,
         });
@@ -917,7 +914,7 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
 
     const handleStoreOTData = async () => {
         try {
-            const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_send_Data`, {
+            const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/BeforeOT_send_Data`, {
                 id: 'sjyoo@dhk.co.kr',
                 name: '유성재',
                 team: '경영지원',
@@ -958,33 +955,33 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
                 </span>
             </div>
             <table>
-                <thead>
+                <thead style={{backgroundColor:"#2da8e5"}}>
                     <tr
-                        className="testss"
-                        style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
+                        className="testssBefore"
+                        style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black',backgroundColor:"#2da8e5" }}
                     >
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
                             일자
                         </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
                             공휴일
                         </th>
-                        <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                        <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black',backgroundColor:"#2da8e5" }}>
                             소정근로
                         </th>
-                        <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                        <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black',backgroundColor:"#2da8e5" }}>
                             {' '}
                             연장 근무
                         </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
                             총 근무 <br />
                             합계 시간
                             <br />
                         </th>
-                        <th rowSpan={2}>연장 사유</th>
+                        <th rowSpan={2} style={{backgroundColor:"#2da8e5"}}>연장 사유</th>
                     </tr>
                     <tr
-                        className="testss"
+                        className="testssBefore"
                         style={{ borderBottom: '1.2px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
                     >
                         <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
@@ -1995,4 +1992,4 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
     );
 };
 
-export default WeekAfterOTWorkSpace;
+export default WeekBeforeOTWorkSpace;
