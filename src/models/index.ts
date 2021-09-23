@@ -5,6 +5,8 @@ import PersonalInfo from './PersonalInfo';
 import FoodDataGetting from './Thunk_models/FoodData';
 import USBCDDataGetting from './Thunk_models/USBCDData';
 import TelecommutingDataGetting from './Thunk_models/TelecommutingData';
+import AfterOTData from './Thunk_models/AfterOTData';
+import BeforeOTData from './Thunk_models/BeforeOTData';
 
 const rootReducer = combineReducers({
     Socket,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
     FoodDataGetting,
     USBCDDataGetting,
     TelecommutingDataGetting,
+    AfterOTData,
+    BeforeOTData,
 });
 // 루트 리듀서를 내보내주세요.
 export default rootReducer;
