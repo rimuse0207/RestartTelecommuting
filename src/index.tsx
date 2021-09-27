@@ -18,6 +18,7 @@ import MealMonthSelect from './Components/AdminAcees/MealMonth/MealMonthSelect';
 import ChangePasswordPage from './Components/Login/ChangePasswordPage';
 import TeleWorkingContainer from './Components/Modal/TelecommutingSpace/TeleWorkignContainer';
 import WeekAfterOTContainer from './Components/Modal/OTSpace/WeekAfterOTContainer';
+import TeamSelectOTMainPage from './Components/Modal/OTSpace/TeamSelectMainPage';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -31,6 +32,7 @@ ReactDOM.render(
                     <Route path="/USbWrite" component={USBApplyMainPage}></Route>
                     <Route path="/Admin_meal_Select" component={MealMonthSelect}></Route>
                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
+                    <Route path="/TeamSelectOTWorkSpace" component={TeamSelectOTMainPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

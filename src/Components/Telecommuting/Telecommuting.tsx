@@ -79,79 +79,6 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            {/* {OT.map((list, i) => {
-                                                return list.date === days.format('YYYY-MM-DD') ? (
-                                                    <div
-                                                        key={i}
-                                                        className="Telecommuting_Table_Data_Insert"
-                                                        style={{ backgroundColor: '#7a2d2d' }}
-                                                    >{`${list.name} ( OT )`}</div>
-                                                ) : (
-                                                    <></>
-                                                );
-                                            })} */}
-                                            {/* {AfterOTData.dataChecked
-                                                ? AfterOTData.data.map((list: { date_mon: string }) => {
-                                                      return list.date_mon === days.format('YYYY-MM-DD') ? (
-                                                          <div>asdasdasd</div>
-                                                      ) : (
-                                                          <div></div>
-                                                      );
-                                                  })
-                                                : ''}
-
-                                            {FoodData.dataChecked ? (
-                                                FoodData.data.map(
-                                                    (list: { dates: string; spending: number; indexs: number }, i: number) => {
-                                                        return list.dates === days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.indexs}
-                                                                className="Telecommuting_Table_Data_Insert"
-                                                                style={{ backgroundColor: '#5a267c' }}
-                                                            >{`( 식대 ) - ${list.spending
-                                                                .toString()
-                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
-                                            ) : (
-                                                <div></div>
-                                            )}
-                                            {USBCDData.dataChecked ? (
-                                                USBCDData.data.map(
-                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.number}
-                                                                className="Telecommuting_Table_Data_Insert"
-                                                                style={{ backgroundColor: '#2c512f' }}
-                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
-                                            ) : (
-                                                <div></div>
-                                            )}
-                                            {TelecommutingData.dataChecked ? (
-                                                TelecommutingData.data.map(
-                                                    (list: { day: string; approve: number; num: number }, i: number) => {
-                                                        return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.num}
-                                                                className="Telecommuting_Table_Data_Insert"
-                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
-                                            ) : (
-                                                <div></div>
-                                            )} */}
                                         </div>
                                     </td>
                                 );
@@ -573,10 +500,8 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (telecommutingApply_check) {
-                                    //setTele([]);
                                     dispatch(TelecommutingDataShowCheckedFalse());
                                 } else {
-                                    //getDataTelecommuting();
                                     dispatch(TelecommutingDataShowCheckedTrue());
                                 }
                                 settelecommutingApply_check(!telecommutingApply_check);
@@ -588,14 +513,8 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (BeforeOtApply_check) {
-                                    // setOT([]);
                                     dispatch(BeforeOTDataShowCheckedFalse());
                                 } else {
-                                    // setOT([
-                                    //     { name: '유성재', date: '2021-08-18', leaderchecK: false },
-                                    //     { name: '유성재', date: '2021-08-25', leaderchecK: true },
-                                    //     { name: '유성재', date: '2021-08-31', leaderchecK: false },
-                                    // ]);
                                     dispatch(BeforeOTShowCheckedTrue());
                                 }
                                 setBeforeOtApply_check(!BeforeOtApply_check);
@@ -606,14 +525,8 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (AfterOtApply_check) {
-                                    // setOT([]);
                                     dispatch(AfterOTDataShowCheckedFalse());
                                 } else {
-                                    // setOT([
-                                    //     { name: '유성재', date: '2021-08-18', leaderchecK: false },
-                                    //     { name: '유성재', date: '2021-08-25', leaderchecK: true },
-                                    //     { name: '유성재', date: '2021-08-31', leaderchecK: false },
-                                    // ]);
                                     dispatch(AfterOTShowCheckedTrue());
                                 }
                                 setAfterOtApply_check(!AfterOtApply_check);
@@ -625,9 +538,7 @@ const Telecommuting = () => {
                             onClick={() => {
                                 if (foodApply_check) {
                                     dispatch(FoodDataShowCheckedFalse());
-                                    // setFood([]);
                                 } else {
-                                    // getDataFoodApply();
                                     dispatch(FoodDataShowCheckedTrue());
                                 }
                                 setfoodApply_check(!foodApply_check);
@@ -638,11 +549,9 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (usbApply_check) {
-                                    //setUsbApply([]);
                                     dispatch(USBCDDataShowCheckedFalse());
                                 } else {
                                     dispatch(USBCDDataShowCheckedTrue());
-                                    //getDataUsbApply();
                                 }
                                 setusbApply_check(!usbApply_check);
                             }}

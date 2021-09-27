@@ -4,19 +4,17 @@ import moment from 'moment';
 import ko from 'date-fns/locale/ko';
 import './WeekAfterOT.css';
 import axios from 'axios';
-
+import { toast } from '../../ToastMessage/ToastManager';
 registerLocale('ko', ko);
 
-type WeekAfterOTWorkSpaceProps ={
-    startDate:any,
-    endDate:any
-    setStartDate:any
-    setEndDate:any
-}
+type WeekAfterOTWorkSpaceProps = {
+    startDate: any;
+    endDate: any;
+    setStartDate: any;
+    setEndDate: any;
+};
 
-const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAfterOTWorkSpaceProps) => {
-    
-    
+const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -439,7 +437,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd,
@@ -457,7 +459,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd,
@@ -509,7 +515,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
@@ -527,7 +537,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
@@ -579,7 +593,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setWedDateData({
                     ...wedDateData,
                     OTSumTime: startPlusEnd,
@@ -597,7 +615,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setWedDateData({
                     ...wedDateData,
                     OTSumTime: startPlusEnd,
@@ -650,7 +672,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setThuDateData({
                     ...thuDateData,
                     OTSumTime: startPlusEnd,
@@ -668,7 +694,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setThuDateData({
                     ...thuDateData,
                     OTSumTime: startPlusEnd,
@@ -721,7 +751,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setFriDateData({
                     ...friDateData,
                     OTSumTime: startPlusEnd,
@@ -739,7 +773,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setFriDateData({
                     ...friDateData,
                     OTSumTime: startPlusEnd,
@@ -792,7 +830,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSatDateData({
                     ...satDateData,
                     OTSumTime: startPlusEnd,
@@ -810,7 +852,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSatDateData({
                     ...satDateData,
                     OTSumTime: startPlusEnd,
@@ -862,7 +908,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSunDateData({
                     ...sunDateData,
                     OTSumTime: startPlusEnd,
@@ -880,7 +930,11 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSunDateData({
                     ...sunDateData,
                     OTSumTime: startPlusEnd,
@@ -933,12 +987,17 @@ const WeekAfterOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekAf
         } catch (error) {
             console.log(error);
             alert('server와의 연결 끊김.');
+            toast.show({
+                title: 'Error발생.',
+                content: 'server와의 연결 끊김. ErrorCode OT 20 ',
+                duration: 3000,
+            });
         }
     };
 
     return (
-        <div className="WeekAfterOTWorkSpace_big_div" style={{marginTop:"20px"}}> 
-            <div style={{ textAlign: 'center',marginBottom:"10px" }}>
+        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                 <span
                     className="WeekAferOTWorkSpace_date_change_span"
                     style={{ fontSize: 'x-large', fontWeight: 'bolder' }}

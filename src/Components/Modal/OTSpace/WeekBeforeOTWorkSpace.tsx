@@ -3,17 +3,17 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import moment from 'moment';
 import ko from 'date-fns/locale/ko';
 import axios from 'axios';
-
+import { toast } from '../../ToastMessage/ToastManager';
 registerLocale('ko', ko);
 
-type WeekBeforeOTWorkSpaceProps ={
-    startDate:any,
-    endDate:any
-    setStartDate:any
-    setEndDate:any
-}
+type WeekBeforeOTWorkSpaceProps = {
+    startDate: any;
+    endDate: any;
+    setStartDate: any;
+    setEndDate: any;
+};
 
-const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekBeforeOTWorkSpaceProps) => {
+const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekBeforeOTWorkSpaceProps) => {
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -397,6 +397,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
     };
     useEffect(() => {
         getDataOTData();
+        toast.show({
+            title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
+            content: '초과근로(OT) 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
+            duration: 5000,
+        });
     }, []);
 
     useEffect(() => {
@@ -436,7 +441,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd,
@@ -454,7 +463,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd,
@@ -506,7 +519,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
@@ -524,7 +541,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
@@ -576,7 +597,12 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
+
                 setWedDateData({
                     ...wedDateData,
                     OTSumTime: startPlusEnd,
@@ -594,7 +620,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setWedDateData({
                     ...wedDateData,
                     OTSumTime: startPlusEnd,
@@ -647,7 +677,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setThuDateData({
                     ...thuDateData,
                     OTSumTime: startPlusEnd,
@@ -665,7 +699,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setThuDateData({
                     ...thuDateData,
                     OTSumTime: startPlusEnd,
@@ -718,7 +756,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setFriDateData({
                     ...friDateData,
                     OTSumTime: startPlusEnd,
@@ -736,7 +778,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setFriDateData({
                     ...friDateData,
                     OTSumTime: startPlusEnd,
@@ -789,7 +835,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSatDateData({
                     ...satDateData,
                     OTSumTime: startPlusEnd,
@@ -807,7 +857,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSatDateData({
                     ...satDateData,
                     OTSumTime: startPlusEnd,
@@ -859,7 +913,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
         if (startPlusEnd < 0) {
             startPlusEnd = 24 + startPlusEnd;
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSunDateData({
                     ...sunDateData,
                     OTSumTime: startPlusEnd,
@@ -877,7 +935,11 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             }
         } else {
             if (startPlusEnd - restPlusTime < 0) {
-                alert('근무시간보다 휴게시간이 더 큽니다.');
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                });
                 setSunDateData({
                     ...sunDateData,
                     OTSumTime: startPlusEnd,
@@ -929,13 +991,17 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
             });
         } catch (error) {
             console.log(error);
-            alert('server와의 연결 끊김.');
+            toast.show({
+                title: '에러발생. ',
+                content: 'server와의 연결 끊김. 에러 코드 OT_1 발생.',
+                duration: 3000,
+            });
         }
     };
 
     return (
-        <div className="WeekAfterOTWorkSpace_big_div" style={{marginTop:"20px"}}> 
-            <div style={{ textAlign: 'center',marginBottom:"10px" }}>
+        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                 <span
                     className="WeekAferOTWorkSpace_date_change_span"
                     style={{ fontSize: 'x-large', fontWeight: 'bolder' }}
@@ -955,30 +1021,43 @@ const WeekBeforeOTWorkSpace = ({startDate,endDate,setStartDate,setEndDate}:WeekB
                 </span>
             </div>
             <table>
-                <thead style={{backgroundColor:"#2da8e5"}}>
+                <thead style={{ backgroundColor: '#2da8e5' }}>
                     <tr
                         className="testssBefore"
-                        style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black',backgroundColor:"#2da8e5" }}
+                        style={{
+                            borderTop: '1.5px solid black',
+                            borderLeft: '1.3px solid black',
+                            borderRight: '1.3px solid black',
+                            backgroundColor: '#2da8e5',
+                        }}
                     >
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
                             일자
                         </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
                             공휴일
                         </th>
-                        <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black',backgroundColor:"#2da8e5" }}>
+                        <th
+                            colSpan={3}
+                            style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', backgroundColor: '#2da8e5' }}
+                        >
                             소정근로
                         </th>
-                        <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black',backgroundColor:"#2da8e5" }}>
+                        <th
+                            colSpan={4}
+                            style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', backgroundColor: '#2da8e5' }}
+                        >
                             {' '}
                             연장 근무
                         </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black',backgroundColor:"#2da8e5" }}>
+                        <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
                             총 근무 <br />
                             합계 시간
                             <br />
                         </th>
-                        <th rowSpan={2} style={{backgroundColor:"#2da8e5"}}>연장 사유</th>
+                        <th rowSpan={2} style={{ backgroundColor: '#2da8e5' }}>
+                            연장 사유
+                        </th>
                     </tr>
                     <tr
                         className="testssBefore"

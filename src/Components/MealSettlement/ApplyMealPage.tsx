@@ -8,6 +8,7 @@ import ko from 'date-fns/locale/ko';
 import axios from 'axios';
 import moment from 'moment';
 import { getUserProfileThunk } from '../../models/Thunk_models/FoodData';
+import { toast } from '../ToastMessage/ToastManager';
 
 registerLocale('ko', ko);
 type ApplyMealPageProps = {
@@ -44,11 +45,19 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
             if (dataget.data.dataSuccess) {
                 setApplyedData(dataget.data.data);
             } else {
-                alert('에러 발생! 권한이 없습니다.');
+                toast.show({
+                    title: '에러발생. ',
+                    content: '에러 발생! 권한이 없습니다.',
+                    duration: 3000,
+                });
             }
         } catch (error) {
             console.log(error);
-            alert('에러 발생: Errorcode: 식대 서버 정산 프론트 1');
+            toast.show({
+                title: '에러발생. ',
+                content: '에러 발생: ErrorCode: 식대 서버 정산 프론트 1',
+                duration: 3000,
+            });
         }
     };
 
@@ -92,13 +101,26 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                         InfomationState
                     )
                 );
-                alert('데이터 저장 완료.');
+
+                toast.show({
+                    title: '저장 성공 ',
+                    content: '데이터 저장 완료.',
+                    duration: 3000,
+                });
             } else {
-                alert('데이터 저장　실패');
+                toast.show({
+                    title: '데이터 저장　실패 ',
+                    content: '에러 발생 ErrorCode: 식대 정산 서버 10',
+                    duration: 3000,
+                });
             }
         } catch (error) {
             console.log(error);
-            alert('에러 발생 ErrorCode: 식대 정산 프론트 2');
+            toast.show({
+                title: '에러발생. ',
+                content: '에러 발생 ErrorCode: 식대 정산 프론트 2',
+                duration: 3000,
+            });
         }
     };
 

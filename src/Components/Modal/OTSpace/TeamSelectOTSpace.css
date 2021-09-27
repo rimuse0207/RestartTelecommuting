@@ -1,0 +1,27 @@
+.TeamSelectOTSpace_main_div {
+    width: 80%;
+    margin: 0 auto;
+}
+.TeamSelectOTSpace_main_div select {
+    width: 200px;
+    height: 40px;
+    font-size: medium;
+    font-weight: bolder;
+    margin-top: 10px;
+}
+.TeamSelectOTTable_list_div > table {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    border-spacing: 0;
+}
+.TeamSelectOTTable_list_div > table tr,
+td {
+    padding: 5px;
+    border-bottom: 1px solid black;
+}
+.TeamSelectOTTable_list_div tr:hover {
+    background-color: darkgray;
+
+    cursor: pointer;
+}

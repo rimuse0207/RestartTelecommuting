@@ -36,6 +36,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         <Link to="/USbWrite">
                             <li>USB/CD 사전 신청</li>
                         </Link>
+                        <Link to="/TeamSelectOTWorkSpace">
+                            <li>월별 OT 조회</li>
+                        </Link>
 
                         <li onClick={handleLogout}>로그아웃</li>
                     </ul>

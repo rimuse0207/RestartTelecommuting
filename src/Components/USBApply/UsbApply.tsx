@@ -7,10 +7,11 @@ import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import moment from 'moment';
+import { toast } from '../ToastMessage/ToastManager';
 
 type UsbApplyProps = {
-    pickerDate?: any
-}
+    pickerDate?: any;
+};
 
 const UsbApply = ({ pickerDate }: UsbApplyProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -21,8 +22,8 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
         </button>
     );
     useEffect(() => {
-        setStartDate(pickerDate)
-    }, [pickerDate])
+        setStartDate(pickerDate);
+    }, [pickerDate]);
 
     const [startDate, setStartDate] = useState(pickerDate ? pickerDate : new Date());
     const handleChangeData = (date: any) => {
@@ -88,16 +89,34 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
         });
 
         if (returnSpaceValue) {
-            alert('문항지를 전부 선택 해주세요.');
+            toast.show({
+                title: '신청불가. ',
+                content: '문항지를 전부 선택 해주세요.',
+                duration: 3000,
+            });
             return;
         }
         if (returnValue) {
-            alert('보안상 USB를 사용 할 수 없습니다. 팀장님께 문의 해주세요.');
+            toast.show({
+                title: '신청불가. 문항이 일치 하지 않아, ',
+                content: '보안상 USB를 사용 할 수 없습니다. 팀장님께 문의 해주세요.',
+                duration: 3000,
+            });
+
             return;
         }
-        alert('메일 발송 완료. 팀장 승인을 기다려 주세요.');
+
+        toast.show({
+            title: '신청완료. ',
+            content: '메일 발송 완료. 팀장 승인을 기다려 주세요.',
+            duration: 3000,
+        });
         if (equipment === '' || filename === '' || useText === '' || usbownership === '') {
-            alert('내용을 입력 해주세요.');
+            toast.show({
+                title: '신청불가. ',
+                content: '내용을 입력 해주세요.',
+                duration: 3000,
+            });
             return;
         }
         const mailsendOkay = await axios.post(`${process.env.REACT_APP_DB_HOST}/USB_app_server/usbmailsend`, {
@@ -112,10 +131,18 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
             team: InfomationState.team,
         });
         if (mailsendOkay.data.message === 'OKAY') {
-            alert('메일을 성공적으로 보냈습니다.');
+            toast.show({
+                title: '메일 전송 성공 ',
+                content: '메일을 성공적으로 보냈습니다.',
+                duration: 3000,
+            });
             window.close();
         } else {
-            alert('메일 전송 실패. IT팀에 문의 주세요.');
+            toast.show({
+                title: '메일 전송 실패 ',
+                content: '메일 발송 실패. IT팀에 문의 주세요.',
+                duration: 3000,
+            });
         }
     };
     return (

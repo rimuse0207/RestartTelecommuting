@@ -16,7 +16,7 @@ const MealMainPage = () => {
             <div className="App">
                 {loginChecked ? (
                     <div style={{ height: '100%' }}>
-                        <HambergerMenu titles="식대 정산" subtitles="월 식대 조회 및 등록"></HambergerMenu>
+                        <HambergerMenu titles="식대 정산" subtitles="월 식대 등록 및 조회"></HambergerMenu>
                         <div>
                             <ApplyMealPage></ApplyMealPage>
                         </div>
