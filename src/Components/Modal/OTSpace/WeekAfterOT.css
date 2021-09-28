@@ -83,6 +83,7 @@ td > div > .react-datepicker__input-container > input {
     text-align: center;
     font-size: larger;
     font-weight: bolder;
+    border: 1px solid black;
 }
 .WeekOTMenubar_big_div > ul > li:hover {
     cursor: pointer;

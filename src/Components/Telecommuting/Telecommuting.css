@@ -41,6 +41,7 @@
     width: 100%;
     overflow: auto;
     height: 100%;
+    left: 0;
 }
 .Telecommuting_Table_nextMonth {
     background-color: lightgray;

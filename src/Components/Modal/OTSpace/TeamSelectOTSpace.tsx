@@ -39,7 +39,6 @@ const TeamSelectOTSpace = () => {
                 selectTeam,
             });
             setTeamBelongInfo(getDataShowTeam.data.datas);
-            console.log(getDataShowTeam);
         } catch (error) {
             console.log(error);
         }
@@ -78,7 +77,12 @@ const TeamSelectOTSpace = () => {
                     </select>
                 </div>
                 <div>
-                    <TeamSelectOTTable teamBelongInfo={teamBelongInfo} selectTeam={selectTeam}></TeamSelectOTTable>
+                    <TeamSelectOTTable
+                        teamBelongInfo={teamBelongInfo}
+                        selectTeam={selectTeam}
+                        selectYear={selectYear}
+                        selectMonth={selectMonth}
+                    ></TeamSelectOTTable>
                 </div>
             </div>
         </div>

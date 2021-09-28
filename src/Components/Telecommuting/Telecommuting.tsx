@@ -79,6 +79,355 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_mon: string; mon_time: number; leadercheck: number }) => {
+                                                          return list.date_mon === days.format('YYYY-MM-DD') ? (
+                                                              list.mon_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.mon_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_tue: string; tue_time: number; leadercheck: number }) => {
+                                                          return list.date_tue === days.format('YYYY-MM-DD') ? (
+                                                              list.tue_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.tue_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_wed: string; wed_time: number; leadercheck: number }) => {
+                                                          return list.date_wed === days.format('YYYY-MM-DD') ? (
+                                                              list.wed_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.wed_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_thu: string; thu_time: number; leadercheck: number }) => {
+                                                          return list.date_thu === days.format('YYYY-MM-DD') ? (
+                                                              list.thu_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.thu_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_fri: string; fri_time: number; leadercheck: number }) => {
+                                                          return list.date_fri === days.format('YYYY-MM-DD') ? (
+                                                              list.fri_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.fri_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_sat: string; sat_time: number; leadercheck: number }) => {
+                                                          return list.date_sat === days.format('YYYY-MM-DD') ? (
+                                                              list.sat_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.sat_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {BeforeOTData.dataChecked
+                                                ? BeforeOTData.data.map(
+                                                      (list: { date_sun: string; sun_time: number; leadercheck: number }) => {
+                                                          return list.date_sun === days.format('YYYY-MM-DD') ? (
+                                                              list.sun_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#9061a8' }}
+                                                                  >
+                                                                      ( 사전 OT ) - {list.sun_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_mon: string; mon_time: number; leadercheck: number }) => {
+                                                          return list.date_mon === days.format('YYYY-MM-DD') ? (
+                                                              list.mon_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.mon_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_tue: string; tue_time: number; leadercheck: number }) => {
+                                                          return list.date_tue === days.format('YYYY-MM-DD') ? (
+                                                              list.tue_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.tue_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_wed: string; wed_time: number; leadercheck: number }) => {
+                                                          return list.date_wed === days.format('YYYY-MM-DD') ? (
+                                                              list.wed_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.wed_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_thu: string; thu_time: number; leadercheck: number }) => {
+                                                          return list.date_thu === days.format('YYYY-MM-DD') ? (
+                                                              list.thu_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.thu_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_fri: string; fri_time: number; leadercheck: number }) => {
+                                                          return list.date_fri === days.format('YYYY-MM-DD') ? (
+                                                              list.fri_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.fri_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_sat: string; sat_time: number; leadercheck: number }) => {
+                                                          return list.date_sat === days.format('YYYY-MM-DD') ? (
+                                                              list.sat_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.sat_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+                                            {AfterOTData.dataChecked
+                                                ? AfterOTData.data.map(
+                                                      (list: { date_sun: string; sun_time: number; leadercheck: number }) => {
+                                                          return list.date_sun === days.format('YYYY-MM-DD') ? (
+                                                              list.sun_time > 0 ? (
+                                                                  <div
+                                                                      className="Telecommuting_Table_Data_Insert"
+                                                                      style={{ backgroundColor: '#7a2d2d' }}
+                                                                  >
+                                                                      ( 사후 OT ) - {list.sun_time}시간 팀장승인:{' '}
+                                                                      {list.leadercheck === 0 ? 'X' : 'O'}
+                                                                  </div>
+                                                              ) : (
+                                                                  <div></div>
+                                                              )
+                                                          ) : (
+                                                              <div></div>
+                                                          );
+                                                      }
+                                                  )
+                                                : ''}
+
+                                            {FoodData.dataChecked ? (
+                                                FoodData.data.map((list: { dates: string; spending: number; indexs: number }) => {
+                                                    return list.dates === days.format('YYYY-MM-DD') ? (
+                                                        <div
+                                                            key={list.indexs}
+                                                            className="Telecommuting_Table_Data_Insert"
+                                                            style={{ backgroundColor: '#5a267c' }}
+                                                        >{`( 식대 ) - ${list.spending
+                                                            .toString()
+                                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                    ) : (
+                                                        <div></div>
+                                                    );
+                                                })
+                                            ) : (
+                                                <div></div>
+                                            )}
+
+                                            {USBCDData.dataChecked ? (
+                                                USBCDData.data.map(
+                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
+                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.number}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#2c512f' }}
+                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                            ) : (
+                                                <div></div>
+                                            )}
+                                            {TelecommutingData.dataChecked ? (
+                                                TelecommutingData.data.map(
+                                                    (list: { day: string; approve: number; num: number }, i: number) => {
+                                                        return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.num}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                            ) : (
+                                                <div></div>
+                                            )}
                                         </div>
                                     </td>
                                 );
