@@ -2,3 +2,13 @@
     height: 100vh;
     width: 100vw;
 }
+
+@keyframes blink-effect {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.blink {
+    animation: blink-effect 2s step-end infinite;
+}

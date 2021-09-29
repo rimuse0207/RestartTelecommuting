@@ -37,3 +37,17 @@ th {
     border: 0.5px solid black;
     padding: 5px;
 }
+.TeamOTPrintermodal_big_box_div table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: center;
+    border: 1px solid black;
+    font-size: x-small;
+    width: 100%;
+    color: black;
+}
+.TeamOTPrintermodal_big_box_div td,
+th {
+    border: 0.5px solid black;
+    padding: 5px;
+}

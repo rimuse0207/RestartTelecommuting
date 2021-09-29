@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PersonDBClickModal from './PersonDBClickModal';
-
+import TeamOTPrinterModal from './TeamOTPrinterModal';
 type TeamSelectOTTableProps = {
     teamBelongInfo: any;
     selectTeam: string;
@@ -10,12 +10,14 @@ type TeamSelectOTTableProps = {
 
 const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth }: TeamSelectOTTableProps) => {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen2, setIsOpen2] = useState(false);
     const [clickData, setClickData] = useState({
         name: '',
         dateYear: selectYear,
         dateMonth: selectMonth,
     });
     const [showdatas, setShowdatas] = useState([{ name: '', sumTimes: 0, nightTimes: 0, holidaySum_time: 0 }]);
+    const [dataloading, setDataLoading] = useState(false);
     useEffect(() => {
         let datapush: any = [];
         for (var i = 0; i < teamBelongInfo.length; i++) {
@@ -77,10 +79,28 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                 </tbody>
                 <PersonDBClickModal
                     modalIsOpen={modalIsOpen}
-                    closeModal={() => setIsOpen(false)}
+                    closeModal={() => {
+                        setIsOpen(false);
+                        setDataLoading(false);
+                    }}
                     clickData={clickData}
+                    dataloading={dataloading}
+                    setDataLoading={() => setDataLoading(true)}
                 ></PersonDBClickModal>
             </table>
+            <div>
+                <button onClick={() => setIsOpen2(true)}>출력하기</button>
+                <TeamOTPrinterModal
+                    modalIsOpen={modalIsOpen2}
+                    closeModal={() => {
+                        setIsOpen2(false);
+                    }}
+                    showdatas={showdatas}
+                    selectTeam={selectTeam}
+                    selectYear={selectYear}
+                    selectMonth={selectMonth}
+                ></TeamOTPrinterModal>
+            </div>
         </div>
     );
 };

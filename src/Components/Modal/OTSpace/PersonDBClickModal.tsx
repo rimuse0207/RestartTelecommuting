@@ -23,23 +23,28 @@ type PersonDBClickModalProps = {
         dateYear: string;
         dateMonth: string;
     };
+    dataloading: boolean;
+    setDataLoading: () => void;
 };
-const PersonDBClickModal = ({ modalIsOpen, closeModal, clickData }: PersonDBClickModalProps) => {
+const PersonDBClickModal = ({ modalIsOpen, closeModal, clickData, dataloading, setDataLoading }: PersonDBClickModalProps) => {
     const [getData, setGetData] = useState([]);
-    const [dataloading, setDataLoading] = useState(false);
+
     useEffect(() => {
         getDataForMe();
     }, [clickData]);
 
     const getDataForMe = async () => {
-        const getDataPersonData = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/getPersonTeam`, {
-            name: clickData.name,
-            date: `${clickData.dateYear}-${clickData.dateMonth}`,
-        });
-        setGetData(getDataPersonData.data.data);
-        setDataLoading(true);
+        try {
+            const getDataPersonData = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/getPersonTeam`, {
+                name: clickData.name,
+                date: `${clickData.dateYear}-${clickData.dateMonth}`,
+            });
 
-        console.log(getDataPersonData.data.data);
+            setGetData(getDataPersonData.data.data);
+            setDataLoading();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

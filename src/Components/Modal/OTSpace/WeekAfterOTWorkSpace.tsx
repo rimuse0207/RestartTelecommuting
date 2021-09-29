@@ -5,6 +5,9 @@ import ko from 'date-fns/locale/ko';
 import './WeekAfterOT.css';
 import axios from 'axios';
 import { toast } from '../../ToastMessage/ToastManager';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../models/index';
+import { DecryptKey } from '../../../config';
 registerLocale('ko', ko);
 
 type WeekAfterOTWorkSpaceProps = {
@@ -15,6 +18,7 @@ type WeekAfterOTWorkSpaceProps = {
 };
 
 const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -137,10 +141,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
     });
     const getDataOTData = async () => {
         const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_get_some_data`, {
-            id: 'sjyoo@dhk.co.kr',
+            id: DecryptKey(InfomationState.id),
             startDate: startDate,
         });
         if (getServerOTDataCheck.data.dataComeIn) {
+            console.log();
             setMonDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
                 basicStartTime: new Date(
@@ -165,9 +170,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].mon_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].mon_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].mon_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].mon_time,
                 OTreason1: getServerOTDataCheck.data.data[0].mon_reason,
@@ -179,7 +186,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             setTueDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
                 basicStartTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].basic_thu_start_time}`).format(
+                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].basic_tue_start_time}`).format(
                         'YYYY-MM-DD HH:mm'
                     )
                 ),
@@ -188,7 +195,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                         'YYYY-MM-DD HH:mm'
                     )
                 ),
-                basicSumTime: getServerOTDataCheck.data.data[0].basic_thu_sum_time,
+                basicSumTime: getServerOTDataCheck.data.data[0].basic_tue_sum_time,
                 OTStartTime: new Date(
                     moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].start_time_tue}`).format(
                         'YYYY-MM-DD HH:mm'
@@ -200,9 +207,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].tue_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].tue_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].tue_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].tue_time,
                 OTreason1: getServerOTDataCheck.data.data[0].tue_reason,
@@ -235,9 +244,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].wed_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].wed_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].wed_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].wed_time,
                 OTreason1: getServerOTDataCheck.data.data[0].wed_reason,
@@ -270,9 +281,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].thu_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].thu_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].thu_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].thu_time,
                 OTreason1: getServerOTDataCheck.data.data[0].thu_reason,
@@ -305,9 +318,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].fri_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].fri_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].fri_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].fri_time,
                 OTreason1: getServerOTDataCheck.data.data[0].fri_reason,
@@ -340,9 +355,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].sat_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].sat_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].sat_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].sat_time,
                 OTreason1: getServerOTDataCheck.data.data[0].sat_reason,
@@ -375,9 +392,11 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     )
                 ),
                 OTRestTime: new Date(
-                    moment(`${moment(startDate).format('YYYY-MM-DD')} ${getServerOTDataCheck.data.data[0].sun_rest}`).format(
-                        'YYYY-MM-DD HH:mm'
-                    )
+                    moment(
+                        `${moment(startDate).format('YYYY-MM-DD')} ${
+                            getServerOTDataCheck.data.data[0].sun_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].sun_rest
+                        }`
+                    ).format('YYYY-MM-DD HH:mm')
                 ),
                 OTSumTime: getServerOTDataCheck.data.data[0].sun_time,
                 OTreason1: getServerOTDataCheck.data.data[0].sun_reason,

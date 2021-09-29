@@ -159,13 +159,16 @@ ul {
     list-style-type: none;
     text-align: left;
 }
-#menu li {
-    padding: 30px 0 20px 20px;
-    font-size: 1.5em;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+#menu > div > h5 {
+    padding: 10px 0 10px 10px;
 }
-#menu li:last-child {
-    border-bottom: none;
+#menu > div > h5:hover {
+    cursor: pointer;
+}
+#menu li {
+    padding: 10px 0 10px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    border-top: 1px solid rgba(0, 0, 0, 0.14);
 }
 
 .fa {
@@ -192,4 +195,14 @@ li a {
 a:hover {
     cursor: pointer;
     color: blue;
+}
+.nav_handleClicks_arrow {
+    margin-left: 10px;
+    width: 15px;
+    height: 10px;
+    transition: 0.5s;
+}
+.nav_hadleClicks_flases {
+    transition: 0.5s;
+    transform: rotate(180deg);
 }
