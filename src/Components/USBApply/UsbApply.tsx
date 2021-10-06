@@ -22,7 +22,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
         </button>
     );
     useEffect(() => {
-        setStartDate(pickerDate);
+        setStartDate(pickerDate ? pickerDate : new Date() );
     }, [pickerDate]);
 
     const [startDate, setStartDate] = useState(pickerDate ? pickerDate : new Date());

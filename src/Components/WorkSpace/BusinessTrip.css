@@ -1,0 +1,57 @@
+.BusinessTrip_input_div_box > h4 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.BusinessTrip_input_div_box > input {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  background-color: none;
+  font-weight: bold;
+}
+.BusinessTrip_textarea_div_box > h4 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.BusinessTrip_textarea_div_box > textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: none;
+  background-color: none;
+  font-weight: bold;
+}
+
+.Business_h2_div_box {
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+.Business_main_div_box {
+  width: 50%;
+  border: 1.5px solid darkgray;
+  padding: 30px;
+  margin-top: 15px;
+}
+.Business_button_div_box {
+  width: 50%;
+  text-align: end;
+}
+.Business_button {
+  border: none;
+  background: #3467ee;
+  width: 100px;
+  height: 30px;
+  color: white;
+  border-radius: 5px;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-size: medium;
+  font-weight: bolder;
+}
+.Business_button:hover {
+  cursor: pointer;
+  background-color: white;
+  color: #3467ee;
+  transition: 0.2s ease-in-out;
+}

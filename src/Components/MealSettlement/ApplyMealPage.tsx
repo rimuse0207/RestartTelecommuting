@@ -12,7 +12,7 @@ import { toast } from '../ToastMessage/ToastManager';
 
 registerLocale('ko', ko);
 type ApplyMealPageProps = {
-    pickerDate?: any;
+    pickerDate?: string | null | undefined;
 };
 const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     const dispatch = useDispatch();
@@ -28,10 +28,11 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     const [applyedData, setApplyedData] = useState([]);
 
     useEffect(() => {
+        
         data_get();
     }, [selectDate]);
     useEffect(() => {
-        setStartDate(pickerDate);
+        setStartDate(pickerDate? startDate:new Date());
     }, [pickerDate]);
 
     const data_get = async () => {
