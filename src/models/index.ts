@@ -7,7 +7,9 @@ import USBCDDataGetting from './Thunk_models/USBCDData';
 import TelecommutingDataGetting from './Thunk_models/TelecommutingData';
 import AfterOTData from './Thunk_models/AfterOTData';
 import BeforeOTData from './Thunk_models/BeforeOTData';
-
+import TeamLeader_TelecommutingDataGetting from './TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
+import TeamLeaderUSBCDDataGetting from './TeamLeader_Thunk_models/TeamLeaderUSBCDData';
+import TeamLeaderFoodData from './TeamLeader_Thunk_models/TeamLeaderFoodData';
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
@@ -17,6 +19,9 @@ const rootReducer = combineReducers({
     TelecommutingDataGetting,
     AfterOTData,
     BeforeOTData,
+    TeamLeader_TelecommutingDataGetting,
+    TeamLeaderUSBCDDataGetting,
+    TeamLeaderFoodData,
 });
 // 루트 리듀서를 내보내주세요.
 export default rootReducer;

@@ -26,6 +26,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         <Link to="/">
                             <li>신청 현황</li>
                         </Link>
+                        <Link to="/TeamLeaderTelecommutingMainpage">
+                            <li>팀원 신청 현황</li>
+                        </Link>
                         <Link to="/Telecommuting_workspace">
                             <li>재택근무 신청</li>
                         </Link>
@@ -47,7 +50,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         <Link to="/AfterOtworkspace">
                             <li>OT 신청</li>
                         </Link>
-
+                        <Link to="/TeamLeaderPageMainPage">
+                            <li>팀원 OT 조회</li>
+                        </Link>
                         <Link to="/TeamSelectOTWorkSpace">
                             <li>월별 OT 조회</li>
                         </Link>

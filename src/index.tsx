@@ -19,6 +19,8 @@ import ChangePasswordPage from './Components/Login/ChangePasswordPage';
 import TeleWorkingContainer from './Components/Modal/TelecommutingSpace/TeleWorkignContainer';
 import WeekAfterOTContainer from './Components/Modal/OTSpace/WeekAfterOTContainer';
 import TeamSelectOTMainPage from './Components/Modal/OTSpace/TeamSelectMainPage';
+import TeamLeaderPageMainPage from './Components/Modal/OTSpace/TeamLeaderPage/TeamLeaderPageMainPage';
+import TeamLeaderTelecommutingMainpage from './Components/Telecommuting/TeamLeaderTelecommutingMainpage';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -33,6 +35,8 @@ ReactDOM.render(
                     <Route path="/Admin_meal_Select" component={MealMonthSelect}></Route>
                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                     <Route path="/TeamSelectOTWorkSpace" component={TeamSelectOTMainPage}></Route>
+                    <Route path="/TeamLeaderPageMainPage" component={TeamLeaderPageMainPage}></Route>
+                    <Route path="/TeamLeaderTelecommutingMainpage" component={TeamLeaderTelecommutingMainpage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

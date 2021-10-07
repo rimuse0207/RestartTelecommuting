@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import CreateModal from '../Modal/CreateModal';
+import SelectClickModalMainPage from '../SelectClickModal/SelectClickModalMainPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../models/index';
-import { getFoodDataThunk, FoodDataShowCheckedTrue, FoodDataShowCheckedFalse } from '../../models/Thunk_models/FoodData';
-import { getUSBCDThunk, USBCDDataShowCheckedFalse, USBCDDataShowCheckedTrue } from '../../models/Thunk_models/USBCDData';
 import {
-    getTelecommutingThunk,
-    TelecommutingDataShowCheckedTrue,
-    TelecommutingDataShowCheckedFalse,
-} from '../../models/Thunk_models/TelecommutingData';
+    TeamLeader_getFoodDataThunk,
+    TeamLeader_FoodDataShowCheckedTrue,
+    TeamLeader_FoodDataShowCheckedFalse,
+} from '../../models/TeamLeader_Thunk_models/TeamLeaderFoodData';
+import {
+    TeamLeader_getUSBCDThunk,
+    USBCDDataShowCheckedFalse,
+    USBCDDataShowCheckedTrue,
+} from '../../models/TeamLeader_Thunk_models/TeamLeaderUSBCDData';
+import {
+    TeamLeader_getTelecommutingThunk,
+    TeamLeader_TelecommutingDataShowCheckedTrue,
+    TeamLeader_TelecommutingDataShowCheckedFalse,
+} from '../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
 import { getAFTEROTdataThunk, AfterOTDataShowCheckedFalse, AfterOTShowCheckedTrue } from '../../models/Thunk_models/AfterOTData';
 import { getBEFOREOTdataThunk, BeforeOTDataShowCheckedFalse, BeforeOTShowCheckedTrue } from '../../models/Thunk_models/BeforeOTData';
-const Telecommuting = () => {
+import { DecryptKey } from '../../config';
+const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const FoodData = useSelector((state: RootState) => state.FoodDataGetting.FoodDatas);
-    const USBCDData = useSelector((state: RootState) => state.USBCDDataGetting.USBCDDatas);
-    const TelecommutingData = useSelector((state: RootState) => state.TelecommutingDataGetting.TelecommutingDatas);
+    const FoodData = useSelector((state: RootState) => state.TeamLeaderFoodData.TeamLeader_FoodDatas);
+    const USBCDData = useSelector((state: RootState) => state.TeamLeaderUSBCDDataGetting.TeamLeader_USBCDDatas);
+    const TeamLeader_TelecommutingData = useSelector(
+        (state: RootState) => state.TeamLeader_TelecommutingDataGetting.TeamLeader_TelecommutingDatas
+    );
     const AfterOTData = useSelector((state: RootState) => state.AfterOTData.AfterOTDatas);
     const BeforeOTData = useSelector((state: RootState) => state.BeforeOTData.BeforeOTDatas);
 
@@ -29,13 +40,38 @@ const Telecommuting = () => {
     const [BeforeOtApply_check, setBeforeOtApply_check] = useState(true);
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
+    const [SearchName, setSearchName] = useState('');
+    const [clicksTitle, setClicksTitle] = useState('');
 
     useEffect(() => {
-        if (foodApply_check) dispatch(getFoodDataThunk(getMoment, InfomationState));
-        if (usbApply_check) dispatch(getUSBCDThunk(getMoment, InfomationState));
-        if (telecommutingApply_check) dispatch(getTelecommutingThunk(getMoment, InfomationState));
-        if (AfterOtApply_check) dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
-        if (BeforeOtApply_check) dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+        if (
+            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'
+        ) {
+            dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
+        }
+        if (
+            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'wbjung@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'hjlee@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'jhshin@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'cwjun@dhk.co.kr'
+        ) {
+            dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+            dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
+            dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+        }
+        if (
+            InfomationState.position === '팀장' ||
+            InfomationState.position === '임원' ||
+            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
+            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr'
+        ) {
+            dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
+        }
     }, [getMoment]);
 
     const today = getMoment;
@@ -57,366 +93,6 @@ const Telecommuting = () => {
                         // eslint-disable-next-line no-loop-func
                         .map((data, index) => {
                             let days = today.clone().startOf('year').week(week).startOf('week').add(index, 'day');
-                            // if (moment().format('YYYY-MM-DD') === days.format('YYYY-MM-DD')) {
-                            //     return (
-                            //         <td key={index} className="Telecommuting_table_today">
-                            //             <div className="Telecommuting_Table_dayNumber">
-                            //                 <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_mon: string; mon_time: number; leadercheck: number }) => {
-                            //                               return list.date_mon === days.format('YYYY-MM-DD') ? (
-                            //                                   list.mon_time > 0 ? (
-                            //                                       <div
-                            //                                           className={`Telecommuting_Table_Data_Insert ${
-                            //                                               list.leadercheck === 0 ? 'blink' : ''
-                            //                                           }`}
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.mon_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_tue: string; tue_time: number; leadercheck: number }) => {
-                            //                               return list.date_tue === days.format('YYYY-MM-DD') ? (
-                            //                                   list.tue_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.tue_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_wed: string; wed_time: number; leadercheck: number }) => {
-                            //                               return list.date_wed === days.format('YYYY-MM-DD') ? (
-                            //                                   list.wed_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.wed_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_thu: string; thu_time: number; leadercheck: number }) => {
-                            //                               return list.date_thu === days.format('YYYY-MM-DD') ? (
-                            //                                   list.thu_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.thu_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_fri: string; fri_time: number; leadercheck: number }) => {
-                            //                               return list.date_fri === days.format('YYYY-MM-DD') ? (
-                            //                                   list.fri_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.fri_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_sat: string; sat_time: number; leadercheck: number }) => {
-                            //                               return list.date_sat === days.format('YYYY-MM-DD') ? (
-                            //                                   list.sat_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.sat_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {BeforeOTData.dataChecked
-                            //                     ? BeforeOTData.data.map(
-                            //                           (list: { date_sun: string; sun_time: number; leadercheck: number }) => {
-                            //                               return list.date_sun === days.format('YYYY-MM-DD') ? (
-                            //                                   list.sun_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#9061a8' }}
-                            //                                       >
-                            //                                           ( 사전 OT ) - {list.sun_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_mon: string; mon_time: number; leadercheck: number }) => {
-                            //                               return list.date_mon === days.format('YYYY-MM-DD') ? (
-                            //                                   list.mon_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.mon_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_tue: string; tue_time: number; leadercheck: number }) => {
-                            //                               return list.date_tue === days.format('YYYY-MM-DD') ? (
-                            //                                   list.tue_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.tue_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_wed: string; wed_time: number; leadercheck: number }) => {
-                            //                               return list.date_wed === days.format('YYYY-MM-DD') ? (
-                            //                                   list.wed_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.wed_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_thu: string; thu_time: number; leadercheck: number }) => {
-                            //                               return list.date_thu === days.format('YYYY-MM-DD') ? (
-                            //                                   list.thu_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.thu_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_fri: string; fri_time: number; leadercheck: number }) => {
-                            //                               return list.date_fri === days.format('YYYY-MM-DD') ? (
-                            //                                   list.fri_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.fri_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_sat: string; sat_time: number; leadercheck: number }) => {
-                            //                               return list.date_sat === days.format('YYYY-MM-DD') ? (
-                            //                                   list.sat_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.sat_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-                            //                 {AfterOTData.dataChecked
-                            //                     ? AfterOTData.data.map(
-                            //                           (list: { date_sun: string; sun_time: number; leadercheck: number }) => {
-                            //                               return list.date_sun === days.format('YYYY-MM-DD') ? (
-                            //                                   list.sun_time > 0 ? (
-                            //                                       <div
-                            //                                           className="Telecommuting_Table_Data_Insert"
-                            //                                           style={{ backgroundColor: '#7a2d2d' }}
-                            //                                       >
-                            //                                           ( 사후 OT ) - {list.sun_time}시간 팀장승인:{' '}
-                            //                                           {list.leadercheck === 0 ? 'X' : 'O'}
-                            //                                       </div>
-                            //                                   ) : (
-                            //                                       <div></div>
-                            //                                   )
-                            //                               ) : (
-                            //                                   <div></div>
-                            //                               );
-                            //                           }
-                            //                       )
-                            //                     : ''}
-
-                            //                 {FoodData.dataChecked ? (
-                            //                     FoodData.data.map((list: { dates: string; spending: number; indexs: number }) => {
-                            //                         return list.dates === days.format('YYYY-MM-DD') ? (
-                            //                             <div
-                            //                                 key={list.indexs}
-                            //                                 className="Telecommuting_Table_Data_Insert"
-                            //                                 style={{ backgroundColor: '#5a267c' }}
-                            //                             >{`( 식대 ) - ${list.spending
-                            //                                 .toString()
-                            //                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
-                            //                         ) : (
-                            //                             <div></div>
-                            //                         );
-                            //                     })
-                            //                 ) : (
-                            //                     <div></div>
-                            //                 )}
-
-                            //                 {USBCDData.dataChecked ? (
-                            //                     USBCDData.data.map(
-                            //                         (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                            //                             return list.workdate === days.format('YYYY-MM-DD') ? (
-                            //                                 <div
-                            //                                     key={list.number}
-                            //                                     className="Telecommuting_Table_Data_Insert"
-                            //                                     style={{ backgroundColor: '#2c512f' }}
-                            //                                 >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                            //                             ) : (
-                            //                                 <div></div>
-                            //                             );
-                            //                         }
-                            //                     )
-                            //                 ) : (
-                            //                     <div></div>
-                            //                 )}
-                            //                 {TelecommutingData.dataChecked ? (
-                            //                     TelecommutingData.data.map(
-                            //                         (list: { day: string; approve: number; num: number }, i: number) => {
-                            //                             return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
-                            //                                 <div
-                            //                                     key={list.num}
-                            //                                     className="Telecommuting_Table_Data_Insert"
-                            //                                 >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'O' : 'X'}`}</div>
-                            //                             ) : (
-                            //                                 <div></div>
-                            //                             );
-                            //                         }
-                            //                     )
-                            //                 ) : (
-                            //                     <div></div>
-                            //                 )}
-                            //             </div>
-                            //         </td>
-                            //     );
-                            // } else
                             if (days.format('MM') !== today.format('MM')) {
                                 return (
                                     <td
@@ -441,21 +117,21 @@ const Telecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            {TelecommutingData.dataChecked ? (
-                                                TelecommutingData.data.map(
-                                                    (list: { day: string; approve: number; num: number }, i: number) => {
+                                            {TeamLeader_TelecommutingData.dataChecked ? (
+                                                TeamLeader_TelecommutingData.data
+                                                    .filter((names: { name: string }) => names.name.includes(SearchName))
+                                                    .map((list: { day: string; approve: number; num: number; name: string }, i: number) => {
                                                         return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
                                                             <div
                                                                 key={list.num}
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.approve === 0 ? 'blink' : ''
                                                                 }`}
-                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'X' : 'O'}`}</div>
+                                                            >{`( 재택 )_${list.name} ${list.approve === 0 ? 'X' : 'O'}`}</div>
                                                         ) : (
                                                             <div></div>
                                                         );
-                                                    }
-                                                )
+                                                    })
                                             ) : (
                                                 <div></div>
                                             )}
@@ -786,39 +462,51 @@ const Telecommuting = () => {
                                                 : ''}
 
                                             {FoodData.dataChecked ? (
-                                                FoodData.data.map((list: { dates: string; spending: number; indexs: number }) => {
-                                                    return list.dates === days.format('YYYY-MM-DD') ? (
-                                                        <div
-                                                            key={list.indexs}
-                                                            className="Telecommuting_Table_Data_Insert"
-                                                            style={{ backgroundColor: '#5a267c' }}
-                                                        >{`( 식대 ) - ${list.spending
-                                                            .toString()
-                                                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
-                                                    ) : (
-                                                        <div></div>
-                                                    );
-                                                })
+                                                FoodData.data
+                                                    .filter((names: { name: string }) => names.name.includes(SearchName))
+                                                    .map((list: { dates: string; spending: number; indexs: number; name: string }) => {
+                                                        return list.dates === days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.indexs}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                style={{ backgroundColor: '#5a267c' }}
+                                                            >{`( 식대 )_${list.name} ${list.spending
+                                                                .toString()
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    })
                                             ) : (
                                                 <div></div>
                                             )}
 
                                             {USBCDData.dataChecked ? (
-                                                USBCDData.data.map(
-                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.number}
-                                                                className={`Telecommuting_Table_Data_Insert ${
-                                                                    list.leadercheck === 0 ? 'blink' : ''
-                                                                }`}
-                                                                style={{ backgroundColor: '#2c512f' }}
-                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
+                                                USBCDData.data
+                                                    .filter((names: { name: string }) => names.name.includes(SearchName))
+                                                    .map(
+                                                        (
+                                                            list: { workdate: string; leadercheck: number; number: number; name: string },
+                                                            i: number
+                                                        ) => {
+                                                            return list.workdate === days.format('YYYY-MM-DD') ? (
+                                                                <div
+                                                                    key={list.number}
+                                                                    className={`Telecommuting_Table_Data_Insert ${
+                                                                        list.leadercheck === 0 ? 'blink' : ''
+                                                                    }`}
+                                                                    style={{ backgroundColor: '#2c512f' }}
+                                                                    onClick={() => {
+                                                                        setClicksData(list);
+                                                                        setClicksTitle('USB/CD');
+                                                                        setOnClickedSet(true);
+                                                                    }}
+                                                                >{`( USB )_${list.name} ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
+                                                            ) : (
+                                                                <div></div>
+                                                            );
+                                                        }
+                                                    )
                                             ) : (
                                                 <div></div>
                                             )}
@@ -839,14 +527,15 @@ const Telecommuting = () => {
         <div>
             <div className="Telecommuting_date_show_div">
                 <div className="Telecommuting_apply_div_box">
-                    <button
-                        onClick={() => {
-                            setClicksData(null);
-                            setOnClickedSet(!onClicked);
-                        }}
-                    >
-                        작성하기
-                    </button>
+                    <div>
+                        <span style={{ fontSize: 'medium' }}>이름 검색 : </span>
+                        <input
+                            className="TeamLeader_Tele_input"
+                            placeholder="이름을 작성해주세요."
+                            value={SearchName}
+                            onChange={e => setSearchName(e.target.value)}
+                        ></input>
+                    </div>
                 </div>
                 <div className="control">
                     <button
@@ -870,10 +559,9 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (telecommutingApply_check) {
-                                    dispatch(TelecommutingDataShowCheckedFalse());
+                                    dispatch(TeamLeader_TelecommutingDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(TelecommutingDataShowCheckedTrue());
-                                    dispatch(getTelecommutingThunk(getMoment, InfomationState));
+                                    dispatch(TeamLeader_TelecommutingDataShowCheckedTrue());
                                 }
                                 settelecommutingApply_check(!telecommutingApply_check);
                             }}
@@ -886,9 +574,7 @@ const Telecommuting = () => {
                                 if (BeforeOtApply_check) {
                                     dispatch(BeforeOTDataShowCheckedFalse());
                                 } else {
-                                    // dispatch(BeforeOTShowCheckedTrue());
-
-                                    dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+                                    dispatch(BeforeOTShowCheckedTrue());
                                 }
                                 setBeforeOtApply_check(!BeforeOtApply_check);
                             }}
@@ -900,9 +586,7 @@ const Telecommuting = () => {
                                 if (AfterOtApply_check) {
                                     dispatch(AfterOTDataShowCheckedFalse());
                                 } else {
-                                    // dispatch(AfterOTShowCheckedTrue());
-
-                                    dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
+                                    dispatch(AfterOTShowCheckedTrue());
                                 }
                                 setAfterOtApply_check(!AfterOtApply_check);
                             }}
@@ -912,10 +596,9 @@ const Telecommuting = () => {
                         <li
                             onClick={() => {
                                 if (foodApply_check) {
-                                    dispatch(FoodDataShowCheckedFalse());
+                                    dispatch(TeamLeader_FoodDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(FoodDataShowCheckedTrue());
-                                    dispatch(getFoodDataThunk(getMoment, InfomationState));
+                                    dispatch(TeamLeader_FoodDataShowCheckedTrue());
                                 }
                                 setfoodApply_check(!foodApply_check);
                             }}
@@ -927,8 +610,7 @@ const Telecommuting = () => {
                                 if (usbApply_check) {
                                     dispatch(USBCDDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(USBCDDataShowCheckedTrue());
-                                    dispatch(getUSBCDThunk(getMoment, InfomationState));
+                                    dispatch(USBCDDataShowCheckedTrue());
                                 }
                                 setusbApply_check(!usbApply_check);
                             }}
@@ -954,29 +636,18 @@ const Telecommuting = () => {
                     <tbody>{calendarArr()}</tbody>
                 </table>
             </div>
-            {onClicked ? <CreateModal onClicked={onClicked} modalClose={modalClose} clicksData={clicksData}></CreateModal> : ''}
-            <div className="Telecommuting_MainPage_SUM_Text_Div">
-                <div>
-                    <div>사전OT : {TelecommutingData.data.length}회</div>
-                    <div>사후OT : {TelecommutingData.data.length}회</div>
-                    {TelecommutingData.dataChecked ? <div>재택 : {TelecommutingData.data.length}회</div> : ''}
-                    {USBCDData.dataChecked ? <div>USB : {USBCDData.data.length}회</div> : ''}
-                    {FoodData.dataChecked ? (
-                        <div>
-                            식대 : {FoodData.data.length}회(
-                            {FoodData.data
-                                .reduce((pre: number, next: { calculate: number }) => pre + next.calculate, 0)
-                                .toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            원)
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
-            </div>
+            {onClicked ? (
+                <SelectClickModalMainPage
+                    onClicked={onClicked}
+                    modalClose={modalClose}
+                    clicksData={clicksData}
+                    clicksTitle={clicksTitle}
+                ></SelectClickModalMainPage>
+            ) : (
+                ''
+            )}
         </div>
     );
 };
 
-export default Telecommuting;
+export default TeamLeaderTelecommuting;

@@ -4,11 +4,11 @@
 }
 
 @keyframes blink-effect {
-  50% {
+  70% {
     opacity: 0.5;
   }
 }
 
 .blink {
-  animation: blink-effect 4s step-end infinite;
+  animation: blink-effect 5s step-end infinite;
 }
