@@ -7,7 +7,7 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
 import axios from 'axios';
 import moment from 'moment';
-import { getUserProfileThunk } from '../../models/Thunk_models/FoodData';
+import { getFoodDataThunk } from '../../models/Thunk_models/FoodData';
 import { toast } from '../ToastMessage/ToastManager';
 
 registerLocale('ko', ko);
@@ -96,10 +96,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
             if (dataSend.data.dataSuccess) {
                 data_get();
                 dispatch(
-                    getUserProfileThunk(
-                        pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-                        InfomationState
-                    )
+                    getFoodDataThunk(pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'), InfomationState)
                 );
 
                 toast.show({

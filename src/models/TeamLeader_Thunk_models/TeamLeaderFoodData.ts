@@ -21,21 +21,21 @@ interface FoodDataTypes {
     months: string;
 }
 
-const GET_FoodData_GET = 'FoodData/GET_FoodData_GET';
-const GET_FoodData_SUCCESS = 'FoodData/GET_FoodData_SUCCESS';
-const GET_FoodData_ERROR = 'FoodData/GET_FoodData_ERROR';
-const FoodData_Show_FALSE = 'FoodData/FoodData_Show_FALSE';
-const FoodData_Show_TRUE = 'FoodData/FoodData_Show_TRUE';
+const TeamLeader_GET_FoodData_GET = 'TeamLeader_FoodData/TeamLeader_GET_FoodData_GET';
+const TeamLeader_GET_FoodData_SUCCESS = 'TeamLeader_FoodData/TeamLeader_GET_FoodData_SUCCESS';
+const TeamLeader_GET_FoodData_ERROR = 'TeamLeader_FoodData/TeamLeader_GET_FoodData_ERROR';
+const TeamLeader_FoodData_Show_FALSE = 'TeamLeader_FoodData/TeamLeader_FoodData_Show_FALSE';
+const TeamLeader_FoodData_Show_TRUE = 'TeamLeader_FoodData/TeamLeader_FoodData_Show_TRUE';
 
-const getFoodDataAsync = createAsyncAction(GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR)<
-    undefined,
-    FoodDataTypes,
-    AxiosError
->();
+const TeamLeader_getFoodDataAsync = createAsyncAction(
+    TeamLeader_GET_FoodData_GET,
+    TeamLeader_GET_FoodData_SUCCESS,
+    TeamLeader_GET_FoodData_ERROR
+)<undefined, FoodDataTypes, AxiosError>();
 
-const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
+const TeamLeader_getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/TeamLeader_Data_get_applyMeal`, {
             id: DecryptKey(InfomationState.id),
             team: InfomationState.team,
             name: DecryptKey(InfomationState.name),
@@ -47,12 +47,18 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
         console.log(error);
     }
 };
-const actions = { GET_FoodData_GET, GET_FoodData_SUCCESS, GET_FoodData_ERROR, FoodData_Show_TRUE, FoodData_Show_FALSE };
+const actions = {
+    TeamLeader_GET_FoodData_GET,
+    TeamLeader_GET_FoodData_SUCCESS,
+    TeamLeader_GET_FoodData_ERROR,
+    TeamLeader_FoodData_Show_TRUE,
+    TeamLeader_FoodData_Show_FALSE,
+};
 // type GithubAction = ActionType<typeof GET_FoodData_GET> | ActionType<typeof GET_FoodData_SUCCESS> | ActionType<typeof GET_FoodData_ERROR> | ActionType<any>
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 
 type GithubState = {
-    FoodDatas: {
+    TeamLeader_FoodDatas: {
         loading: boolean;
         error: Error | null;
         data: FoodDataTypes | any;
@@ -60,15 +66,15 @@ type GithubState = {
     };
 };
 
-export function getFoodDataThunk(
+export function TeamLeader_getFoodDataThunk(
     getMoment: {},
     InfomationState: { id: string; team: string; name: string }
 ): ThunkAction<void, RootState, null, GithubAction> {
     return async dispatch => {
-        const { request, success, failure } = getFoodDataAsync;
+        const { request, success, failure } = TeamLeader_getFoodDataAsync;
         dispatch(request());
         try {
-            const userProfile = await getDataFoodApply(getMoment, InfomationState);
+            const userProfile = await TeamLeader_getDataFoodApply(getMoment, InfomationState);
             if (userProfile) {
                 dispatch(success(userProfile));
             }
@@ -77,15 +83,15 @@ export function getFoodDataThunk(
         }
     };
 }
-export const FoodDataShowCheckedFalse = () => ({
-    type: FoodData_Show_FALSE,
+export const TeamLeader_FoodDataShowCheckedFalse = () => ({
+    type: TeamLeader_FoodData_Show_FALSE,
 });
-export const FoodDataShowCheckedTrue = () => ({
-    type: FoodData_Show_TRUE,
+export const TeamLeader_FoodDataShowCheckedTrue = () => ({
+    type: TeamLeader_FoodData_Show_TRUE,
 });
 
 const initialState: GithubState = {
-    FoodDatas: {
+    TeamLeader_FoodDatas: {
         loading: false,
         error: null,
         data: [],
@@ -93,48 +99,48 @@ const initialState: GithubState = {
     },
 };
 
-const FoodDataGetting = createReducer<GithubState, GithubAction>(initialState, {
-    [GET_FoodData_GET]: state => ({
+const TeamLeaderFoodDataGetting = createReducer<GithubState, GithubAction>(initialState, {
+    [TeamLeader_GET_FoodData_GET]: state => ({
         ...state,
-        FoodDatas: {
+        TeamLeader_FoodDatas: {
             loading: true,
             error: null,
             data: [],
             dataChecked: false,
         },
     }),
-    [GET_FoodData_SUCCESS]: (state, action) => ({
+    [TeamLeader_GET_FoodData_SUCCESS]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        TeamLeader_FoodDatas: {
             loading: false,
             error: null,
             data: action.payload,
             dataChecked: true,
         },
     }),
-    [GET_FoodData_ERROR]: (state, action) => ({
+    [TeamLeader_GET_FoodData_ERROR]: (state, action) => ({
         ...state,
-        FoodDatas: {
+        TeamLeader_FoodDatas: {
             loading: false,
             error: action.payload,
             data: [],
             dataChecked: false,
         },
     }),
-    [FoodData_Show_FALSE]: state => ({
+    [TeamLeader_FoodData_Show_FALSE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        TeamLeader_FoodDatas: {
+            ...state.TeamLeader_FoodDatas,
             dataChecked: false,
         },
     }),
-    [FoodData_Show_TRUE]: state => ({
+    [TeamLeader_FoodData_Show_TRUE]: state => ({
         ...state,
-        FoodDatas: {
-            ...state.FoodDatas,
+        TeamLeader_FoodDatas: {
+            ...state.TeamLeader_FoodDatas,
             dataChecked: true,
         },
     }),
 });
 
-export default FoodDataGetting;
+export default TeamLeaderFoodDataGetting;
