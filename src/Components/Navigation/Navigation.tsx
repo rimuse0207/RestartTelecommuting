@@ -47,7 +47,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         <Link to="/AfterOtworkspace">
                             <li>OT 신청</li>
                         </Link>
-
+                        <Link to="/TeamLeaderPageMainPage">
+                            <li>팀원 OT 조회</li>
+                        </Link>
                         <Link to="/TeamSelectOTWorkSpace">
                             <li>월별 OT 조회</li>
                         </Link>

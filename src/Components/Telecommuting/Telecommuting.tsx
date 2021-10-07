@@ -30,18 +30,12 @@ const Telecommuting = () => {
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
 
-    const [OT, setOT] = useState([
-        { name: '유성재', date: '2021-08-18', leaderchecK: false },
-        { name: '유성재', date: '2021-08-25', leaderchecK: true },
-        { name: '유성재', date: '2021-08-31', leaderchecK: false },
-    ]);
-
     useEffect(() => {
-        dispatch(getUserProfileThunk(getMoment, InfomationState));
-        dispatch(getUSBCDThunk(getMoment, InfomationState));
-        dispatch(getTelecommutingThunk(getMoment, InfomationState));
-        dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
-        dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+        // dispatch(getUserProfileThunk(getMoment, InfomationState));
+        // dispatch(getUSBCDThunk(getMoment, InfomationState));
+        // dispatch(getTelecommutingThunk(getMoment, InfomationState));
+        // dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
+        // dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
     }, []);
     useEffect(() => {
         dispatch(getUserProfileThunk(getMoment, InfomationState));

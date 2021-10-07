@@ -1,0 +1,13 @@
+.TeamLeaderFloat_box_div {
+    display: block;
+    clear: both;
+    content: '';
+}
+.TeamLeaderBefore_left {
+    float: left;
+    width: 50%;
+}
+.TeamLeaderBefore_right {
+    float: right;
+    width: 50%;
+}
