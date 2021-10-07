@@ -433,6 +433,11 @@ const Telecommuting = () => {
                                 return (
                                     <td
                                         key={index}
+                                        onClick={(e:any) => {
+                                            if(e.target.className === "Telecommuting_Table_dayNumber"){
+                                                ModalOpensClick(days.format('YYYY-MM-DD'))
+                                            } 
+                                        }}
                                         className={
                                             moment().format('YYYY-MM-DD') === days.format('YYYY-MM-DD')
                                                 ? 'Telecommuting_table_today'
@@ -457,7 +462,7 @@ const Telecommuting = () => {
                                                     }
                                                 )
                                             ) : (
-                                                <div></div>
+                                                <div ></div>
                                             )}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(

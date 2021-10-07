@@ -1,14 +1,15 @@
 .TeamLeaderAcceptDesc {
-    border: none;
-    background-color: blue;
-    width: 150px;
-    height: 30px;
-    color: white;
-    font-weight: bolder;
-    font-size: large;
+  border: none;
+  background-color: blue;
+  width: 150px;
+  height: 30px;
+  color: white;
+  font-weight: bolder;
+  font-size: large;
+  border-radius: 5px;
 }
 .TeamLeaderAcceptDesc:hover {
-    cursor: pointer;
-    background-color: darkgray;
-    color: blue;
+  cursor: pointer;
+  background-color: darkgray;
+  color: blue;
 }

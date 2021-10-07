@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import SelectClickModal from './USB/CDSelectClickModal';
+import CDSelectClickModal from './USB/CDSelectClickModal';
+import TeleSelectClickModal from './Tele/TeleSelectClickModal';
+import FoodSelectClickModal from './Food/FoodSelectClickModal';
 import Modal from 'react-modal';
 import './SelectClickModal.css';
 type SelectClickModalMainPageProps = {
@@ -29,7 +31,9 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
     return (
         <div>
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
-                <SelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></SelectClickModal>
+                {clicksTitle === "USB/CD" ?  <CDSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></CDSelectClickModal>:<div></div>}
+                {clicksTitle === "Telecommuting" ?  <TeleSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></TeleSelectClickModal>:<div></div>}
+                {clicksTitle === "Food" ?  <FoodSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></FoodSelectClickModal>:<div></div>}
             </Modal>
         </div>
     );

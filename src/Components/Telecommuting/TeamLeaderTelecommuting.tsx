@@ -123,6 +123,11 @@ const TeamLeaderTelecommuting = () => {
                                                     .map((list: { day: string; approve: number; num: number; name: string }, i: number) => {
                                                         return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
                                                             <div
+                                                            onClick={() => {
+                                                                setClicksData(list);
+                                                                setClicksTitle('Telecommuting');
+                                                                setOnClickedSet(true);
+                                                            }}
                                                                 key={list.num}
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.approve === 0 ? 'blink' : ''
@@ -467,6 +472,11 @@ const TeamLeaderTelecommuting = () => {
                                                     .map((list: { dates: string; spending: number; indexs: number; name: string }) => {
                                                         return list.dates === days.format('YYYY-MM-DD') ? (
                                                             <div
+                                                                onClick={() => {
+                                                                setClicksData(list);
+                                                                setClicksTitle('Food');
+                                                                setOnClickedSet(true);
+                                                            }}
                                                                 key={list.indexs}
                                                                 className="Telecommuting_Table_Data_Insert"
                                                                 style={{ backgroundColor: '#5a267c' }}
