@@ -50,7 +50,7 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'
         ) {
-            dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
+            if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
         if (
             DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
@@ -60,9 +60,9 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'jhshin@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'cwjun@dhk.co.kr'
         ) {
-            dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-            dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
-            dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+            if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+            if (AfterOtApply_check) dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
+            if (BeforeOtApply_check) dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
         }
         if (
             InfomationState.position === '팀장' ||
@@ -70,7 +70,7 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr'
         ) {
-            dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
+            if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
         }
     }, [getMoment]);
 
@@ -123,11 +123,11 @@ const TeamLeaderTelecommuting = () => {
                                                     .map((list: { day: string; approve: number; num: number; name: string }, i: number) => {
                                                         return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
                                                             <div
-                                                            onClick={() => {
-                                                                setClicksData(list);
-                                                                setClicksTitle('Telecommuting');
-                                                                setOnClickedSet(true);
-                                                            }}
+                                                                onClick={() => {
+                                                                    setClicksData(list);
+                                                                    setClicksTitle('Telecommuting');
+                                                                    setOnClickedSet(true);
+                                                                }}
                                                                 key={list.num}
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.approve === 0 ? 'blink' : ''
@@ -473,10 +473,10 @@ const TeamLeaderTelecommuting = () => {
                                                         return list.dates === days.format('YYYY-MM-DD') ? (
                                                             <div
                                                                 onClick={() => {
-                                                                setClicksData(list);
-                                                                setClicksTitle('Food');
-                                                                setOnClickedSet(true);
-                                                            }}
+                                                                    setClicksData(list);
+                                                                    setClicksTitle('Food');
+                                                                    setOnClickedSet(true);
+                                                                }}
                                                                 key={list.indexs}
                                                                 className="Telecommuting_Table_Data_Insert"
                                                                 style={{ backgroundColor: '#5a267c' }}

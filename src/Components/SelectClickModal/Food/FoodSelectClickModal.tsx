@@ -14,7 +14,7 @@ const FoodSelectClickModal = ({ clicksTitle, clicksData, modalClose }: FoodSelec
     return (
         <div>
             <div>
-                <table style={{ fontWeight: 'bolder', width: '100%' }}>
+                <table style={{ fontWeight: 'bolder', width: '100%', tableLayout: 'fixed' }}>
                     <thead>
                         <tr>
                             <th style={{ width: '150px' }}>구분</th>
@@ -64,9 +64,11 @@ const FoodSelectClickModal = ({ clicksTitle, clicksData, modalClose }: FoodSelec
             </div>
             <div style={{ width: '100%', textAlign: 'end', paddingRight: '30px', marginTop: '30px' }}>
                 {clicksData.approve !== 0 ? (
-                    <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
-                        닫기
-                    </button>
+                    <div>
+                        <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
+                            닫기
+                        </button>
+                    </div>
                 ) : (
                     '승인 완료.'
                 )}

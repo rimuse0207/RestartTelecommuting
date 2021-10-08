@@ -1,5 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import axios from 'axios';
+import { toast } from '../../ToastMessage/ToastManager';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../models';
+import { TeamLeader_getUSBCDThunk } from '../../../models/TeamLeader_Thunk_models/TeamLeaderUSBCDData';
 type SelectClickModalProps = {
     clicksTitle: string;
     clicksData: any | null;
@@ -7,16 +12,35 @@ type SelectClickModalProps = {
 };
 
 const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickModalProps) => {
-    const handleDataClick = () => {
-        modalClose();
+    const dispatch = useDispatch();
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const handleDataClick = async () => {
+        const TeamLeaderAccept = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/TeamLeader_Accept`, {
+            clicksData,
+        });
+        if (TeamLeaderAccept.data.updateChecked) {
+            dispatch(TeamLeader_getUSBCDThunk(clicksData.workdate, InfomationState));
+            toast.show({
+                title: '팀장 승인 완료.',
+                content: `${clicksData.name}팀원의 USB/CD 사전신청한 부문에 승인하였습니다.`,
+                duration: 6000,
+            });
+            modalClose();
+        } else {
+            toast.show({
+                title: '팀장 승인 실패.',
+                content: `다시 한번 시도 후 실패 시 IT팀에 문의 바랍니다.`,
+                duration: 6000,
+            });
+        }
     };
     return (
         <div>
             <div>
-                <table style={{ fontWeight: 'bolder', width: '100%' }}>
+                <table style={{ fontWeight: 'bolder', width: '100%', tableLayout: 'fixed' }}>
                     <thead>
                         <tr>
-                            <th style={{ maxWidth: '150px' }}>구분</th>
+                            <th style={{ width: '150px' }}>구분</th>
                             <th>USB/CD 신청 조회</th>
                         </tr>
                     </thead>

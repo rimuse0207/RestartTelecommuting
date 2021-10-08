@@ -78,3 +78,112 @@
 .nothing:hover {
     cursor: pointer;
 }
+
+.Tele_Float_box::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+.Tele_Float_Left_box {
+    float: left;
+    width: 50%;
+    padding: 40px;
+    padding-left: 10px;
+    height: 80vh;
+    border-right: 1px dashed black;
+    min-width: 300px;
+}
+.Tele_Float_Right_box {
+    float: right;
+    width: 50%;
+    padding: 40px;
+    padding-left: 100px;
+    min-width: 300px;
+}
+.Tele_Float_Right_box_inputBox {
+    width: 100%;
+    height: 40vh;
+    padding: 20px;
+    border: none;
+    border: 3px solid darkgray;
+    border-radius: 10px;
+}
+.Tele_Float_Right_box_inputBox:focus {
+    border: 3px solid orange;
+    outline: none;
+}
+.Tele_Start_Float_box::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+.Tele_Start_Float_Left_box {
+    width: 48%;
+    float: left;
+    border-bottom: 4px solid orange;
+    text-align: center;
+    border-radius: 10px;
+}
+.Tele_Start_Float_Left_box > h2 {
+    font-size: xx-large;
+    font-weight: bolder;
+    margin-bottom: 40px;
+}
+.Tele_Start_Float_Left_box > h3 {
+    font-size: 4rem;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.Tele_Start_Float_Right_box {
+    width: 48%;
+    float: right;
+    border-bottom: 4px solid orange;
+    text-align: center;
+    border-radius: 10px;
+}
+.Tele_Start_Float_Right_box > h2 {
+    font-size: xx-large;
+    font-weight: bolder;
+    margin-bottom: 40px;
+}
+.Tele_Start_Float_Right_box > h3 {
+    font-size: 4rem;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.Tele_Start_Button_div {
+    width: 100%;
+    margin-top: 50px;
+    font-size: 3rem;
+    text-align: center;
+    border: 4px solid orange;
+    font-weight: bolder;
+    border-radius: 12px;
+}
+.Tele_Start_Button_div:hover {
+    cursor: pointer;
+    border: 4px solid #3174ad;
+    transition: 0.5s ease-in;
+}
+.Tele_Float_Right_box_button_store {
+    width: 150px;
+    height: 50px;
+    border: none;
+    font-size: large;
+    background-color: #3174ad;
+    color: white;
+    border-radius: 10px;
+    font-weight: bolder;
+    padding: 10px;
+    margin-top: 30px;
+}
+.Tele_Float_Right_box_button_store:hover {
+    cursor: pointer;
+    color: #3174ad;
+    background-color: #efefef;
+    transition: 0.3s ease-in;
+}
+.Tele_Start_Button_div div {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

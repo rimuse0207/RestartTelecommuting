@@ -79,7 +79,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     ''
                 )}
             </div>
-            <div onClick={handleLogout}>로그아웃</div>
+            <div onClick={handleLogout}>
+                <Link to="/">로그아웃</Link>
+            </div>
         </div>
     );
 };
