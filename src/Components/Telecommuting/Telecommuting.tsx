@@ -12,6 +12,7 @@ import {
 } from '../../models/Thunk_models/TelecommutingData';
 import { getAFTEROTdataThunk, AfterOTDataShowCheckedFalse, AfterOTShowCheckedTrue } from '../../models/Thunk_models/AfterOTData';
 import { getBEFOREOTdataThunk, BeforeOTDataShowCheckedFalse, BeforeOTShowCheckedTrue } from '../../models/Thunk_models/BeforeOTData';
+import SelectClickModalMainPage from "../SelectClickModal/SelectClickModalMainPage"
 const Telecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -23,13 +24,15 @@ const Telecommuting = () => {
 
     const [getMoment, setMoment] = useState(moment());
     const [onClicked, setOnClickedSet] = useState(false);
+    const [onClickedDataIn, setOnClickedDataIn] = useState(false);
     const [clicksData, setClicksData] = useState<any | null>(null);
     const [telecommutingApply_check, settelecommutingApply_check] = useState(true);
     const [AfterOtApply_check, setAfterOtApply_check] = useState(true);
     const [BeforeOtApply_check, setBeforeOtApply_check] = useState(true);
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
-
+    const [clicksTitle, setClicksTitle] = useState('');
+    
     useEffect(() => {
         if (foodApply_check) dispatch(getFoodDataThunk(getMoment, InfomationState));
         if (usbApply_check) dispatch(getUSBCDThunk(getMoment, InfomationState));
@@ -451,11 +454,16 @@ const Telecommuting = () => {
                                                     (list: { day: string; approve: number; num: number }, i: number) => {
                                                         return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
                                                             <div
+                                                            onClick={() => {
+                                                                setClicksData(list);
+                                                                setClicksTitle('Person_Telecommuting');
+                                                                setOnClickedDataIn(true);
+                                                            }}
                                                                 key={list.num}
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.approve === 0 ? 'blink' : ''
                                                                 }`}
-                                                            >{`( 재택 ) - 팀장승인: ${list.approve === 0 ? 'X' : 'O'}`}</div>
+                                                            >{`( 재택 ) - 승인: ${list.approve === 0 ? 'X' : 'O'}`}</div>
                                                         ) : (
                                                             <div></div>
                                                         );
@@ -475,7 +483,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.mon_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.mon_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -498,7 +506,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.tue_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.tue_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -521,7 +529,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.wed_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.wed_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -545,7 +553,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.thu_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.thu_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -568,7 +576,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.fri_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.fri_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -591,7 +599,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.sat_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.sat_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -614,7 +622,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전 OT ) - {list.sun_time}시간 팀장승인:{' '}
+                                                                      ( 사전 OT ) - {list.sun_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -638,7 +646,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.mon_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.mon_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -661,7 +669,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.tue_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.tue_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -684,7 +692,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.wed_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.wed_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -708,7 +716,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.thu_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.thu_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -731,7 +739,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.fri_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.fri_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -754,7 +762,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.sat_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.sat_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -777,7 +785,7 @@ const Telecommuting = () => {
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후 OT ) - {list.sun_time}시간 팀장승인:{' '}
+                                                                      ( 사후 OT ) - {list.sun_time}시간 승인:{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -794,6 +802,11 @@ const Telecommuting = () => {
                                                 FoodData.data.map((list: { dates: string; spending: number; indexs: number }) => {
                                                     return list.dates === days.format('YYYY-MM-DD') ? (
                                                         <div
+                                                            onClick={() => {
+                                                            setClicksData(list);
+                                                            setClicksTitle('Food');
+                                                            setOnClickedDataIn(true);
+                                                            }}
                                                             key={list.indexs}
                                                             className="Telecommuting_Table_Data_Insert"
                                                             style={{ backgroundColor: '#5a267c' }}
@@ -838,7 +851,8 @@ const Telecommuting = () => {
         return result;
     };
     const modalClose = () => {
-        setOnClickedSet(!onClicked);
+        setOnClickedSet(false);
+        setOnClickedDataIn(false)
     };
     return (
         <div>
@@ -980,6 +994,16 @@ const Telecommuting = () => {
                     )}
                 </div>
             </div>
+            {onClickedDataIn ? (
+                <SelectClickModalMainPage
+                    onClicked={onClickedDataIn}
+                    modalClose={modalClose}
+                    clicksData={clicksData}
+                    clicksTitle={clicksTitle}
+                ></SelectClickModalMainPage>
+            ) : (
+                ''
+            )}
         </div>
     );
 };

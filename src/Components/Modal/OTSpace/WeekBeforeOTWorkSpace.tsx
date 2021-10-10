@@ -991,11 +991,24 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 satDateData,
                 sunDateData,
             });
+            if(dataSendServerOT.data.dataSuccess){
+                toast.show({
+                    title: '사전 OT 데이터 저장 성공 ',
+                    content: '사전 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
+                    duration: 3000,
+                });
+            }else{
+                toast.show({
+                    title: '에러발생. 데이터 저장 실패.',
+                    content: '사전 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
+                    duration: 3000,
+                });
+            }
         } catch (error) {
             console.log(error);
             toast.show({
                 title: '에러발생. ',
-                content: 'server와의 연결 끊김. 에러 코드 OT_1 발생.',
+                content: 'server와의 연결 끊김. 에러 코드 사전 OT_1 발생.',
                 duration: 3000,
             });
         }

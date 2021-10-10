@@ -11,11 +11,9 @@ type TeleSelectClickModalProps = {
     modalClose: () => void;
 };
 
-const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
+const PersonTeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
     const CommentInput = useRef<any>(null);
     const dispatch = useDispatch();
-    const [commentDataOn, setCommentDataOn] = useState(true);
-    const [commentDesc, setCommentDesc] = useState('');
 
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [DetailTeleData, setDetailTeleData] = useState({
@@ -23,40 +21,10 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
         end_t: '00:00',
     });
 
-    const handleCommentSend = async () => {
-        try {
-            setCommentDesc('');
-            setCommentDataOn(true);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    const handleDataClick = async () => {
-        try {
-            const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/TeamLeaderAccept_Tele`, {
-                clicksData,
-            });
-            if (getSomeDatas.data.dataSuccess) {
-                dispatch(TeamLeader_getTelecommutingThunk(moment(clicksData.day).format('YYYY-MM'), InfomationState));
-                toast.show({
-                    title: '팀장 승인 완료.',
-                    content: `${clicksData.name} 팀원의 재택근무 부문에 승인하였습니다.`,
-                    duration: 6000,
-                });
-                modalClose();
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
     useEffect(() => {
         getSomeData(clicksData);
     }, [clicksData]);
-    useEffect(()=>{
-        if(CommentInput.current) {
-            CommentInput.current.focus();
-        } 
-    },[commentDataOn])
+   
     const getSomeData = async (clicksData: any) => {
         try {
             const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/getSumWrokData`, {
@@ -110,9 +78,8 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
             <div style={{ width: '100%', textAlign: 'end', paddingRight: '30px', marginTop: '30px' }}>
                 {clicksData.approve === 0 ? (
                     <div>
-                        <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
-                            승인하기
-                        </button>
+                       <div style={{color:"red"}}>승인 확인중...</div>
+                       <button onClick={() => modalClose()}>닫기</button>
                     </div>
                 ) : (
                     <div>
@@ -121,42 +88,9 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
                     </div>
                 )}
             </div>
-            <div>
-                {commentDataOn ? (
-                    <div>
-                        <button className="TeamLeaderAcceptDesc" onClick={() => {
-                            setCommentDataOn(false)
-                            
-                            }}>
-                            코멘트발송
-                        </button>
-                    </div>
-                ) : (
-                    <div>
-                        <button className="TeamLeaderCommentWrite" onClick={handleCommentSend}>
-                            이메일 전송
-                        </button>
-                    </div>
-                )}
-            </div>
-            <div >
-                {commentDataOn ? (
-                    ''
-                ) : (
-                    <div className="comment_div_box">
-                        <div>재택 코멘트</div>
-                        <textarea
-                            ref={CommentInput}
-                            className="comment_textarea_box"
-                            value={commentDesc}
-                            onChange={e => setCommentDesc(e.target.value)}
-                            placeholder="전송하실 이메일 내용을 작성해주세요."
-                        ></textarea>
-                    </div>
-                )}
-            </div>
+           
         </div>
     );
 };
 
-export default TeleSelectClickModal;
+export default PersonTeleSelectClickModal;

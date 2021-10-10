@@ -12,6 +12,7 @@ type TeleWorkingProps = {
 };
 
 const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
+
     const [TeleStart, setTeleStart] = useState(false);
     const [TeleEnded, setTeleEnded] = useState(false);
     const [WorkBookWrite, setWorkBookWrite] = useState('');
@@ -194,6 +195,7 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
                             ) : (
                                 <>
                                     <textarea
+                                        
                                         className="Tele_Float_Right_box_inputBox"
                                         placeholder="업무일지를 작성해주세요."
                                         value={WorkBookWrite}

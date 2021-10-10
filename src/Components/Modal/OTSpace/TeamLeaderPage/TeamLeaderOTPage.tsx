@@ -43,8 +43,8 @@ const TeamLeaderOTPage = () => {
                 selectTeam,
             });
             console.log(getDataShowTeam);
-
             setShowName(getDataShowTeam.data.datas);
+            setSelectName(getDataShowTeam.data.datas[0].name)
         } catch (error) {
             console.log(error);
         }
@@ -104,7 +104,9 @@ const TeamLeaderOTPage = () => {
                 </div>
                 <div className="TeamLeaderBefore_right">
                     <div>
-                        <TeamLeaderAfterOTWorkSpace></TeamLeaderAfterOTWorkSpace>
+                        <TeamLeaderAfterOTWorkSpace  selectYear={selectYear}
+                            selectMonth={selectMonth}
+                            selectName={selectName}></TeamLeaderAfterOTWorkSpace>
                     </div>
                 </div>
             </div>
