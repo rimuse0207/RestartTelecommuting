@@ -30,7 +30,7 @@ const TeamLeaderAfterOTWorkSpace = ({selectYear,selectMonth,selectName}:TeamLead
             <div>
                 <div>
                     <div>
-                        <h2>사전OT 신청 현황</h2>
+                        <h2>사후OT 신청 현황</h2>
                     </div>
                     <div>
                     <table style={{textAlign:"center",borderCollapse:"collapse"}}>
@@ -52,7 +52,7 @@ const TeamLeaderAfterOTWorkSpace = ({selectYear,selectMonth,selectName}:TeamLead
                                 <td>{list.team}</td>
                                 <td>{list.sum_time} 시간</td>
                                 <td>{list.leadercheck === 0 ? "X":"O"}</td>
-                                <td>클릭</td>
+                                <td className="TeamLeader_before_OT_WorkSpace_click_td">클릭</td>
                                 </tr>                           
                     })}
                     </tbody>
