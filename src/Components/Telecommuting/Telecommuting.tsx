@@ -12,7 +12,7 @@ import {
 } from '../../models/Thunk_models/TelecommutingData';
 import { getAFTEROTdataThunk, AfterOTDataShowCheckedFalse, AfterOTShowCheckedTrue } from '../../models/Thunk_models/AfterOTData';
 import { getBEFOREOTdataThunk, BeforeOTDataShowCheckedFalse, BeforeOTShowCheckedTrue } from '../../models/Thunk_models/BeforeOTData';
-import SelectClickModalMainPage from "../SelectClickModal/SelectClickModalMainPage"
+import SelectClickModalMainPage from '../SelectClickModal/SelectClickModalMainPage';
 const Telecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -32,7 +32,7 @@ const Telecommuting = () => {
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
     const [clicksTitle, setClicksTitle] = useState('');
-    
+
     useEffect(() => {
         if (foodApply_check) dispatch(getFoodDataThunk(getMoment, InfomationState));
         if (usbApply_check) dispatch(getUSBCDThunk(getMoment, InfomationState));
@@ -436,10 +436,10 @@ const Telecommuting = () => {
                                 return (
                                     <td
                                         key={index}
-                                        onClick={(e:any) => {
-                                            if(e.target.className === "Telecommuting_Table_dayNumber"){
-                                                ModalOpensClick(days.format('YYYY-MM-DD'))
-                                            } 
+                                        onClick={(e: any) => {
+                                            if (e.target.className === 'Telecommuting_Table_dayNumber') {
+                                                ModalOpensClick(days.format('YYYY-MM-DD'));
+                                            }
                                         }}
                                         className={
                                             moment().format('YYYY-MM-DD') === days.format('YYYY-MM-DD')
@@ -454,11 +454,11 @@ const Telecommuting = () => {
                                                     (list: { day: string; approve: number; num: number }, i: number) => {
                                                         return moment(list.day).format('YYYY-MM-DD') === days.format('YYYY-MM-DD') ? (
                                                             <div
-                                                            onClick={() => {
-                                                                setClicksData(list);
-                                                                setClicksTitle('Person_Telecommuting');
-                                                                setOnClickedDataIn(true);
-                                                            }}
+                                                                onClick={() => {
+                                                                    setClicksData(list);
+                                                                    setClicksTitle('Person_Telecommuting');
+                                                                    setOnClickedDataIn(true);
+                                                                }}
                                                                 key={list.num}
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.approve === 0 ? 'blink' : ''
@@ -470,7 +470,7 @@ const Telecommuting = () => {
                                                     }
                                                 )
                                             ) : (
-                                                <div ></div>
+                                                <div></div>
                                             )}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
@@ -803,9 +803,9 @@ const Telecommuting = () => {
                                                     return list.dates === days.format('YYYY-MM-DD') ? (
                                                         <div
                                                             onClick={() => {
-                                                            setClicksData(list);
-                                                            setClicksTitle('Food');
-                                                            setOnClickedDataIn(true);
+                                                                setClicksData(list);
+                                                                setClicksTitle('Food');
+                                                                setOnClickedDataIn(true);
                                                             }}
                                                             key={list.indexs}
                                                             className="Telecommuting_Table_Data_Insert"
@@ -830,6 +830,11 @@ const Telecommuting = () => {
                                                                 className={`Telecommuting_Table_Data_Insert ${
                                                                     list.leadercheck === 0 ? 'blink' : ''
                                                                 }`}
+                                                                onClick={() => {
+                                                                    setClicksData(list);
+                                                                    setClicksTitle('Person_USB/CD');
+                                                                    setOnClickedDataIn(true);
+                                                                }}
                                                                 style={{ backgroundColor: '#2c512f' }}
                                                             >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
                                                         ) : (
@@ -852,7 +857,7 @@ const Telecommuting = () => {
     };
     const modalClose = () => {
         setOnClickedSet(false);
-        setOnClickedDataIn(false)
+        setOnClickedDataIn(false);
     };
     return (
         <div>

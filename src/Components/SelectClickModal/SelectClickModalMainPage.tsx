@@ -5,6 +5,7 @@ import FoodSelectClickModal from './Food/FoodSelectClickModal';
 import Modal from 'react-modal';
 import './SelectClickModal.css';
 import PersonTeleSelectClickModal from './Tele/PersonTeleSelectClickModal';
+import PersonSelectClickModal from './USB/PersonCDSelectClickModal';
 type SelectClickModalMainPageProps = {
     onClicked: boolean;
     modalClose: () => void;
@@ -27,12 +28,11 @@ Modal.setAppElement('#ModalSet');
 
 const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle }: SelectClickModalMainPageProps) => {
     useEffect(() => {
-        console.log("adsdasdas")
+        console.log('adsdasdas');
         console.log(clicksData);
     }, [clicksData]);
     return (
         <div>
-
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
                 {clicksTitle === 'USB/CD' ? (
                     <CDSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></CDSelectClickModal>
@@ -49,8 +49,24 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
-                {clicksTitle === "Person_Telecommuting" ? <PersonTeleSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></PersonTeleSelectClickModal>:<div></div>}
-                
+                {clicksTitle === 'Person_Telecommuting' ? (
+                    <PersonTeleSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></PersonTeleSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
+                {clicksTitle === 'Person_USB/CD' ? (
+                    <PersonSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></PersonSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
             </Modal>
         </div>
     );

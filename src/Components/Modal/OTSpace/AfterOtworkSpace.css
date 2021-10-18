@@ -49,3 +49,7 @@
     cursor: pointer;
     background-color: white;
 }
+
+.reasontable {
+    border: none;
+}

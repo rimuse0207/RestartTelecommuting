@@ -82,7 +82,7 @@ const customStyles = {
 };
 Modal.setAppElement('#ModalSet');
 
-const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }: TeamLeaderModalProps) => {
+const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }: TeamLeaderModalProps) => {
     const [checkedOTdata, setCheckedOTdata] = useState<any>({
         start_time_mon: '',
         start_time_tue: '',
@@ -100,15 +100,15 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
         thu_time: 0,
         fri_time: 0,
     });
-    const handleBeforeOTAccept = async () => {
+    const handleAfterOTAccept = async () => {
         try {
-            const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/BeforeOTDataAccept`, {
+            const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/AfterOTDataAccept`, {
                 clickedOTData,
             });
             if (serverSendAcceptOT.data.dataCheck) {
                 toast.show({
                     title: '팀장 승인 완료.',
-                    content: `${clickedOTData.name}팀원의 ${clickedOTData.date_mon} ~ ${clickedOTData.date_sun} 사전 OT를 팀장 승인하였습니다.`,
+                    content: `${clickedOTData.name}팀원의 ${clickedOTData.date_mon} ~ ${clickedOTData.date_sun} 사후 OT를 팀장 승인하였습니다.`,
                     duration: 6000,
                 });
                 getDataOTData();
@@ -133,10 +133,10 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
         if (onClicked) CheckedDataOT();
     }, [clickedOTData]);
     const CheckedDataOT = async () => {
-        const CheckedDataOTs = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/getCheckedOTdata`, {
+        const CheckedDataOTs = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/getAfterCheckedOTdata`, {
             clickedOTData,
         });
-
+        console.log(CheckedDataOTs);
         setCheckedOTdata(CheckedDataOTs.data.data[0]);
     };
     return (
@@ -144,17 +144,17 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
                 <div>
                     <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: '0', textAlign: 'center' }}>
-                        <thead style={{ backgroundColor: '#2da8e5' }}>
+                        <thead style={{ backgroundColor: '#F7C80E' }}>
                             <tr
                                 className="testssBefore"
                                 style={{
                                     borderTop: '1.5px solid black',
                                     borderLeft: '1.3px solid black',
                                     borderRight: '1.3px solid black',
-                                    backgroundColor: '#2da8e5',
+                                    backgroundColor: '#F7C80E',
                                 }}
                             >
-                                <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
                                     일자
                                 </th>
                                 <th
@@ -162,7 +162,7 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
                                     style={{
                                         borderRight: '1.2px solid black',
                                         borderBottom: '1.2px solid black',
-                                        backgroundColor: '#2da8e5',
+                                        backgroundColor: '#F7C80E',
                                     }}
                                 >
                                     소정근로
@@ -172,18 +172,18 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
                                     style={{
                                         borderRight: '1.2px solid black',
                                         borderBottom: '1.2px solid black',
-                                        backgroundColor: '#2da8e5',
+                                        backgroundColor: '#F7C80E',
                                     }}
                                 >
                                     {' '}
                                     연장 근무
                                 </th>
-                                <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
                                     총 근무 <br />
                                     합계 시간
                                     <br />
                                 </th>
-                                <th rowSpan={2} style={{ backgroundColor: '#2da8e5' }}>
+                                <th rowSpan={2} style={{ backgroundColor: '#F7C80E' }}>
                                     연장 사유
                                 </th>
                             </tr>
@@ -559,7 +559,7 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
                         </tbody>
                     </table>
                     <div style={{ textAlign: 'end', marginTop: '40px' }}>
-                        <button onClick={handleBeforeOTAccept} className="TeamLeaderAcceptDesc">
+                        <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
                             팀장승인
                         </button>
                     </div>
@@ -569,4 +569,4 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
     );
 };
 
-export default TeamLeaderModal;
+export default TeamLeaderAfterModal;
