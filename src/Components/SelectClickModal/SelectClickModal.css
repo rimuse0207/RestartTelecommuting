@@ -41,3 +41,15 @@
     background-color: #efefef;
     color: orange;
 }
+.AcceptOkayDiv {
+    text-align: end;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-right: 30px;
+    font-size: large;
+    font-weight: bolder;
+}
+.AcceptOkayDiv:hover {
+    color: blue !important;
+    cursor: pointer;
+}

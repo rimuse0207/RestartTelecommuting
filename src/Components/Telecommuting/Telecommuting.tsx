@@ -478,6 +478,11 @@ const Telecommuting = () => {
                                                           return list.date_mon === days.format('YYYY-MM-DD') ? (
                                                               list.mon_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -501,6 +506,11 @@ const Telecommuting = () => {
                                                           return list.date_tue === days.format('YYYY-MM-DD') ? (
                                                               list.tue_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -524,6 +534,11 @@ const Telecommuting = () => {
                                                           return list.date_wed === days.format('YYYY-MM-DD') ? (
                                                               list.wed_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -548,6 +563,11 @@ const Telecommuting = () => {
                                                           return list.date_thu === days.format('YYYY-MM-DD') ? (
                                                               list.thu_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -571,6 +591,11 @@ const Telecommuting = () => {
                                                           return list.date_fri === days.format('YYYY-MM-DD') ? (
                                                               list.fri_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -594,6 +619,11 @@ const Telecommuting = () => {
                                                           return list.date_sat === days.format('YYYY-MM-DD') ? (
                                                               list.sat_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -617,6 +647,11 @@ const Telecommuting = () => {
                                                           return list.date_sun === days.format('YYYY-MM-DD') ? (
                                                               list.sun_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('BeforeOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -644,6 +679,11 @@ const Telecommuting = () => {
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
                                                                       ( 사후 OT ) - {list.mon_time}시간 승인:{' '}
@@ -664,6 +704,11 @@ const Telecommuting = () => {
                                                           return list.date_tue === days.format('YYYY-MM-DD') ? (
                                                               list.tue_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -687,6 +732,11 @@ const Telecommuting = () => {
                                                           return list.date_wed === days.format('YYYY-MM-DD') ? (
                                                               list.wed_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -711,6 +761,11 @@ const Telecommuting = () => {
                                                           return list.date_thu === days.format('YYYY-MM-DD') ? (
                                                               list.thu_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -734,6 +789,11 @@ const Telecommuting = () => {
                                                           return list.date_fri === days.format('YYYY-MM-DD') ? (
                                                               list.fri_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -757,6 +817,11 @@ const Telecommuting = () => {
                                                           return list.date_sat === days.format('YYYY-MM-DD') ? (
                                                               list.sat_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -780,6 +845,11 @@ const Telecommuting = () => {
                                                           return list.date_sun === days.format('YYYY-MM-DD') ? (
                                                               list.sun_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('AfterOT');
+                                                                          setOnClickedDataIn(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
@@ -979,7 +1049,7 @@ const Telecommuting = () => {
                 </table>
             </div>
             {onClicked ? <CreateModal onClicked={onClicked} modalClose={modalClose} clicksData={clicksData}></CreateModal> : ''}
-            <div className="Telecommuting_MainPage_SUM_Text_Div">
+            {/* <div className="Telecommuting_MainPage_SUM_Text_Div">
                 <div>
                     <div>사전OT : {TelecommutingData.data.length}회</div>
                     <div>사후OT : {TelecommutingData.data.length}회</div>
@@ -998,7 +1068,7 @@ const Telecommuting = () => {
                         ''
                     )}
                 </div>
-            </div>
+            </div> */}
             {onClickedDataIn ? (
                 <SelectClickModalMainPage
                     onClicked={onClickedDataIn}

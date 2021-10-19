@@ -24,7 +24,7 @@ const PersonTeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Tel
     useEffect(() => {
         getSomeData(clicksData);
     }, [clicksData]);
-   
+
     const getSomeData = async (clicksData: any) => {
         try {
             const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/getSumWrokData`, {
@@ -77,18 +77,15 @@ const PersonTeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Tel
             </div>
             <div style={{ width: '100%', textAlign: 'end', paddingRight: '30px', marginTop: '30px' }}>
                 {clicksData.approve === 0 ? (
-                    <div>
-                       <div style={{color:"red"}}>승인 확인중...</div>
-                       <button onClick={() => modalClose()}>닫기</button>
+                    <div style={{ color: '#f78a8a' }} className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        승인확인중...
                     </div>
                 ) : (
-                    <div>
-                        <div>승인 완료.</div>
-                        <button onClick={() => modalClose()}>닫기</button>
+                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        승인 완료.
                     </div>
                 )}
             </div>
-           
         </div>
     );
 };

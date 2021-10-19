@@ -50,7 +50,15 @@ const PersonSelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectC
                 </table>
             </div>
             <div style={{ width: '100%', textAlign: 'end', paddingRight: '30px', marginTop: '30px' }}>
-                {clicksData.leadercheck === 0 ? '승인 확인중....' : '승인 완료.'}
+                {clicksData.leadercheck === 0 ? (
+                    <div style={{ color: '#f78a8a' }} className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        승인 확인중....
+                    </div>
+                ) : (
+                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        승인 완료.
+                    </div>
+                )}
             </div>
         </div>
     );

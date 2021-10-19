@@ -18,8 +18,16 @@ import {
     TeamLeader_TelecommutingDataShowCheckedTrue,
     TeamLeader_TelecommutingDataShowCheckedFalse,
 } from '../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
-import { getTeamLeaderAFTEROTdataThunk, TeamLeaderAfterOTDataShowCheckedFalse, TeamLeaderAfterOTShowCheckedTrue } from '../../models/TeamLeader_Thunk_models/TeamLeaderAfterOTData';
-import { getTeamLeaderBEFOREOTdataThunk, TeamLeader_BeforeOTDataShowCheckedFalse, TeamLeader_BeforeOTShowCheckedTrue } from '../../models/TeamLeader_Thunk_models/TeamLeaderBeforeOTData';
+import {
+    getTeamLeaderAFTEROTdataThunk,
+    TeamLeaderAfterOTDataShowCheckedFalse,
+    TeamLeaderAfterOTShowCheckedTrue,
+} from '../../models/TeamLeader_Thunk_models/TeamLeaderAfterOTData';
+import {
+    getTeamLeaderBEFOREOTdataThunk,
+    TeamLeader_BeforeOTDataShowCheckedFalse,
+    TeamLeader_BeforeOTShowCheckedTrue,
+} from '../../models/TeamLeader_Thunk_models/TeamLeaderBeforeOTData';
 import { DecryptKey } from '../../config';
 const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
@@ -60,7 +68,7 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'jhshin@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'cwjun@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'kcahn@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jhgoo@dhk.co.kr' 
+            DecryptKey(InfomationState.id) === 'jhgoo@dhk.co.kr'
         ) {
             if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
@@ -68,7 +76,7 @@ const TeamLeaderTelecommuting = () => {
         }
         if (
             DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jycha@dhk.co.kr'||
+            DecryptKey(InfomationState.id) === 'jycha@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'
         ) {
@@ -82,10 +90,8 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr'
         ) {
             if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
-          
         }
-        
-    }, [getMoment,foodApply_check,usbApply_check,AfterOtApply_check,BeforeOtApply_check,telecommutingApply_check]);
+    }, [getMoment, foodApply_check, usbApply_check, AfterOtApply_check, BeforeOtApply_check, telecommutingApply_check]);
 
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
@@ -130,7 +136,7 @@ const TeamLeaderTelecommuting = () => {
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-                                            {TeamLeader_TelecommutingData.dataChecked? (
+                                            {TeamLeader_TelecommutingData.dataChecked ? (
                                                 TeamLeader_TelecommutingData.data
                                                     .filter((names: { name: string }) => names.name.includes(SearchName))
                                                     .map((list: { day: string; approve: number; num: number; name: string }, i: number) => {
@@ -155,16 +161,21 @@ const TeamLeaderTelecommuting = () => {
                                             )}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_mon: string; mon_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_mon: string; mon_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_mon === days.format('YYYY-MM-DD') ? (
                                                               list.mon_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.mon_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.mon_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -178,16 +189,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_tue: string; tue_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_tue: string; tue_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_tue === days.format('YYYY-MM-DD') ? (
                                                               list.tue_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.tue_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.tue_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -201,16 +217,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_wed: string; wed_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_wed: string; wed_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_wed === days.format('YYYY-MM-DD') ? (
                                                               list.wed_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.wed_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.wed_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -225,16 +246,21 @@ const TeamLeaderTelecommuting = () => {
 
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_thu: string; thu_time: number; leadercheck: number; name:string}) => {
+                                                      (list: { date_thu: string; thu_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_thu === days.format('YYYY-MM-DD') ? (
                                                               list.thu_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                   ( 사전OT )_{list.name}_{list.thu_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.thu_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -248,16 +274,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_fri: string; fri_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_fri: string; fri_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_fri === days.format('YYYY-MM-DD') ? (
                                                               list.fri_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.fri_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.fri_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -271,16 +302,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_sat: string; sat_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_sat: string; sat_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_sat === days.format('YYYY-MM-DD') ? (
                                                               list.sat_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.sat_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.sat_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -294,16 +330,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {BeforeOTData.dataChecked
                                                 ? BeforeOTData.data.map(
-                                                      (list: { date_sun: string; sun_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_sun: string; sun_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_sun === days.format('YYYY-MM-DD') ? (
                                                               list.sun_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderBeforeOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#9061a8' }}
                                                                   >
-                                                                      ( 사전OT )_{list.name}_{list.sun_time}시간{" "}
+                                                                      ( 사전OT )_{list.name}_{list.sun_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -318,16 +359,21 @@ const TeamLeaderTelecommuting = () => {
 
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_mon: string; mon_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_mon: string; mon_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_mon === days.format('YYYY-MM-DD') ? (
                                                               list.mon_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후OT )_{list.name}_{list.mon_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.mon_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -341,16 +387,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_tue: string; tue_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_tue: string; tue_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_tue === days.format('YYYY-MM-DD') ? (
                                                               list.tue_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                    ( 사후OT )_{list.name}_{list.tue_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.tue_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -364,16 +415,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_wed: string; wed_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_wed: string; wed_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_wed === days.format('YYYY-MM-DD') ? (
                                                               list.wed_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후OT )_{list.name}_{list.wed_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.wed_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -388,16 +444,21 @@ const TeamLeaderTelecommuting = () => {
 
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_thu: string; thu_time: number; leadercheck: number;name:string}) => {
+                                                      (list: { date_thu: string; thu_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_thu === days.format('YYYY-MM-DD') ? (
                                                               list.thu_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후OT )_{list.name}_{list.thu_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.thu_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -411,16 +472,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_fri: string; fri_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_fri: string; fri_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_fri === days.format('YYYY-MM-DD') ? (
                                                               list.fri_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                     ( 사후OT )_{list.name}_{list.fri_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.fri_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -434,16 +500,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_sat: string; sat_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_sat: string; sat_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_sat === days.format('YYYY-MM-DD') ? (
                                                               list.sat_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후OT )_{list.name}_{list.sat_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.sat_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (
@@ -457,16 +528,21 @@ const TeamLeaderTelecommuting = () => {
                                                 : ''}
                                             {AfterOTData.dataChecked
                                                 ? AfterOTData.data.map(
-                                                      (list: { date_sun: string; sun_time: number; leadercheck: number;name:string }) => {
+                                                      (list: { date_sun: string; sun_time: number; leadercheck: number; name: string }) => {
                                                           return list.date_sun === days.format('YYYY-MM-DD') ? (
                                                               list.sun_time > 0 ? (
                                                                   <div
+                                                                      onClick={() => {
+                                                                          setClicksData(list);
+                                                                          setClicksTitle('TeamLeaderAfterOT');
+                                                                          setOnClickedSet(true);
+                                                                      }}
                                                                       className={`Telecommuting_Table_Data_Insert ${
                                                                           list.leadercheck === 0 ? 'blink' : ''
                                                                       }`}
                                                                       style={{ backgroundColor: '#7a2d2d' }}
                                                                   >
-                                                                      ( 사후OT )_{list.name}_{list.sun_time}시간{" "}
+                                                                      ( 사후OT )_{list.name}_{list.sun_time}시간{' '}
                                                                       {list.leadercheck === 0 ? 'X' : 'O'}
                                                                   </div>
                                                               ) : (

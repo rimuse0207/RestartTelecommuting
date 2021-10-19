@@ -6,6 +6,10 @@ import Modal from 'react-modal';
 import './SelectClickModal.css';
 import PersonTeleSelectClickModal from './Tele/PersonTeleSelectClickModal';
 import PersonSelectClickModal from './USB/PersonCDSelectClickModal';
+import BeforeSelectClickModal from './OT/BeforeSelectClickModal';
+import AfterSelectClickModal from './OT/AfterSelectClickModal';
+import TeamLeaderBeforeSelectClickModal from './OT/TeamLeaderBeforeSelectClickModal';
+import TeamLeaderAfterSelectClickModal from './OT/TeamLeaderAfterSelectClickModal';
 type SelectClickModalMainPageProps = {
     onClicked: boolean;
     modalClose: () => void;
@@ -49,6 +53,43 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
+                {clicksTitle === 'BeforeOT' ? (
+                    <BeforeSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></BeforeSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
+                {clicksTitle === 'AfterOT' ? (
+                    <AfterSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></AfterSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
+                {clicksTitle === 'TeamLeaderBeforeOT' ? (
+                    <TeamLeaderBeforeSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></TeamLeaderBeforeSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
+                {clicksTitle === 'TeamLeaderAfterOT' ? (
+                    <TeamLeaderAfterSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                    ></TeamLeaderAfterSelectClickModal>
+                ) : (
+                    <div></div>
+                )}
+
                 {clicksTitle === 'Person_Telecommuting' ? (
                     <PersonTeleSelectClickModal
                         clicksTitle={clicksTitle}

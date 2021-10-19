@@ -52,11 +52,11 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
     useEffect(() => {
         getSomeData(clicksData);
     }, [clicksData]);
-    useEffect(()=>{
-        if(CommentInput.current) {
+    useEffect(() => {
+        if (CommentInput.current) {
             CommentInput.current.focus();
-        } 
-    },[commentDataOn])
+        }
+    }, [commentDataOn]);
     const getSomeData = async (clicksData: any) => {
         try {
             const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/getSumWrokData`, {
@@ -116,18 +116,21 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
                     </div>
                 ) : (
                     <div>
-                        <div>승인 완료.</div>
-                        <button onClick={() => modalClose()}>닫기</button>
+                        <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                            승인 완료.
+                        </div>
                     </div>
                 )}
             </div>
             <div>
                 {commentDataOn ? (
                     <div>
-                        <button className="TeamLeaderAcceptDesc" onClick={() => {
-                            setCommentDataOn(false)
-                            
-                            }}>
+                        <button
+                            className="TeamLeaderAcceptDesc"
+                            onClick={() => {
+                                setCommentDataOn(false);
+                            }}
+                        >
                             코멘트발송
                         </button>
                     </div>
@@ -139,7 +142,7 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
                     </div>
                 )}
             </div>
-            <div >
+            <div>
                 {commentDataOn ? (
                     ''
                 ) : (

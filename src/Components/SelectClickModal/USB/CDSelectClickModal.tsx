@@ -79,7 +79,9 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
                         승인하기
                     </button>
                 ) : (
-                    '승인 완료.'
+                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        승인 완료.
+                    </div>
                 )}
             </div>
         </div>
