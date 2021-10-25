@@ -20,6 +20,7 @@ type WeekAfterOTWorkSpaceProps = {
 const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [leaderCheck,setLeaderCheck] = useState(false);
+    const [loading,setLoading] =useState(false);
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -141,6 +142,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         OTnightSum: 0,
     });
     const getDataOTData = async () => {
+        setLoading(true);
         const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_get_some_data`, {
             id: DecryptKey(InfomationState.id),
             startDate: startDate,
@@ -406,6 +408,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].sun_night,
             });
+            setLoading(false);
         } else {
             setMonDateData(initialState);
             setTueDateData(initialState);
@@ -414,6 +417,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             setFriDateData(initialState);
             setSatDateData(initialState);
             setSunDateData(initialState);
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -993,10 +997,10 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
     const handleStoreOTData = async () => {
         try {
             const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_send_Data`, {
-                id: 'sjyoo@dhk.co.kr',
-                name: '유성재',
-                team: '경영지원',
-                position: '사원',
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
                 monDateData,
                 tueDateData,
                 wedDateData,
@@ -1005,19 +1009,33 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 satDateData,
                 sunDateData,
             });
+            if(dataSendServerOT.data.dataSuccess){
+                toast.show({
+                    title: '사후 OT 데이터 저장 성공 ',
+                    content: '사후 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
+                    duration: 6000,
+                });
+            }else{
+                toast.show({
+                    title: '에러발생. 데이터 저장 실패.',
+                    content: '사후 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
+                    duration: 6000,
+                });
+            }
         } catch (error) {
             console.log(error);
             alert('server와의 연결 끊김.');
             toast.show({
                 title: 'Error발생.',
                 content: 'server와의 연결 끊김. ErrorCode OT 20 ',
-                duration: 3000,
+                duration: 6000,
             });
         }
     };
 
 
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1043,6 +1061,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[monDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1068,6 +1087,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[tueDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);        
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1093,6 +1113,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[wedDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1118,6 +1139,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[thuDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1143,6 +1165,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[friDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({
@@ -1168,6 +1191,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     },[satDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             toast.show({

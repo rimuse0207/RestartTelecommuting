@@ -19,6 +19,7 @@ type WeekBeforeOTWorkSpaceProps = {
 const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekBeforeOTWorkSpaceProps) => {
     const TimeOverCheck =useRef<any>();
     const [leaderCheck,setLeaderCheck] =useState(false);
+    const [loading,setLoading] =useState(false);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
@@ -141,6 +142,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         OTnightSum: 0,
     });
     const getDataOTData = async () => {
+        setLoading(true);
         const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/BeforeOT_get_some_data`, {
             id: DecryptKey(InfomationState.id),
             startDate: startDate,
@@ -390,6 +392,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].sun_night,
             });
+            setLoading(false);
         } else {
             setMonDateData(initialState);
             setTueDateData(initialState);
@@ -398,6 +401,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
             setFriDateData(initialState);
             setSatDateData(initialState);
             setSunDateData(initialState);
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -955,7 +959,6 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                     OTnightSum: nightTimeCal,
                 });
             } else {
-                console.log("qwe12e",startPlusEnd - restPlusTime)
                 setSunDateData({
                     ...sunDateData,
                     OTSumTime: startPlusEnd - restPlusTime,
@@ -975,6 +978,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
     ]);
 
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
     
         if(sumData > 10  && !leaderCheck){
@@ -1002,8 +1006,16 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[monDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10  && !leaderCheck){
+            console.log("Mon",monDateData.OTSumTime);
+            console.log("tueDateData",tueDateData.OTSumTime);
+            console.log("wedDateData",wedDateData.OTSumTime);
+            console.log("thuDateData",thuDateData.OTSumTime);
+            console.log("friDateData",friDateData.OTSumTime);
+            console.log("satDateData",satDateData.OTSumTime);
+            console.log("Sun",sunDateData.OTSumTime);
             console.log("Tue",sumData);
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
@@ -1028,6 +1040,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[tueDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);        
         if(sumData > 10 && !leaderCheck){
             console.log("Wed",sumData);
@@ -1054,8 +1067,10 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[wedDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
+            
             console.log("Thu",sumData);
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
@@ -1080,6 +1095,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[thuDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             console.log("Fri",sumData);
@@ -1106,6 +1122,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[friDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             console.log("Sat",sumData);
@@ -1132,6 +1149,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     },[satDateData.OTSumTime])
     useEffect(()=>{
+        if(loading) return;
         const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
         if(sumData > 10 && !leaderCheck){
             console.log("Mon",monDateData.OTSumTime);
@@ -1177,10 +1195,10 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
     const handleStoreOTData = async () => {
         try {
             const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/BeforeOT_send_Data`, {
-                id: 'sjyoo@dhk.co.kr',
-                name: '유성재',
-                team: '경영지원',
-                position: '사원',
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
                 monDateData,
                 tueDateData,
                 wedDateData,

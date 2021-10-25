@@ -259,7 +259,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.mon_reason2}</pre>
                                 </td>
                             </tr>
@@ -301,7 +301,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.tue_reason2}</pre>
                                 </td>
                             </tr>
@@ -343,7 +343,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.wed_reason2}</pre>
                                 </td>
                             </tr>
@@ -385,7 +385,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.thu_reason2}</pre>
                                 </td>
                             </tr>
@@ -427,7 +427,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.fri_reason2}</pre>
                                 </td>
                             </tr>
@@ -464,7 +464,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.sat_reason2}</pre>
                                 </td>
                             </tr>
@@ -501,7 +501,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                            <td style={{textAlign:"left"}}>
                                     <pre>{clickedOTData.sun_reason2}</pre>
                                 </td>
                             </tr>

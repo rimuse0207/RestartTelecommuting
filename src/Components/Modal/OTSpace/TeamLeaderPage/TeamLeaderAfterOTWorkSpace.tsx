@@ -183,7 +183,7 @@ const TeamLeaderAfterOTWorkSpace = ({ selectYear, selectMonth, selectName }: Tea
                                                     </td>
                                                     <td>{list.name}</td>
                                                     <td>{list.team}</td>
-                                                    <td>{list.sum_time} 시간</td>
+                                                    <td>{list.mon_time+list.tue_time+list.wed_time+list.thu_time+list.fri_time+list.sat_time+list.sun_time}시간</td>
                                                     <td>{list.leadercheck === 0 ? 'X' : 'O'}</td>
                                                     <td
                                                         className="TeamLeader_before_OT_WorkSpace_click_td"
