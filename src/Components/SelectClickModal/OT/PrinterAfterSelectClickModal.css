@@ -1,0 +1,39 @@
+.PrinterTables td {
+    border: 1px solid gray;
+}
+.Printer_Button_overOT {
+    width: 10%;
+    height: 40px;
+    font-weight: bolder;
+    float: right;
+    margin-right: 13px;
+    border: 0.5px solid gray;
+    border-radius: 10px;
+    font-size: medium;
+}
+.Printer_Button_overOT:hover {
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+}
+@page {
+    background: none;
+    size: A4;
+}
+@media print {
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        page-break-after: avoid;
+        page-break-before: avoid;
+    }
+    .body,
+    .page {
+        margin-top: -1px;
+    } /*서브픽셀 해결1*/
+
+    #root {
+        opacity: 0;
+    }
+}

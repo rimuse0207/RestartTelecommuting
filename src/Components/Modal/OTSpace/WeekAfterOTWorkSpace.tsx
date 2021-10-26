@@ -19,8 +19,8 @@ type WeekAfterOTWorkSpaceProps = {
 
 const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const [leaderCheck,setLeaderCheck] = useState(false);
-    const [loading,setLoading] =useState(false);
+    const [leaderCheck, setLeaderCheck] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [monDateData, setMonDateData] = useState({
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
@@ -148,7 +148,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             startDate: startDate,
         });
         if (getServerOTDataCheck.data.dataComeIn) {
-            if(getServerOTDataCheck.data.data[0].leadercheck === 1) setLeaderCheck(true)
+            if (getServerOTDataCheck.data.data[0].leadercheck === 1) setLeaderCheck(true);
             setMonDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
                 basicStartTime: new Date(
@@ -1009,13 +1009,13 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 satDateData,
                 sunDateData,
             });
-            if(dataSendServerOT.data.dataSuccess){
+            if (dataSendServerOT.data.dataSuccess) {
                 toast.show({
                     title: '사후 OT 데이터 저장 성공 ',
                     content: '사후 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
                     duration: 6000,
                 });
-            }else{
+            } else {
                 toast.show({
                     title: '에러발생. 데이터 저장 실패.',
                     content: '사후 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
@@ -1033,11 +1033,17 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     };
 
-
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1045,25 +1051,32 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
             setMonDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
-        basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-        basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: monDateData.OTreason1,
-        OTreason2: monDateData.OTreason2,
-        OTreason3: monDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
+                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                basicSumTime: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: monDateData.OTreason1,
+                OTreason2: monDateData.OTreason2,
+                OTreason3: monDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[monDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    }, [monDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1074,22 +1087,29 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: tueDateData.OTreason1,
-        OTreason2: tueDateData.OTreason2,
-        OTreason3: tueDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: tueDateData.OTreason1,
+                OTreason2: tueDateData.OTreason2,
+                OTreason3: tueDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[tueDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);        
-        if(sumData > 10 && !leaderCheck){
+    }, [tueDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1100,22 +1120,29 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: wedDateData.OTreason1,
-        OTreason2: wedDateData.OTreason2,
-        OTreason3: wedDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: wedDateData.OTreason1,
+                OTreason2: wedDateData.OTreason2,
+                OTreason3: wedDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[wedDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    }, [wedDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1126,22 +1153,29 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: thuDateData.OTreason1,
-        OTreason2: thuDateData.OTreason2,
-        OTreason3: thuDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: thuDateData.OTreason1,
+                OTreason2: thuDateData.OTreason2,
+                OTreason3: thuDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[thuDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    }, [thuDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1152,22 +1186,29 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: friDateData.OTreason1,
-        OTreason2: friDateData.OTreason2,
-        OTreason3: friDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: friDateData.OTreason1,
+                OTreason2: friDateData.OTreason2,
+                OTreason3: friDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[friDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    }, [friDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1178,22 +1219,29 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: satDateData.OTreason1,
-        OTreason2: satDateData.OTreason2,
-        OTreason3: satDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: satDateData.OTreason1,
+                OTreason2: satDateData.OTreason2,
+                OTreason3: satDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[satDateData.OTSumTime])
-    useEffect(()=>{
-        if(loading) return;
-        const sumData = (monDateData.OTSumTime +tueDateData.OTSumTime +wedDateData.OTSumTime +thuDateData.OTSumTime +friDateData.OTSumTime +satDateData.OTSumTime +sunDateData.OTSumTime);
-        if(sumData > 10 && !leaderCheck){
+    }, [satDateData.OTSumTime]);
+    useEffect(() => {
+        if (loading) return;
+        const sumData =
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime;
+        if (sumData > 10 && !leaderCheck) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
@@ -1204,18 +1252,18 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
                 basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
                 basicSumTime: 0,
-        OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-        OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-        OTSumTime: 0,
-        OTreason1: sunDateData.OTreason1,
-        OTreason2: sunDateData.OTreason2,
-        OTreason3: sunDateData.OTreason3,
-        holidayCheck: 'weekday',
-        OTnightSum: 0,
+                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
+                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
+                OTSumTime: 0,
+                OTreason1: sunDateData.OTreason1,
+                OTreason2: sunDateData.OTreason2,
+                OTreason3: sunDateData.OTreason3,
+                holidayCheck: 'weekday',
+                OTnightSum: 0,
             });
         }
-    },[sunDateData.OTSumTime])
+    }, [sunDateData.OTSumTime]);
 
     return (
         <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
@@ -1238,1041 +1286,1420 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     {' >>>>'}
                 </span>
             </div>
-            <table>
-                <thead>
-                    <tr
-                        className="testss"
-                        style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
-                    >
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-                            일자
-                        </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-                            공휴일
-                        </th>
-                        <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
-                            소정근로
-                        </th>
-                        <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
-                            {' '}
-                            연장 근무
-                        </th>
-                        <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-                            총 근무 <br />
-                            합계 시간
-                            <br />
-                        </th>
-                        <th rowSpan={2}>연장 사유</th>
-                    </tr>
-                    <tr
-                        className="testss"
-                        style={{ borderBottom: '1.2px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
-                    >
-                        <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                        <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                        <td style={{ borderRight: '1.2px solid black' }}>
-                            총 합계 <br /> 시간
-                        </td>
-                        <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                        <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                        <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
-                        <td style={{ borderRight: '1.2px solid black' }}>
-                            총 합계 <br />
-                            시간
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowSpan={3} id="stat_date" width="100px">
-                            {startDate.clone().format('YYYY-MM-DD')}
-                            <br />
-                            월요일
-                        </td>
+            {leaderCheck ? (
+                <table>
+                    <thead>
+                        <tr
+                            className="testss"
+                            style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
+                        >
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                일자
+                            </th>
 
-                        <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                            <label htmlFor="mon_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="mon_holiday_check"
-                                    name="mon_holiday_check"
-                                    value="weekday"
-                                    readOnly
-                                    onChange={() => {
-                                        setMonDateData({ ...monDateData, holidayCheck: 'weekday' });
-                                    }}
-                                    checked={monDateData.holidayCheck === 'weekday' ? true : false}
-                                ></input>
-                                평일
-                            </label>
-                            <br />
-
-                            <label htmlFor="mon_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="mon_holiday_check"
-                                    name="mon_holiday_check"
-                                    value="holiday"
-                                    readOnly
-                                    onChange={() => {
-                                        setMonDateData({ ...monDateData, holidayCheck: 'holiday' });
-                                    }}
-                                    checked={monDateData.holidayCheck === 'holiday' ? true : false}
-                                ></input>
-                                공휴일
-                            </label>
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <DatePicker
-                                locale="ko"
-                                selected={monDateData.basicStartTime}
-                                onChange={(Time: any) => setMonDateData({ ...monDateData, basicStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <DatePicker
-                                locale="ko"
-                                selected={monDateData.basicEndTime}
-                                onChange={(Time: any) => setMonDateData({ ...monDateData, basicEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <span className="sum_time" id="sum_time_mon">
-                                {monDateData.basicSumTime}
-                            </span>
-                            시간
-                        </td>
-
-                        <td rowSpan={3} width="100px">
-                            <DatePicker
-                                locale="ko"
-                                selected={monDateData.OTStartTime}
-                                onChange={(Time: any) => setMonDateData({ ...monDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <DatePicker
-                                locale="ko"
-                                selected={monDateData.OTEndTime}
-                                onChange={(Time: any) => setMonDateData({ ...monDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <DatePicker
-                                locale="ko"
-                                selected={monDateData.OTRestTime}
-                                onChange={(Time: any) => setMonDateData({ ...monDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <span className="sum_over_time" id="sum_over_time_monOver">
-                                {monDateData.OTSumTime}
-                            </span>
-                            시간
-                        </td>
-                        <td rowSpan={3} width="100px">
-                            <span id="sum_times_mon"> {monDateData.basicSumTime + monDateData.OTSumTime}</span> 시간
-                        </td>
-
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                value={monDateData.OTreason1}
-                                onChange={e => setMonDateData({ ...monDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                value={monDateData.OTreason2}
-                                onChange={e => setMonDateData({ ...monDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                value={monDateData.OTreason3}
-                                onChange={e => setMonDateData({ ...monDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td rowSpan={3} style={{ minWidth: '100px' }}>
-                            {startDate.clone().add(1, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            화요일
-                        </td>
-
-                        <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                            <label htmlFor="tue_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="tue_holiday_check"
-                                    name="tue_holiday_check"
-                                    value="weekday"
-                                    readOnly
-                                    onChange={() => {
-                                        setTueDateData({ ...tueDateData, holidayCheck: 'weekday' });
-                                    }}
-                                    checked={tueDateData.holidayCheck === 'weekday' ? true : false}
-                                ></input>
-                                평일
-                            </label>
-                            <br />
-                            <label htmlFor="tue_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="tue_holiday_check"
-                                    name="tue_holiday_check"
-                                    value="holiday"
-                                    readOnly
-                                    onChange={() => {
-                                        setTueDateData({ ...tueDateData, holidayCheck: 'holiday' });
-                                    }}
-                                    checked={tueDateData.holidayCheck === 'holiday' ? true : false}
-                                ></input>
-                                공휴일
-                            </label>
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={tueDateData.basicStartTime}
-                                onChange={(Time: any) => setTueDateData({ ...tueDateData, basicStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={tueDateData.basicEndTime}
-                                onChange={(Time: any) => setTueDateData({ ...tueDateData, basicEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_time" id="sum_time_tue">
-                                {tueDateData.basicSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={tueDateData.OTStartTime}
-                                onChange={(Time: any) => setTueDateData({ ...tueDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={tueDateData.OTEndTime}
-                                onChange={(Time: any) => setTueDateData({ ...tueDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={tueDateData.OTRestTime}
-                                onChange={(Time: any) => setTueDateData({ ...tueDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_tueOver">
-                                {tueDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_tue">{tueDateData.basicSumTime + tueDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                value={tueDateData.OTreason1}
-                                onChange={e => setTueDateData({ ...tueDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                value={tueDateData.OTreason2}
-                                onChange={e => setTueDateData({ ...tueDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                value={tueDateData.OTreason3}
-                                onChange={e => setTueDateData({ ...tueDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td rowSpan={3}>
-                            {startDate.clone().add(2, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            수요일
-                        </td>
-                        <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                            <label htmlFor="wed_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="wed_holiday_check"
-                                    name="wed_holiday_check"
-                                    value="weekday"
-                                    readOnly
-                                    onChange={() => {
-                                        setWedDateData({ ...wedDateData, holidayCheck: 'weekday' });
-                                    }}
-                                    checked={wedDateData.holidayCheck === 'weekday' ? true : false}
-                                ></input>
-                                평일
-                            </label>
-                            <br />
-                            <label htmlFor="wed_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="wed_holiday_check"
-                                    name="wed_holiday_check"
-                                    value="holiday"
-                                    readOnly
-                                    onChange={() => {
-                                        setWedDateData({ ...wedDateData, holidayCheck: 'holiday' });
-                                    }}
-                                    checked={wedDateData.holidayCheck === 'holiday' ? true : false}
-                                ></input>
-                                공휴일
-                            </label>
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={wedDateData.basicStartTime}
-                                onChange={(Time: any) => setWedDateData({ ...wedDateData, basicStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            {' '}
-                            <DatePicker
-                                locale="ko"
-                                selected={wedDateData.basicEndTime}
-                                onChange={(Time: any) => setWedDateData({ ...wedDateData, basicEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_time" id="sum_time_wed">
-                                {wedDateData.basicSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={wedDateData.OTStartTime}
-                                onChange={(Time: any) => setWedDateData({ ...wedDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={wedDateData.OTEndTime}
-                                onChange={(Time: any) => setWedDateData({ ...wedDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={wedDateData.OTRestTime}
-                                onChange={(Time: any) => setWedDateData({ ...wedDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_wedOver">
-                                {wedDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_wed">{wedDateData.basicSumTime + wedDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                name="Wed_reason"
-                                value={wedDateData.OTreason1}
-                                onChange={e => setWedDateData({ ...wedDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                name="Wed_reason1"
-                                value={wedDateData.OTreason2}
-                                onChange={e => setWedDateData({ ...wedDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                name="Wed_reason2"
-                                value={wedDateData.OTreason3}
-                                onChange={e => setWedDateData({ ...wedDateData, OTreason3: e.target.value })}
-                            >
+                            <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                                소정근로
+                            </th>
+                            <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
                                 {' '}
-                            </textarea>
-                        </td>
-                    </tr>
+                                연장 근무
+                            </th>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                총 근무 <br />
+                                합계 시간
+                                <br />
+                            </th>
+                            <th rowSpan={2}>연장 사유</th>
+                        </tr>
+                        <tr
+                            className="testss"
+                            style={{ borderBottom: '1.2px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
+                        >
+                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>
+                                총 합계 <br /> 시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>
+                                총 합계 <br />
+                                시간
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowSpan={3} id="stat_date" width="100px">
+                                {startDate.clone().format('YYYY-MM-DD')}
+                                <br />
+                                월요일
+                            </td>
 
-                    <tr>
-                        <td rowSpan={3}>
-                            {startDate.clone().add(3, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            목요일
-                        </td>
-                        <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                            <label htmlFor="thu_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="thu_holiday_check"
-                                    name="thu_holiday_check"
-                                    value="weekday"
-                                    readOnly
-                                    onChange={() => {
-                                        setThuDateData({ ...thuDateData, holidayCheck: 'weekday' });
-                                    }}
-                                    checked={thuDateData.holidayCheck === 'weekday' ? true : false}
-                                ></input>
-                                평일
-                            </label>
-                            <br />
-                            <label htmlFor="thu_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="thu_holiday_check"
-                                    name="thu_holiday_check"
-                                    value="holiday"
-                                    readOnly
-                                    onChange={() => {
-                                        setThuDateData({ ...thuDateData, holidayCheck: 'holiday' });
-                                    }}
-                                    checked={thuDateData.holidayCheck === 'holiday' ? true : false}
-                                ></input>
+                            <td rowSpan={3} width="100px">
+                                {moment(monDateData.basicStartTime).format('HH:mm')}
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                {moment(monDateData.basicEndTime).format('HH:mm')}
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span className="sum_time" id="sum_time_mon">
+                                    {monDateData.basicSumTime}
+                                </span>
+                                시간
+                            </td>
+
+                            <td rowSpan={3} width="100px">
+                                {moment(monDateData.OTStartTime).format('HH:mm')}
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                {moment(monDateData.OTEndTime).format('HH:mm')}
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                {moment(monDateData.OTRestTime).format('HH:mm')}
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span className="sum_over_time" id="sum_over_time_monOver">
+                                    {monDateData.OTSumTime}
+                                </span>
+                                시간
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span id="sum_times_mon"> {monDateData.basicSumTime + monDateData.OTSumTime}</span> 시간
+                            </td>
+
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{monDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{monDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{monDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3} style={{ minWidth: '100px' }}>
+                                {startDate.clone().add(1, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                화요일
+                            </td>
+
+                            <td rowSpan={3}>{moment(tueDateData.basicStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(tueDateData.basicEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_tue">
+                                    {tueDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>{moment(tueDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(tueDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(tueDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_tueOver">
+                                    {tueDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_tue">{tueDateData.basicSumTime + tueDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{tueDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{tueDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{tueDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(2, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                수요일
+                            </td>
+
+                            <td rowSpan={3}>{moment(wedDateData.basicStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(wedDateData.basicEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_wed">
+                                    {wedDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>{moment(wedDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(wedDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(wedDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_wedOver">
+                                    {wedDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_wed">{wedDateData.basicSumTime + wedDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{wedDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{wedDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{wedDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(3, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                목요일
+                            </td>
+
+                            <td rowSpan={3}>{moment(thuDateData.basicStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(thuDateData.basicEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_thu">
+                                    {thuDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>{moment(thuDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(thuDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(thuDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_thuOver">
+                                    {thuDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_thu">{thuDateData.basicSumTime + thuDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{thuDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{thuDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{thuDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(4, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                금요일
+                            </td>
+
+                            <td rowSpan={3}>{moment(friDateData.basicStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(friDateData.basicEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_fri">
+                                    {friDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>{moment(friDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(friDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(friDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_friOver">
+                                    {friDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_fri">{friDateData.basicSumTime + friDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{friDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{friDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{friDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(5, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                토요일
+                            </td>
+
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}>{moment(satDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(satDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(satDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_satOver">
+                                    {satDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_sat">{satDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{satDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{satDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{satDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3} id="stats_date">
+                                {startDate.clone().add(6, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                일요일
+                            </td>
+
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}>{moment(sunDateData.OTStartTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(sunDateData.OTEndTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>{moment(sunDateData.OTRestTime).format('HH:mm')}</td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_sunOver">
+                                    {sunDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_sun">{sunDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{sunDateData.OTreason1}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{sunDateData.OTreason2}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable" style={{ height: '50px' }}>
+                                <pre>{sunDateData.OTreason3}</pre>
+                            </td>
+                        </tr>
+
+                        <tr style={{ height: '50px', border: '1.1px solid black' }}>
+                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+                                소정근로 총합계
+                            </td>
+                            <td colSpan={2}>
+                                <span id="total_sum_time">
+                                    {monDateData.basicSumTime +
+                                        tueDateData.basicSumTime +
+                                        wedDateData.basicSumTime +
+                                        thuDateData.basicSumTime +
+                                        friDateData.basicSumTime}
+                                </span>
+                                시간
+                            </td>
+                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+                                연장근무 총합계
+                            </td>
+                            <td colSpan={1}>
+                                <span id="total_sum_over_time">
+                                    {monDateData.OTSumTime +
+                                        tueDateData.OTSumTime +
+                                        wedDateData.OTSumTime +
+                                        thuDateData.OTSumTime +
+                                        friDateData.OTSumTime +
+                                        satDateData.OTSumTime +
+                                        sunDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            ) : (
+                <table>
+                    <thead>
+                        <tr
+                            className="testss"
+                            style={{ borderTop: '1.5px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
+                        >
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                일자
+                            </th>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
                                 공휴일
-                            </label>
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={thuDateData.basicStartTime}
-                                onChange={(Time: any) => setThuDateData({ ...thuDateData, basicStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={thuDateData.basicEndTime}
-                                onChange={(Time: any) => setThuDateData({ ...thuDateData, basicEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_time" id="sum_time_thu">
-                                {thuDateData.basicSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={thuDateData.OTStartTime}
-                                onChange={(Time: any) => setThuDateData({ ...thuDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={thuDateData.OTEndTime}
-                                onChange={(Time: any) => setThuDateData({ ...thuDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={thuDateData.OTRestTime}
-                                onChange={(Time: any) => setThuDateData({ ...thuDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_thuOver">
-                                {thuDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_thu">{thuDateData.basicSumTime + thuDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                name="Thu_reason"
-                                value={thuDateData.OTreason1}
-                                onChange={e => setThuDateData({ ...thuDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                name="Thu_reason1"
-                                value={thuDateData.OTreason2}
-                                onChange={e => setThuDateData({ ...thuDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                name="Thu_reason2"
-                                value={thuDateData.OTreason3}
-                                onChange={e => setThuDateData({ ...thuDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
+                            </th>
+                            <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                                소정근로
+                            </th>
+                            <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                                {' '}
+                                연장 근무
+                            </th>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                총 근무 <br />
+                                합계 시간
+                                <br />
+                            </th>
+                            <th rowSpan={2}>연장 사유</th>
+                        </tr>
+                        <tr
+                            className="testss"
+                            style={{ borderBottom: '1.2px solid black', borderLeft: '1.3px solid black', borderRight: '1.3px solid black' }}
+                        >
+                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>
+                                총 합계 <br /> 시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
+                            <td style={{ borderRight: '1.2px solid black' }}>
+                                총 합계 <br />
+                                시간
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowSpan={3} id="stat_date" width="100px">
+                                {startDate.clone().format('YYYY-MM-DD')}
+                                <br />
+                                월요일
+                            </td>
 
-                    <tr>
-                        <td rowSpan={3}>
-                            {startDate.clone().add(4, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            금요일
-                        </td>
+                            <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
+                                <label htmlFor="mon_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="mon_holiday_check"
+                                        name="mon_holiday_check"
+                                        value="weekday"
+                                        readOnly
+                                        onChange={() => {
+                                            setMonDateData({ ...monDateData, holidayCheck: 'weekday' });
+                                        }}
+                                        checked={monDateData.holidayCheck === 'weekday' ? true : false}
+                                    ></input>
+                                    평일
+                                </label>
+                                <br />
 
-                        <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                            <label htmlFor="fri_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="fri_holiday_check"
-                                    name="fri_holiday_check"
-                                    value="weekday"
-                                    readOnly
-                                    onChange={() => {
-                                        setFriDateData({ ...friDateData, holidayCheck: 'weekday' });
-                                    }}
-                                    checked={friDateData.holidayCheck === 'weekday' ? true : false}
-                                ></input>
-                                평일
-                            </label>
-                            <br />
-                            <label htmlFor="fri_holiday_check">
-                                <input
-                                    type="radio"
-                                    id="fri_holiday_check"
-                                    name="fri_holiday_check"
-                                    value="holiday"
-                                    readOnly
-                                    onChange={() => {
-                                        setFriDateData({ ...friDateData, holidayCheck: 'holiday' });
-                                    }}
-                                    checked={friDateData.holidayCheck === 'holiday' ? true : false}
-                                ></input>
-                                공휴일
-                            </label>
-                        </td>
-                        <td rowSpan={3}>
-                            {' '}
-                            <DatePicker
-                                locale="ko"
-                                selected={friDateData.basicStartTime}
-                                onChange={(Time: any) => setFriDateData({ ...friDateData, basicStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            {' '}
-                            <DatePicker
-                                locale="ko"
-                                selected={friDateData.basicEndTime}
-                                onChange={(Time: any) => setFriDateData({ ...friDateData, basicEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_time" id="sum_time_fri">
-                                {friDateData.basicSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            {' '}
-                            <DatePicker
-                                locale="ko"
-                                selected={friDateData.OTStartTime}
-                                onChange={(Time: any) => setFriDateData({ ...friDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={friDateData.OTEndTime}
-                                onChange={(Time: any) => setFriDateData({ ...friDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={friDateData.OTRestTime}
-                                onChange={(Time: any) => setFriDateData({ ...friDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_friOver">
-                                {friDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_fri">{friDateData.basicSumTime + friDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                name="Fri_reason"
-                                value={friDateData.OTreason1}
-                                onChange={e => setFriDateData({ ...friDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                name="Fri_reason1"
-                                value={friDateData.OTreason2}
-                                onChange={e => setFriDateData({ ...friDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                name="Fri_reason2"
-                                value={friDateData.OTreason3}
-                                onChange={e => setFriDateData({ ...friDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
+                                <label htmlFor="mon_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="mon_holiday_check"
+                                        name="mon_holiday_check"
+                                        value="holiday"
+                                        readOnly
+                                        onChange={() => {
+                                            setMonDateData({ ...monDateData, holidayCheck: 'holiday' });
+                                        }}
+                                        checked={monDateData.holidayCheck === 'holiday' ? true : false}
+                                    ></input>
+                                    공휴일
+                                </label>
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <DatePicker
+                                    locale="ko"
+                                    selected={monDateData.basicStartTime}
+                                    onChange={(Time: any) => setMonDateData({ ...monDateData, basicStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <DatePicker
+                                    locale="ko"
+                                    selected={monDateData.basicEndTime}
+                                    onChange={(Time: any) => setMonDateData({ ...monDateData, basicEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span className="sum_time" id="sum_time_mon">
+                                    {monDateData.basicSumTime}
+                                </span>
+                                시간
+                            </td>
 
-                    <tr>
-                        <td rowSpan={3}>
-                            {startDate.clone().add(5, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            토요일
-                        </td>
+                            <td rowSpan={3} width="100px">
+                                <DatePicker
+                                    locale="ko"
+                                    selected={monDateData.OTStartTime}
+                                    onChange={(Time: any) => setMonDateData({ ...monDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <DatePicker
+                                    locale="ko"
+                                    selected={monDateData.OTEndTime}
+                                    onChange={(Time: any) => setMonDateData({ ...monDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <DatePicker
+                                    locale="ko"
+                                    selected={monDateData.OTRestTime}
+                                    onChange={(Time: any) => setMonDateData({ ...monDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span className="sum_over_time" id="sum_over_time_monOver">
+                                    {monDateData.OTSumTime}
+                                </span>
+                                시간
+                            </td>
+                            <td rowSpan={3} width="100px">
+                                <span id="sum_times_mon"> {monDateData.basicSumTime + monDateData.OTSumTime}</span> 시간
+                            </td>
 
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={satDateData.OTStartTime}
-                                onChange={(Time: any) => setSatDateData({ ...satDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={satDateData.OTEndTime}
-                                onChange={(Time: any) => setSatDateData({ ...satDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={satDateData.OTRestTime}
-                                onChange={(Time: any) => setSatDateData({ ...satDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_satOver">
-                                {satDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_sat">{satDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                name="Sat_reason"
-                                value={satDateData.OTreason1}
-                                onChange={e => setSatDateData({ ...satDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                name="Sat_reason1"
-                                value={satDateData.OTreason2}
-                                onChange={e => setSatDateData({ ...satDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                name="Sat_reason2"
-                                value={satDateData.OTreason3}
-                                onChange={e => setSatDateData({ ...satDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    value={monDateData.OTreason1}
+                                    onChange={e => setMonDateData({ ...monDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    value={monDateData.OTreason2}
+                                    onChange={e => setMonDateData({ ...monDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    value={monDateData.OTreason3}
+                                    onChange={e => setMonDateData({ ...monDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td rowSpan={3} id="stats_date">
-                            {startDate.clone().add(6, 'day').format('YYYY-MM-DD')}
-                            <br />
-                            일요일
-                        </td>
+                        <tr>
+                            <td rowSpan={3} style={{ minWidth: '100px' }}>
+                                {startDate.clone().add(1, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                화요일
+                            </td>
 
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}></td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={sunDateData.OTStartTime}
-                                onChange={(Time: any) => setSunDateData({ ...sunDateData, OTStartTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={sunDateData.OTEndTime}
-                                onChange={(Time: any) => setSunDateData({ ...sunDateData, OTEndTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <DatePicker
-                                locale="ko"
-                                selected={sunDateData.OTRestTime}
-                                onChange={(Time: any) => setSunDateData({ ...sunDateData, OTRestTime: Time })}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={30}
-                                timeCaption="Time"
-                                dateFormat="HH:mm"
-                                withPortal
-                                portalId="root-timeportal"
-                            />
-                        </td>
-                        <td rowSpan={3}>
-                            <span className="sum_over_time" id="sum_over_time_sunOver">
-                                {sunDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td rowSpan={3}>
-                            <span id="sum_times_sun">{sunDateData.OTSumTime}</span> 시간
-                        </td>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유1"
-                                name="Sun_reason"
-                                value={sunDateData.OTreason1}
-                                onChange={e => setSunDateData({ ...sunDateData, OTreason1: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유2"
-                                name="Sun_reason1"
-                                value={sunDateData.OTreason2}
-                                onChange={e => setSunDateData({ ...sunDateData, OTreason2: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="reasontable">
-                            <textarea
-                                placeholder="사유3"
-                                name="Sun_reason2"
-                                value={sunDateData.OTreason3}
-                                onChange={e => setSunDateData({ ...sunDateData, OTreason3: e.target.value })}
-                            ></textarea>
-                        </td>
-                    </tr>
+                            <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
+                                <label htmlFor="tue_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="tue_holiday_check"
+                                        name="tue_holiday_check"
+                                        value="weekday"
+                                        readOnly
+                                        onChange={() => {
+                                            setTueDateData({ ...tueDateData, holidayCheck: 'weekday' });
+                                        }}
+                                        checked={tueDateData.holidayCheck === 'weekday' ? true : false}
+                                    ></input>
+                                    평일
+                                </label>
+                                <br />
+                                <label htmlFor="tue_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="tue_holiday_check"
+                                        name="tue_holiday_check"
+                                        value="holiday"
+                                        readOnly
+                                        onChange={() => {
+                                            setTueDateData({ ...tueDateData, holidayCheck: 'holiday' });
+                                        }}
+                                        checked={tueDateData.holidayCheck === 'holiday' ? true : false}
+                                    ></input>
+                                    공휴일
+                                </label>
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={tueDateData.basicStartTime}
+                                    onChange={(Time: any) => setTueDateData({ ...tueDateData, basicStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={tueDateData.basicEndTime}
+                                    onChange={(Time: any) => setTueDateData({ ...tueDateData, basicEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_tue">
+                                    {tueDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={tueDateData.OTStartTime}
+                                    onChange={(Time: any) => setTueDateData({ ...tueDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={tueDateData.OTEndTime}
+                                    onChange={(Time: any) => setTueDateData({ ...tueDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={tueDateData.OTRestTime}
+                                    onChange={(Time: any) => setTueDateData({ ...tueDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_tueOver">
+                                    {tueDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_tue">{tueDateData.basicSumTime + tueDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    value={tueDateData.OTreason1}
+                                    onChange={e => setTueDateData({ ...tueDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    value={tueDateData.OTreason2}
+                                    onChange={e => setTueDateData({ ...tueDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    value={tueDateData.OTreason3}
+                                    onChange={e => setTueDateData({ ...tueDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
 
-                    <tr style={{ height: '50px', border: '1.1px solid black' }}>
-                        <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
-                            소정근로 총합계
-                        </td>
-                        <td colSpan={2}>
-                            <span id="total_sum_time">
-                                {monDateData.basicSumTime +
-                                    tueDateData.basicSumTime +
-                                    wedDateData.basicSumTime +
-                                    thuDateData.basicSumTime +
-                                    friDateData.basicSumTime}
-                            </span>
-                            시간
-                        </td>
-                        <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
-                            연장근무 총합계
-                        </td>
-                        <td colSpan={2}>
-                            <span id="total_sum_over_time">
-                                {monDateData.OTSumTime +
-                                    tueDateData.OTSumTime +
-                                    wedDateData.OTSumTime +
-                                    thuDateData.OTSumTime +
-                                    friDateData.OTSumTime +
-                                    satDateData.OTSumTime +
-                                    sunDateData.OTSumTime}
-                            </span>{' '}
-                            시간
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(2, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                수요일
+                            </td>
+                            <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
+                                <label htmlFor="wed_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="wed_holiday_check"
+                                        name="wed_holiday_check"
+                                        value="weekday"
+                                        readOnly
+                                        onChange={() => {
+                                            setWedDateData({ ...wedDateData, holidayCheck: 'weekday' });
+                                        }}
+                                        checked={wedDateData.holidayCheck === 'weekday' ? true : false}
+                                    ></input>
+                                    평일
+                                </label>
+                                <br />
+                                <label htmlFor="wed_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="wed_holiday_check"
+                                        name="wed_holiday_check"
+                                        value="holiday"
+                                        readOnly
+                                        onChange={() => {
+                                            setWedDateData({ ...wedDateData, holidayCheck: 'holiday' });
+                                        }}
+                                        checked={wedDateData.holidayCheck === 'holiday' ? true : false}
+                                    ></input>
+                                    공휴일
+                                </label>
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={wedDateData.basicStartTime}
+                                    onChange={(Time: any) => setWedDateData({ ...wedDateData, basicStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                {' '}
+                                <DatePicker
+                                    locale="ko"
+                                    selected={wedDateData.basicEndTime}
+                                    onChange={(Time: any) => setWedDateData({ ...wedDateData, basicEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_wed">
+                                    {wedDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={wedDateData.OTStartTime}
+                                    onChange={(Time: any) => setWedDateData({ ...wedDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={wedDateData.OTEndTime}
+                                    onChange={(Time: any) => setWedDateData({ ...wedDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={wedDateData.OTRestTime}
+                                    onChange={(Time: any) => setWedDateData({ ...wedDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_wedOver">
+                                    {wedDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_wed">{wedDateData.basicSumTime + wedDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    name="Wed_reason"
+                                    value={wedDateData.OTreason1}
+                                    onChange={e => setWedDateData({ ...wedDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    name="Wed_reason1"
+                                    value={wedDateData.OTreason2}
+                                    onChange={e => setWedDateData({ ...wedDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    name="Wed_reason2"
+                                    value={wedDateData.OTreason3}
+                                    onChange={e => setWedDateData({ ...wedDateData, OTreason3: e.target.value })}
+                                >
+                                    {' '}
+                                </textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(3, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                목요일
+                            </td>
+                            <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
+                                <label htmlFor="thu_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="thu_holiday_check"
+                                        name="thu_holiday_check"
+                                        value="weekday"
+                                        readOnly
+                                        onChange={() => {
+                                            setThuDateData({ ...thuDateData, holidayCheck: 'weekday' });
+                                        }}
+                                        checked={thuDateData.holidayCheck === 'weekday' ? true : false}
+                                    ></input>
+                                    평일
+                                </label>
+                                <br />
+                                <label htmlFor="thu_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="thu_holiday_check"
+                                        name="thu_holiday_check"
+                                        value="holiday"
+                                        readOnly
+                                        onChange={() => {
+                                            setThuDateData({ ...thuDateData, holidayCheck: 'holiday' });
+                                        }}
+                                        checked={thuDateData.holidayCheck === 'holiday' ? true : false}
+                                    ></input>
+                                    공휴일
+                                </label>
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={thuDateData.basicStartTime}
+                                    onChange={(Time: any) => setThuDateData({ ...thuDateData, basicStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={thuDateData.basicEndTime}
+                                    onChange={(Time: any) => setThuDateData({ ...thuDateData, basicEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_thu">
+                                    {thuDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={thuDateData.OTStartTime}
+                                    onChange={(Time: any) => setThuDateData({ ...thuDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={thuDateData.OTEndTime}
+                                    onChange={(Time: any) => setThuDateData({ ...thuDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={thuDateData.OTRestTime}
+                                    onChange={(Time: any) => setThuDateData({ ...thuDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_thuOver">
+                                    {thuDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_thu">{thuDateData.basicSumTime + thuDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    name="Thu_reason"
+                                    value={thuDateData.OTreason1}
+                                    onChange={e => setThuDateData({ ...thuDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    name="Thu_reason1"
+                                    value={thuDateData.OTreason2}
+                                    onChange={e => setThuDateData({ ...thuDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    name="Thu_reason2"
+                                    value={thuDateData.OTreason3}
+                                    onChange={e => setThuDateData({ ...thuDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(4, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                금요일
+                            </td>
+
+                            <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
+                                <label htmlFor="fri_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="fri_holiday_check"
+                                        name="fri_holiday_check"
+                                        value="weekday"
+                                        readOnly
+                                        onChange={() => {
+                                            setFriDateData({ ...friDateData, holidayCheck: 'weekday' });
+                                        }}
+                                        checked={friDateData.holidayCheck === 'weekday' ? true : false}
+                                    ></input>
+                                    평일
+                                </label>
+                                <br />
+                                <label htmlFor="fri_holiday_check">
+                                    <input
+                                        type="radio"
+                                        id="fri_holiday_check"
+                                        name="fri_holiday_check"
+                                        value="holiday"
+                                        readOnly
+                                        onChange={() => {
+                                            setFriDateData({ ...friDateData, holidayCheck: 'holiday' });
+                                        }}
+                                        checked={friDateData.holidayCheck === 'holiday' ? true : false}
+                                    ></input>
+                                    공휴일
+                                </label>
+                            </td>
+                            <td rowSpan={3}>
+                                {' '}
+                                <DatePicker
+                                    locale="ko"
+                                    selected={friDateData.basicStartTime}
+                                    onChange={(Time: any) => setFriDateData({ ...friDateData, basicStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                {' '}
+                                <DatePicker
+                                    locale="ko"
+                                    selected={friDateData.basicEndTime}
+                                    onChange={(Time: any) => setFriDateData({ ...friDateData, basicEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_time" id="sum_time_fri">
+                                    {friDateData.basicSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                {' '}
+                                <DatePicker
+                                    locale="ko"
+                                    selected={friDateData.OTStartTime}
+                                    onChange={(Time: any) => setFriDateData({ ...friDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={friDateData.OTEndTime}
+                                    onChange={(Time: any) => setFriDateData({ ...friDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={friDateData.OTRestTime}
+                                    onChange={(Time: any) => setFriDateData({ ...friDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_friOver">
+                                    {friDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_fri">{friDateData.basicSumTime + friDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    name="Fri_reason"
+                                    value={friDateData.OTreason1}
+                                    onChange={e => setFriDateData({ ...friDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    name="Fri_reason1"
+                                    value={friDateData.OTreason2}
+                                    onChange={e => setFriDateData({ ...friDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    name="Fri_reason2"
+                                    value={friDateData.OTreason3}
+                                    onChange={e => setFriDateData({ ...friDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3}>
+                                {startDate.clone().add(5, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                토요일
+                            </td>
+
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={satDateData.OTStartTime}
+                                    onChange={(Time: any) => setSatDateData({ ...satDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={satDateData.OTEndTime}
+                                    onChange={(Time: any) => setSatDateData({ ...satDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={satDateData.OTRestTime}
+                                    onChange={(Time: any) => setSatDateData({ ...satDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_satOver">
+                                    {satDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_sat">{satDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    name="Sat_reason"
+                                    value={satDateData.OTreason1}
+                                    onChange={e => setSatDateData({ ...satDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    name="Sat_reason1"
+                                    value={satDateData.OTreason2}
+                                    onChange={e => setSatDateData({ ...satDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    name="Sat_reason2"
+                                    value={satDateData.OTreason3}
+                                    onChange={e => setSatDateData({ ...satDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowSpan={3} id="stats_date">
+                                {startDate.clone().add(6, 'day').format('YYYY-MM-DD')}
+                                <br />
+                                일요일
+                            </td>
+
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}></td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={sunDateData.OTStartTime}
+                                    onChange={(Time: any) => setSunDateData({ ...sunDateData, OTStartTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={sunDateData.OTEndTime}
+                                    onChange={(Time: any) => setSunDateData({ ...sunDateData, OTEndTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <DatePicker
+                                    locale="ko"
+                                    selected={sunDateData.OTRestTime}
+                                    onChange={(Time: any) => setSunDateData({ ...sunDateData, OTRestTime: Time })}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={30}
+                                    timeCaption="Time"
+                                    dateFormat="HH:mm"
+                                    withPortal
+                                    portalId="root-timeportal"
+                                />
+                            </td>
+                            <td rowSpan={3}>
+                                <span className="sum_over_time" id="sum_over_time_sunOver">
+                                    {sunDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td rowSpan={3}>
+                                <span id="sum_times_sun">{sunDateData.OTSumTime}</span> 시간
+                            </td>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유1"
+                                    name="Sun_reason"
+                                    value={sunDateData.OTreason1}
+                                    onChange={e => setSunDateData({ ...sunDateData, OTreason1: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유2"
+                                    name="Sun_reason1"
+                                    value={sunDateData.OTreason2}
+                                    onChange={e => setSunDateData({ ...sunDateData, OTreason2: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="reasontable">
+                                <textarea
+                                    placeholder="사유3"
+                                    name="Sun_reason2"
+                                    value={sunDateData.OTreason3}
+                                    onChange={e => setSunDateData({ ...sunDateData, OTreason3: e.target.value })}
+                                ></textarea>
+                            </td>
+                        </tr>
+
+                        <tr style={{ height: '50px', border: '1.1px solid black' }}>
+                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+                                소정근로 총합계
+                            </td>
+                            <td colSpan={2}>
+                                <span id="total_sum_time">
+                                    {monDateData.basicSumTime +
+                                        tueDateData.basicSumTime +
+                                        wedDateData.basicSumTime +
+                                        thuDateData.basicSumTime +
+                                        friDateData.basicSumTime}
+                                </span>
+                                시간
+                            </td>
+                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+                                연장근무 총합계
+                            </td>
+                            <td colSpan={2}>
+                                <span id="total_sum_over_time">
+                                    {monDateData.OTSumTime +
+                                        tueDateData.OTSumTime +
+                                        wedDateData.OTSumTime +
+                                        thuDateData.OTSumTime +
+                                        friDateData.OTSumTime +
+                                        satDateData.OTSumTime +
+                                        sunDateData.OTSumTime}
+                                </span>{' '}
+                                시간
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            )}
 
             <div>
-                {leaderCheck ? <div style={{fontSize:"x-large",margin:"30px"}}>
-                        <div style={{textAlign:"end"}}>팀장승인 완료</div>
-                    </div>:<div className="WeekAfterOTWorkSpace_store_button_div">
-                    <button onClick={handleStoreOTData}>저장하기</button>
-                </div>}
+                {leaderCheck ? (
+                    <div style={{ fontSize: 'x-large', margin: '30px' }}>
+                        <div style={{ textAlign: 'end' }}>팀장승인 완료</div>
+                    </div>
+                ) : (
+                    <div className="WeekAfterOTWorkSpace_store_button_div">
+                        <button onClick={handleStoreOTData}>저장하기</button>
+                    </div>
+                )}
             </div>
         </div>
     );

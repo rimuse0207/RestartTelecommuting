@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from '../../ToastMessage/ToastManager';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../models/index';
+import PrinterAfterSelectClickModal from './PrinterAfterSelectClickModal';
 
 type TeleSelectClickModalProps = {
     clicksTitle: string;
@@ -12,6 +13,7 @@ type TeleSelectClickModalProps = {
 };
 
 const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
+    const [printerClicked, setPrinterClicked] = useState(false);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [checkedOTdata, setcheckedOTdata] = useState({
         start_time_mon: '',
@@ -50,7 +52,8 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
         }
     };
     return (
-        <div>
+        <div style={printerClicked ? { display: 'none' } : {}}>
+            <h2>사후 OT</h2>
             <div>
                 <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: '0', textAlign: 'center' }}>
                     <thead style={{ backgroundColor: '#F7C80E' }}>
@@ -474,11 +477,25 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                         승인확인중...
                     </div>
                 ) : (
-                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
-                        승인완료.
+                    <div>
+                        <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                            승인완료.
+                        </div>
+                        <button className="Printer_Button_overOT" onClick={() => setPrinterClicked(true)}>
+                            인쇄하기
+                        </button>
                     </div>
                 )}
             </div>
+            {printerClicked ? (
+                <PrinterAfterSelectClickModal
+                    printerClicked={printerClicked}
+                    clicksData={clicksData}
+                    setPrinterClicked={data => setPrinterClicked(data)}
+                ></PrinterAfterSelectClickModal>
+            ) : (
+                <div></div>
+            )}
         </div>
     );
 };
