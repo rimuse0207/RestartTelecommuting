@@ -8,6 +8,7 @@ import { toast } from '../../ToastMessage/ToastManager';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { DecryptKey } from '../../../config';
+import PrinterAfterSelectClickModal from '../../SelectClickModal/OT/PrinterAfterSelectClickModal';
 registerLocale('ko', ko);
 
 type WeekAfterOTWorkSpaceProps = {
@@ -18,6 +19,8 @@ type WeekAfterOTWorkSpaceProps = {
 };
 
 const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
+    const [printerClicked, setPrinterClicked] = useState(false);
+    const [clicksData, setClicksData] = useState({});
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [leaderCheck, setLeaderCheck] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -1264,6 +1267,89 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
         }
     }, [sunDateData.OTSumTime]);
+
+    const handlePrinterClicks = () => {
+        const data = {
+            date_mon: startDate.clone().format('YYYY-MM-DD'),
+            date_tue: startDate.clone().add(1, 'day').format('YYYY-MM-DD'),
+            date_wed: startDate.clone().add(2, 'day').format('YYYY-MM-DD'),
+            date_thu: startDate.clone().add(3, 'day').format('YYYY-MM-DD'),
+            date_fri: startDate.clone().add(4, 'day').format('YYYY-MM-DD'),
+            date_sat: startDate.clone().add(5, 'day').format('YYYY-MM-DD'),
+            date_sun: startDate.clone().add(6, 'day').format('YYYY-MM-DD'),
+
+            end_time_mon: moment(monDateData.OTEndTime).format('HH:mm'),
+            end_time_tue: moment(tueDateData.OTEndTime).format('HH:mm'),
+            end_time_wed: moment(wedDateData.OTEndTime).format('HH:mm'),
+            end_time_thu: moment(thuDateData.OTEndTime).format('HH:mm'),
+            end_time_fri: moment(friDateData.OTEndTime).format('HH:mm'),
+            end_time_sat: moment(satDateData.OTEndTime).format('HH:mm'),
+            end_time_sun: moment(sunDateData.OTEndTime).format('HH:mm'),
+
+            start_time_mon: moment(monDateData.OTStartTime).format('HH:mm'),
+            start_time_tue: moment(tueDateData.OTStartTime).format('HH:mm'),
+            start_time_wed: moment(wedDateData.OTStartTime).format('HH:mm'),
+            start_time_thu: moment(thuDateData.OTStartTime).format('HH:mm'),
+            start_time_fri: moment(friDateData.OTStartTime).format('HH:mm'),
+            start_time_sat: moment(satDateData.OTStartTime).format('HH:mm'),
+            start_time_sun: moment(sunDateData.OTStartTime).format('HH:mm'),
+
+            mon_rest: moment(monDateData.OTRestTime).format('HH:mm'),
+            tue_rest: moment(tueDateData.OTRestTime).format('HH:mm'),
+            wed_rest: moment(wedDateData.OTRestTime).format('HH:mm'),
+            thu_rest: moment(thuDateData.OTRestTime).format('HH:mm'),
+            fri_rest: moment(friDateData.OTRestTime).format('HH:mm'),
+            sat_rest: moment(satDateData.OTRestTime).format('HH:mm'),
+            sun_rest: moment(sunDateData.OTRestTime).format('HH:mm'),
+
+            mon_time: monDateData.OTSumTime,
+            tue_time: tueDateData.OTSumTime,
+            wed_time: wedDateData.OTSumTime,
+            thu_time: thuDateData.OTSumTime,
+            fri_time: friDateData.OTSumTime,
+            sat_time: satDateData.OTSumTime,
+            sun_time: sunDateData.OTSumTime,
+
+            mon_night: monDateData.OTnightSum,
+            tue_night: tueDateData.OTnightSum,
+            wed_night: wedDateData.OTnightSum,
+            thu_night: thuDateData.OTnightSum,
+            fri_night: friDateData.OTnightSum,
+            sat_night: satDateData.OTnightSum,
+            sun_night: sunDateData.OTnightSum,
+
+            mon_reason: monDateData.OTreason1,
+            mon_reason1: monDateData.OTreason2,
+            mon_reason2: monDateData.OTreason3,
+            tue_reason: tueDateData.OTreason1,
+            tue_reason1: tueDateData.OTreason2,
+            tue_reason2: tueDateData.OTreason3,
+            wed_reason: wedDateData.OTreason1,
+            wed_reason1: wedDateData.OTreason2,
+            wed_reason2: wedDateData.OTreason3,
+            thu_reason: thuDateData.OTreason1,
+            thu_reason1: thuDateData.OTreason2,
+            thu_reason2: thuDateData.OTreason3,
+            fri_reason: friDateData.OTreason1,
+            fri_reason1: friDateData.OTreason2,
+            fri_reason2: friDateData.OTreason3,
+            sat_reason: satDateData.OTreason1,
+            sat_reason1: satDateData.OTreason2,
+            sat_reason2: satDateData.OTreason3,
+            sun_reason: sunDateData.OTreason1,
+            sun_reason1: sunDateData.OTreason2,
+            sun_reason2: sunDateData.OTreason3,
+            sum_time: 0,
+            number: 0,
+            leadercheck: 1,
+            id: DecryptKey(InfomationState.id),
+            name: DecryptKey(InfomationState.name),
+            position: InfomationState.position,
+            team: InfomationState.team,
+        };
+        setClicksData(data);
+        setPrinterClicked(true);
+    };
 
     return (
         <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
@@ -2694,11 +2780,25 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 {leaderCheck ? (
                     <div style={{ fontSize: 'x-large', margin: '30px' }}>
                         <div style={{ textAlign: 'end' }}>팀장승인 완료</div>
+                        <div>
+                            <button onClick={handlePrinterClicks}>출력하기</button>
+                        </div>
                     </div>
                 ) : (
                     <div className="WeekAfterOTWorkSpace_store_button_div">
                         <button onClick={handleStoreOTData}>저장하기</button>
                     </div>
+                )}
+            </div>
+            <div className="fasfdasfas">
+                {printerClicked ? (
+                    <PrinterAfterSelectClickModal
+                        printerClicked={printerClicked}
+                        clicksData={clicksData}
+                        setPrinterClicked={data => setPrinterClicked(data)}
+                    ></PrinterAfterSelectClickModal>
+                ) : (
+                    <div></div>
                 )}
             </div>
         </div>

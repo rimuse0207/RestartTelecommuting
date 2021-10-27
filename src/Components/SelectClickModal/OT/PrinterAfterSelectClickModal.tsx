@@ -29,7 +29,6 @@ const PrinterAfterSelectClickModal = ({ printerClicked, clicksData, setPrinterCl
         setTimeout(() => {
             window.print();
         }, 500);
-
         window.onafterprint = function () {
             setPrinterClicked(false);
         };
