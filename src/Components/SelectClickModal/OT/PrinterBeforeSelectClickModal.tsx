@@ -43,7 +43,7 @@ const PrinterBeforeSelectClickModal = ({ printerClicked, clicksData, setPrinterC
                             <thead style={{ border: '1px solid gray', background: 'none' }}>
                                 <tr>
                                     <th style={{ border: '0.5px solid gray' }} colSpan={7}>
-                                        연장(휴일)근무 신청서 (사후)
+                                        연장(휴일)근무 신청서 (사전)
                                     </th>
                                     <th rowSpan={2} style={{ border: '0.5px solid gray' }}>
                                         팀장
@@ -57,7 +57,7 @@ const PrinterBeforeSelectClickModal = ({ printerClicked, clicksData, setPrinterC
                                         부서
                                     </th>
                                     <th colSpan={2} style={{ border: '0.5px solid gray' }}>
-                                        {clicksData.team}
+                                        {clicksData.team.toUpperCase()}
                                     </th>
                                     <th style={{ border: '0.5px solid gray' }}>성명</th>
                                     <th style={{ border: '0.5px solid gray', textAlign: 'end' }}>(인)</th>

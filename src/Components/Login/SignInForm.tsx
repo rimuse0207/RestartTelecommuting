@@ -3,7 +3,7 @@ import axios from 'axios';
 import './SignInForm.css';
 import { useDispatch } from 'react-redux';
 import { getPersionalInfo } from '../../models/PersonalInfo';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
 };
@@ -21,22 +21,21 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             const loginCheck = await axios.post(`${process.env.REACT_APP_DB_HOST}/Login_app_servers/loginCheck`, {
                 id: id,
                 password: password,
-            })
+            });
 
             if (!loginCheck.data.searchOn) {
                 alert(loginCheck.data.message);
                 setPassword('');
-
             } else {
-                sessionStorage.setItem("DHKS_TOKEN", loginCheck.data.token);
+                sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
                 alert(loginCheck.data.message);
-                console.log(loginCheck)
+                console.log(loginCheck);
                 localStorage.setItem('id', loginCheck.data.data.id);
                 dispatch(getPersionalInfo(loginCheck.data.data));
 
                 setLoginCheck(true);
                 if (loginCheck.data.changePassword) {
-                    history.push("/ChangePassword");
+                    history.push('/');
                 }
                 // return <Redirect push to="/" />
             }

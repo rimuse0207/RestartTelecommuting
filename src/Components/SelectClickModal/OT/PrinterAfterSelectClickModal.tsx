@@ -56,7 +56,7 @@ const PrinterAfterSelectClickModal = ({ printerClicked, clicksData, setPrinterCl
                                         부서
                                     </th>
                                     <th colSpan={2} style={{ border: '0.5px solid gray' }}>
-                                        {clicksData.team}
+                                        {clicksData.team.toUpperCase()}
                                     </th>
                                     <th style={{ border: '0.5px solid gray' }}>성명</th>
                                     <th style={{ border: '0.5px solid gray', textAlign: 'end' }}>(인)</th>

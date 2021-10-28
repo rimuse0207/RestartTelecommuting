@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../models/index';
-import { DecryptKey } from '../../../config';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import ko from 'date-fns/locale/ko';
-import axios from 'axios';
-import moment from 'moment';
-registerLocale('ko', ko);
-
+import SliderPage from '../../SliderPage';
+import { RootState } from '../../../models';
+import SignInForm from '../../Login/SignInForm';
+import HambergerMenu from '../../Navigation/HambergerMenu';
+import MealMonthMainPage from './MealMonthMainPage';
 const MealMonthSelect = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const [startDate, setStartDate] = useState<any>(new Date());
-    const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM'));
+    const socket = useSelector((state: RootState) => state.Socket.socket);
+    const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
+    const [loginCheck, setLoginCheck] = useState(false);
     return (
         <div>
-            <div>
-                <DatePicker
-                    selected={startDate}
-                    onChange={date => setStartDate(date)}
-                    showMonthYearPicker
-                    showFullMonthYearPicker
-                    dateFormat="yyyy-MM"
-                    locale="ko"
-                    withPortal
-                    portalId="root-portal"
-                />
-            </div>
+            {loginChecked ? (
+                <div>
+                    <HambergerMenu titles="식대정산 월별 조회" subtitles="팀별 팀원 식대 신청 조회"></HambergerMenu>
+                    <div style={{ position: 'relative' }}>
+                        <MealMonthMainPage></MealMonthMainPage>
+                    </div>
+                    <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
+                </div>
+            ) : (
+                <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>
+            )}
         </div>
     );
 };

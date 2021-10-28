@@ -28,6 +28,10 @@
         page-break-after: avoid;
         page-break-before: avoid;
     }
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
     .body,
     .page {
         margin-top: -1px;
@@ -35,25 +39,8 @@
     #root {
         opacity: 0;
     }
-
-    .ReactModal__Content {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        height: 100vh;
-    }
-    .ReactModal__Content--after-open {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        height: 300vh;
-    }
-    .fasfdasfas {
-        position: fixed;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-    }
+    /* .OTTTTTTTT {
+        height: 100vh !important;
+        overflow: hidden !important;
+    } */
 }

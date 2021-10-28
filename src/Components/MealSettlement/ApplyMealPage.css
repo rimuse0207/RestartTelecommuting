@@ -1,210 +1,210 @@
 .Select_menu {
-  padding: 0;
-  margin: 0 auto;
-  text-align: center;
-  margin-bottom: 15px;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .Select_menu > li {
-  list-style: none;
-  display: inline-block;
-  width: 20%;
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
-  border: 1px solid black;
-  font-weight: bold;
+    list-style: none;
+    display: inline-block;
+    width: 20%;
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    font-weight: bold;
 }
 
 #form-div {
-  background-color: rgba(93, 93, 93, 0.4);
-  padding: 0px 35px 50px;
-  width: 450px;
-  left: 50%;
-  position: relative;
-  margin-left: -260px;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  margin-bottom: 20px;
-  height: 470px;
-  padding-top: 30px;
+    background-color: rgba(93, 93, 93, 0.4);
+    padding: 0px 35px 50px;
+    width: 450px;
+    left: 50%;
+    position: relative;
+    margin-left: -260px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    margin-bottom: 20px;
+    height: 470px;
+    padding-top: 30px;
 }
 
 .feedback-input {
-  color: #3c3c3c;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 0;
-  line-height: 22px;
-  background-color: #ffffff;
-  padding: 13px 13px 13px 30px;
-  margin-bottom: 10px;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 3px solid rgba(0, 0, 0, 0);
+    color: #3c3c3c;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: #ffffff;
+    padding: 13px 13px 13px 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid rgba(0, 0, 0, 0);
 }
 
 .feedback-input:focus {
-  background: #fff;
-  box-shadow: 0;
-  /*border: 3px solid #3498db;*/
-  border-color: #3498db;
-  color: #3498db;
-  outline: none;
-  /*padding: 13px 13px 13px 54px;*/
+    background: #fff;
+    box-shadow: 0;
+    /*border: 3px solid #3498db;*/
+    border-color: #3498db;
+    color: #3498db;
+    outline: none;
+    /*padding: 13px 13px 13px 54px;*/
 }
 
 .focused {
-  color: #30aed6;
-  border: #30aed6 solid 3px;
+    color: #30aed6;
+    border: #30aed6 solid 3px;
 }
 
 #button-blue {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  float: left;
-  width: 100%;
-  border: #fbfbfb solid 4px;
-  cursor: pointer;
-  background-color: #3498db;
-  color: white;
-  font-size: 24px;
-  padding-top: 22px;
-  padding-bottom: 22px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  margin-top: -4px;
-  font-weight: 700;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    float: left;
+    width: 100%;
+    border: #fbfbfb solid 4px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    font-size: 24px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    margin-top: -4px;
+    font-weight: 700;
 }
 
 #button-blue:hover {
-  background-color: rgba(0, 0, 0, 0);
-  color: #0493bd;
+    background-color: rgba(0, 0, 0, 0);
+    color: #0493bd;
 }
 
 .ease {
-  width: 0;
-  height: 74px;
-  background-color: #fbfbfb;
-  -webkit-transition: 0.3s ease;
-  -moz-transition: 0.3s ease;
-  -o-transition: 0.3s ease;
-  -ms-transition: 0.3s ease;
-  transition: 0.3s ease;
+    width: 0;
+    height: 74px;
+    background-color: #fbfbfb;
+    -webkit-transition: 0.3s ease;
+    -moz-transition: 0.3s ease;
+    -o-transition: 0.3s ease;
+    -ms-transition: 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .submit:hover .ease {
-  width: 100%;
-  background-color: white;
+    width: 100%;
+    background-color: white;
 }
 
 .example-custom-input2 {
-  color: #3c3c3c;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 0;
-  line-height: 22px;
-  background-color: #ffffff;
-  padding: 13px 13px 13px 30px;
-  margin-bottom: 10px;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 3px solid rgba(0, 0, 0, 0);
-  padding-left: 0;
+    color: #3c3c3c;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: #ffffff;
+    padding: 13px 13px 13px 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid rgba(0, 0, 0, 0);
+    padding-left: 0;
 }
 .MealPage_first_box_div select {
-  color: #3c3c3c;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 0;
-  line-height: 22px;
-  background-color: #ffffff;
-  padding: 13px 13px 13px 30px;
-  margin-bottom: 10px;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 3px solid rgba(0, 0, 0, 0);
+    color: #3c3c3c;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: #ffffff;
+    padding: 13px 13px 13px 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid rgba(0, 0, 0, 0);
 }
 
 .MealPage_first_box_div select:focus {
-  color: #30aed6;
-  border: #30aed6 solid 3px;
+    color: #30aed6;
+    border: #30aed6 solid 3px;
 }
 
 .halfdiv {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .halfdiv > p {
-  width: 45%;
+    width: 45%;
 }
 
 .name {
-  width: 45%;
+    width: 45%;
 }
 .name2 {
-  width: 100%;
+    width: 100%;
 }
 
 .MealSettlement_Table_container_div_box table {
-  width: 80%;
-  margin: 0 auto;
-  text-align: center;
-  border: 1px solid #444444;
-  border-collapse: collapse;
-  margin-bottom: 30px;
-  border-right: 0px;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    border-right: 0px;
 }
 
 .MealSettlement_Table_container_div_box th,
 .MealSettlement_Table_container_div_box td {
-  border: 1px solid #444444;
-  padding: 10px;
+    border: 1px solid #444444;
+    padding: 10px;
 }
 
 thead,
 .tailtr {
-  background: rgba(93, 93, 93, 0.4);
-  font-size: 18px;
+    background: rgba(93, 93, 93, 0.4);
+    font-size: 18px;
 }
 
 .printbutton {
-  display: block;
-  height: 30px;
-  margin: 0 auto;
-  text-align: center;
-  width: 30%;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    text-align: center;
+    width: 30%;
 }
 
 .removeTHis {
-  border: 0px;
-  font-size: 10px;
-  color: red;
-  padding: 0;
-  border: 1px solid black;
+    border: 0px;
+    font-size: 10px;
+    color: red;
+    padding: 0;
+    border: 1px solid black;
 }
 .removeTHis:hover {
-  cursor: pointer;
-  color: blue;
+    cursor: pointer;
+    color: blue;
 }
 .SelectMonth {
-  width: 100%;
-  text-align: center;
-  font-size: x-large;
-  margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: x-large;
+    margin-bottom: 20px;
 }
 /* 
 #form-div {
@@ -212,48 +212,57 @@ thead,
 } */
 
 .space_pre {
-  display: inline;
-  font-size: larger;
-  font-weight: bolder;
-  margin-left: 20px;
-  margin-right: 20px;
+    display: inline;
+    font-size: larger;
+    font-weight: bolder;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .space_pre:hover {
-  cursor: pointer;
-  color: darkblue;
+    cursor: pointer;
+    color: darkblue;
 }
 .Float_parent_after::after {
-  clear: both;
-  content: "";
-  display: block;
+    clear: both;
+    content: '';
+    display: block;
 }
 .Float_left_div {
-  float: left;
-  width: 50%;
-  border-right: 0.5px dashed black;
+    float: left;
+    width: 50%;
+    border-right: 0.5px dashed black;
 }
 .Float_right_div {
-  float: right;
-  width: 50%;
-  border-left: 0.5px dashed black;
+    float: right;
+    width: 50%;
+    border-left: 0.5px dashed black;
 }
 .MealSettlement_Table_container_div_box > table {
-  font-size: small;
+    font-size: small;
 }
 .Caution {
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 10vh;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10vh;
 }
 .Caution > div > h2 {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 .textEx {
-  font-size: large;
-  padding-left: 20px;
-  margin-bottom: 10px;
+    font-size: large;
+    padding-left: 20px;
+    margin-bottom: 10px;
 }
 .Caution_button {
-  width: 30%;
-  margin: 20px auto;
+    width: 30%;
+    margin: 20px auto;
+}
+
+.MealSet_ApplyMealData_delete:hover {
+    cursor: pointer;
+    color: red;
+}
+.MealMonthMainPage_hover_tr:hover {
+    cursor: pointer;
+    background-color: lightgray;
 }

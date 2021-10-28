@@ -31,12 +31,8 @@ const customStyles = {
 Modal.setAppElement('#ModalSet');
 
 const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle }: SelectClickModalMainPageProps) => {
-    useEffect(() => {
-        console.log('adsdasdas');
-        console.log(clicksData);
-    }, [clicksData]);
     return (
-        <div>
+        <div id="SelectMODAL">
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
                 {clicksTitle === 'USB/CD' ? (
                     <CDSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></CDSelectClickModal>
