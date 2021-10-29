@@ -22,9 +22,16 @@ type PrinterAfterSelectClickModalProps = {
     applyedData: [] | null | any;
     setPrinterClicked: (data: boolean) => void;
     selectDate: string;
+    OTDatas: [] | null | any;
 };
 
-const PrinterApplyMealPage = ({ printerClicked, setPrinterClicked, applyedData, selectDate }: PrinterAfterSelectClickModalProps) => {
+const PrinterApplyMealPage = ({
+    printerClicked,
+    setPrinterClicked,
+    applyedData,
+    selectDate,
+    OTDatas,
+}: PrinterAfterSelectClickModalProps) => {
     function closeModal() {
         setPrinterClicked(false);
     }
@@ -89,7 +96,19 @@ const PrinterApplyMealPage = ({ printerClicked, setPrinterClicked, applyedData, 
                                                     </td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.place}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.location}</td>
-                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}></td>
+                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}>
+                                                        {OTDatas.map((item: { dates: string; OTTimes: number }) => {
+                                                            return list.division === '석식' ? (
+                                                                item.dates === list.dates ? (
+                                                                    <div>{item.OTTimes}시간</div>
+                                                                ) : (
+                                                                    <div></div>
+                                                                )
+                                                            ) : (
+                                                                <div></div>
+                                                            );
+                                                        })}
+                                                    </td>
                                                 </tr>
                                             );
                                         }

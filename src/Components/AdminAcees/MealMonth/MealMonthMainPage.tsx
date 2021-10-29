@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import ExcelDataFormat from './ExcelDataFormat';
 import ModalMealMonthDetailPage from './ModalMealMonthDetailPage';
 
 const MealMonthMainPage = () => {
@@ -9,6 +10,7 @@ const MealMonthMainPage = () => {
     const [selectedTeam, setSelectedTeam] = useState('All');
     const [belongNames, setBelongNames] = useState<any>([]);
     const [selectedNames, setSelectedNames] = useState('선택해주세요.');
+    const [selectedIds, setSelectedIds] = useState('선택해주세요.');
     const [modalCheck, setModalCheck] = useState(false);
     useEffect(() => {
         selectedTeamChange();
@@ -17,7 +19,7 @@ const MealMonthMainPage = () => {
     const selectedTeamChange = async () => {
         setBelongNames([]);
         try {
-            const changeTeam = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Meal_Team_Change`, {
+            const changeTeam = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Meal_Team_Change`, {
                 selectedYear,
                 selectedMonth,
                 selectedTeam,
@@ -30,8 +32,9 @@ const MealMonthMainPage = () => {
             console.log(error);
         }
     };
-    const handleClicksMeal = (names: string) => {
+    const handleClicksMeal = (names: string, id: string) => {
         setSelectedNames(names);
+        setSelectedIds(id);
         setModalCheck(true);
     };
 
@@ -68,6 +71,13 @@ const MealMonthMainPage = () => {
                         <option value="경영지원">경영지원</option>
                         <option value="아산CE">CE</option>
                     </select>
+                    <span style={{ marginLeft: '50px' }}>
+                        <ExcelDataFormat
+                            selectedYear={selectedYear}
+                            selectedMonth={selectedMonth}
+                            selectedTeam={selectedTeam}
+                        ></ExcelDataFormat>
+                    </span>
                 </div>
                 <div style={{ marginBottom: '30px' }}>
                     <table style={{ textAlign: 'center', borderCollapse: 'collapse', width: '100%', fontWeight: 'bolder' }}>
@@ -85,12 +95,12 @@ const MealMonthMainPage = () => {
                         </thead>
                         <tbody>
                             {belongNames.rows
-                                ? belongNames.rows.map((list: { name: string; team: string }, i: number) => {
+                                ? belongNames.rows.map((list: { name: string; team: string; id: string }, i: number) => {
                                       return (
                                           <tr
                                               className="MealMonthMainPage_hover_tr"
                                               key={list.name}
-                                              onDoubleClick={() => handleClicksMeal(list.name)}
+                                              onDoubleClick={() => handleClicksMeal(list.name, list.id)}
                                           >
                                               <td style={{ padding: '10px' }}>{list.name}</td>
                                               <td>{list.team}</td>
@@ -141,6 +151,7 @@ const MealMonthMainPage = () => {
                         modalCheck={modalCheck}
                         selectedYear={selectedYear}
                         selectedMonth={selectedMonth}
+                        selectedIds={selectedIds}
                     ></ModalMealMonthDetailPage>
                 ) : (
                     <div></div>

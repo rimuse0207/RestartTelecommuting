@@ -41,7 +41,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
 
     const data_get = async () => {
         try {
-            const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+            const dataget = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
                 id: DecryptKey(InfomationState.id),
                 team: InfomationState.team,
                 name: DecryptKey(InfomationState.name),
@@ -307,6 +307,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                             <div className="textEx">*식대지원 한도: 7,000원/1식</div>
                                             <div className="textEx">*익월 3영업일 까지 등록 가능</div>
                                             <div className="textEx">*중식지원 제외 지역 (성남시, 아산시 둔포면)</div>
+                                            <div className="textEx">*식대 정산 매월 1전표로 정산 가능합니다.</div>
                                         </div>
                                         <div style={{ width: '100%', margin: '0 auto' }}>
                                             <button
@@ -445,6 +446,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                         setPrinterClicked={setPrinterClicked}
                         applyedData={applyedData}
                         selectDate={selectDate}
+                        OTDatas={OTDatas}
                     ></PrinterApplyMealPage>
                 ) : (
                     <></>

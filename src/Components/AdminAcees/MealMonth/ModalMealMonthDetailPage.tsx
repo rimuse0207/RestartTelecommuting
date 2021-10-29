@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import { DecryptKey } from '../../../config';
 import moment from 'moment';
+import axios from 'axios';
 const customStyles = {
     content: {
-        width: '100%',
-        height: '100%',
-        border: 'none',
-        top: '0px',
-        left: '0px',
-        background: 'white',
+        width: '80%',
+        height: '90%',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
     },
 };
 
@@ -23,6 +26,7 @@ type PrinterAfterSelectClickModalProps = {
     modalCheck: boolean;
     selectedYear: string;
     selectedMonth: string;
+    selectedIds: string;
 };
 
 const ModalMealMonthDetailPage = ({
@@ -31,18 +35,33 @@ const ModalMealMonthDetailPage = ({
     modalCheck,
     selectedYear,
     selectedMonth,
+    selectedIds,
 }: PrinterAfterSelectClickModalProps) => {
+    const [applyedData, setApplyedData] = useState([]);
     function closeModal() {
+        document.body.style.overflowX = 'hidden';
+        document.body.style.overflowY = 'auto';
         setModalCheck(false);
     }
     useEffect(() => {
-        setTimeout(() => {
-            window.print();
-        }, 500);
-        window.onafterprint = function () {
-            setModalCheck(false);
-        };
-    }, []);
+        DataGetMeal();
+        document.body.style.overflow = 'hidden';
+    }, [selectedNames]);
+
+    const DataGetMeal = async () => {
+        try {
+            const GetMealDataPerson = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/MealPersonData`, {
+                id: selectedIds,
+                name: selectedNames,
+                selectDate: selectedYear + '-' + selectedMonth,
+            });
+            if (GetMealDataPerson.data.dataSuccess) {
+                setApplyedData(GetMealDataPerson.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     return (
         <div>
@@ -53,8 +72,16 @@ const ModalMealMonthDetailPage = ({
                             {selectedNames} {selectedYear}년 {selectedMonth}월 식대 정산
                         </h1>
                         <div>
-                            <table style={{ fontSize: 'medium', width: '100%', height: '100%', borderCollapse: 'collapse' }}>
-                                <thead style={{ fontSize: 'medium' }}>
+                            <table
+                                style={{
+                                    fontSize: 'small',
+                                    width: '100%',
+                                    height: '100%',
+                                    borderCollapse: 'collapse',
+                                    fontWeight: 'bolder',
+                                }}
+                            >
+                                <thead style={{ fontSize: 'small' }}>
                                     <tr style={{ height: '50px' }}>
                                         <th>부서</th>
                                         <th>{InfomationState.team}</th>
@@ -125,7 +152,6 @@ const ModalMealMonthDetailPage = ({
                             </table>
                         </div>
                     </div>
-                    <div style={{ marginTop: '30px', marginLeft: '30px' }}>* 영수증 첨부 (카드영수증, 현금영수증, PAYCO이용내역)</div>
                 </Modal>
             </div>
         </div>
