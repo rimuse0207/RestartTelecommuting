@@ -12,6 +12,7 @@ import {
 } from '../../models/Thunk_models/TelecommutingData';
 import { getAFTEROTdataThunk, AfterOTDataShowCheckedFalse, AfterOTShowCheckedTrue } from '../../models/Thunk_models/AfterOTData';
 import { getBEFOREOTdataThunk, BeforeOTDataShowCheckedFalse, BeforeOTShowCheckedTrue } from '../../models/Thunk_models/BeforeOTData';
+import { getPartsdataThunk, PartsDataShowCheckedFalse, PartsDataShowCheckedTrue } from '../../models/Thunk_models/PartsData';
 import SelectClickModalMainPage from '../SelectClickModal/SelectClickModalMainPage';
 const Telecommuting = () => {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Telecommuting = () => {
     const TelecommutingData = useSelector((state: RootState) => state.TelecommutingDataGetting.TelecommutingDatas);
     const AfterOTData = useSelector((state: RootState) => state.AfterOTData.AfterOTDatas);
     const BeforeOTData = useSelector((state: RootState) => state.BeforeOTData.BeforeOTDatas);
+    const PartsData = useSelector((state: RootState) => state.PartsData.PartsDatas);
 
     const [getMoment, setMoment] = useState(moment());
     const [onClicked, setOnClickedSet] = useState(false);
@@ -31,6 +33,7 @@ const Telecommuting = () => {
     const [BeforeOtApply_check, setBeforeOtApply_check] = useState(true);
     const [foodApply_check, setfoodApply_check] = useState(true);
     const [usbApply_check, setusbApply_check] = useState(true);
+    const [Parts_check, setParts_check] = useState(true);
     const [clicksTitle, setClicksTitle] = useState('');
 
     useEffect(() => {
@@ -39,6 +42,7 @@ const Telecommuting = () => {
         if (telecommutingApply_check) dispatch(getTelecommutingThunk(getMoment, InfomationState));
         if (AfterOtApply_check) dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
         if (BeforeOtApply_check) dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+        if (Parts_check) dispatch(getPartsdataThunk(getMoment, InfomationState));
     }, [getMoment]);
 
     const today = getMoment;
@@ -915,6 +919,48 @@ const Telecommuting = () => {
                                             ) : (
                                                 <div></div>
                                             )}
+                                            {Parts_check ? (
+                                                PartsData.data.map(
+                                                    (
+                                                        list: {
+                                                            check_date: string;
+                                                            writer: string;
+                                                            indexs: number;
+                                                            colorCheck: number;
+                                                            write_auto_date: string;
+                                                            partdesc: string;
+                                                            write_date: string;
+                                                        },
+                                                        i: number
+                                                    ) => {
+                                                        return moment(list.write_date).format('YYYY-MM-DD') ===
+                                                            days.format('YYYY-MM-DD') ? (
+                                                            <div
+                                                                key={list.indexs}
+                                                                className="Telecommuting_Table_Data_Insert"
+                                                                onClick={() => {
+                                                                    setClicksData(list);
+                                                                    setClicksTitle('Person_Parts');
+                                                                    setOnClickedDataIn(true);
+                                                                }}
+                                                                style={
+                                                                    list.colorCheck === 3
+                                                                        ? { backgroundColor: 'gray' }
+                                                                        : moment(list.write_auto_date).diff(moment(), 'days') === 0
+                                                                        ? { backgroundColor: 'lime' }
+                                                                        : moment(list.write_auto_date).diff(moment(), 'days') === -1
+                                                                        ? { backgroundColor: '#f7b34c' }
+                                                                        : { backgroundColor: '#c13838' }
+                                                                }
+                                                            >{`${list.writer}_${list.partdesc.slice(0, 15)}...`}</div>
+                                                        ) : (
+                                                            <div></div>
+                                                        );
+                                                    }
+                                                )
+                                            ) : (
+                                                <div></div>
+                                            )}
                                         </div>
                                     </td>
                                 );
@@ -1028,6 +1074,19 @@ const Telecommuting = () => {
                             }}
                         >
                             <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
+                        </li>
+                        <li
+                            onClick={() => {
+                                if (Parts_check) {
+                                    dispatch(PartsDataShowCheckedFalse());
+                                } else {
+                                    //dispatch(USBCDDataShowCheckedTrue());
+                                    dispatch(getPartsdataThunk(getMoment, InfomationState));
+                                }
+                                setParts_check(!Parts_check);
+                            }}
+                        >
+                            <input type="checkbox" name="usbParts" checked={Parts_check} readOnly></input> 업무요청
                         </li>
                     </ul>
                 </div>

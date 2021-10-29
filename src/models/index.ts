@@ -7,11 +7,13 @@ import USBCDDataGetting from './Thunk_models/USBCDData';
 import TelecommutingDataGetting from './Thunk_models/TelecommutingData';
 import AfterOTData from './Thunk_models/AfterOTData';
 import BeforeOTData from './Thunk_models/BeforeOTData';
+import PartsData from './Thunk_models/PartsData';
 import TeamLeader_TelecommutingDataGetting from './TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
 import TeamLeaderUSBCDDataGetting from './TeamLeader_Thunk_models/TeamLeaderUSBCDData';
 import TeamLeaderFoodData from './TeamLeader_Thunk_models/TeamLeaderFoodData';
-import TeamLeaderBeforeOTData from "./TeamLeader_Thunk_models/TeamLeaderBeforeOTData"
-import TeamLeaderAfterOTData from "./TeamLeader_Thunk_models/TeamLeaderAfterOTData"
+import TeamLeaderBeforeOTData from './TeamLeader_Thunk_models/TeamLeaderBeforeOTData';
+import TeamLeaderAfterOTData from './TeamLeader_Thunk_models/TeamLeaderAfterOTData';
+
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
@@ -25,11 +27,10 @@ const rootReducer = combineReducers({
     TeamLeaderUSBCDDataGetting,
     TeamLeaderFoodData,
     TeamLeaderBeforeOTData,
-    TeamLeaderAfterOTData
+    TeamLeaderAfterOTData,
+    PartsData,
 });
-// 루트 리듀서를 내보내주세요.
+
 export default rootReducer;
 
-// 루트 리듀서의 반환값를 유추해줍니다
-// 추후 이 타입을 컨테이너 컴포넌트에서 불러와서 사용해야 하므로 내보내줍니다.
 export type RootState = ReturnType<typeof rootReducer>;

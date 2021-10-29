@@ -49,6 +49,17 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
+                {clicksTitle === 'Person_Parts' ? (
+                    <div>
+                        <PersonSelectClickModal
+                            clicksTitle={clicksTitle}
+                            clicksData={clicksData}
+                            modalClose={modalClose}
+                        ></PersonSelectClickModal>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
                 {clicksTitle === 'BeforeOT' ? (
                     <BeforeSelectClickModal
                         clicksTitle={clicksTitle}
