@@ -78,7 +78,9 @@ const TeamLeaderTelecommuting = () => {
             DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'jycha@dhk.co.kr' ||
             DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'
+            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'  || 
+            DecryptKey(InfomationState.id) === 'sjpark@dhk.co.kr'
+            
         ) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
