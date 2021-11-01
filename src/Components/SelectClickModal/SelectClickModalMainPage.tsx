@@ -10,6 +10,7 @@ import BeforeSelectClickModal from './OT/BeforeSelectClickModal';
 import AfterSelectClickModal from './OT/AfterSelectClickModal';
 import TeamLeaderBeforeSelectClickModal from './OT/TeamLeaderBeforeSelectClickModal';
 import TeamLeaderAfterSelectClickModal from './OT/TeamLeaderAfterSelectClickModal';
+import PersonPartsSelectClickModal from './Parts/PersonPartsSelectClickModal';
 type SelectClickModalMainPageProps = {
     onClicked: boolean;
     modalClose: () => void;
@@ -51,11 +52,11 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 )}
                 {clicksTitle === 'Person_Parts' ? (
                     <div>
-                        <PersonSelectClickModal
+                        <PersonPartsSelectClickModal
                             clicksTitle={clicksTitle}
                             clicksData={clicksData}
                             modalClose={modalClose}
-                        ></PersonSelectClickModal>
+                        ></PersonPartsSelectClickModal>
                     </div>
                 ) : (
                     <div></div>

@@ -594,7 +594,7 @@ const TeamLeaderTelecommuting = () => {
                                                                     className={`Telecommuting_Table_Data_Insert ${
                                                                         list.leadercheck === 0 ? 'blink' : ''
                                                                     }`}
-                                                                    style={{ backgroundColor: '#2c512f' }}
+                                                                    style={{ backgroundColor: '#773b02' }}
                                                                     onClick={() => {
                                                                         setClicksData(list);
                                                                         setClicksTitle('USB/CD');

@@ -1,0 +1,13 @@
+.Parts_Float_div_box::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.Parts_Float_left {
+    width: 50%;
+    float: left;
+}
+.Parts_Float_right {
+    width: 50%;
+    float: right;
+}

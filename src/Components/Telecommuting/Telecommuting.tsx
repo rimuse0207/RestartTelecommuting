@@ -909,7 +909,7 @@ const Telecommuting = () => {
                                                                     setClicksTitle('Person_USB/CD');
                                                                     setOnClickedDataIn(true);
                                                                 }}
-                                                                style={{ backgroundColor: '#2c512f' }}
+                                                                style={{ backgroundColor: '#773b02' }}
                                                             >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
                                                         ) : (
                                                             <div></div>
@@ -947,7 +947,7 @@ const Telecommuting = () => {
                                                                     list.colorCheck === 3
                                                                         ? { backgroundColor: 'gray' }
                                                                         : moment(list.write_auto_date).diff(moment(), 'days') === 0
-                                                                        ? { backgroundColor: 'lime' }
+                                                                        ? { backgroundColor: '#427200' }
                                                                         : moment(list.write_auto_date).diff(moment(), 'days') === -1
                                                                         ? { backgroundColor: '#f7b34c' }
                                                                         : { backgroundColor: '#c13838' }

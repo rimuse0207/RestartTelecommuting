@@ -21,7 +21,7 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
         if (TeamLeaderAccept.data.updateChecked) {
             dispatch(TeamLeader_getUSBCDThunk(clicksData.workdate, InfomationState));
             toast.show({
-                title: '팀장 승인 완료.',
+                title: '팀장 승인 완료 및 메일발송 성공',
                 content: `${clicksData.name}팀원의 USB/CD 사전신청한 부문에 승인하였습니다.`,
                 duration: 6000,
             });
