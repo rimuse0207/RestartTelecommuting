@@ -5,6 +5,7 @@ import { toast } from '../../ToastMessage/ToastManager';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { TeamLeader_getTelecommutingThunk } from '../../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
+import { DecryptKey } from '../../../config';
 type TeleSelectClickModalProps = {
     clicksTitle: string;
     clicksData: any | null;
@@ -25,8 +26,29 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
 
     const handleCommentSend = async () => {
         try {
-            setCommentDesc('');
-            setCommentDataOn(true);
+            const SendCommentData = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/commentMailSend`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                commentDesc,
+                clicksData,
+            });
+            if (SendCommentData.data.dataSuccess) {
+                setCommentDesc('');
+                setCommentDataOn(true);
+                toast.show({
+                    title: '코멘트 이메일 발송 성공.',
+                    content: `${clicksData.name} 팀원의 재택근무 코멘트 이메일 발송되었습니다.`,
+                    duration: 6000,
+                });
+            } else {
+                toast.show({
+                    title: '코멘트 이메일 발송 실패.',
+                    content: `${clicksData.name} 팀원의 코멘트 이메일 발송에 실패하였습니다.`,
+                    duration: 6000,
+                });
+            }
         } catch (error) {
             console.log(error);
         }
