@@ -52,13 +52,13 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
         },
         {
             index: 4,
-            describes: '4. 저장 매체로 Down./Up Load할 파일은 "장비 Soft, 장비 Log"  이외 것입니까?',
+            describes: '4. 저장 매체로 Down/Upload할 파일은 "장비 Soft, 장비 Log"  이외 것입니까?',
             checked: '',
         },
         {
             index: 5,
             describes:
-                '5. 저장매체에 Down./Up Load 절대 불가한 항목은 " 도면, 테크니컬 레포트(CE용) 등" 고객에게 유출되면 안되는 대외비 파일 인것을 숙지 하셨나요?',
+                '5. 저장매체에 Down/Upload 절대 불가한 항목은" 도면, 테크니컬 레포트(CE용) 등" 고객에게 유출되면 안되는 대외비 파일 인것을 숙지 하셨나요?',
             checked: '',
         },
     ]);

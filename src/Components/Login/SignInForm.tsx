@@ -28,8 +28,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 setPassword('');
             } else {
                 sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
-                alert(loginCheck.data.message);
-                console.log(loginCheck);
+
                 localStorage.setItem('id', loginCheck.data.data.id);
                 dispatch(getPersionalInfo(loginCheck.data.data));
 
