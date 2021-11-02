@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import './Navigation.css';
 import Navigation from './Navigation';
 type HambergerMenu = {
@@ -7,6 +7,7 @@ type HambergerMenu = {
 };
 
 const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
+    const myMenuRef = useRef<any>("null")
     const [hambergerOpen, setHambergerOpen] = useState(false);
     const [menuStatus, setMenuStatus] = useState('');
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
@@ -14,10 +15,23 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
         hambergerOpen ? setMenuStatus('') : setMenuStatus('isopen');
         setHambergerOpen(!hambergerOpen);
     };
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (myMenuRef.current && !myMenuRef.current.contains(e.target as Node)) {
+                e.stopPropagation();
+                setMenuStatus('') 
+                setHambergerOpen(false);   
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [myMenuRef]);
 
     return (
-        <div>
-            <div className="menubar">
+        <div ref={myMenuRef}>
+            <div className="menubar" >
                 <div className="MainTitles">
                     <h1>{titles}</h1>
                 </div>
@@ -32,7 +46,9 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     <span style={{ fontSize: "20px", fontWeight: "bolder" }}>{subtitles}</span>
                 </div>
             </div>
-            <Navigation menuStatus={menuStatus} />
+            <div >
+                <Navigation menuStatus={menuStatus} />
+            </div>
         </div>
     );
 };

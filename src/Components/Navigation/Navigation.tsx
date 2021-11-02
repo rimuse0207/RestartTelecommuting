@@ -19,7 +19,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
     };
     const dispatch = useDispatch();
     return (
-        <div className={menuStatus} id="menu">
+        <div className={menuStatus} id="menu" onBlur={()=>alert("asdasd")}>
             <div>
                 <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)}>
                     근무메뉴
