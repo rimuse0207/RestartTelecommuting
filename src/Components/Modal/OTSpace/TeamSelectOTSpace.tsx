@@ -16,6 +16,16 @@ const TeamSelectOTSpace = () => {
 
     useEffect(() => {
         const id = DecryptKey(InfomationState.id);
+        // if (
+        //     id === 'sjyoo@dhk.co.kr' ||
+        //     id === 'sjkim@dhk.co.kr' ||
+        //     id === 'jycha@dhk.co.kr' ||
+        //     id === 'jhlee1@dhk.co.kr' ||
+        //     id === 'htchoi@dhk.co.kr' ||
+        //     id === 'jmlee@dhk.co.kr'
+        // ) {
+        //     setShowTeam(['dicer', 'laser', 'grinder', '장비영업', '부품소재', '영업기술', '경영지원', '아산CE']);
+        // }
         if (
             id === 'sjyoo@dhk.co.kr' ||
             id === 'sjkim@dhk.co.kr' ||
@@ -25,6 +35,19 @@ const TeamSelectOTSpace = () => {
             id === 'jmlee@dhk.co.kr'
         ) {
             setShowTeam(['dicer', 'laser', 'grinder', '장비영업', '부품소재', '영업기술', '경영지원', '아산CE']);
+            setSelectTeam('dicer');
+        } else if (id === 'sjpark@dhk.co.kr') {
+            setShowTeam(['경영지원']);
+            setSelectTeam('경영지원');
+        } else if (id === 'jhgoo@dhk.co.kr') {
+            setShowTeam(['dicer', 'laser', 'grinder', '아산CE']);
+            setSelectTeam('dicer');
+        } else if (id === 'kcahn@dhk.co.kr') {
+            setShowTeam(['장비영업', '부품소재', '영업기술']);
+            setSelectTeam('장비영업');
+        } else if (id === 'ychong@dhk.co.kr') {
+            setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
+            setSelectTeam('A_dicer');
         }
     }, []);
     useEffect(() => {

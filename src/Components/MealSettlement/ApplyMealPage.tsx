@@ -431,9 +431,13 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                             </div>
                         </div>
                     </div>
-                    <button className="Printer_Button_overOT" onClick={() => setPrinterClicked(true)}>
-                        인쇄하기
-                    </button>
+                    {pickerDate ? (
+                        <div></div>
+                    ) : (
+                        <button className="Printer_Button_overOT" onClick={() => setPrinterClicked(true)}>
+                            인쇄하기
+                        </button>
+                    )}
 
                     <div style={{ height: '30px' }}></div>
                 </div>

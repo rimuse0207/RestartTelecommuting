@@ -43,6 +43,22 @@
     height: 100%;
     left: 0;
 }
+
+.Telecommuting_Table_dayNumber::-webkit-scrollbar {
+    width: 10px;
+}
+.Telecommuting_Table_dayNumber::-webkit-scrollbar-thumb {
+    background-color: #f7b22a;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+.Telecommuting_Table_dayNumber::-webkit-scrollbar-track {
+    background-color: lightgray;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px #efefef;
+}
+
 .Telecommuting_Table_nextMonth {
     background-color: lightgray;
     border: 1px solid darkgray !important;
@@ -144,10 +160,19 @@
     height: 30px;
     background: #efefef;
     padding: 10px;
-    width: 300px;
+    width: 150px;
     border: 1px solid black;
     font-weight: bolder;
 }
 .TeamLeader_Tele_input::placeholder {
     font-weight: bolder;
+}
+.TeamLeader_Telecommuting_SearchedNames {
+    margin-left: 30px;
+    height: 30px;
+    background-color: #efefef;
+    font-weight: bolder;
+}
+.TeamLeader_Telecommuting_SearchedNames:hover {
+    cursor: pointer;
 }
