@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { useSelector } from 'react-redux';
 import SliderPage from './Components/SliderPage';

@@ -165,6 +165,9 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
             });
             if (deleteData.data.dataSuccess) {
                 data_get();
+                dispatch(
+                    getFoodDataThunk(pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'), InfomationState)
+                );
                 toast.show({
                     title: '데이터 삭제 성공 ',
                     content: `${datas.dates}일자에 신청하신 식대정산 데이터가 삭제되었습니다.`,
@@ -317,7 +320,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     setCaution(true);
                                                 }}
                                             >
-                                                확인
+                                                확인 및 작성하기
                                             </button>
                                         </div>
                                     </div>

@@ -56,6 +56,7 @@ const ModalMealMonthDetailPage = ({
                 selectDate: selectedYear + '-' + selectedMonth,
             });
             if (GetMealDataPerson.data.dataSuccess) {
+                console.log(GetMealDataPerson);
                 setApplyedData(GetMealDataPerson.data.data);
             }
         } catch (error) {
@@ -84,10 +85,10 @@ const ModalMealMonthDetailPage = ({
                                 <thead style={{ fontSize: 'small' }}>
                                     <tr style={{ height: '50px' }}>
                                         <th>부서</th>
-                                        <th>{InfomationState.team}</th>
+                                        <th></th>
                                         <th colSpan={2}></th>
                                         <th>성명</th>
-                                        <th colSpan={3}>{DecryptKey(InfomationState.name)}</th>
+                                        <th colSpan={3}>{selectedNames}</th>
                                     </tr>
                                     <tr style={{ height: '50px' }}>
                                         <th>일자</th>
