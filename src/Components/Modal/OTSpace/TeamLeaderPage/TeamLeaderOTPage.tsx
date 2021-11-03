@@ -13,7 +13,7 @@ const TeamLeaderOTPage = () => {
     const [showTeam, setShowTeam] = useState(['권한없음.']);
     const [selectYear, setSelectYear] = useState(moment().format('YYYY'));
     const [selectMonth, setSelectMonth] = useState(moment().format('MM'));
-    const [selectTeam, setSelectTeam] = useState('');
+    const [selectTeam, setSelectTeam] = useState('권한없음');
     const [ShowName, setShowName] = useState([]);
     const [selectName, setSelectName] = useState('');
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
@@ -43,11 +43,25 @@ const TeamLeaderOTPage = () => {
         } else if (id === 'ychong@dhk.co.kr') {
             setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
             setSelectTeam('A_dicer');
+        }else if(id === "hjlee@dhk.co.kr"){
+            setShowTeam(['dicer']);
+            setSelectTeam('dicer');
+        }else if(id === "wbjung@dhk.co.kr"){
+            setShowTeam(['laser']);
+            setSelectTeam('laser');
+        }else if(id === "jhshin@dhk.co.kr"){
+            setShowTeam(['grinder']);
+            setSelectTeam('grinder');
+        }else if(id === "cwjun@dhk.co.kr"){
+            setShowTeam(['장비영업']);
+            setSelectTeam('장비영업');
         }
     }, []);
 
     useEffect(() => {
-        if (showTeam[0] !== '권한없음') getDataSelectTeam();
+        if (showTeam[0] !== '권한없음'){
+            getDataSelectTeam();
+        } 
     }, [selectTeam]);
 
     const getDataSelectTeam = async () => {

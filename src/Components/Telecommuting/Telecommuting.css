@@ -1,178 +1,176 @@
 .Telecommuting_date_show_div {
-    font-size: large;
-    font-weight: bolder;
+  font-size: large;
+  font-weight: bolder;
 }
 .Telecommuting_date_show_div > h1 {
-    margin-top: 10px;
-    text-align: center;
+  margin-top: 10px;
+  text-align: center;
 }
 .control {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 .control > span {
-    font-size: xx-large;
+  font-size: 1.5em;
 }
 .Telecommuting_Table {
-    width: 100%;
-    height: 85vh;
-    border: 1px solid white;
-    border-collapse: collapse;
+  width: 100%;
+  height: 85vh;
+  border: 1px solid white;
+  border-collapse: collapse;
 }
 .Telecommuting_Table > thead > tr > th {
-    padding: 0;
-    margin: 0;
-    border: 1px solid lightgray;
-    border-bottom: 1px solid gray;
+  padding: 0;
+  margin: 0;
+  border: 1px solid lightgray;
+  border-bottom: 1px solid gray;
 }
 .Telecommuting_Table > tbody > tr > td {
-    border: 1px solid lightgray;
-    max-height: 14%;
-    position: relative;
-    font-weight: lighter;
-    font-size: small;
+  border: 1px solid lightgray;
+  max-height: 14%;
+  position: relative;
+  font-weight: lighter;
+  font-size: small;
 }
 .Telecommuting_table_today {
-    background-color: #edbf84;
+  background-color: #edbf84;
 }
 .Telecommuting_Table_dayNumber {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    overflow: auto;
-    height: 100%;
-    left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: auto;
+  height: 100%;
+  left: 0;
 }
 
 .Telecommuting_Table_dayNumber::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 .Telecommuting_Table_dayNumber::-webkit-scrollbar-thumb {
-    background-color: #f7b22a;
-    border-radius: 10px;
-    background-clip: padding-box;
-    border: 2px solid transparent;
+  background-color: #f7b22a;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 .Telecommuting_Table_dayNumber::-webkit-scrollbar-track {
-    background-color: lightgray;
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 5px #efefef;
+  background-color: lightgray;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px #efefef;
 }
 
 .Telecommuting_Table_nextMonth {
-    background-color: lightgray;
-    border: 1px solid darkgray !important;
+  background-color: lightgray;
+  border: 1px solid darkgray !important;
 }
 .Telecommuting_Table_Data_Insert {
-    width: 100%;
-    font-weight: bolder;
-    line-height: 150%;
-    border-radius: 5px;
-    margin-bottom: 2px;
-    background-color: #3174ad;
-    color: white;
-    padding-left: 10px;
-    padding-bottom: 2px;
+  width: 100%;
+  font-weight: bolder;
+  line-height: 150%;
+  border-radius: 5px;
+  margin-bottom: 2px;
+  background-color: #3174ad;
+  color: white;
+  padding-left: 10px;
+  padding-bottom: 2px;
 }
 .Telecommuting_Table_Data_Insert:hover {
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-    background-color: #f9d77a !important;
-    color: black;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  background-color: #f9d77a !important;
+  color: black;
 }
 
 .control > button {
-    height: 100%;
-    border: none;
-    font-size: x-large;
-    background: none;
-    margin-left: 15px;
-    margin-right: 15px;
-    font-weight: bolder;
+  height: 100%;
+  border: none;
+  font-size: 1.2em;
+  background: none;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-weight: bolder;
 }
 .control > button:hover {
-    cursor: pointer;
-    color: #3174ad;
+  cursor: pointer;
+  color: #3174ad;
 }
 
 .Telecommutign_checkbox_div {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 
 .Telecommutign_checkbox_div > ul {
-    display: flex;
-    font-size: small;
+  display: flex;
+  font-size: 0.7em;
 }
 .Telecommutign_checkbox_div > ul > li {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 .Telecommutign_checkbox_div > ul > li:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 .Telecommuting_apply_div_box {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    height: 3vh;
+  position: absolute;
+  left: 20px;
+  height: 3vh;
 }
 .Telecommuting_apply_div_box > button {
-    width: 100px;
-    height: 100%;
-    border: none;
-    font-size: medium;
-    font-weight: bolder;
-    background-color: #3174ad;
-    border-radius: 10px;
-    color: white;
-    box-shadow: 1px 1px 1px 1px skyblue;
+  width: 100px;
+  height: 100%;
+  border: none;
+  font-weight: bolder;
+  background-color: #3174ad;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 1px 1px 1px 1px skyblue;
 }
 .Telecommuting_apply_div_box > button:hover {
-    cursor: pointer;
-    color: black;
-    background-color: orange;
+  cursor: pointer;
+  color: black;
+  background-color: orange;
 }
 
 .Telecommuting_table_today:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 .Telecommuting_Table_nextMonth:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 .Telecommuting_Table_nowMonth {
-    cursor: pointer;
+  cursor: pointer;
 }
 .Telecommuting_MainPage_SUM_Text_Div {
-    position: absolute;
-    top: -70px;
-    left: 200px;
-    font-size: small;
-    font-weight: bolder;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: darkgray;
-    padding-bottom: 10px;
-    padding-top: 10px;
+  position: absolute;
+  top: -70px;
+  left: 200px;
+  font-size: small;
+  font-weight: bolder;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: darkgray;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .TeamLeader_Tele_input {
-    height: 30px;
-    background: #efefef;
-    padding: 10px;
-    width: 150px;
-    border: 1px solid black;
-    font-weight: bolder;
+  height: 30px;
+  background: #efefef;
+  padding: 10px;
+  width: 150px;
+  border: 1px solid black;
+  font-weight: bolder;
 }
 .TeamLeader_Tele_input::placeholder {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 .TeamLeader_Telecommuting_SearchedNames {
-    margin-left: 30px;
-    height: 30px;
-    background-color: #efefef;
-    font-weight: bolder;
+  margin-left: 30px;
+  height: 30px;
+  background-color: #efefef;
+  font-weight: bolder;
 }
 .TeamLeader_Telecommuting_SearchedNames:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

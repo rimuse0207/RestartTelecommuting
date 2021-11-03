@@ -65,6 +65,7 @@ type TeamLeaderModalProps = {
         sat_reason2: string;
         sun_reason2: string;
         name: string;
+        leadercheck:number;
     };
 };
 
@@ -100,6 +101,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
         thu_time: 0,
         fri_time: 0,
     });
+    console.log(clickedOTData)
     const handleAfterOTAccept = async () => {
         try {
             const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/AfterOTDataAccept`, {
@@ -559,9 +561,12 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                         </tbody>
                     </table>
                     <div style={{ textAlign: 'end', marginTop: '40px' }}>
-                        <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
+                        {
+                            clickedOTData.leadercheck === 1 ? "팀장승인 완료." : <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
                             팀장승인
                         </button>
+                        }
+                       
                     </div>
                 </div>
             </Modal>

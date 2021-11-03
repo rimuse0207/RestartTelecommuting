@@ -48,6 +48,18 @@ const TeamSelectOTSpace = () => {
         } else if (id === 'ychong@dhk.co.kr') {
             setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
             setSelectTeam('A_dicer');
+        }else if(id === "hjlee@dhk.co.kr"){
+            setShowTeam(['dicer']);
+            setSelectTeam('dicer');
+        }else if(id === "wbjung@dhk.co.kr"){
+            setShowTeam(['laser']);
+            setSelectTeam('laser');
+        }else if(id === "jhshin@dhk.co.kr"){
+            setShowTeam(['grinder']);
+            setSelectTeam('grinder');
+        }else if(id === "cwjun@dhk.co.kr"){
+            setShowTeam(['장비영업']);
+            setSelectTeam('장비영업');
         }
     }, []);
     useEffect(() => {

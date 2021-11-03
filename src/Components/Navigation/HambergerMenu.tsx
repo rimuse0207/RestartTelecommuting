@@ -43,7 +43,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     <span></span>
                 </div>
                 <div className="title">
-                    <span style={{ fontSize: "20px", fontWeight: "bolder" }}>{subtitles}</span>
+                    <span style={{ fontSize: "1.1em", fontWeight: "bolder" }}>{subtitles}</span>
                 </div>
             </div>
             <div >

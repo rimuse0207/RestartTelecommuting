@@ -65,6 +65,7 @@ type TeamLeaderModalProps = {
         sat_reason2: string;
         sun_reason2: string;
         name: string;
+        leadercheck:number;
     };
 };
 
@@ -559,9 +560,12 @@ const TeamLeaderModal = ({ onClicked, modalClose, clickedOTData, getDataOTData }
                         </tbody>
                     </table>
                     <div style={{ textAlign: 'end', marginTop: '40px' }}>
-                        <button onClick={handleBeforeOTAccept} className="TeamLeaderAcceptDesc">
+                        
+                        {
+                            clickedOTData.leadercheck === 1 ? "팀장승인 완료." : <button onClick={handleBeforeOTAccept} className="TeamLeaderAcceptDesc">
                             팀장승인
                         </button>
+                        }
                     </div>
                 </div>
             </Modal>

@@ -70,8 +70,8 @@ td > div > .react-datepicker__input-container > input {
 
 .WeekOTMenubar_big_div {
   position: absolute;
-  right: 40px;
-  line-height: 62.5px;
+  right: -20px;
+  line-height: 56.5px;
   width: 300px;
 }
 .WeekOTMenubar_big_div > ul {
@@ -79,9 +79,8 @@ td > div > .react-datepicker__input-container > input {
 }
 
 .WeekOTMenubar_big_div > ul > li {
-  width: 50%;
+  width: 40%;
   text-align: center;
-  font-size: larger;
   font-weight: bolder;
   border: 1px solid black;
   border-bottom: none;

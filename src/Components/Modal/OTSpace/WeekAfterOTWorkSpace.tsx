@@ -1360,17 +1360,17 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                         <span
                             className="WeekAferOTWorkSpace_date_change_span"
-                            style={{ fontSize: 'x-large', fontWeight: 'bolder' }}
+                            style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
                             onClick={handlesubTest}
                         >
                             {'<<<< '}
                         </span>
-                        <h2 style={{ textAlign: 'center', display: 'inline' }}>
+                        <h2 style={{ textAlign: 'center', display: 'inline',fontSize:"1.2em" }}>
                             {startDate.format('YYYY년 MM월 DD일')}(월) ~ {endDate.format('YYYY년 MM월 DD일')}(일)
                         </h2>
                         <span
                             className="WeekAferOTWorkSpace_date_change_span"
-                            style={{ fontSize: 'x-large', fontWeight: 'bolder' }}
+                            style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
                             onClick={handlenextTest}
                         >
                             {' >>>>'}
