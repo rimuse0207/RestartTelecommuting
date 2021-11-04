@@ -53,36 +53,72 @@ const TeamLeaderTelecommuting = () => {
     const [clicksTitle, setClicksTitle] = useState('');
     const [belongsName, setBelongsName] = useState([]);
 
+    // useEffect(() => {
+    //     const IDS = DecryptKey(InfomationState.id);
+    //     if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
+    //         if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         IDS === 'sjyoo@dhk.co.kr' ||
+    //         IDS === 'sjkim@dhk.co.kr' ||
+    //         IDS === 'wbjung@dhk.co.kr' ||
+    //         IDS === 'hjlee@dhk.co.kr' ||
+    //         IDS === 'jhshin@dhk.co.kr' ||
+    //         IDS === 'cwjun@dhk.co.kr' ||
+    //         IDS === 'kcahn@dhk.co.kr' ||
+    //         IDS === 'jhgoo@dhk.co.kr' ||
+    //         IDS === 'ychong@dhk.co.kr'
+    //     ) {
+    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         IDS === 'jhlee1@dhk.co.kr' ||
+    //         IDS === 'jycha@dhk.co.kr' ||
+    //         IDS === 'htchoi@dhk.co.kr' ||
+    //         IDS === 'jmlee@dhk.co.kr' ||
+    //         IDS === 'sjpark@dhk.co.kr'
+    //     ) {
+    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         InfomationState.position === '팀장' ||
+    //         InfomationState.team === '임원' ||
+    //         IDS === 'sjyoo@dhk.co.kr' ||
+    //         IDS === 'sjkim@dhk.co.kr'
+    //     ) {
+    //         if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
+    //     }
+    // }, [getMoment, foodApply_check, usbApply_check, AfterOtApply_check, BeforeOtApply_check, telecommutingApply_check]);
+
     useEffect(() => {
-        if (
-            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr'
-        ) {
+        const IDS = DecryptKey(InfomationState.id);
+        if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
             if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
         if (
-            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'wbjung@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'hjlee@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jhshin@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'cwjun@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'kcahn@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jhgoo@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'ychong@dhk.co.kr'
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr' ||
+            IDS === 'wbjung@dhk.co.kr' ||
+            IDS === 'hjlee@dhk.co.kr' ||
+            IDS === 'jhshin@dhk.co.kr' ||
+            IDS === 'cwjun@dhk.co.kr' ||
+            IDS === 'kcahn@dhk.co.kr' ||
+            IDS === 'jhgoo@dhk.co.kr' ||
+            IDS === 'ychong@dhk.co.kr'
         ) {
             if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
         }
         if (
-            DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jycha@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'sjpark@dhk.co.kr'
+            IDS === 'jhlee1@dhk.co.kr' ||
+            IDS === 'jycha@dhk.co.kr' ||
+            IDS === 'htchoi@dhk.co.kr' ||
+            IDS === 'jmlee@dhk.co.kr' ||
+            IDS === 'sjpark@dhk.co.kr'
         ) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
@@ -90,12 +126,94 @@ const TeamLeaderTelecommuting = () => {
         if (
             InfomationState.position === '팀장' ||
             InfomationState.team === '임원' ||
-            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
-            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr'
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr'
         ) {
             if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
         }
-    }, [getMoment, foodApply_check, usbApply_check, AfterOtApply_check, BeforeOtApply_check, telecommutingApply_check]);
+    }, [getMoment]);
+
+    useEffect(() => {
+        const IDS = DecryptKey(InfomationState.id);
+        if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
+            if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
+        }
+    }, [foodApply_check]);
+    useEffect(() => {
+        const IDS = DecryptKey(InfomationState.id);
+        if (
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr' ||
+            IDS === 'wbjung@dhk.co.kr' ||
+            IDS === 'hjlee@dhk.co.kr' ||
+            IDS === 'jhshin@dhk.co.kr' ||
+            IDS === 'cwjun@dhk.co.kr' ||
+            IDS === 'kcahn@dhk.co.kr' ||
+            IDS === 'jhgoo@dhk.co.kr' ||
+            IDS === 'ychong@dhk.co.kr'
+        ) {
+            if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+        }
+    }, [usbApply_check]);
+    useEffect(() => {
+        const IDS = DecryptKey(InfomationState.id);
+        if (
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr' ||
+            IDS === 'wbjung@dhk.co.kr' ||
+            IDS === 'hjlee@dhk.co.kr' ||
+            IDS === 'jhshin@dhk.co.kr' ||
+            IDS === 'cwjun@dhk.co.kr' ||
+            IDS === 'kcahn@dhk.co.kr' ||
+            IDS === 'jhgoo@dhk.co.kr' ||
+            IDS === 'ychong@dhk.co.kr'
+        ) {
+            if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+        } else if (
+            IDS === 'jhlee1@dhk.co.kr' ||
+            IDS === 'jycha@dhk.co.kr' ||
+            IDS === 'htchoi@dhk.co.kr' ||
+            IDS === 'jmlee@dhk.co.kr' ||
+            IDS === 'sjpark@dhk.co.kr'
+        ) {
+            if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+        }
+    }, [AfterOtApply_check]);
+    useEffect(() => {
+        const IDS = DecryptKey(InfomationState.id);
+        if (
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr' ||
+            IDS === 'wbjung@dhk.co.kr' ||
+            IDS === 'hjlee@dhk.co.kr' ||
+            IDS === 'jhshin@dhk.co.kr' ||
+            IDS === 'cwjun@dhk.co.kr' ||
+            IDS === 'kcahn@dhk.co.kr' ||
+            IDS === 'jhgoo@dhk.co.kr' ||
+            IDS === 'ychong@dhk.co.kr'
+        ) {
+            if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+        } else if (
+            IDS === 'jhlee1@dhk.co.kr' ||
+            IDS === 'jycha@dhk.co.kr' ||
+            IDS === 'htchoi@dhk.co.kr' ||
+            IDS === 'jmlee@dhk.co.kr' ||
+            IDS === 'sjpark@dhk.co.kr'
+        ) {
+            if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+        }
+    }, [BeforeOtApply_check]);
+    useEffect(() => {
+        const IDS = DecryptKey(InfomationState.id);
+        if (
+            InfomationState.position === '팀장' ||
+            InfomationState.team === '임원' ||
+            IDS === 'sjyoo@dhk.co.kr' ||
+            IDS === 'sjkim@dhk.co.kr'
+        ) {
+            if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
+        }
+    }, [telecommutingApply_check]);
 
     useEffect(() => {
         getSomeNamesData();
