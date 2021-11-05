@@ -13,6 +13,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
     const [TeleMenuClicks, setTeleMenuClicks] = useState(true);
     const [OTMenuClicks, setOTMenuClicks] = useState(true);
     const [FoodMenuClicks, setFoodMenuClicks] = useState(true);
+    const [ETCMenuClicks, setETCMenuClicks] = useState(true);
     const handleLogout = () => {
         sessionStorage.clear();
         dispatch(getPersionalLOGOUT());
@@ -47,6 +48,18 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         <Link to="/Telecommuting_workspace">
                             <li>재택근무 신청</li>
                         </Link>
+                        {InfomationState.position === '이사' ||
+                        InfomationState.position === '팀장' ||
+                        DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjkime@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                            <Link to="/MonthTelecommuting">
+                                <li>월별 재택 조회</li>
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
+
                         <Link to="/USbWrite">
                             <li>USB/CD 사전 신청</li>
                         </Link>
@@ -114,7 +127,17 @@ const Navigation = ({ menuStatus }: Navigation) => {
                 )}
             </div>
             <div>
+                <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)}>
+                    기타메뉴
+                    <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
+                </h5>
                 <ul>
+                    <Link to="/ConnectedNow">
+                        <li>상대방 호출</li>
+                    </Link>
+                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                        <li>시설이용</li>
+                    </Link>
                     <Link to="/">
                         <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
                             - 로그아웃

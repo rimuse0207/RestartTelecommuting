@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../models';
 import HambergerMenu from '../Navigation/HambergerMenu';
 import SliderPage from '../SliderPage';
 import SignInForm from '../Login/SignInForm';
-import ConnectedPeopleShow from './ConnectedPeopleShow';
-
-const ConnectedMainPage = () => {
+import { useSelector } from 'react-redux';
+import { RootState } from '../../models';
+import MonthTeleCommutingMainPage from './MonthTeleCommutingMainPage';
+import './MonthTeleCommuting.css';
+const MonthTeleCommuting = () => {
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
 
     const [loginCheck, setLoginCheck] = useState(false);
     return (
         <div>
+            {' '}
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="근무 현황" subtitles="일별 신청현황 조회"></HambergerMenu>
+                    <HambergerMenu titles="재택 월별 조회" subtitles="월별 재택 조회 및 엑셀 다운로드"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <ConnectedPeopleShow socket={socket}></ConnectedPeopleShow>
+                        <MonthTeleCommutingMainPage></MonthTeleCommutingMainPage>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>
@@ -28,4 +29,4 @@ const ConnectedMainPage = () => {
     );
 };
 
-export default ConnectedMainPage;
+export default MonthTeleCommuting;

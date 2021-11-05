@@ -21,6 +21,9 @@ import WeekAfterOTContainer from './Components/Modal/OTSpace/WeekAfterOTContaine
 import TeamSelectOTMainPage from './Components/Modal/OTSpace/TeamSelectMainPage';
 import TeamLeaderPageMainPage from './Components/Modal/OTSpace/TeamLeaderPage/TeamLeaderPageMainPage';
 import TeamLeaderTelecommutingMainpage from './Components/Telecommuting/TeamLeaderTelecommutingMainpage';
+import ConnectedMainPage from './Components/ConnectedNow/ConnectedMainPage';
+import NewWindowMainPage from './Components/NewWIndow/NewWindowMainPage';
+import MonthTeleCommuting from './Components/MonthTeleCommuting/MonthTeleCommuting';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -37,6 +40,9 @@ ReactDOM.render(
                     <Route path="/TeamSelectOTWorkSpace" component={TeamSelectOTMainPage}></Route>
                     <Route path="/TeamLeaderPageMainPage" component={TeamLeaderPageMainPage}></Route>
                     <Route path="/TeamLeaderTelecommutingMainpage" component={TeamLeaderTelecommutingMainpage}></Route>
+                    <Route path="/ConnectedNow" component={ConnectedMainPage}></Route>
+                    <Route path="/MonthTelecommuting" component={MonthTeleCommuting}></Route>
+                    <Route path="/VideoFocusOn" component={NewWindowMainPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

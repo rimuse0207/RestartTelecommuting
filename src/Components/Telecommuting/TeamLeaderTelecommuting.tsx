@@ -93,52 +93,52 @@ const TeamLeaderTelecommuting = () => {
     //     }
     // }, [getMoment, foodApply_check, usbApply_check, AfterOtApply_check, BeforeOtApply_check, telecommutingApply_check]);
 
-    useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
-            if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
-        }
-        if (
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr' ||
-            IDS === 'wbjung@dhk.co.kr' ||
-            IDS === 'hjlee@dhk.co.kr' ||
-            IDS === 'jhshin@dhk.co.kr' ||
-            IDS === 'cwjun@dhk.co.kr' ||
-            IDS === 'kcahn@dhk.co.kr' ||
-            IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr'
-        ) {
-            if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-            if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-            if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-        }
-        if (
-            IDS === 'jhlee1@dhk.co.kr' ||
-            IDS === 'jycha@dhk.co.kr' ||
-            IDS === 'htchoi@dhk.co.kr' ||
-            IDS === 'jmlee@dhk.co.kr' ||
-            IDS === 'sjpark@dhk.co.kr'
-        ) {
-            if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-            if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-        }
-        if (
-            InfomationState.position === '팀장' ||
-            InfomationState.team === '임원' ||
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr'
-        ) {
-            if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
-        }
-    }, [getMoment]);
+    // useEffect(() => {
+    //     const IDS = DecryptKey(InfomationState.id);
+    //     if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
+    //         if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         IDS === 'sjyoo@dhk.co.kr' ||
+    //         IDS === 'sjkim@dhk.co.kr' ||
+    //         IDS === 'wbjung@dhk.co.kr' ||
+    //         IDS === 'hjlee@dhk.co.kr' ||
+    //         IDS === 'jhshin@dhk.co.kr' ||
+    //         IDS === 'cwjun@dhk.co.kr' ||
+    //         IDS === 'kcahn@dhk.co.kr' ||
+    //         IDS === 'jhgoo@dhk.co.kr' ||
+    //         IDS === 'ychong@dhk.co.kr'
+    //     ) {
+    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         IDS === 'jhlee1@dhk.co.kr' ||
+    //         IDS === 'jycha@dhk.co.kr' ||
+    //         IDS === 'htchoi@dhk.co.kr' ||
+    //         IDS === 'jmlee@dhk.co.kr' ||
+    //         IDS === 'sjpark@dhk.co.kr'
+    //     ) {
+    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+    //     }
+    //     if (
+    //         InfomationState.position === '팀장' ||
+    //         InfomationState.team === '임원' ||
+    //         IDS === 'sjyoo@dhk.co.kr' ||
+    //         IDS === 'sjkim@dhk.co.kr'
+    //     ) {
+    //         if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
+    //     }
+    // }, [getMoment]);
 
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
         if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
             if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
-    }, [foodApply_check]);
+    }, [foodApply_check, getMoment]);
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
         if (
@@ -154,7 +154,7 @@ const TeamLeaderTelecommuting = () => {
         ) {
             if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
         }
-    }, [usbApply_check]);
+    }, [usbApply_check, getMoment]);
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
         if (
@@ -178,7 +178,7 @@ const TeamLeaderTelecommuting = () => {
         ) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
         }
-    }, [AfterOtApply_check]);
+    }, [AfterOtApply_check, getMoment]);
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
         if (
@@ -202,7 +202,7 @@ const TeamLeaderTelecommuting = () => {
         ) {
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
         }
-    }, [BeforeOtApply_check]);
+    }, [BeforeOtApply_check, getMoment]);
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
         if (
@@ -213,7 +213,7 @@ const TeamLeaderTelecommuting = () => {
         ) {
             if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
         }
-    }, [telecommutingApply_check]);
+    }, [telecommutingApply_check, getMoment]);
 
     useEffect(() => {
         getSomeNamesData();
@@ -258,11 +258,7 @@ const TeamLeaderTelecommuting = () => {
                             let days = today.clone().startOf('year').week(week).startOf('week').add(index, 'day');
                             if (days.format('MM') !== today.format('MM')) {
                                 return (
-                                    <td
-                                        key={index}
-                                        className="Telecommuting_Table_nextMonth"
-                                        onClick={() => ModalOpensClick(days.format('YYYY-MM-DD'))}
-                                    >
+                                    <td key={index} className="Telecommuting_Table_nextMonth">
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
                                         </div>
@@ -945,8 +941,8 @@ const TeamLeaderTelecommuting = () => {
                                 settelecommutingApply_check(!telecommutingApply_check);
                             }}
                         >
-                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>재택
-                            근무
+                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>
+                            재택 근무
                         </li>
                         <li
                             onClick={() => {

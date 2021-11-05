@@ -1,216 +1,231 @@
 .Nav_firstbox {
-  width: 15%;
-  position: fixed;
-  border-right: 3px solid gray;
-  height: 100vh;
-  background-color: white;
+    width: 15%;
+    position: fixed;
+    border-right: 3px solid gray;
+    height: 100vh;
+    background-color: white;
 }
 .MainBody_box {
-  float: right;
-  width: 95%;
+    float: right;
+    width: 95%;
 }
 .nav-links {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  height: 40vh;
-  justify-content: space-around;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 40vh;
+    justify-content: space-around;
 }
 
 .link {
-  font-size: 1.2em;
-  color: black;
+    font-size: 1.2em;
+    color: black;
 }
 .link:hover {
-  color: blue;
+    color: blue;
 }
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 li {
-  list-style: none;
+    list-style: none;
 }
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .MenuDisblock {
-  transform: translateY(0%);
-  transition: 0.5s ease-in-out;
+    transform: translateY(0%);
+    transition: 0.5s ease-in-out;
 }
 
 .menubar {
-  display: block;
-  height: 10vh;
-  max-height: 70px;
-  background-color: #f9b55c;
-  box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.12);
-  text-align: center;
+    display: block;
+    height: 10vh;
+    max-height: 70px;
+    background-color: #f9b55c;
+    box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.12);
+    text-align: center;
 }
 .MainTitles > h1 {
-  margin-top: 12px;
+    margin-top: 12px;
 }
 .MainTitles {
-  position: absolute;
-  top: -15px;
-  left: 0;
-  right: 0;
+    position: absolute;
+    top: -15px;
+    left: 0;
+    right: 0;
 }
 
 .menubar span {
-  display: inline-block;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 300;
-  font-size: 2em;
-  line-height: 60px;
-  top: 20px;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 300;
+    font-size: 2em;
+    line-height: 60px;
+    top: 20px;
 }
 
 #hambmenu {
-  position: relative;
-  width: 40px;
-  height: 45px;
-  float: left;
-  transition: 0.5s ease-in-out;
-  cursor: pointer;
+    position: relative;
+    width: 40px;
+    height: 45px;
+    float: left;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
 }
 #hambmenu span {
-  position: absolute;
-  height: 5px;
-  width: 100%;
-  vertical-align: middle;
-  margin: 20px 0 0 15px;
-  background: white;
-  border-radius: 8px;
-  opacity: 1;
-  left: 0;
-  transform: rotate(0deg);
-  transition: 0.25s ease-in-out;
-  padding: 0px;
+    position: absolute;
+    height: 5px;
+    width: 100%;
+    vertical-align: middle;
+    margin: 20px 0 0 15px;
+    background: white;
+    border-radius: 8px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: 0.25s ease-in-out;
+    padding: 0px;
 }
 
 .hambclicker {
-  content: "";
-  height: 48px;
-  width: 55px;
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  cursor: pointer;
-  z-index: 9;
+    content: '';
+    height: 48px;
+    width: 55px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    cursor: pointer;
+    z-index: 9;
 }
 
 #hambmenu span:nth-child(1) {
-  top: 0px;
+    top: 0px;
 }
 
 #hambmenu span:nth-child(2),
 #hambmenu span:nth-child(3) {
-  top: 10px;
+    top: 10px;
 }
 
 #hambmenu span:nth-child(4) {
-  top: 20px;
+    top: 20px;
 }
 
 #hambmenu.isopen span:nth-child(1) {
-  top: 18px;
-  width: 0%;
-  left: 50%;
-  opacity: 0;
+    top: 18px;
+    width: 0%;
+    left: 50%;
+    opacity: 0;
 }
 
 #hambmenu.isopen span:nth-child(2) {
-  transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 #hambmenu.isopen span:nth-child(3) {
-  transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 #hambmenu.isopen span:nth-child(4) {
-  top: 18px;
-  width: 0%;
-  left: 50%;
-  opacity: 0;
+    top: 18px;
+    width: 0%;
+    left: 50%;
+    opacity: 0;
 }
 
 #menu {
-  position: absolute;
-  height: calc(100vh - 60px);
-  width: 210px;
+    position: absolute;
+    height: calc(100vh - 70px);
+    width: 210px;
 
-  background: #f9b55c;
-  box-shadow: 2px 1px 1px 1px lightgrey;
+    background: #f9b55c;
+    box-shadow: 2px 1px 1px 1px lightgrey;
 
-  transform: translateX(-100%);
-  transition: transform 300ms;
-  z-index: 10;
-  overflow: auto;
+    transform: translateX(-100%);
+    transition: transform 300ms;
+    z-index: 10;
+    overflow: auto;
 }
 
 #menu ul {
-  margin-top: 0px;
-  padding: 0px;
-  color: black;
-  list-style-type: none;
-  text-align: left;
+    margin-top: 0px;
+    padding: 0px;
+    color: black;
+    list-style-type: none;
+    text-align: left;
 }
 #menu > div > h5 {
-  padding: 10px 0 10px 10px;
+    padding: 10px 0 10px 10px;
 }
 #menu > div > h5:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 #menu li {
-  padding: 10px 0 10px 30px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
-  border-top: 1px solid rgba(0, 0, 0, 0.14);
+    padding: 10px 0 10px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    border-top: 1px solid rgba(0, 0, 0, 0.14);
 }
 
 .fa {
-  color: black;
-  padding-right: 8px;
+    color: black;
+    padding-right: 8px;
 }
 
 a {
-  text-decoration: none;
-  color: white;
-  font-weight: normal;
+    text-decoration: none;
+    color: white;
+    font-weight: normal;
 }
 a:visited {
-  color: black;
+    color: black;
 }
 a > li:hover {
-  background-color: white;
-  color: orange;
-  font-weight: bolder;
+    background-color: white;
+    color: orange;
+    font-weight: bolder;
 }
 
 #menu.isopen {
-  transform: none;
+    transform: none;
 }
 
 @media screen and (max-width: 420px) {
-  .menubar span {
-    font-size: 1.2em;
-  }
+    .menubar span {
+        font-size: 1.2em;
+    }
 }
 
 a:hover {
-  cursor: pointer;
-  color: blue;
+    cursor: pointer;
+    color: blue;
 }
 .nav_handleClicks_arrow {
-  margin-left: 10px;
-  width: 15px;
-  height: 10px;
-  transition: 0.5s;
+    margin-left: 10px;
+    width: 15px;
+    height: 10px;
+    transition: 0.5s;
 }
 .nav_hadleClicks_flases {
-  transition: 0.5s;
-  transform: rotate(180deg);
+    transition: 0.5s;
+    transform: rotate(180deg);
+}
+
+#menu::-webkit-scrollbar {
+    width: 10px;
+}
+#menu::-webkit-scrollbar-thumb {
+    background-color: #ff800a;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+#menu::-webkit-scrollbar-track {
+    background-color: lightgray;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px #efefef;
 }

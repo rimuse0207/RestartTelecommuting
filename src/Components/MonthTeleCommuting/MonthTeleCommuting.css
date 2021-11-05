@@ -1,0 +1,14 @@
+.MonthSelectedName {
+    color: blue;
+}
+/* .MonthSelectedName[title]:hover::after {
+    font-size: 1em;
+    content: attr(title);
+    position: absolute;
+    padding: 5px;
+    border: 1px solid black;
+    background-color: white;
+} */
+.MonthSelectedName:hover {
+    cursor: pointer;
+}
