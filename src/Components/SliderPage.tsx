@@ -11,9 +11,8 @@ type SliderPageProps = {
 };
 
 const SliderPage = ({ width, socket }: SliderPageProps) => {
-    const FocusREF = useRef<any>('null');
     const [xPosition, setX] = React.useState(false);
-    const [FocusTrue, setFocusTrue] = useState(false);
+
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const dispatch = useDispatch();
 
@@ -22,40 +21,17 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
     };
 
     useEffect(() => {
-        socket.emit('hi', {
-            name: DecryptKey(InfomationState.name),
-            id: DecryptKey(InfomationState.id),
-        });
-    }, []);
-
-    useEffect(() => {
         socket.on('users_come_in', (data: { message: [] }) => {
             dispatch(getChatting_members(data.message));
         });
-        socket.on('recieveCall', (data: { message: string }) => {
+        socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
             console.log(data);
-            handleVisibilityChange();
+            handleVisibilityChange(data);
         });
     }, [socket]);
 
-    const handleVisibilityChange = () => {
-        console.log('@#@#@');
-
-        if (FocusREF.current.focus) {
-            if (document.hidden) {
-                // background
-                console.log('밖에');
-                // alert('밖에 있습니다. 포커스 초점이 됩니다.');
-                FocusREF.current.focus();
-                window.open('http://192.168.2.155:3000/VideoFocusOn', 'width=800,height=800');
-                setFocusTrue(false);
-            } else {
-                // foreground
-                console.log('안에');
-                alert('안에 있습니다. 포커스 초점이 없어도 됩니다.');
-                setFocusTrue(false);
-            }
-        }
+    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
+        window.open(`http://192.168.2.155:3000/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
     };
 
     return (
@@ -71,7 +47,7 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
 
         //     <MainPage></MainPage>
         // </div>
-        <div ref={FocusREF} id="FocusCheckID"></div>
+        <div id="FocusCheckID"></div>
     );
 };
 export default SliderPage;

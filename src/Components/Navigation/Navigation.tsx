@@ -4,19 +4,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPersionalLOGOUT } from '../../models/PersonalInfo';
 import { RootState } from '../../models/index';
 import { DecryptKey } from '../../config';
-
+import { useHistory } from 'react-router';
 type Navigation = {
     menuStatus: string;
 };
 const Navigation = ({ menuStatus }: Navigation) => {
+    const history = useHistory();
+    const socket = useSelector((state: RootState) => state.Socket.socket);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [TeleMenuClicks, setTeleMenuClicks] = useState(true);
     const [OTMenuClicks, setOTMenuClicks] = useState(true);
     const [FoodMenuClicks, setFoodMenuClicks] = useState(true);
     const [ETCMenuClicks, setETCMenuClicks] = useState(true);
     const handleLogout = () => {
+        socket.emit('LogOut', {
+            message: 'user 나감',
+            socketsId: socket.id,
+        });
+
         sessionStorage.clear();
         dispatch(getPersionalLOGOUT());
+        history.push('/');
     };
     const dispatch = useDispatch();
     return (
@@ -132,9 +140,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
                 </h5>
                 <ul>
-                    <Link to="/ConnectedNow">
+                    {/* <Link to="/ConnectedNow">
                         <li>상대방 호출</li>
-                    </Link>
+                    </Link> */}
                     <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                         <li>시설이용</li>
                     </Link>

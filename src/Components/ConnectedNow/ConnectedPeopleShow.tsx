@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { DecryptKey } from '../../config';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../models/index';
 
 type ConnectedPeopleShowProps = {
     socket: any;
 };
 
 const ConnectedPeopleShow = ({ socket }: ConnectedPeopleShowProps) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const checkedCheck = useRef<any>('null');
     const [connectNow, setConnectNow] = useState([]);
     const [checkBoxBelong, setCheckBoxBelong] = useState<any>([]);
@@ -32,8 +36,10 @@ const ConnectedPeopleShow = ({ socket }: ConnectedPeopleShowProps) => {
     const handleClicks = () => {
         socket.emit('VideoTeleCall', {
             checkBoxBelong,
-            senderId: 'sjyoo@dhk.co.kr',
+            senderId: DecryptKey(InfomationState.id),
+            senderName: DecryptKey(InfomationState.name),
         });
+        window.open(`https://192.168.2.241/${DecryptKey(InfomationState.id).split('@')[0]}`);
     };
 
     return (

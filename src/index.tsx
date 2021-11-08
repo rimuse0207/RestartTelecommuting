@@ -42,7 +42,7 @@ ReactDOM.render(
                     <Route path="/TeamLeaderTelecommutingMainpage" component={TeamLeaderTelecommutingMainpage}></Route>
                     <Route path="/ConnectedNow" component={ConnectedMainPage}></Route>
                     <Route path="/MonthTelecommuting" component={MonthTeleCommuting}></Route>
-                    <Route path="/VideoFocusOn" component={NewWindowMainPage}></Route>
+                    <Route path="/VideoFocusOn/:key1/:key2" component={NewWindowMainPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>
