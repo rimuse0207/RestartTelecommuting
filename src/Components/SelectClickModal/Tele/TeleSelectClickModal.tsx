@@ -6,13 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { TeamLeader_getTelecommutingThunk } from '../../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
 import { DecryptKey } from '../../../config';
+import 'moment/locale/ko';
 type TeleSelectClickModalProps = {
     clicksTitle: string;
     clicksData: any | null;
     modalClose: () => void;
+    setClicksData: (data: {}) => void;
 };
 
-const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
+const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksData }: TeleSelectClickModalProps) => {
+    moment.locale('ko');
     const CommentInput = useRef<any>(null);
     const dispatch = useDispatch();
     const [commentDataOn, setCommentDataOn] = useState(true);
@@ -92,8 +95,66 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
             console.log(error);
         }
     };
+    const handleNextData = async (types: string) => {
+        try {
+            if (types === 'pre') {
+                const PreDataTeleModal = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/GetPreDataTeleModal`, {
+                    clicksData,
+                });
+                if (PreDataTeleModal.data.dataSuccess) {
+                    if (PreDataTeleModal.data.dataMessage) {
+                        toast.show({
+                            title: `${PreDataTeleModal.data.message}`,
+                            content: `${clicksData.name}팀원의 이전 데이터가 없습니다.`,
+                            duration: 6000,
+                        });
+                    } else {
+                        setClicksData(PreDataTeleModal.data.data[0]);
+                    }
+                }
+            } else if (types === 'next') {
+                const PreDataTeleModal = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/GetNextDataTeleModal`, {
+                    clicksData,
+                });
+                if (PreDataTeleModal.data.dataSuccess) {
+                    if (PreDataTeleModal.data.dataMessage) {
+                        toast.show({
+                            title: `${PreDataTeleModal.data.message}`,
+                            content: `${clicksData.name}팀원의 다음 데이터가 없습니다.`,
+                            duration: 6000,
+                        });
+                    } else {
+                        setClicksData(PreDataTeleModal.data.data[0]);
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div>
+            <div>
+                <div style={{ textAlign: 'center' }}>
+                    <div
+                        onClick={() => handleNextData('pre')}
+                        className="Tele_modal_View"
+                        style={{ display: 'inline', fontSize: '1.5em', fontWeight: 'bolder' }}
+                    >
+                        {'<<<<'}
+                    </div>
+                    <h2 style={{ display: 'inline', fontSize: '1.7em', fontWeight: 'bolder', margin: '0 15px' }}>
+                        {moment(clicksData.day).lang('ko').format('YYYY년 MM월 DD일 dddd')}
+                    </h2>
+                    <div
+                        onClick={() => handleNextData('next')}
+                        className="Tele_modal_View"
+                        style={{ display: 'inline', fontSize: '1.5em', fontWeight: 'bolder' }}
+                    >
+                        {'>>>>'}
+                    </div>
+                </div>
+            </div>
             <div>
                 <table style={{ fontWeight: 'bolder', width: '100%', tableLayout: 'fixed' }}>
                     <thead>
@@ -109,7 +170,7 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelec
                         </tr>
                         <tr>
                             <td style={{ textAlign: 'center' }}>재택일자</td>
-                            <td style={{ padding: '15px' }}>{moment(clicksData.day).format('YYYY년 MM월 DD일')}</td>
+                            <td style={{ padding: '15px' }}>{moment(clicksData.day).lang('ko').format('YYYY년 MM월 DD일 dddd')}</td>
                         </tr>
 
                         <tr>

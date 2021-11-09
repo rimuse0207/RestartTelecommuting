@@ -53,3 +53,6 @@
     color: blue !important;
     cursor: pointer;
 }
+.Tele_modal_View:hover {
+    cursor: pointer;
+}

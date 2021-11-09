@@ -88,6 +88,7 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
 
     return (
         <div>
+            <h2>{clicksData.name}</h2>
             <div>
                 <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: '0', textAlign: 'center' }}>
                     <thead style={{ backgroundColor: '#F7C80E' }}>

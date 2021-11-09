@@ -16,6 +16,7 @@ type SelectClickModalMainPageProps = {
     modalClose: () => void;
     clicksData: any | null;
     clicksTitle: string;
+    setClicksData: (data: {}) => void | null | any;
 };
 const customStyles = {
     content: {
@@ -31,7 +32,7 @@ const customStyles = {
 };
 Modal.setAppElement('#ModalSet');
 
-const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle }: SelectClickModalMainPageProps) => {
+const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle, setClicksData }: SelectClickModalMainPageProps) => {
     return (
         <div id="SelectMODAL">
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
@@ -41,7 +42,12 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                     <div></div>
                 )}
                 {clicksTitle === 'Telecommuting' ? (
-                    <TeleSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></TeleSelectClickModal>
+                    <TeleSelectClickModal
+                        clicksTitle={clicksTitle}
+                        clicksData={clicksData}
+                        modalClose={modalClose}
+                        setClicksData={(data: {}) => setClicksData(data)}
+                    ></TeleSelectClickModal>
                 ) : (
                     <div></div>
                 )}

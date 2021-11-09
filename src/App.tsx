@@ -7,17 +7,25 @@ import SignInForm from './Components/Login/SignInForm';
 import HambergerMenu from './Components/Navigation/HambergerMenu';
 import TelecommutingMainPage from './Components/Telecommuting/TelecommutingMainPage';
 import { DecryptKey } from './config';
+import { useDispatch } from 'react-redux';
+import { getSocket } from './models/Socket';
 
 function App() {
+    const dispatch = useDispatch();
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [loginCheck, setLoginCheck] = useState(false);
+
     useEffect(() => {
-        socket.emit('hi', {
-            name: DecryptKey(InfomationState.name),
-            id: DecryptKey(InfomationState.id),
-        });
+        if (loginChecked) {
+            socket.emit('hi', {
+                name: DecryptKey(InfomationState.name),
+                id: DecryptKey(InfomationState.id),
+            });
+        } else {
+            return;
+        }
     }, [loginCheck, InfomationState]);
     return (
         <div className="App">

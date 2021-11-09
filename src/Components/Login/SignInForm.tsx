@@ -4,6 +4,7 @@ import './SignInForm.css';
 import { useDispatch } from 'react-redux';
 import { getPersionalInfo } from '../../models/PersonalInfo';
 import { useHistory } from 'react-router-dom';
+import { getSocket } from '../../models/Socket';
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
 };
@@ -28,7 +29,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 setPassword('');
             } else {
                 sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
-
                 localStorage.setItem('id', loginCheck.data.data.id);
                 dispatch(getPersionalInfo(loginCheck.data.data));
 

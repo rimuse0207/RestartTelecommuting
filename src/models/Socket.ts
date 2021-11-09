@@ -1,33 +1,32 @@
-import socketio from "socket.io-client"
-const GETSOCKET = "Socket/GETSOCKET" as const;
+import socketio from 'socket.io-client';
 
+const GETSOCKET = 'Socket/GETSOCKET' as const;
 
 export const getSocket = (socket: any) => ({
     type: GETSOCKET,
-    payload: socket
+    payload: socket,
 });
+// const getDataSocket = () => {
+//     try {
+//         const sockets = socketio(`${process.env.REACT_APP_API_URL}`);
+//         console.log(sockets);
+//         return sockets;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
+type SocketAction = ReturnType<typeof getSocket>;
 
-
-type CounterAction =
-    | ReturnType<typeof getSocket>
-
-
-type CounterState = {
-    socket: any,
-
+type SocketState = {
+    socket: any;
 };
 
-
-const initialState: CounterState = {
+const initialState: SocketState = {
     socket: socketio(`${process.env.REACT_APP_API_URL}`),
-
 };
 
-function Socket(
-    state: CounterState = initialState,
-    action: CounterAction
-): CounterState {
+function Socket(state: SocketState = initialState, action: SocketAction): SocketState {
     switch (action.type) {
         case GETSOCKET:
             return { socket: action.payload };

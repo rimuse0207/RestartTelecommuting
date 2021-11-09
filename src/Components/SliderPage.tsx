@@ -21,13 +21,15 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
     };
 
     useEffect(() => {
-        socket.on('users_come_in', (data: { message: [] }) => {
-            dispatch(getChatting_members(data.message));
-        });
-        socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-            console.log(data);
-            handleVisibilityChange(data);
-        });
+        if (socket) {
+            socket.on('users_come_in', (data: { message: [] }) => {
+                dispatch(getChatting_members(data.message));
+            });
+            socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+                console.log(data);
+                handleVisibilityChange(data);
+            });
+        }
     }, [socket]);
 
     const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {

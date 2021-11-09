@@ -24,6 +24,7 @@ import TeamLeaderTelecommutingMainpage from './Components/Telecommuting/TeamLead
 import ConnectedMainPage from './Components/ConnectedNow/ConnectedMainPage';
 import NewWindowMainPage from './Components/NewWIndow/NewWindowMainPage';
 import MonthTeleCommuting from './Components/MonthTeleCommuting/MonthTeleCommuting';
+
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>

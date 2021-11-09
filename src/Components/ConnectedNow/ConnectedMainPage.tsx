@@ -15,7 +15,7 @@ const ConnectedMainPage = () => {
         <div>
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="근무 현황" subtitles="일별 신청현황 조회"></HambergerMenu>
+                    <HambergerMenu titles="상대방 호출" subtitles="실시간 접속자 및 상대방 호출"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <ConnectedPeopleShow socket={socket}></ConnectedPeopleShow>
                     </div>

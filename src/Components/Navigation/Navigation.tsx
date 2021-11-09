@@ -44,7 +44,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                        DecryptKey(InfomationState.id) === 'sjkime@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                             <Link to="/TeamLeaderTelecommutingMainpage">
                                 <li>팀원 신청 현황</li>
@@ -59,7 +59,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         {InfomationState.position === '이사' ||
                         InfomationState.position === '팀장' ||
                         DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                        DecryptKey(InfomationState.id) === 'sjkime@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                             <Link to="/MonthTelecommuting">
                                 <li>월별 재택 조회</li>
@@ -91,7 +91,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                        DecryptKey(InfomationState.id) === 'sjkime@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                             <>
                                 <Link to="/TeamLeaderPageMainPage">
@@ -121,7 +121,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                         </Link>
                         {DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                        DecryptKey(InfomationState.id) === 'sjkime@dhk.co.kr' ||
+                        DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
                         DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                             <Link to="/Admin_meal_Select">
                                 <li>식대 정산 월별 조회</li>
@@ -140,9 +140,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
                 </h5>
                 <ul>
-                    {/* <Link to="/ConnectedNow">
+                    <Link to="/ConnectedNow">
                         <li>상대방 호출</li>
-                    </Link> */}
+                    </Link>
                     <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                         <li>시설이용</li>
                     </Link>

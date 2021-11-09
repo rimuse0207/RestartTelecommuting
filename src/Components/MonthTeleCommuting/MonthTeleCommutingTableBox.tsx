@@ -133,6 +133,7 @@ const MonthTeleCommutingTableBox = ({
                     modalClose={modalClose}
                     clicksData={clicksData}
                     clicksTitle={clicksTitle}
+                    setClicksData={(data: {}) => setClicksData(data)}
                 ></SelectClickModalMainPage>
             ) : (
                 ''

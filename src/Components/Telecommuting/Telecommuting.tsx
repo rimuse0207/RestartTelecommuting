@@ -1134,6 +1134,7 @@ const Telecommuting = () => {
                     modalClose={modalClose}
                     clicksData={clicksData}
                     clicksTitle={clicksTitle}
+                    setClicksData={(data: {}) => setClicksData(data)}
                 ></SelectClickModalMainPage>
             ) : (
                 ''
