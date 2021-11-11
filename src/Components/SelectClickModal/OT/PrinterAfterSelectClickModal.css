@@ -27,6 +27,8 @@
         padding: 0;
         page-break-after: avoid;
         page-break-before: avoid;
+        width: 420mm;
+        height: 297mm;
     }
     body {
         height: 100vh;
@@ -43,4 +45,7 @@
         height: 100vh !important;
         overflow: hidden !important;
     } */
+    .fasfdasfas {
+        font-size: xx-small;
+    }
 }
