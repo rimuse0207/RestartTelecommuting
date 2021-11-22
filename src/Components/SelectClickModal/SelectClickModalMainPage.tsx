@@ -15,7 +15,7 @@ type SelectClickModalMainPageProps = {
     onClicked: boolean;
     modalClose: () => void;
     clicksData: any | null;
-    clicksTitle: string;
+    clicksTitle: string | null;
     setClicksData: (data: {}) => void | null | any;
 };
 const customStyles = {
@@ -26,13 +26,13 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '80%',
+        width: '90%',
         height: '90%',
     },
 };
 Modal.setAppElement('#ModalSet');
 
-const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle, setClicksData }: SelectClickModalMainPageProps) => {
+const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTitle, setClicksData }: any) => {
     return (
         <div id="SelectMODAL">
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>

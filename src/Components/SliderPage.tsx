@@ -33,7 +33,7 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
     }, [socket]);
 
     const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
-        window.open(`http://192.168.2.155:3000/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
+        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
     };
 
     return (

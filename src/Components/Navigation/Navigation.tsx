@@ -146,6 +146,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                         <li>시설이용</li>
                     </Link>
+                    <Link to="/CECalendar">
+                        <li>CSM</li>
+                    </Link>
                     <Link to="/">
                         <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
                             - 로그아웃

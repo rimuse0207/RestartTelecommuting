@@ -998,6 +998,22 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
     };
 
     const handleStoreOTData = async () => {
+        if (
+            monDateData.OTSumTime +
+            tueDateData.OTSumTime +
+            wedDateData.OTSumTime +
+            thuDateData.OTSumTime +
+            friDateData.OTSumTime +
+            satDateData.OTSumTime +
+            sunDateData.OTSumTime
+        ) {
+            toast.show({
+                title: '연장근무 신청 불가. (연장시간 초기화)',
+                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
+                duration: 6000,
+            });
+            return;
+        }
         try {
             const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_send_Data`, {
                 id: DecryptKey(InfomationState.id),
@@ -1036,237 +1052,8 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     };
 
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setMonDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: monDateData.OTreason1,
-                OTreason2: monDateData.OTreason2,
-                OTreason3: monDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [monDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setTueDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: tueDateData.OTreason1,
-                OTreason2: tueDateData.OTreason2,
-                OTreason3: tueDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [tueDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setWedDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: wedDateData.OTreason1,
-                OTreason2: wedDateData.OTreason2,
-                OTreason3: wedDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [wedDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setThuDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: thuDateData.OTreason1,
-                OTreason2: thuDateData.OTreason2,
-                OTreason3: thuDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [thuDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setFriDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: friDateData.OTreason1,
-                OTreason2: friDateData.OTreason2,
-                OTreason3: friDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [friDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setSatDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: satDateData.OTreason1,
-                OTreason2: satDateData.OTreason2,
-                OTreason3: satDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [satDateData.OTSumTime]);
-    useEffect(() => {
-        if (loading) return;
-        const sumData =
-            monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime;
-        if (sumData > 10 && !leaderCheck) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-            });
-            setSunDateData({
-                clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 09:00`).format('YYYY-MM-DD HH:mm')),
-                basicEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                basicSumTime: 0,
-                OTStartTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTEndTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 18:00`).format('YYYY-MM-DD HH:mm')),
-                OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                OTSumTime: 0,
-                OTreason1: sunDateData.OTreason1,
-                OTreason2: sunDateData.OTreason2,
-                OTreason3: sunDateData.OTreason3,
-                holidayCheck: 'weekday',
-                OTnightSum: 0,
-            });
-        }
-    }, [sunDateData.OTSumTime]);
+    
+ 
 
     const handlePrinterClicks = () => {
         const data = {

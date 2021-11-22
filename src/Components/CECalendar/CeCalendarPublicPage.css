@@ -1,0 +1,69 @@
+.basic_yellow {
+    background-color: yellow;
+    color: balck;
+}
+.basic_lime {
+    background-color: lime;
+    color: balck;
+}
+.basic_blue {
+    background-color: #6989ea;
+    color: balck;
+}
+.basic_purple {
+    background-color: #e7a9f9;
+    color: balck;
+}
+.basic_skyblue {
+    background-color: skyblue;
+    color: balck;
+}
+.basic_orange {
+    background-color: orange;
+    color: balck;
+}
+.basic_finish {
+    background-color: coral;
+    color: balck;
+}
+
+.Insert_dates {
+    padding: 5px;
+}
+.CElogs_WriteData_Add_data_div_box {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: 0.5s;
+    transform: rotate(0deg);
+}
+.CElogs_WriteData_Add_data_div_box:hover {
+    cursor: pointer;
+}
+.CElogs_WriteData_Add_data_div_box_opens {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: 0.5s;
+    transform: rotate(-45deg);
+}
+@keyframes locationMove {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-45deg);
+    }
+}
+
+.ThirdTest_list_hidden_box:hover {
+    cursor: pointer;
+}
+.ThirdTest_Delete_for_div_box:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.CecalendarPaddingdelete * {
+    padding: 1px;
+}
