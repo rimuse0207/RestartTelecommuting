@@ -36,6 +36,11 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
     return (
         <div id="SelectMODAL">
             <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
+                <div style={{ position: 'relative', top: '-20px', right: '-20px' }}>
+                    <div className="SelectClicksModalMainPage_deleteBox_button" onClick={modalClose}>
+                        X
+                    </div>
+                </div>
                 {clicksTitle === 'USB/CD' ? (
                     <CDSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></CDSelectClickModal>
                 ) : (

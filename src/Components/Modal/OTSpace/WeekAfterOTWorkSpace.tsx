@@ -1000,12 +1000,13 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
     const handleStoreOTData = async () => {
         if (
             monDateData.OTSumTime +
-            tueDateData.OTSumTime +
-            wedDateData.OTSumTime +
-            thuDateData.OTSumTime +
-            friDateData.OTSumTime +
-            satDateData.OTSumTime +
-            sunDateData.OTSumTime
+                tueDateData.OTSumTime +
+                wedDateData.OTSumTime +
+                thuDateData.OTSumTime +
+                friDateData.OTSumTime +
+                satDateData.OTSumTime +
+                sunDateData.OTSumTime >
+            10
         ) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
@@ -1014,6 +1015,60 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
             return;
         }
+        try {
+            const monDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/monDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                monDateData,
+            });
+            const tueDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/tueDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                tueDateData,
+            });
+            const wedDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/wedDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                wedDateData,
+            });
+            const thuDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/thuDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                thuDateData,
+            });
+            const friDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/friDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                friDateData,
+            });
+            const satDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/satDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                satDateData,
+            });
+            const sunDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/sunDateData`, {
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                team: InfomationState.team,
+                position: InfomationState.position,
+                sunDateData,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
         try {
             const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_send_Data`, {
                 id: DecryptKey(InfomationState.id),
@@ -1051,9 +1106,6 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
         }
     };
-
-    
- 
 
     const handlePrinterClicks = () => {
         const data = {
@@ -1152,7 +1204,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                         >
                             {'<<<< '}
                         </span>
-                        <h2 style={{ textAlign: 'center', display: 'inline',fontSize:"1.2em" }}>
+                        <h2 style={{ textAlign: 'center', display: 'inline', fontSize: '1.2em' }}>
                             {startDate.format('YYYY년 MM월 DD일')}(월) ~ {endDate.format('YYYY년 MM월 DD일')}(일)
                         </h2>
                         <span

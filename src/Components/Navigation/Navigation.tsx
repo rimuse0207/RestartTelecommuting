@@ -140,15 +140,26 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
                 </h5>
                 <ul>
-                    <Link to="/ConnectedNow">
-                        <li>상대방 호출</li>
-                    </Link>
-                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
-                        <li>시설이용</li>
-                    </Link>
-                    <Link to="/CECalendar">
-                        <li>CSM</li>
-                    </Link>
+                    {ETCMenuClicks ? (
+                        <div className={ETCMenuClicks ? 'slideDown' : ''}>
+                            {' '}
+                            <Link to="/ConnectedNow">
+                                <li>상대방 호출</li>
+                            </Link>
+                            <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                                <li>시설이용</li>
+                            </Link>
+                            <Link to="/CECalendar">
+                                <li>CSM</li>
+                            </Link>
+                            <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
+                                <li>당직근무보고</li>
+                            </Link>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+
                     <Link to="/">
                         <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
                             - 로그아웃

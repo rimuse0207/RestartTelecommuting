@@ -56,3 +56,22 @@
 .Tele_modal_View:hover {
     cursor: pointer;
 }
+.ReactModal__Overlay {
+    background-color: rgba(102, 102, 102, 0.9) !important;
+}
+
+.SelectClicksModalMainPage_deleteBox_button {
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #f9b55c;
+    width: 50px;
+    font-weight: bolder;
+    float: right;
+    border-radius: 10px;
+}
+.SelectClicksModalMainPage_deleteBox_button:hover {
+    cursor: pointer;
+    background-color: gray;
+    color: #f9b55c;
+}
