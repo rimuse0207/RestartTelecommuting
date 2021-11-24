@@ -412,7 +412,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         toast.show({
             title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
             content: '초과근로(OT) 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
-            duration: 5000,
+            duration: 6000,
+            DataSuccess: false,
         });
     }, []);
 
@@ -457,7 +458,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setMonDateData({
                     ...monDateData,
@@ -479,7 +481,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setMonDateData({
                     ...monDateData,
@@ -535,7 +538,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setTueDateData({
                     ...tueDateData,
@@ -557,7 +561,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setTueDateData({
                     ...tueDateData,
@@ -613,7 +618,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
 
                 setWedDateData({
@@ -636,7 +642,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setWedDateData({
                     ...wedDateData,
@@ -693,7 +700,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setThuDateData({
                     ...thuDateData,
@@ -715,7 +723,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setThuDateData({
                     ...thuDateData,
@@ -772,7 +781,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setFriDateData({
                     ...friDateData,
@@ -794,7 +804,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setFriDateData({
                     ...friDateData,
@@ -851,7 +862,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setSatDateData({
                     ...satDateData,
@@ -873,7 +885,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setSatDateData({
                     ...satDateData,
@@ -929,7 +942,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setSunDateData({
                     ...sunDateData,
@@ -951,7 +965,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
                 setSunDateData({
                     ...sunDateData,
@@ -1006,13 +1021,15 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                 toast.show({
                     title: '사전 OT 데이터 저장 성공 ',
                     content: '사전 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '에러발생. 데이터 저장 실패.',
                     content: '사전 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
-                    duration: 3000,
+                    duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -1020,7 +1037,8 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
             toast.show({
                 title: '에러발생. ',
                 content: 'server와의 연결 끊김. 에러 코드 사전 OT_1 발생.',
-                duration: 3000,
+                duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -1175,7 +1193,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5', width: '50%' }}>
+                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5', width: '400px' }}>
                                         연장 사유
                                     </th>
                                 </tr>

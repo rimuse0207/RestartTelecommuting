@@ -18,9 +18,9 @@ const CeCalendarMainPage = () => {
         <div>
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="근무 현황" subtitles="일별 신청현황 조회"></HambergerMenu>
+                    <HambergerMenu titles="CSM" subtitles="CSM관리"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        {DecryptKey(InfomationState.name) === '유성재' ? (
+                        {DecryptKey(InfomationState.name) === '이광민' ? (
                             <CeCalendarMasterPage></CeCalendarMasterPage>
                         ) : (
                             <CeCalendarPublicPage></CeCalendarPublicPage>

@@ -44,12 +44,14 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
                     title: '코멘트 이메일 발송 성공.',
                     content: `${clicksData.name} 팀원의 재택근무 코멘트 이메일 발송되었습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '코멘트 이메일 발송 실패.',
                     content: `${clicksData.name} 팀원의 코멘트 이메일 발송에 실패하였습니다.`,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -65,8 +67,11 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
                 dispatch(TeamLeader_getTelecommutingThunk(moment(clicksData.day).format('YYYY-MM'), InfomationState));
                 toast.show({
                     title: '팀장 승인 완료.',
-                    content: `${clicksData.name} 팀원의 재택근무 부문에 승인하였습니다.`,
+                    content: `${clicksData.name} 팀원의 ${moment(clicksData.day).format(
+                        'YYYY년 MM월 DD일'
+                    )} 재택근무 부문에 승인하였습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
                 modalClose();
             }
@@ -105,8 +110,11 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
                     if (PreDataTeleModal.data.dataMessage) {
                         toast.show({
                             title: `${PreDataTeleModal.data.message}`,
-                            content: `${clicksData.name}팀원의 이전 데이터가 없습니다.`,
+                            content: `${clicksData.name}팀원의 ${moment(clicksData.day).format(
+                                'YYYY년 MM월 DD일'
+                            )} 이전 데이터가 없습니다.`,
                             duration: 6000,
+                            DataSuccess: false,
                         });
                     } else {
                         setClicksData(PreDataTeleModal.data.data[0]);
@@ -120,8 +128,11 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
                     if (PreDataTeleModal.data.dataMessage) {
                         toast.show({
                             title: `${PreDataTeleModal.data.message}`,
-                            content: `${clicksData.name}팀원의 다음 데이터가 없습니다.`,
+                            content: `${clicksData.name}팀원의 ${moment(clicksData.day).format(
+                                'YYYY년 MM월 DD일'
+                            )} 이후의 데이터가 없습니다.`,
                             duration: 6000,
+                            DataSuccess: false,
                         });
                     } else {
                         setClicksData(PreDataTeleModal.data.data[0]);

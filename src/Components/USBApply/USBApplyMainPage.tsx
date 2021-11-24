@@ -14,9 +14,9 @@ const USBApplyMainPage = () => {
         <div>
             {loginChecked ? (
                 <div>
-                    <HambergerMenu titles="USB/CD 사전 신청" subtitles=""></HambergerMenu>
+                    <HambergerMenu titles="USB/CD 사전 신청" subtitles="USB/CD 사전 신청 및 이메일 발송"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <UsbApply ></UsbApply>
+                        <UsbApply></UsbApply>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>

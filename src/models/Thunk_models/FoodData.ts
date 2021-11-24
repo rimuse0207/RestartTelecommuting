@@ -35,14 +35,22 @@ const getFoodDataAsync = createAsyncAction(GET_FoodData_GET, GET_FoodData_SUCCES
 
 const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const FoodPersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_applyMeal`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
 
-        return dataget.data.data;
+        return FoodPersondataget.data.data;
     } catch (error) {
         console.log(error);
     }

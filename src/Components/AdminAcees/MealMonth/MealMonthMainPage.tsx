@@ -25,7 +25,6 @@ const MealMonthMainPage = () => {
                 selectedTeam,
             });
             if (changeTeam.data.dataSuccess) {
-                console.log(changeTeam);
                 setBelongNames(changeTeam.data.datas);
             }
         } catch (error) {

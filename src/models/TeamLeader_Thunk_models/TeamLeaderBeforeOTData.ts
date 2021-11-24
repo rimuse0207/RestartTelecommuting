@@ -27,26 +27,40 @@ const GET_TeamLeader_BEFOREOTData_ERROR = 'TeamLeader_BEFOREOTData/GET_TeamLeade
 const TeamLeader_BEFOREOTData_Show_FALSE = 'TeamLeader_BEFOREOTData/TeamLeader_BEFOREOTData_Show_FALSE';
 const TeamLeader_BEFOREOTData_Show_TRUE = 'TeamLeader_BEFOREOTData/TeamLeader_BEFOREOTData_Show_TRUE';
 
-const getTeamLeaderBeforeOTDataAsync = createAsyncAction(GET_TeamLeader_BEFOREOTData_GET, GET_TeamLeader_BEFOREOTData_SUCCESS, GET_TeamLeader_BEFOREOTData_ERROR)<
-    undefined,
-    BeforeOTDataTypes,
-    AxiosError
->();
+const getTeamLeaderBeforeOTDataAsync = createAsyncAction(
+    GET_TeamLeader_BEFOREOTData_GET,
+    GET_TeamLeader_BEFOREOTData_SUCCESS,
+    GET_TeamLeader_BEFOREOTData_ERROR
+)<undefined, BeforeOTDataTypes, AxiosError>();
 
 const getTemLeader_DataBeforeOTApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const BeforeOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
-        return dataget.data.data;
+        return BeforeOTdataget.data.data;
     } catch (error) {
         console.log(error);
     }
 };
-const actions = { GET_TeamLeader_BEFOREOTData_GET, GET_TeamLeader_BEFOREOTData_SUCCESS, GET_TeamLeader_BEFOREOTData_ERROR, TeamLeader_BEFOREOTData_Show_FALSE, TeamLeader_BEFOREOTData_Show_TRUE };
+const actions = {
+    GET_TeamLeader_BEFOREOTData_GET,
+    GET_TeamLeader_BEFOREOTData_SUCCESS,
+    GET_TeamLeader_BEFOREOTData_ERROR,
+    TeamLeader_BEFOREOTData_Show_FALSE,
+    TeamLeader_BEFOREOTData_Show_TRUE,
+};
 
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 

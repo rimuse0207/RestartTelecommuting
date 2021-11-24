@@ -50,12 +50,14 @@ const TeamLeaderBeforeSelectClickModal = ({ clicksTitle, clicksData, modalClose 
                     title: '팀장 승인 완료.',
                     content: `${clicksData.name} 팀원의 사전OT 부문에 승인하였습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '팀장 승인 실패.',
                     content: `사전OT 부문에 승인이 실패 하였습니다.(IT팀에 문의바람.)`,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
             modalClose();
@@ -65,6 +67,7 @@ const TeamLeaderBeforeSelectClickModal = ({ clicksTitle, clicksData, modalClose 
                 title: '팀장 승인 실패.',
                 content: `서버와의 연결이 끊어졌습니다.(IT팀에 문의바람.)`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
 

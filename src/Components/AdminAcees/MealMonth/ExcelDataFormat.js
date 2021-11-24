@@ -14,7 +14,6 @@ const ExcelDataFormat = ({ selectedYear, selectedMonth, selectedTeam }) => {
             selectDate: selectedYear + '-' + selectedMonth,
         });
         if (dataGet.data.dataSuccess) {
-            console.log(dataGet.data.data);
             setData(dataGet.data.data);
         }
     };

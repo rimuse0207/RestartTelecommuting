@@ -33,16 +33,30 @@ const TeamLeader_getUSBCDDataAsync = createAsyncAction(
 )<undefined, USBCDDataTypes, AxiosError>();
 
 const getDataUSBCDApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
-    console.log(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`);
+    // try {
+    //     const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/TeamLeader_Data_get_USBApply`, {
+    //         id: DecryptKey(InfomationState.id),
+    //         team: InfomationState.team,
+    //         name: DecryptKey(InfomationState.name),
+    //         selectDate: moment(getMoment).format('YYYY-MM'),
+    //     });
+
+    //     return dataget.data.data;
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/TeamLeader_Data_get_USBApply`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        const USBdataget = await axios.get(`${process.env.REACT_APP_API_URL}/USB_app_server/TeamLeader_Data_get_USBApply`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
 
-        return dataget.data.data;
+        return USBdataget.data.data;
     } catch (error) {
         console.log(error);
     }

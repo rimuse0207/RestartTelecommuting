@@ -16,7 +16,7 @@ const ExcelDownload = ({ data }) => {
     return (
         <div style={{ width: '90%', textAlign: 'end', paddingTop: '10px' }}>
             {data ? (
-                <button>
+                <button style={{ color: 'black', background: 'darkgray' }}>
                     <CSVLink headers={headers} data={data} filename="식대정산.csv" target="_blank">
                         엑셀 다운로드
                     </CSVLink>

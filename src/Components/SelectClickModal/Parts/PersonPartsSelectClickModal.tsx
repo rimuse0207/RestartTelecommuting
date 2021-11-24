@@ -32,12 +32,14 @@ const PersonPartsSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Pe
                     title: '데이터 삭제 성공',
                     content: `${clicksData.writer}님이 등록하신 업무요청을 삭제하였습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '데이터 삭제 실패',
                     content: `${clicksData.writer}님이 등록하신 업무요청을 삭제에 실패하였습니다.`,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -46,6 +48,7 @@ const PersonPartsSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Pe
                 title: '서버와의 연결이 실패',
                 content: `서버와의 연결이 실패하였습니다. IT팀에 문의바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -66,12 +69,14 @@ const PersonPartsSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Pe
                     title: '데이터 저장 성공',
                     content: `${clicksData.writer}님이 신청하신 업무요청에 확인 하셨습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '데이터 저장 실패',
                     content: `${moment(clicksData.write_date).format('YYYY년 MM월 DD일')}의 요청업무에 저장이 실패하였습니다.`,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -80,6 +85,7 @@ const PersonPartsSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Pe
                 title: '서버와의 연결이 실패',
                 content: `서버와의 연결이 실패하였습니다. IT팀에 문의바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };

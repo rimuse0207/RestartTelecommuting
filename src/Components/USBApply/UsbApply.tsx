@@ -94,6 +94,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                 title: '신청불가. ',
                 content: '문항지를 전부 선택 해주세요.',
                 duration: 6000,
+                DataSuccess: false,
             });
             return;
         }
@@ -102,6 +103,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                 title: '신청불가. 문항이 일치 하지 않아, ',
                 content: '보안상 USB를 사용 할 수 없습니다. 팀장님께 문의 해주세요.',
                 duration: 6000,
+                DataSuccess: false,
             });
 
             return;
@@ -112,6 +114,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                 title: '신청불가. ',
                 content: '내용을 입력 해주세요.',
                 duration: 6000,
+                DataSuccess: false,
             });
             return;
         }
@@ -133,12 +136,14 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                 title: '신청완료. ',
                 content: '메일 발송 완료. 팀장 승인을 기다려 주세요.',
                 duration: 6000,
+                DataSuccess: true,
             });
         } else {
             toast.show({
                 title: '메일 전송 실패 ',
                 content: '메일 발송 실패. IT팀에 문의 주세요.',
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };

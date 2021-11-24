@@ -27,27 +27,40 @@ const GET_TeamLeader_AFTEROTData_ERROR = 'TeamLeader_AFTEROTData/GET_TeamLeader_
 const TeamLeader_AFTEROTData_Show_FALSE = 'TeamLeader_AFTEROTData/TeamLeader_FoodData_Show_FALSE';
 const TeamLeader_AFTEROTData_Show_TRUE = 'TeamLeader_AFTEROTData/TeamLeader_FoodData_Show_TRUE';
 
-const getTeamLeaderAfterOTDataAsync = createAsyncAction(GET_TeamLeader_AFTEROTData_GET, GET_TeamLeader_AFTEROTData_SUCCESS, GET_TeamLeader_AFTEROTData_ERROR)<
-    undefined,
-    AfterOTDataTypes,
-    AxiosError
->();
+const getTeamLeaderAfterOTDataAsync = createAsyncAction(
+    GET_TeamLeader_AFTEROTData_GET,
+    GET_TeamLeader_AFTEROTData_SUCCESS,
+    GET_TeamLeader_AFTEROTData_ERROR
+)<undefined, AfterOTDataTypes, AxiosError>();
 
 const getTeamLeaderDataAfterOTApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_AfterOT_get_data`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const AfterOTdataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_AfterOT_get_data`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const AfterOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_AfterOT_get_data`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
-        console.log(dataget);
-        return dataget.data.data;
+        return AfterOTdataget.data.data;
     } catch (error) {
         console.log(error);
     }
 };
-const actions = { GET_TeamLeader_AFTEROTData_GET, GET_TeamLeader_AFTEROTData_SUCCESS, GET_TeamLeader_AFTEROTData_ERROR, TeamLeader_AFTEROTData_Show_FALSE, TeamLeader_AFTEROTData_Show_TRUE };
+const actions = {
+    GET_TeamLeader_AFTEROTData_GET,
+    GET_TeamLeader_AFTEROTData_SUCCESS,
+    GET_TeamLeader_AFTEROTData_ERROR,
+    TeamLeader_AFTEROTData_Show_FALSE,
+    TeamLeader_AFTEROTData_Show_TRUE,
+};
 
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 

@@ -36,14 +36,23 @@ const getUSBCDDataAsync = createAsyncAction(GET_TelecommutingData_GET, GET_Telec
 
 const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_Telecommuting`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_Telecommuting`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+
+        const TelePersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_Telecommuting`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
 
-        return dataget.data.data;
+        return TelePersondataget.data.data;
     } catch (error) {
         console.log(error);
     }
@@ -79,7 +88,6 @@ export function getTelecommutingThunk(
             if (userProfile) {
                 dispatch(success(userProfile));
             }
-
         } catch (e: any) {
             dispatch(failure(e));
         }

@@ -31,12 +31,14 @@ const PartsApplyWorkSpace = ({ pickerDate }: PartsApplyWorkSpaceProps) => {
                     title: '데이터 저장 성공',
                     content: `${moment(pickerDate).format('YYYY년 MM월 DD일')}에 업무요청 등록 하였습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '데이터 저장 실패',
                     content: `${moment(pickerDate).format('YYYY년 MM월 DD일')}의 업무요청 등록이 실패하였습니다.`,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -45,6 +47,7 @@ const PartsApplyWorkSpace = ({ pickerDate }: PartsApplyWorkSpaceProps) => {
                 title: '서버와의 연결이 실패',
                 content: `서버와의 연결이 실패하였습니다. IT팀에 문의바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };

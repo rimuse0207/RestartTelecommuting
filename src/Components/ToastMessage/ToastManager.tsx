@@ -7,6 +7,7 @@ interface ToastOptions {
     title: string;
     content: string;
     duration?: number;
+    DataSuccess: boolean;
 }
 
 export class ToastManager {

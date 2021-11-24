@@ -30,6 +30,7 @@ import {
 } from '../../models/TeamLeader_Thunk_models/TeamLeaderBeforeOTData';
 import { DecryptKey } from '../../config';
 import axios from 'axios';
+import { toast } from '../ToastMessage/ToastManager';
 const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -52,86 +53,6 @@ const TeamLeaderTelecommuting = () => {
     const [SearchName, setSearchName] = useState('');
     const [clicksTitle, setClicksTitle] = useState('');
     const [belongsName, setBelongsName] = useState([]);
-
-    // useEffect(() => {
-    //     const IDS = DecryptKey(InfomationState.id);
-    //     if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
-    //         if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         IDS === 'sjyoo@dhk.co.kr' ||
-    //         IDS === 'sjkim@dhk.co.kr' ||
-    //         IDS === 'wbjung@dhk.co.kr' ||
-    //         IDS === 'hjlee@dhk.co.kr' ||
-    //         IDS === 'jhshin@dhk.co.kr' ||
-    //         IDS === 'cwjun@dhk.co.kr' ||
-    //         IDS === 'kcahn@dhk.co.kr' ||
-    //         IDS === 'jhgoo@dhk.co.kr' ||
-    //         IDS === 'ychong@dhk.co.kr'
-    //     ) {
-    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         IDS === 'jhlee1@dhk.co.kr' ||
-    //         IDS === 'jycha@dhk.co.kr' ||
-    //         IDS === 'htchoi@dhk.co.kr' ||
-    //         IDS === 'jmlee@dhk.co.kr' ||
-    //         IDS === 'sjpark@dhk.co.kr'
-    //     ) {
-    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         InfomationState.position === '팀장' ||
-    //         InfomationState.team === '임원' ||
-    //         IDS === 'sjyoo@dhk.co.kr' ||
-    //         IDS === 'sjkim@dhk.co.kr'
-    //     ) {
-    //         if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
-    //     }
-    // }, [getMoment, foodApply_check, usbApply_check, AfterOtApply_check, BeforeOtApply_check, telecommutingApply_check]);
-
-    // useEffect(() => {
-    //     const IDS = DecryptKey(InfomationState.id);
-    //     if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
-    //         if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         IDS === 'sjyoo@dhk.co.kr' ||
-    //         IDS === 'sjkim@dhk.co.kr' ||
-    //         IDS === 'wbjung@dhk.co.kr' ||
-    //         IDS === 'hjlee@dhk.co.kr' ||
-    //         IDS === 'jhshin@dhk.co.kr' ||
-    //         IDS === 'cwjun@dhk.co.kr' ||
-    //         IDS === 'kcahn@dhk.co.kr' ||
-    //         IDS === 'jhgoo@dhk.co.kr' ||
-    //         IDS === 'ychong@dhk.co.kr'
-    //     ) {
-    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         IDS === 'jhlee1@dhk.co.kr' ||
-    //         IDS === 'jycha@dhk.co.kr' ||
-    //         IDS === 'htchoi@dhk.co.kr' ||
-    //         IDS === 'jmlee@dhk.co.kr' ||
-    //         IDS === 'sjpark@dhk.co.kr'
-    //     ) {
-    //         if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-    //         if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-    //     }
-    //     if (
-    //         InfomationState.position === '팀장' ||
-    //         InfomationState.team === '임원' ||
-    //         IDS === 'sjyoo@dhk.co.kr' ||
-    //         IDS === 'sjkim@dhk.co.kr'
-    //     ) {
-    //         if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
-    //     }
-    // }, [getMoment]);
 
     useEffect(() => {
         const IDS = DecryptKey(InfomationState.id);
@@ -233,13 +154,21 @@ const TeamLeaderTelecommuting = () => {
 
     const getSomeNamesData = async () => {
         try {
-            const getSomeNamesDataServer = await axios.post(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
+            const getSomeNamesDataServer = await axios.get(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
+                headers: {
+                    Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+                },
             });
-            console.log(getSomeNamesDataServer);
-            setBelongsName(getSomeNamesDataServer.data.datas);
+            if (getSomeNamesDataServer.data.dataSuccess) {
+                setBelongsName(getSomeNamesDataServer.data.datas);
+            } else {
+                toast.show({
+                    title: '목록 불러오기 실패',
+                    content: `IT팀에 문의 바랍니다.`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
         } catch (error) {
             console.log(error);
         }

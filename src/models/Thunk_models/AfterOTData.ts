@@ -35,14 +35,22 @@ const getAfterOTDataAsync = createAsyncAction(GET_AFTEROTData_GET, GET_AFTEROTDa
 
 const getDataAfterOTApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/AfterOT_get_data`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/AfterOT_get_data`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const AfterPersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/AfterOT_get_data`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
-        console.log(dataget);
-        return dataget.data.data;
+
+        return AfterPersondataget.data.data;
     } catch (error) {
         console.log(error);
     }

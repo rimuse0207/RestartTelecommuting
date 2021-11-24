@@ -12,7 +12,6 @@ type TeleWorkingProps = {
 };
 
 const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
-
     const [TeleStart, setTeleStart] = useState(false);
     const [TeleEnded, setTeleEnded] = useState(false);
     const [WorkBookWrite, setWorkBookWrite] = useState('');
@@ -46,9 +45,10 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
         } catch (error) {
             console.log(error);
             toast.show({
-                title: 'ERROR 발생!',
-                content: `ERROR 발생! 재택근무 시작 데이터 조회가 실패하였습니다. IT 팀에 문의 바랍니다.`,
+                title: 'ERROR!',
+                content: `ERROR. 재택근무 시작 데이터 조회가 실패하였습니다. IT 팀에 문의 바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -66,9 +66,10 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
             });
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
-                    title: '재택근무 시작 데이터 저장 완료.',
-                    content: `재택근무 시작 데이터가 서버에 저장 되었습니다.`,
+                    title: '데이터 저장 완료.',
+                    content: `${moment().format('HH시 mm분')}으로 재택근무가 시작됩니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
                 setTeleStart(true);
                 setStartTime(moment().format('HH:mm'));
@@ -76,9 +77,10 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
         } catch (error) {
             console.log(error);
             toast.show({
-                title: 'ERROR 발생!',
-                content: `ERROR 발생! 재택근무 시작 데이터가 서버 저장에 실패하였습니다.`,
+                title: 'ERROR!',
+                content: `ERROR! 서버 저장 실패`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -101,9 +103,10 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
             });
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
-                    title: '재택근무 종료 데이터 저장 완료.',
-                    content: `재택근무 종료 데이터가 서버에 저장 되었습니다.`,
+                    title: '데이터 저장 완료.',
+                    content: `${moment().format('HH시 mm분')}으로 재택근무 종료 데이터가 서버에 저장 되었습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
                 setTeleEnded(true);
                 setEndTime(moment().format('HH:mm'));
@@ -111,9 +114,10 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
         } catch (error) {
             console.log(error);
             toast.show({
-                title: 'ERROR 발생!',
-                content: `ERROR 발생! 재택근무 종료 데이터가 서버 저장에 실패하였습니다.`,
+                title: 'ERROR!',
+                content: `ERROR! 서버 저장에 실패하였습니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -128,17 +132,19 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
             });
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
-                    title: '업무일지 저장 완료.',
+                    title: '데이터 저장 완료.',
                     content: `임시 저장한 업무일지가 서버에 저장 되었습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             }
         } catch (error) {
             console.log(error);
             toast.show({
-                title: 'ERROR 발생!',
-                content: `ERROR 발생! 업무일지가 서버 저장에 실패하였습니다.`,
+                title: 'ERROR!',
+                content: `ERROR! 서버 저장에 실패하였습니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -195,7 +201,6 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
                             ) : (
                                 <>
                                     <textarea
-                                        
                                         className="Tele_Float_Right_box_inputBox"
                                         placeholder="업무일지를 작성해주세요."
                                         value={WorkBookWrite}

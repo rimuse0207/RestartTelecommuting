@@ -65,7 +65,7 @@ type TeamLeaderModalProps = {
         sat_reason2: string;
         sun_reason2: string;
         name: string;
-        leadercheck:number;
+        leadercheck: number;
     };
 };
 
@@ -101,7 +101,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
         thu_time: 0,
         fri_time: 0,
     });
-    console.log(clickedOTData)
+    console.log(clickedOTData);
     const handleAfterOTAccept = async () => {
         try {
             const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/AfterOTDataAccept`, {
@@ -112,6 +112,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                     title: '팀장 승인 완료.',
                     content: `${clickedOTData.name}팀원의 ${clickedOTData.date_mon} ~ ${clickedOTData.date_sun} 사후 OT를 팀장 승인하였습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
                 getDataOTData();
                 modalClose();
@@ -120,6 +121,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                     title: '팀장 승인 실패 (IT팀에 문의 바람)',
                     content: `${clickedOTData.name}팀원의 팀장 승인이 실패 되었습니다. `,
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -128,6 +130,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                 title: '팀장 승인 실패 (IT팀에 문의 바람)',
                 content: `서버와의 통신이 끊어졌습니다. `,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -261,7 +264,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                                <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.mon_reason2}</pre>
                                 </td>
                             </tr>
@@ -303,7 +306,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.tue_reason2}</pre>
                                 </td>
                             </tr>
@@ -345,7 +348,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.wed_reason2}</pre>
                                 </td>
                             </tr>
@@ -387,7 +390,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.thu_reason2}</pre>
                                 </td>
                             </tr>
@@ -429,7 +432,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.fri_reason2}</pre>
                                 </td>
                             </tr>
@@ -466,7 +469,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.sat_reason2}</pre>
                                 </td>
                             </tr>
@@ -503,7 +506,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign:"left"}}>
+                                <td style={{ textAlign: 'left' }}>
                                     <pre>{clickedOTData.sun_reason2}</pre>
                                 </td>
                             </tr>
@@ -561,12 +564,13 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                         </tbody>
                     </table>
                     <div style={{ textAlign: 'end', marginTop: '40px' }}>
-                        {
-                            clickedOTData.leadercheck === 1 ? "팀장승인 완료." : <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
-                            팀장승인
-                        </button>
-                        }
-                       
+                        {clickedOTData.leadercheck === 1 ? (
+                            '팀장승인 완료.'
+                        ) : (
+                            <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
+                                팀장승인
+                            </button>
+                        )}
                     </div>
                 </div>
             </Modal>

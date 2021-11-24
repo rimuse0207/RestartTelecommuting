@@ -469,6 +469,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setMonDateData({
                     ...monDateData,
@@ -491,6 +492,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setMonDateData({
                     ...monDateData,
@@ -547,6 +549,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setTueDateData({
                     ...tueDateData,
@@ -569,6 +572,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setTueDateData({
                     ...tueDateData,
@@ -625,6 +629,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setWedDateData({
                     ...wedDateData,
@@ -647,6 +652,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setWedDateData({
                     ...wedDateData,
@@ -704,6 +710,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setThuDateData({
                     ...thuDateData,
@@ -726,6 +733,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setThuDateData({
                     ...thuDateData,
@@ -783,6 +791,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setFriDateData({
                     ...friDateData,
@@ -805,6 +814,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setFriDateData({
                     ...friDateData,
@@ -862,6 +872,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setSatDateData({
                     ...satDateData,
@@ -884,6 +895,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setSatDateData({
                     ...satDateData,
@@ -940,6 +952,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setSunDateData({
                     ...sunDateData,
@@ -962,6 +975,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '근무시간보다 ',
                     content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
                     duration: 3000,
+                    DataSuccess: false,
                 });
                 setSunDateData({
                     ...sunDateData,
@@ -1012,6 +1026,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 title: '연장근무 신청 불가. (연장시간 초기화)',
                 content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
             return;
         }
@@ -1088,12 +1103,14 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     title: '사후 OT 데이터 저장 성공 ',
                     content: '사후 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '에러발생. 데이터 저장 실패.',
                     content: '사후 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -1103,6 +1120,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                 title: 'Error발생.',
                 content: 'server와의 연결 끊김. ErrorCode OT 20 ',
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -1242,7 +1260,9 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2}>연장 사유</th>
+                                    <th rowSpan={2} style={{ width: '400px' }}>
+                                        연장 사유
+                                    </th>
                                 </tr>
                                 <tr
                                     className="testss"

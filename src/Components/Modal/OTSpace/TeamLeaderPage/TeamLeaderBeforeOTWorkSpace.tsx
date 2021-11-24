@@ -151,7 +151,7 @@ const TeamLeaderBeforeOTWorkSpace = ({ selectYear, selectMonth, selectName }: Te
                 selectMonth,
                 selectName,
             });
-            console.log(getDataBeforeOT);
+
             setBeforeOTData(getDataBeforeOT.data.data);
         } catch (error) {
             console.log(error);
@@ -186,7 +186,16 @@ const TeamLeaderBeforeOTWorkSpace = ({ selectYear, selectMonth, selectName }: Te
                                                 </td>
                                                 <td>{list.name}</td>
                                                 <td>{list.team}</td>
-                                                <td>{list.mon_time+list.tue_time+list.wed_time+list.thu_time+list.fri_time+list.sat_time+list.sun_time} 시간</td>
+                                                <td>
+                                                    {list.mon_time +
+                                                        list.tue_time +
+                                                        list.wed_time +
+                                                        list.thu_time +
+                                                        list.fri_time +
+                                                        list.sat_time +
+                                                        list.sun_time}{' '}
+                                                    시간
+                                                </td>
                                                 <td>{list.leadercheck === 0 ? 'X' : 'O'}</td>
                                                 <td
                                                     className="TeamLeader_before_OT_WorkSpace_click_td"

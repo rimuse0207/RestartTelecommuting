@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import { RootState } from '../../models';
 import { useSelector } from 'react-redux';
 import { DecryptKey } from '../../config';
-
+import { toast } from '../ToastMessage/ToastManager';
 const customStyles = {
     content: {
         top: '50%',
@@ -64,13 +64,17 @@ const CeCalendarMasterPage = () => {
     const dataGetSome = async () => {
         try {
             const DataGetSomeCECalendar = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`);
-            console.log(DataGetSomeCECalendar);
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
             }
         } catch (error) {
             console.log(error);
-            alert('ERROR');
+            toast.show({
+                title: 'ERROR!',
+                content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+                duration: 6000,
+                DataSuccess: false,
+            });
         }
     };
 
@@ -83,6 +87,12 @@ const CeCalendarMasterPage = () => {
                 });
                 if (DataUpdateCEcalendar.data.dataSuccess) {
                     setData(data.map(item => (item.indexs === datas.indexs ? { ...item, hiddenOn: 1 } : item)));
+                    toast.show({
+                        title: '서버에 저장 성공',
+                        content: `데이터 숨김처리 되었습니다. `,
+                        duration: 6000,
+                        DataSuccess: true,
+                    });
                 }
             } else {
                 const DataUpdateCEcalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateHidden`, {
@@ -91,10 +101,22 @@ const CeCalendarMasterPage = () => {
                 });
                 if (DataUpdateCEcalendar.data.dataSuccess) {
                     setData(data.map(item => (item.indexs === datas.indexs ? { ...item, hiddenOn: 0 } : item)));
+                    toast.show({
+                        title: '서버에 저장 성공',
+                        content: `데이터 표시처리 되었습니다. `,
+                        duration: 6000,
+                        DataSuccess: true,
+                    });
                 }
             }
         } catch (error) {
             console.log(error);
+             toast.show({
+                 title: 'ERROR!',
+                 content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+                 duration: 6000,
+                 DataSuccess: false,
+             });
         }
     };
 

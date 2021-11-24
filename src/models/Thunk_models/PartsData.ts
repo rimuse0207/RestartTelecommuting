@@ -33,14 +33,22 @@ const getSalesDataAsync = createAsyncAction(GET_SalesData_GET, GET_SalesData_SUC
 
 const getDataSalesApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/sales_server/dataSales`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/sales_server/dataSales`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const PartsPersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/sales_server/dataSales`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
 
-        return dataget.data.data;
+        return PartsPersondataget.data.data;
     } catch (error) {
         console.log(error);
     }

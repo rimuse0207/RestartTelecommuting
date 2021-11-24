@@ -33,20 +33,24 @@ const getUSBCDDataAsync = createAsyncAction(GET_USBCDData_GET, GET_USBCDData_SUC
 >();
 
 const getDataUSBCDApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
-    console.log(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`);
     try {
-        const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
-            id: DecryptKey(InfomationState.id),
-            team: InfomationState.team,
-            name: DecryptKey(InfomationState.name),
-            selectDate: moment(getMoment).format('YYYY-MM'),
+        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
+        //     id: DecryptKey(InfomationState.id),
+        //     team: InfomationState.team,
+        //     name: DecryptKey(InfomationState.name),
+        //     selectDate: moment(getMoment).format('YYYY-MM'),
+        // });
+        const USBPersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
+            params: {
+                selectDate: moment(getMoment).format('YYYY-MM'),
+            },
+            headers: {
+                Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            },
         });
-
-        return dataget.data.data;
-
+        return USBPersondataget.data.data;
     } catch (error) {
         console.log(error);
-
     }
 };
 const actions = { GET_USBCDData_GET, GET_USBCDData_SUCCESS, GET_USBCDData_ERROR, USBCDData_Show_FALSE, USBCDData_Show_TRUE };
@@ -74,7 +78,6 @@ export function getUSBCDThunk(
             if (userProfile) {
                 dispatch(success(userProfile));
             }
-
         } catch (e: any) {
             dispatch(failure(e));
         }

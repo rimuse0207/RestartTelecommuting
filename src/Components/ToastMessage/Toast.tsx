@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Toast.css';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 export type ToastProps = {
     id: string;
@@ -7,9 +8,10 @@ export type ToastProps = {
     title: string;
     content: string;
     duration?: number;
+    DataSuccess: boolean;
 };
 
-const Toast = ({ id, destroy, title, content, duration = 0 }: ToastProps) => {
+const Toast = ({ id, destroy, title, content, duration = 0, DataSuccess }: ToastProps) => {
     useEffect(() => {
         if (!duration) return;
         const timer = setTimeout(() => {
@@ -19,12 +21,15 @@ const Toast = ({ id, destroy, title, content, duration = 0 }: ToastProps) => {
     }, [destroy, duration]);
 
     return (
-        <div>
+        <div id={DataSuccess ? 'Toast_div_success' : 'Toast_div_fail'}>
             <div className="toast-header">
                 <div>{title}</div>
-                <button onClick={destroy}>X</button>
+                <button style={{ width: '20px', height: '20px' }} onClick={destroy}>
+                    <div style={{ fontWeight: 'bolder' }}>X</div>
+                </button>
             </div>
             <div className="toast-body">{content}</div>
+            <div className="Toast_loading_color"></div>
         </div>
     );
 };

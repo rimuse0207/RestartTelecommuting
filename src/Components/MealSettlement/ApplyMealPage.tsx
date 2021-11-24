@@ -41,11 +41,19 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
 
     const data_get = async () => {
         try {
-            const dataget = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
-                id: DecryptKey(InfomationState.id),
-                team: InfomationState.team,
-                name: DecryptKey(InfomationState.name),
-                selectDate,
+            // const dataget = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
+            //     id: DecryptKey(InfomationState.id),
+            //     team: InfomationState.team,
+            //     name: DecryptKey(InfomationState.name),
+            //     selectDate,
+            // });
+            const dataget = await axios.get(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
+                params: {
+                    selectDate,
+                },
+                headers: {
+                    Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+                },
             });
             if (dataget.data.dataSuccess) {
                 let taaa = [];
@@ -58,17 +66,19 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 setApplyedData(dataget.data.data);
             } else {
                 toast.show({
-                    title: '에러발생. ',
-                    content: '에러 발생! 권한이 없습니다.',
+                    title: 'ERROR! ',
+                    content: 'ERROR! 권한이 없습니다.',
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
             console.log(error);
             toast.show({
-                title: '에러발생. ',
-                content: '에러 발생: ErrorCode: 식대 서버 정산 프론트 1',
+                title: 'ERROR! ',
+                content: 'ERROR! ErrorCode: 식대 서버 정산 프론트 1',
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -78,11 +88,20 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     }, [divisionDate]);
     const OTdataGet = async () => {
         try {
-            const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
-                divisionDate,
-                id: DecryptKey(InfomationState.id),
-                team: InfomationState.team,
-                name: DecryptKey(InfomationState.name),
+            // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
+            //     divisionDate,
+            //     id: DecryptKey(InfomationState.id),
+            //     team: InfomationState.team,
+            //     name: DecryptKey(InfomationState.name),
+            // });
+            const dataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
+                params: {
+                    selectDate,
+                    divisionDate,
+                },
+                headers: {
+                    Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+                },
             });
             if (dataget.data.dataSuccess) {
                 setOTDatas(dataget.data.OTdatas);
@@ -133,12 +152,14 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                     title: '데이터 저장 성공 ',
                     content: '데이터 저장 완료.',
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '데이터 저장　실패 ',
                     content: '에러 발생 ErrorCode: 식대 정산 서버 10',
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
@@ -147,6 +168,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 title: '에러발생. ',
                 content: '에러 발생 ErrorCode: 식대 정산 프론트 2',
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
@@ -170,22 +192,25 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 );
                 toast.show({
                     title: '데이터 삭제 성공 ',
-                    content: `${datas.dates}일자에 신청하신 식대정산 데이터가 삭제되었습니다.`,
+                    content: `${datas.dates}일자에 신청한 식대정산 데이터가 삭제되었습니다.`,
                     duration: 6000,
+                    DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '데이터 삭제　실패 ',
-                    content: '에러 발생 ErrorCode: 식대 정산 서버 14',
+                    content: 'Error: ErrorCode: 식대 정산 서버 14',
                     duration: 6000,
+                    DataSuccess: false,
                 });
             }
         } catch (error) {
             console.log(error);
             toast.show({
-                title: '에러발생. ',
-                content: '에러 발생: ErrorCode: 식대 서버 정산 프론트 1',
+                title: 'Error! ',
+                content: 'Error: ErrorCode: 식대 서버 정산 프론트 5',
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };

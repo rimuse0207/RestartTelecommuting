@@ -1,14 +1,20 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Navigation.css';
 import Navigation from './Navigation';
+import { CgProfile } from 'react-icons/cg';
+import { DecryptKey } from '../../config';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../models/index';
+
 type HambergerMenu = {
     titles: string;
     subtitles: string;
 };
 
 const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
-    const myMenuRef = useRef<any>("null")
+    const myMenuRef = useRef<any>('null');
     const [hambergerOpen, setHambergerOpen] = useState(false);
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [menuStatus, setMenuStatus] = useState('');
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
@@ -19,8 +25,8 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
         function handleClickOutside(e: MouseEvent): void {
             if (myMenuRef.current && !myMenuRef.current.contains(e.target as Node)) {
                 e.stopPropagation();
-                setMenuStatus('') 
-                setHambergerOpen(false);   
+                setMenuStatus('');
+                setHambergerOpen(false);
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
@@ -31,7 +37,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
 
     return (
         <div ref={myMenuRef}>
-            <div className="menubar" >
+            <div className="menubar">
                 <div className="MainTitles">
                     <h1>{titles}</h1>
                 </div>
@@ -43,10 +49,20 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     <span></span>
                 </div>
                 <div className="title">
-                    <span style={{ fontSize: "1.1em", fontWeight: "bolder" }}>{subtitles}</span>
+                    <span className="Navigation_title_text_css">{subtitles}</span>
+                </div>
+                <div>
+                    <div className="Navigation_Info_div">
+                        <div>
+                            <div> {InfomationState.team.toUpperCase()}</div>
+                            <div> {DecryptKey(InfomationState.name)}</div>
+                            <div> {InfomationState.position}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div >
+
+            <div>
                 <Navigation menuStatus={menuStatus} />
             </div>
         </div>

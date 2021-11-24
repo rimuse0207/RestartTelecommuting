@@ -22,8 +22,9 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
             dispatch(TeamLeader_getUSBCDThunk(clicksData.workdate, InfomationState));
             toast.show({
                 title: '팀장 승인 완료 및 메일발송 성공',
-                content: `${clicksData.name}팀원의 USB/CD 사전신청한 부문에 승인하였습니다.`,
+                content: `${clicksData.name}팀원의 USB/CD부문에 승인하였습니다.`,
                 duration: 6000,
+                DataSuccess: true,
             });
             modalClose();
         } else {
@@ -31,6 +32,7 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
                 title: '팀장 승인 실패.',
                 content: `다시 한번 시도 후 실패 시 IT팀에 문의 바랍니다.`,
                 duration: 6000,
+                DataSuccess: false,
             });
         }
     };
