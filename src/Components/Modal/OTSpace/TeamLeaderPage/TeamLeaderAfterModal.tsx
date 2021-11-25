@@ -101,7 +101,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
         thu_time: 0,
         fri_time: 0,
     });
-    console.log(clickedOTData);
+
     const handleAfterOTAccept = async () => {
         try {
             const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/AfterOTDataAccept`, {
@@ -141,7 +141,7 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
         const CheckedDataOTs = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/getAfterCheckedOTdata`, {
             clickedOTData,
         });
-        console.log(CheckedDataOTs);
+
         setCheckedOTdata(CheckedDataOTs.data.data[0]);
     };
     return (

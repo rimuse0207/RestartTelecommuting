@@ -1260,7 +1260,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} style={{ width: '400px' }}>
+                                    <th rowSpan={2} className="OTSpace_OTReason_th">
                                         연장 사유
                                     </th>
                                 </tr>
@@ -1645,7 +1645,9 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2}>연장 사유</th>
+                                    <th rowSpan={2} className="OTSpace_OTReason_th">
+                                        연장 사유
+                                    </th>
                                 </tr>
                                 <tr
                                     className="testss"

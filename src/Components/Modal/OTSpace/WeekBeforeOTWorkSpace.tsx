@@ -1193,7 +1193,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5', width: '400px' }}>
+                                    <th className="OTSpace_OTReason_th" rowSpan={2} style={{ backgroundColor: '#2da8e5' }}>
                                         연장 사유
                                     </th>
                                 </tr>
@@ -1595,7 +1595,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5' }} className="OTSpace_OTReason_th">
                                         연장 사유
                                     </th>
                                 </tr>

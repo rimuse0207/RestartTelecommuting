@@ -280,12 +280,28 @@ a:hover {
     thead {
         font-size: 0.8em !important;
     }
-    .TeamSelectOTTable_list_div > table tr,
-    td {
-        padding: 0px !important;
-    }
+
     #menu li {
         padding: 5px 0 10px 30px;
         font-size: 0.8em;
+    }
+    #toast-container-main {
+        font-size: 0.8em;
+    }
+    .OTSpace_OTReason_th {
+        width: 400px !important;
+    }
+    .DISCO_PC_mealSet {
+        font-size: 0.4em !important;
+    }
+    .TeamLeader_Tele_input {
+        font-size: 0.4em !important;
+        height: 15px !important;
+        border: none;
+        padding: 5px !important;
+    }
+    .TeamLeader_Telecommuting_SearchedNames {
+        font-size: 0.4em !important;
+        height: 20px !important;
     }
 }

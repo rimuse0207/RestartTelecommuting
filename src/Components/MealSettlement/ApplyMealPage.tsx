@@ -408,14 +408,14 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                 i
                                             ) => {
                                                 return (
-                                                    <tr key={list.indexs} ref={divisionRef}>
+                                                    <tr key={list.indexs} ref={divisionRef} className="DISCO_PC_mealSet">
                                                         <td>{list.dates}</td>
                                                         <td>{list.division}</td>
                                                         <td>{list.spending.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</td>
                                                         <td>{list.calculate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</td>
                                                         <td>{list.place}</td>
                                                         <td>{list.location}</td>
-                                                        <td>
+                                                        <td className="DISCO_PC_etc_width">
                                                             {OTDatas.map((item: { dates: string; OTTimes: number }, j) => {
                                                                 return list.division === '석식' ? (
                                                                     item.dates === list.dates ? (

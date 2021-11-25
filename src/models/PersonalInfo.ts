@@ -1,12 +1,12 @@
-import crypto from "crypto-js";
+import crypto from 'crypto-js';
 
 const ciphertext = (datas: string) => {
     const keys: any = `${process.env.REACT_APP_SECRETKEY}`;
     return crypto.AES.encrypt(datas, keys).toString();
-}
-console.log(ciphertext("name"))
+};
+
 const GETPERSONALINFO = 'PersonalInfo/GETPERSONALINFO' as const;
-const LOGOUTSESSIONOFF = 'PersonalInfo/LOGOUTSESSIONOFF' as const
+const LOGOUTSESSIONOFF = 'PersonalInfo/LOGOUTSESSIONOFF' as const;
 
 export const getPersionalInfo = (data: {
     name: string;
@@ -20,14 +20,11 @@ export const getPersionalInfo = (data: {
     payload: data,
 });
 
-
 export const getPersionalLOGOUT = () => ({
     type: LOGOUTSESSIONOFF,
 });
 
-type PersonalInfoAction = ReturnType<typeof getPersionalInfo> |
-    ReturnType<typeof getPersionalLOGOUT>;
-
+type PersonalInfoAction = ReturnType<typeof getPersionalInfo> | ReturnType<typeof getPersionalLOGOUT>;
 
 type PersonalInfoState = {
     loginCheck: boolean;
@@ -38,7 +35,6 @@ type PersonalInfoState = {
         position: string;
         id: string;
     };
-
 };
 
 const initialState: PersonalInfoState = {
@@ -63,7 +59,7 @@ function PersonalInfo(state: PersonalInfoState = initialState, action: PersonalI
                     team: action.payload.team,
                     position: action.payload.position,
                     id: ciphertext(action.payload.id),
-                }
+                },
             };
         case LOGOUTSESSIONOFF:
             return initialState;
