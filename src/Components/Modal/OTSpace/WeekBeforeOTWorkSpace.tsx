@@ -1664,7 +1664,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                     <td rowSpan={3} width="100px">
                                         <DatePicker
                                             locale="ko"
-                                            selected={monDateData.basicStartTime}
+                                            selected={new Date(monDateData.basicStartTime)}
                                             onChange={(Time: any) => setMonDateData({ ...monDateData, basicStartTime: Time })}
                                             showTimeSelect
                                             showTimeSelectOnly
@@ -1672,7 +1672,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                             timeCaption="Time"
                                             dateFormat="HH:mm"
                                             withPortal
-                                            portalId="root-timeportal"
+                                            // portalId="root-timeportal"
                                         />
                                     </td>
                                     <td rowSpan={3} width="100px">
@@ -1736,6 +1736,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                             dateFormat="HH:mm"
                                             withPortal
                                             portalId="root-timeportal"
+                                            onFocus={() => monDateData.OTRestTime}
                                         />
                                     </td>
                                     <td rowSpan={3} width="100px">

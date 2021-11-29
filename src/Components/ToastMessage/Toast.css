@@ -51,12 +51,13 @@
 }
 .Toast_loading_color {
     animation-name: loadings;
-    animation-duration: 5s;
+    animation-duration: 3s;
     animation-fill-mode: backwards;
     height: 5px;
     background-color: #efefef;
     border-radius: 5px;
     margin-top: 10px;
+    overflow-y: hidden;
 }
 
 @keyframes loadings {

@@ -36,6 +36,7 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
             });
         }
     };
+
     return (
         <div>
             <div>
@@ -77,9 +78,15 @@ const SelectClickModal = ({ clicksTitle, clicksData, modalClose }: SelectClickMo
             </div>
             <div style={{ width: '100%', textAlign: 'end', paddingRight: '30px', marginTop: '30px' }}>
                 {clicksData.leadercheck === 0 ? (
-                    <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
-                        승인하기
-                    </button>
+                    moment().diff(moment(clicksData.workdate), 'days') < 7 ? (
+                        <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
+                            승인하기
+                        </button>
+                    ) : (
+                        <div className="AcceptOkayDiv" onClick={() => modalClose()}>
+                            승인 기한만료.
+                        </div>
+                    )
                 ) : (
                     <div className="AcceptOkayDiv" onClick={() => modalClose()}>
                         승인 완료.
