@@ -6,7 +6,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     overflow-y: auto;
-    font-family: 'GowunBatang-Regular';
+    font-family: 'initial';
 }
 
 code {

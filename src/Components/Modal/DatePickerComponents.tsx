@@ -95,7 +95,7 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
                     {startDate ? (
                         <select
                             onChange={e => handleChangeSelected(e)}
-                            style={{ width: '150px', height: '30px', fontWeight: 'bolder', marginBottom: '10px' }}
+                            style={{ width: '300px', height: '30px', fontWeight: 'bolder', marginBottom: '10px' }}
                         >
                             <option value="initial">항목을 선택 해 주세요.</option>
                             {/* <option value="BusinessTrip">출장 신청</option> */}
@@ -106,7 +106,7 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
                     ) : (
                         <>
                             <span>
-                                아래의 파란 버튼을 클릭 후 <br />
+                                아래의 회색 버튼을 클릭 후 <br />
                             </span>
                             <span>날짜를 선택 해주세요.</span>
                         </>

@@ -9,6 +9,102 @@ import { RootState } from '../../models';
 import moment from 'moment';
 import { toast } from '../ToastMessage/ToastManager';
 import { getUSBCDThunk } from '../../models/Thunk_models/USBCDData';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { GiClick } from 'react-icons/gi';
+import { CgSelectR } from 'react-icons/cg';
+import styled from 'styled-components';
+
+export const USBCDApplyFormBoxDiv = styled.div`
+    width: 90%;
+    height: 40px;
+    display: flex;
+    margin-top: 3px;
+    margin-bottom: 6px;
+    .CElogs_WriteData_FORM_Text_label {
+        width: 200px;
+    }
+    textarea {
+        min-height: 100px;
+        padding: 10px;
+    }
+    #TextareaHeight {
+        height: 100px;
+        line-height: 100px;
+    }
+    #USBCDDivBox {
+        width: 80%;
+        height: 100%;
+
+        div {
+            height: 100%;
+        }
+    }
+    .react-datepicker__input-container {
+        width: 100%;
+        height: 100%;
+    }
+    .example-custom-input10,
+    .example-custom-input2 {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        padding-left: 20px;
+        border: 0.5px solid lightgray;
+        border-radius: 2px;
+        font-size: 0.8em;
+        font-family: initial;
+        color: black;
+        background-color: white;
+        text-align: start;
+        :hover {
+            cursor: pointer;
+            background-color: #efefef;
+        }
+    }
+    select {
+        width: 80%;
+        height: 100%;
+        padding: 0;
+        padding-left: 20px;
+        border: 0.5px solid lightgray;
+        border-radius: 2px;
+        font-size: 0.8em;
+        font-family: initial;
+        color: black;
+        option {
+            color: black;
+            border: none;
+            :focus {
+                color: black;
+            }
+        }
+    }
+`;
+
+export const SubMitButton = styled.div`
+    position: relative;
+    bottom: -100px;
+    text-align: right;
+    width: 90%;
+    button {
+        border: none;
+        outline: none;
+        width: 30%;
+        height: 40px;
+        border-radius: 4px;
+        font-weight: bolder;
+        background-color: #30aed6;
+        color: white;
+        font-size: 1em;
+        :hover {
+            cursor: pointer;
+            background-color: #efefef;
+            color: #30aed6;
+            transition: 0.5s ease-in-out;
+        }
+    }
+`;
+
 type UsbApplyProps = {
     pickerDate?: any;
 };
@@ -175,9 +271,10 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                     </div>
                 </div>
                 <div className="USB_right_box">
-                    <div id="form-div">
-                        <h2>USB/CD 이메일 전송</h2>
-                        <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
+                    {/* <div id="form-div"> */}
+                    <div style={{ padding: '30px' }}>
+                        <h2 style={{ marginBottom: '30px' }}>USB/CD 사전 신청</h2>
+                        {/* <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
                             <div className="usb_name">
                                 <input
                                     value={DecryptKey(InfomationState.name)}
@@ -246,6 +343,101 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                                 <div className="ease"></div>
                             </div>
                         </form>
+                    </div> */}
+                        <div>
+                            <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
+                                <USBCDApplyFormBoxDiv>
+                                    <div className="CElogs_WriteData_FORM_Text_label">이름</div>
+                                    <div className="CElogs_WriteData_FORM_emoticon_div">
+                                        <BsFillPencilFill></BsFillPencilFill>
+                                    </div>
+                                    <input
+                                        className="CElogs_WriteData_FORM_InputBox"
+                                        value={DecryptKey(InfomationState.name)}
+                                        type="text"
+                                        placeholder="이름"
+                                        readOnly
+                                    ></input>
+                                </USBCDApplyFormBoxDiv>
+                                <USBCDApplyFormBoxDiv>
+                                    <div className="CElogs_WriteData_FORM_Text_label">사용 일자</div>
+                                    <div className="CElogs_WriteData_FORM_emoticon_div">
+                                        <GiClick></GiClick>
+                                    </div>
+                                    {/* <input type="text" className="CElogs_WriteData_FORM_InputBox" placeholder="사용일자"></input> */}
+                                    <div id="USBCDDivBox">
+                                        <DatePicker
+                                            placeholderText="보실 날짜를 선택해주세요."
+                                            dateFormat="yyyy-MM-dd(eee)"
+                                            locale="ko"
+                                            customInput={<ExampleCustomInput />}
+                                            selected={startDate}
+                                            withPortal
+                                            portalId="root-portal"
+                                            onChange={(date: any) => setStartDate(date)}
+                                        />
+                                    </div>
+                                </USBCDApplyFormBoxDiv>
+                                <USBCDApplyFormBoxDiv>
+                                    <div className="CElogs_WriteData_FORM_Text_label">사용 장비</div>
+                                    <div className="CElogs_WriteData_FORM_emoticon_div">
+                                        <BsFillPencilFill></BsFillPencilFill>
+                                    </div>
+
+                                    <input
+                                        type="text"
+                                        className="CElogs_WriteData_FORM_InputBox"
+                                        placeholder="사용장비"
+                                        value={equipment}
+                                        onChange={e => setequipment(e.target.value)}
+                                    ></input>
+                                </USBCDApplyFormBoxDiv>
+                                <USBCDApplyFormBoxDiv>
+                                    <div className="CElogs_WriteData_FORM_Text_label">사용 파일명</div>
+                                    <div className="CElogs_WriteData_FORM_emoticon_div">
+                                        <BsFillPencilFill></BsFillPencilFill>
+                                    </div>
+
+                                    <input
+                                        className="CElogs_WriteData_FORM_InputBox"
+                                        type="text"
+                                        placeholder="사용 파일명"
+                                        value={filename}
+                                        onChange={e => setfilename(e.target.value)}
+                                    ></input>
+                                </USBCDApplyFormBoxDiv>
+                                <USBCDApplyFormBoxDiv>
+                                    <div className="CElogs_WriteData_FORM_Text_label">사용 USB</div>
+                                    <div className="CElogs_WriteData_FORM_emoticon_div">
+                                        <CgSelectR></CgSelectR>
+                                    </div>
+
+                                    <select name="ownership" onChange={e => setUsbownership(e.target.value)}>
+                                        <option value="자사">자사</option>
+                                        <option value="고객">고객</option>
+                                    </select>
+                                </USBCDApplyFormBoxDiv>
+                                <USBCDApplyFormBoxDiv>
+                                    <div id="TextareaHeight" className="CElogs_WriteData_FORM_Text_label">
+                                        사용이유
+                                    </div>
+                                    <div id="TextareaHeight" className="CElogs_WriteData_FORM_emoticon_div">
+                                        <BsFillPencilFill></BsFillPencilFill>
+                                    </div>
+                                    <textarea
+                                        className="CElogs_WriteData_FORM_InputBox"
+                                        placeholder="사용이유"
+                                        value={useText}
+                                        onChange={e => setUseText(e.target.value)}
+                                    ></textarea>
+                                </USBCDApplyFormBoxDiv>
+                                <SubMitButton>
+                                    <button type="submit" value="이메일 보내기" onClick={handleSendMail}>
+                                        메일 전송
+                                    </button>
+                                </SubMitButton>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

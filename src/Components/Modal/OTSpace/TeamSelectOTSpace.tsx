@@ -9,7 +9,7 @@ const TeamSelectOTSpace = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [selectYear, setSelectYear] = useState(moment().format('YYYY'));
     const [selectMonth, setSelectMonth] = useState(moment().format('MM'));
-    const [selectTeam, setSelectTeam] = useState(InfomationState.team);
+    const [selectTeam, setSelectTeam] = useState('');
     const [showTeam, setShowTeam] = useState(['권한없음.']);
 
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
@@ -34,36 +34,37 @@ const TeamSelectOTSpace = () => {
             id === 'htchoi@dhk.co.kr' ||
             id === 'jmlee@dhk.co.kr'
         ) {
-            setShowTeam(['dicer', 'laser', 'grinder', '장비영업', '부품소재', '영업기술', '경영지원', '아산CE']);
-            setSelectTeam('dicer');
+            setShowTeam(['', '부품소재', '장비영업', '영업기술', '경영지원', '아산CE', 'Dicer', 'Grinder', 'Laser']);
         } else if (id === 'sjpark@dhk.co.kr') {
             setShowTeam(['경영지원']);
             setSelectTeam('경영지원');
         } else if (id === 'jhgoo@dhk.co.kr') {
-            setShowTeam(['dicer', 'laser', 'grinder', '아산CE']);
-            setSelectTeam('dicer');
+            setShowTeam(['', '아산CE', 'Dicer', 'Laser', 'Grinder']);
         } else if (id === 'kcahn@dhk.co.kr') {
-            setShowTeam(['장비영업', '부품소재', '영업기술']);
-            setSelectTeam('장비영업');
+            setShowTeam(['', '장비영업', '부품소재', '영업기술']);
         } else if (id === 'ychong@dhk.co.kr') {
-            setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
-            setSelectTeam('A_dicer');
-        }else if(id === "hjlee@dhk.co.kr"){
-            setShowTeam(['dicer']);
+            setShowTeam(['', '아산CE', 'A_Dicer', 'A_Laser', 'A_Grinder']);
+        } else if (id === 'hjlee@dhk.co.kr') {
+            setShowTeam(['Dicer']);
             setSelectTeam('dicer');
-        }else if(id === "wbjung@dhk.co.kr"){
-            setShowTeam(['laser']);
+        } else if (id === 'wbjung@dhk.co.kr') {
+            setShowTeam(['Laser']);
             setSelectTeam('laser');
-        }else if(id === "jhshin@dhk.co.kr"){
-            setShowTeam(['grinder']);
+        } else if (id === 'jhshin@dhk.co.kr') {
+            setShowTeam(['Grinder']);
             setSelectTeam('grinder');
-        }else if(id === "cwjun@dhk.co.kr"){
+        } else if (id === 'cwjun@dhk.co.kr') {
             setShowTeam(['장비영업']);
             setSelectTeam('장비영업');
         }
     }, []);
     useEffect(() => {
-        getDataSelectTeam();
+        if (selectTeam === '') {
+            setTeamBelongInfo([]);
+            return;
+        } else {
+            getDataSelectTeam();
+        }
     }, [selectYear, selectMonth, selectTeam]);
 
     const getDataSelectTeam = async () => {
@@ -112,6 +113,7 @@ const TeamSelectOTSpace = () => {
                     </select>
                 </div>
                 <div>
+                    <div style={{ textAlign: 'end' }}>*더블 클릭 시 자세하게 볼 수 있습니다.</div>
                     <TeamSelectOTTable
                         teamBelongInfo={teamBelongInfo}
                         selectTeam={selectTeam}

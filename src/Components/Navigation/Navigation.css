@@ -44,7 +44,9 @@ ul {
     display: block;
     height: 10vh;
     max-height: 70px;
-    background-color: #f9b55c;
+    background-color: #8c8a8a;
+    color: #efefef;
+
     box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.12);
     text-align: center;
 }
@@ -141,13 +143,14 @@ ul {
     height: calc(100vh - 70px);
     width: 210px;
 
-    background: #f9b55c;
+    background: #8c8a8a;
     box-shadow: 2px 1px 1px 1px lightgrey;
 
     transform: translateX(-100%);
     transition: transform 300ms;
     z-index: 10;
     overflow: auto;
+    color: #efefef;
 }
 
 #menu ul {
@@ -177,15 +180,15 @@ ul {
 
 a {
     text-decoration: none;
-    color: white;
+    color: #efefef;
     font-weight: normal;
 }
 a:visited {
-    color: black;
+    color: #efefef;
 }
 a > li:hover {
-    background-color: white;
-    color: orange;
+    background-color: #efefef;
+    color: black;
     font-weight: bolder;
 }
 
@@ -218,7 +221,7 @@ a:hover {
     width: 10px;
 }
 #menu::-webkit-scrollbar-thumb {
-    background-color: #ff800a;
+    background-color: #474742;
     border-radius: 10px;
     background-clip: padding-box;
     border: 2px solid transparent;
@@ -303,5 +306,8 @@ a:hover {
     .TeamLeader_Telecommuting_SearchedNames {
         font-size: 0.4em !important;
         height: 20px !important;
+    }
+    .USB_left_box {
+        font-size: 0.8em !important;
     }
 }

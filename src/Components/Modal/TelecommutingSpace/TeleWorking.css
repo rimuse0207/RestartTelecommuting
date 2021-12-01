@@ -109,7 +109,7 @@
     border-radius: 10px;
 }
 .Tele_Float_Right_box_inputBox:focus {
-    border: 3px solid orange;
+    border: 3px solid #b792db;
     outline: none;
 }
 .Tele_Start_Float_box::after {
@@ -120,7 +120,7 @@
 .Tele_Start_Float_Left_box {
     width: 48%;
     float: left;
-    border-bottom: 4px solid orange;
+    border-bottom: 4px solid #b792db;
     text-align: center;
     border-radius: 10px;
 }
@@ -137,7 +137,7 @@
 .Tele_Start_Float_Right_box {
     width: 48%;
     float: right;
-    border-bottom: 4px solid orange;
+    border-bottom: 4px solid #b792db;
     text-align: center;
     border-radius: 10px;
 }
@@ -156,7 +156,7 @@
     margin-top: 50px;
     font-size: 3rem;
     text-align: center;
-    border: 4px solid orange;
+    border: 4px solid #6927aa;
     font-weight: bolder;
     border-radius: 12px;
 }

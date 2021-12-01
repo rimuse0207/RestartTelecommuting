@@ -50,8 +50,9 @@
     background-color: #a50606;
 }
 .Toast_loading_color {
+    animation-delay: 0.5s;
     animation-name: loadings;
-    animation-duration: 3s;
+    animation-duration: 5.5s;
     animation-fill-mode: backwards;
     height: 5px;
     background-color: #efefef;

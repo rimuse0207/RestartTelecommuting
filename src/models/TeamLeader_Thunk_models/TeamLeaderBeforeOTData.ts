@@ -41,7 +41,7 @@ const getTemLeader_DataBeforeOTApply = async (getMoment: {}, InfomationState: { 
         //     name: DecryptKey(InfomationState.name),
         //     selectDate: moment(getMoment).format('YYYY-MM'),
         // });
-        const BeforeOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
+        const TeamLeaderBeforeOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
             },
@@ -49,7 +49,7 @@ const getTemLeader_DataBeforeOTApply = async (getMoment: {}, InfomationState: { 
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),
             },
         });
-        return BeforeOTdataget.data.data;
+        return TeamLeaderBeforeOTdataget.data.data;
     } catch (error) {
         console.log(error);
     }

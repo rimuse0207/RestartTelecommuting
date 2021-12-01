@@ -61,14 +61,14 @@ const MealMonthMainPage = () => {
                     </select>
                     <select value={selectedTeam} onChange={e => setSelectedTeam(e.target.value)}>
                         <option value="All">전체</option>
-                        <option value="dicer">dicer</option>
-                        <option value="laser">laser</option>
-                        <option value="grinder">grinder</option>
                         <option value="장비영업">장비영업</option>
                         <option value="부품소재">부품소재</option>
                         <option value="영업기술">영업기술</option>
                         <option value="경영지원">경영지원</option>
-                        <option value="아산CE">CE</option>
+                        <option value="dicer">Dicer</option>
+                        <option value="laser">Laser</option>
+                        <option value="grinder">Grinder</option>
+                        <option value="아산CE">아산CE</option>
                     </select>
                     <span style={{ marginLeft: '50px' }}>
                         <ExcelDataFormat
@@ -78,6 +78,7 @@ const MealMonthMainPage = () => {
                         ></ExcelDataFormat>
                     </span>
                 </div>
+                <div style={{ textAlign: 'end' }}>*더블 클릭 시 자세하게 볼 수 있습니다.</div>
                 <div style={{ marginBottom: '30px' }}>
                     <table style={{ textAlign: 'center', borderCollapse: 'collapse', width: '100%', fontWeight: 'bolder' }}>
                         <thead>

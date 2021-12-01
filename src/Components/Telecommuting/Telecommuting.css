@@ -33,7 +33,7 @@
     font-size: 0.7em;
 }
 .Telecommuting_table_today {
-    background-color: #edbf84;
+    background-color: #baafd1;
 }
 .Telecommuting_Table_dayNumber {
     position: absolute;
@@ -48,7 +48,7 @@
     width: 10px;
 }
 .Telecommuting_Table_dayNumber::-webkit-scrollbar-thumb {
-    background-color: #f7b22a;
+    background-color: #baafd1;
     border-radius: 10px;
     background-clip: padding-box;
     border: 2px solid transparent;
@@ -72,7 +72,7 @@
     background-color: #3174ad;
     color: white;
     padding-left: 10px;
-    padding-bottom: 2px;
+    line-height: 18px;
 }
 .Telecommuting_Table_Data_Insert:hover {
     cursor: pointer;
@@ -121,15 +121,15 @@
     height: 100%;
     border: none;
     font-weight: bolder;
-    background-color: #3174ad;
+    background-color: darkgray;
     border-radius: 10px;
-    color: white;
-    box-shadow: 1px 1px 1px 1px skyblue;
+    color: #efefef;
+    box-shadow: 1px 1px 1px 1px lightgray;
 }
 .Telecommuting_apply_div_box > button:hover {
     cursor: pointer;
     color: black;
-    background-color: orange;
+    background-color: #efefef;
 }
 
 .Telecommuting_table_today:hover {

@@ -10,6 +10,10 @@ import moment from 'moment';
 import { getFoodDataThunk } from '../../models/Thunk_models/FoodData';
 import { toast } from '../ToastMessage/ToastManager';
 import PrinterApplyMealPage from './PrinterApplyMealPage';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { GiClick } from 'react-icons/gi';
+import { CgSelectR } from 'react-icons/cg';
+import { USBCDApplyFormBoxDiv, SubMitButton } from '../USBApply/UsbApply';
 
 registerLocale('ko', ko);
 type ApplyMealPageProps = {
@@ -224,42 +228,148 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                     <div className="Float_parent_after">
                         <div className="Float_left_div">
                             {Caution ? (
-                                <div id="form-div">
-                                    <form className="form" id="form1" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleChange(e)}>
-                                        <div className="halfdiv">
-                                            <div className="name">
-                                                <input
-                                                    name="team"
-                                                    value={InfomationState.team}
-                                                    type="text"
-                                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                                    placeholder="team"
-                                                    id="team"
-                                                    readOnly
-                                                />
+                                //     <div id="form-div">
+                                //         <form className="form" id="form1" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleChange(e)}>
+                                //             <div className="halfdiv">
+                                //                 <div className="name">
+                                //                     <input
+                                //                         name="team"
+                                //                         value={InfomationState.team}
+                                //                         type="text"
+                                //                         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //                         placeholder="team"
+                                //                         id="team"
+                                //                         readOnly
+                                //                     />
+                                //                 </div>
+                                //                 <div className="name">
+                                //                     <input
+                                //                         name="name"
+                                //                         value={DecryptKey(InfomationState.name)}
+                                //                         type="text"
+                                //                         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //                         placeholder="Name"
+                                //                         id="name"
+                                //                         readOnly
+                                //                     />
+                                //                 </div>
+                                //             </div>
+                                //             <div className="halfdiv">
+                                //                 <div className="name">
+                                //                     {/* <input
+                                //         name="workdate"
+                                //         type="text"
+                                //         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //         placeholder="일자 (Click here)"
+                                //         id="datepicker"
+                                //         autoComplete="off"
+                                //     /> */}
+                                //                     <DatePicker
+                                //                         placeholderText="보실 날짜를 선택해주세요."
+                                //                         dateFormat="yyyy-MM-dd(eee)"
+                                //                         locale="ko"
+                                //                         customInput={<ExampleCustomInput />}
+                                //                         selected={startDate}
+                                //                         withPortal
+                                //                         portalId="root-portal"
+                                //                         onChange={(date: any) => setStartDate(date)}
+                                //                     />
+                                //                 </div>
+                                //                 <div className="name">
+                                //                     <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
+                                //                         <option value="중식">중식</option>
+                                //                         <option value="석식">석식</option>
+                                //                     </select>
+                                //                 </div>
+                                //             </div>
+
+                                //             <div className="name2">
+                                //                 <input
+                                //                     name="spending"
+                                //                     type="number"
+                                //                     step="1000"
+                                //                     min={0}
+                                //                     value={MealPrice}
+                                //                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                //                         setMealPrice(e.target.value);
+                                //                     }}
+                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //                     placeholder="지출 금액 (숫자만 입력)"
+                                //                     id="spending"
+                                //                 />
+                                //             </div>
+                                //             <div className="name2">
+                                //                 <input
+                                //                     name="place"
+                                //                     type="text"
+                                //                     value={MealPlace}
+                                //                     onChange={e => setMealPlace(e.target.value)}
+                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //                     placeholder="방문처 ex) SK하이닉스, 삼성전자"
+                                //                     id="place"
+                                //                 />
+                                //             </div>
+                                //             <div className="name2">
+                                //                 <input
+                                //                     name="location"
+                                //                     type="text"
+                                //                     value={MealPosition}
+                                //                     onChange={e => setMealPosition(e.target.value)}
+                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                //                     placeholder="지역 ex) 이천, 온양"
+                                //                     id="location"
+                                //                 />
+                                //             </div>
+
+                                //             <div className="submit">
+                                //                 <input type="button" value="등록하기" id="button-blue" onClick={Meal_sendData} />
+                                //                 {/* <div className="textEx" style={{ color: 'rgba(93, 93, 93, 0.4)' }}>
+                                //     참고..
+                                // </div>
+                                // */}
+                                //             </div>
+                                //         </form>
+                                //     </div>
+                                <div>
+                                    <h2 style={{ marginTop: '30px', marginBottom: '30px' }}>식대 정산 등록</h2>
+                                    <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">팀명</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <BsFillPencilFill></BsFillPencilFill>
                                             </div>
-                                            <div className="name">
-                                                <input
-                                                    name="name"
-                                                    value={DecryptKey(InfomationState.name)}
-                                                    type="text"
-                                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                                    placeholder="Name"
-                                                    id="name"
-                                                    readOnly
-                                                />
+                                            <input
+                                                className="CElogs_WriteData_FORM_InputBox"
+                                                name="team"
+                                                value={InfomationState.team}
+                                                type="text"
+                                                placeholder="team"
+                                                id="team"
+                                                readOnly
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">이름</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <BsFillPencilFill></BsFillPencilFill>
                                             </div>
-                                        </div>
-                                        <div className="halfdiv">
-                                            <div className="name">
-                                                {/* <input
-                                    name="workdate"
-                                    type="text"
-                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                    placeholder="일자 (Click here)"
-                                    id="datepicker"
-                                    autoComplete="off"
-                                /> */}
+                                            <input
+                                                type="text"
+                                                className="CElogs_WriteData_FORM_InputBox"
+                                                name="name"
+                                                value={DecryptKey(InfomationState.name)}
+                                                placeholder="Name"
+                                                id="name"
+                                                readOnly
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">날짜</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <GiClick></GiClick>
+                                            </div>
+
+                                            <div id="USBCDDivBox">
                                                 <DatePicker
                                                     placeholderText="보실 날짜를 선택해주세요."
                                                     dateFormat="yyyy-MM-dd(eee)"
@@ -271,16 +381,26 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     onChange={(date: any) => setStartDate(date)}
                                                 />
                                             </div>
-                                            <div className="name">
-                                                <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
-                                                    <option value="중식">중식</option>
-                                                    <option value="석식">석식</option>
-                                                </select>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">구분</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <CgSelectR></CgSelectR>
                                             </div>
-                                        </div>
 
-                                        <div className="name2">
+                                            <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
+                                                <option value="중식">중식</option>
+                                                <option value="석식">석식</option>
+                                            </select>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">금액</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <BsFillPencilFill></BsFillPencilFill>
+                                            </div>
+
                                             <input
+                                                className="CElogs_WriteData_FORM_InputBox"
                                                 name="spending"
                                                 type="number"
                                                 step="1000"
@@ -289,41 +409,44 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                     setMealPrice(e.target.value);
                                                 }}
-                                                className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                                 placeholder="지출 금액 (숫자만 입력)"
-                                                id="spending"
-                                            />
-                                        </div>
-                                        <div className="name2">
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">방문처</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <BsFillPencilFill></BsFillPencilFill>
+                                            </div>
+
                                             <input
-                                                name="place"
+                                                className="CElogs_WriteData_FORM_InputBox"
                                                 type="text"
                                                 value={MealPlace}
                                                 onChange={e => setMealPlace(e.target.value)}
-                                                className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                                 placeholder="방문처 ex) SK하이닉스, 삼성전자"
                                                 id="place"
-                                            />
-                                        </div>
-                                        <div className="name2">
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">지역</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                                <BsFillPencilFill></BsFillPencilFill>
+                                            </div>
+
                                             <input
-                                                name="location"
+                                                className="CElogs_WriteData_FORM_InputBox"
                                                 type="text"
                                                 value={MealPosition}
                                                 onChange={e => setMealPosition(e.target.value)}
-                                                className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
                                                 placeholder="지역 ex) 이천, 온양"
                                                 id="location"
-                                            />
-                                        </div>
-
-                                        <div className="submit">
-                                            <input type="button" value="등록하기" id="button-blue" onClick={Meal_sendData} />
-                                            {/* <div className="textEx" style={{ color: 'rgba(93, 93, 93, 0.4)' }}>
-                                참고..
-                            </div>
-                            */}
-                                        </div>
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <SubMitButton>
+                                            <button type="submit" value="등록하기" onClick={Meal_sendData}>
+                                                저장 하기
+                                            </button>
+                                        </SubMitButton>
                                     </form>
                                 </div>
                             ) : (

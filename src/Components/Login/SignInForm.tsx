@@ -55,7 +55,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 <div className="formCenter">
                     <form className="formFields" onSubmit={(event: React.SyntheticEvent) => handleSubmit(event)}>
                         <h1>DHKS</h1>
-                        <h2>종합 프로그램</h2>
+                        <h2>Portal Site</h2>
                         <div className="formField">
                             <label className="formFieldLabel" htmlFor="email">
                                 E-Mail Address
