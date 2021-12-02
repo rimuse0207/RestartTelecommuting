@@ -12,6 +12,7 @@ const MealMonthMainPage = () => {
     const [selectedNames, setSelectedNames] = useState('선택해주세요.');
     const [selectedIds, setSelectedIds] = useState('선택해주세요.');
     const [modalCheck, setModalCheck] = useState(false);
+    const [usersTeam, setUsersTeam] = useState('');
     useEffect(() => {
         selectedTeamChange();
     }, [selectedTeam, selectedMonth]);
@@ -31,10 +32,11 @@ const MealMonthMainPage = () => {
             console.log(error);
         }
     };
-    const handleClicksMeal = (names: string, id: string) => {
+    const handleClicksMeal = (names: string, id: string, team: string) => {
         setSelectedNames(names);
         setSelectedIds(id);
         setModalCheck(true);
+        setUsersTeam(team);
     };
 
     return (
@@ -100,7 +102,7 @@ const MealMonthMainPage = () => {
                                           <tr
                                               className="MealMonthMainPage_hover_tr"
                                               key={list.name}
-                                              onDoubleClick={() => handleClicksMeal(list.name, list.id)}
+                                              onDoubleClick={() => handleClicksMeal(list.name, list.id, list.team)}
                                           >
                                               <td style={{ padding: '10px' }}>{list.name}</td>
                                               <td>{list.team}</td>
@@ -152,6 +154,7 @@ const MealMonthMainPage = () => {
                         selectedYear={selectedYear}
                         selectedMonth={selectedMonth}
                         selectedIds={selectedIds}
+                        usersTeam={usersTeam}
                     ></ModalMealMonthDetailPage>
                 ) : (
                     <div></div>

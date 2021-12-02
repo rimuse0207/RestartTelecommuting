@@ -196,7 +196,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 );
                 toast.show({
                     title: '데이터 삭제 성공 ',
-                    content: `${datas.dates}일자에 신청한 식대정산 데이터가 삭제되었습니다.`,
+                    content: `${datas.dates}일자에 등록된 식대정산 데이터가 삭제되었습니다.`,
                     duration: 6000,
                     DataSuccess: true,
                 });

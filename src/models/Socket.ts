@@ -2,9 +2,9 @@ import socketio from 'socket.io-client';
 
 const GETSOCKET = 'Socket/GETSOCKET' as const;
 
-export const getSocket = (socket: any) => ({
+export const getSocket = (sockets: any) => ({
     type: GETSOCKET,
-    payload: socket,
+    payload: sockets,
 });
 // const getDataSocket = () => {
 //     try {
@@ -23,7 +23,7 @@ type SocketState = {
 };
 
 const initialState: SocketState = {
-    socket: socketio(`${process.env.REACT_APP_API_URL}`),
+    socket: {},
 };
 
 function Socket(state: SocketState = initialState, action: SocketAction): SocketState {

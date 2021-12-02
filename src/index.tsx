@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import MainApp from './MainApp';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 // import { AnyAction, applyMiddleware, createStore } from 'redux';
@@ -25,7 +25,7 @@ import ConnectedMainPage from './Components/ConnectedNow/ConnectedMainPage';
 import NewWindowMainPage from './Components/NewWIndow/NewWindowMainPage';
 import MonthTeleCommuting from './Components/MonthTeleCommuting/MonthTeleCommuting';
 import CeCalendarMainPage from './Components/CECalendar/CeCalendarMainPage';
-import PlayGround from './Components/PlayGround/PlayGround.js';
+// import PlayGround from './Components/PlayGround/PlayGround.js';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -33,7 +33,7 @@ ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/" component={App}></Route>
+                    <Route exact path="/" component={MainApp}></Route>
                     <Route path="/meal_settlement" component={MealMainPage}></Route>
                     <Route path="/Telecommuting_workspace" component={TeleWorkingContainer}></Route>
                     <Route path="/AfterOtworkspace" component={WeekAfterOTContainer}></Route>
@@ -47,7 +47,7 @@ ReactDOM.render(
                     <Route path="/MonthTelecommuting" component={MonthTeleCommuting}></Route>
                     <Route path="/VideoFocusOn/:key1/:key2" component={NewWindowMainPage}></Route>
                     <Route path="/CECalendar" component={CeCalendarMainPage}></Route>
-                    <Route path="/PlayGround" component={PlayGround}></Route>
+                    {/* <Route path="/PlayGround" component={PlayGround}></Route> */}
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

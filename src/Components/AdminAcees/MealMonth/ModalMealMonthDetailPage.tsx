@@ -27,6 +27,7 @@ type PrinterAfterSelectClickModalProps = {
     selectedYear: string;
     selectedMonth: string;
     selectedIds: string;
+    usersTeam: string;
 };
 
 const ModalMealMonthDetailPage = ({
@@ -36,8 +37,11 @@ const ModalMealMonthDetailPage = ({
     selectedYear,
     selectedMonth,
     selectedIds,
+    usersTeam,
 }: PrinterAfterSelectClickModalProps) => {
     const [applyedData, setApplyedData] = useState([]);
+    const [OTMealCheck, setOTMealCheck] = useState([]);
+    const [divisionDate, setDivisionDate] = useState<any>([]);
     function closeModal() {
         document.body.style.overflowX = 'hidden';
         document.body.style.overflowY = 'auto';
@@ -48,6 +52,25 @@ const ModalMealMonthDetailPage = ({
         document.body.style.overflow = 'hidden';
     }, [selectedNames]);
 
+    useEffect(() => {
+        if (divisionDate.length > 0) {
+            GETOTMeal();
+        }
+    }, [divisionDate]);
+
+    const GETOTMeal = async () => {
+        try {
+            const GetOTMealCheck = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_OTMealCheck`, {
+                id: selectedIds,
+                name: selectedNames,
+                divisionDate,
+            });
+            console.log(GetOTMealCheck.data.OTdatas);
+            setOTMealCheck(GetOTMealCheck.data.OTdatas);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const DataGetMeal = async () => {
         try {
             const GetMealDataPerson = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/MealPersonData`, {
@@ -56,8 +79,15 @@ const ModalMealMonthDetailPage = ({
                 selectDate: selectedYear + '-' + selectedMonth,
             });
             if (GetMealDataPerson.data.dataSuccess) {
-                console.log(GetMealDataPerson);
-                setApplyedData(GetMealDataPerson.data.data);
+                let taaa = [];
+                for (var i = 0; i < GetMealDataPerson.data.data.length; i++) {
+                    if (GetMealDataPerson.data.data[i].division === '석식') {
+                        taaa.push(GetMealDataPerson.data.data[i].dates);
+                    }
+                }
+                console.log(taaa);
+                await setDivisionDate(taaa);
+                await setApplyedData(GetMealDataPerson.data.data);
             }
         } catch (error) {
             console.log(error);
@@ -85,7 +115,7 @@ const ModalMealMonthDetailPage = ({
                                 <thead style={{ fontSize: 'small' }}>
                                     <tr style={{ height: '50px' }}>
                                         <th>부서</th>
-                                        <th></th>
+                                        <th>{usersTeam}</th>
                                         <th colSpan={2}></th>
                                         <th>성명</th>
                                         <th colSpan={3}>{selectedNames}</th>
@@ -126,7 +156,26 @@ const ModalMealMonthDetailPage = ({
                                                     </td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.place}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.location}</td>
-                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}></td>
+                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}>
+                                                        {OTMealCheck.map((item: { dates: string; OTTimes: number }) => {
+                                                            return list.division === '석식' ? (
+                                                                item.dates === list.dates ? (
+                                                                    <div
+                                                                        style={
+                                                                            item.OTTimes >= 2 ? {} : { background: 'red', color: 'white' }
+                                                                        }
+                                                                    >
+                                                                        {item.OTTimes}시간
+                                                                    </div>
+                                                                ) : (
+                                                                    // <div></div>
+                                                                    <div></div>
+                                                                )
+                                                            ) : (
+                                                                <div></div>
+                                                            );
+                                                        })}
+                                                    </td>
                                                 </tr>
                                             );
                                         }

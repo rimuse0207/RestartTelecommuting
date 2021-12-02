@@ -20,17 +20,17 @@ const SliderPage = ({ width, socket }: SliderPageProps) => {
         setX(!xPosition);
     };
 
-    useEffect(() => {
-        if (socket) {
-            socket.on('users_come_in', (data: { message: [] }) => {
-                dispatch(getChatting_members(data.message));
-            });
-            socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-                console.log(data);
-                handleVisibilityChange(data);
-            });
-        }
-    }, [socket]);
+    // useEffect(() => {
+    //     if (socket) {
+    //         socket.on('users_come_in', (data: { message: [] }) => {
+    //             dispatch(getChatting_members(data.message));
+    //         });
+    //         socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+    //             console.log(data);
+    //             handleVisibilityChange(data);
+    //         });
+    //     }
+    // }, [socket]);
 
     const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
         window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');

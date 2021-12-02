@@ -19,14 +19,16 @@ function App() {
 
     useEffect(() => {
         if (loginChecked) {
-            socket.emit('hi', {
-                name: DecryptKey(InfomationState.name),
-                id: DecryptKey(InfomationState.id),
-            });
+            // if (socket) {
+            //     socket.emit('hi', {
+            //         name: DecryptKey(InfomationState.name),
+            //         id: DecryptKey(InfomationState.id),
+            //     });
+            // }
         } else {
             return;
         }
-    }, [loginCheck, InfomationState]);
+    }, [loginCheck, InfomationState, socket]);
     return (
         <div className="App">
             {loginChecked ? (

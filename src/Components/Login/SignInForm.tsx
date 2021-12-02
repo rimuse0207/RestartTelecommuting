@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { getPersionalInfo } from '../../models/PersonalInfo';
 import { useHistory } from 'react-router-dom';
 import { getSocket } from '../../models/Socket';
+import socketio from 'socket.io-client';
+import { getChatting_members } from '../../models/ChattingMeber';
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
 };
@@ -31,7 +33,19 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
                 localStorage.setItem('id', loginCheck.data.data.id);
                 dispatch(getPersionalInfo(loginCheck.data.data));
-
+                const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+                soscketData.emit('hi', {
+                    name: loginCheck.data.data.name,
+                    id: loginCheck.data.data.id,
+                });
+                soscketData.on('users_come_in', (data: { message: [] }) => {
+                    dispatch(getChatting_members(data.message));
+                });
+                soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+                    console.log(data);
+                    handleVisibilityChange(data);
+                });
+                await dispatch(getSocket(soscketData));
                 setLoginCheck(true);
                 if (loginCheck.data.changePassword) {
                     history.push('/');
@@ -43,7 +57,9 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             alert('Login Error 서버 차단');
         }
     };
-
+    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
+        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
+    };
     return (
         <div>
             <div className="appAside">

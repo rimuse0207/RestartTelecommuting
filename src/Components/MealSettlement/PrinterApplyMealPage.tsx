@@ -97,17 +97,18 @@ const PrinterApplyMealPage = ({
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.place}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.location}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>
-                                                        {OTDatas.map((item: { dates: string; OTTimes: number }) => {
+                                                        {/* {OTDatas.map((item: { dates: string; OTTimes: number }) => {
                                                             return list.division === '석식' ? (
                                                                 item.dates === list.dates ? (
-                                                                    <div>{item.OTTimes}시간</div>
+                                                                    // <div>{item.OTTimes}시간</div>
+                                                                    <div></div>
                                                                 ) : (
                                                                     <div></div>
                                                                 )
                                                             ) : (
                                                                 <div></div>
                                                             );
-                                                        })}
+                                                        })} */}
                                                     </td>
                                                 </tr>
                                             );
