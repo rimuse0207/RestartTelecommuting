@@ -153,8 +153,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 );
 
                 toast.show({
-                    title: '데이터 저장 성공 ',
-                    content: '데이터 저장 완료.',
+                    title: '데이터 저장 완료.',
+                    content: `${moment(startDate).format('YYYY년 MM월 DD일')}의 식대정산 데이터가 등록되었습니다.`,
                     duration: 6000,
                     DataSuccess: true,
                 });
