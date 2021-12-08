@@ -31,45 +31,45 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {
-        if (isEmptyObj(socket)) {
-            console.log(localStorage.getItem('loginOutCheck'));
-            console.log('소켓 없음');
-            console.log(loginChecked);
-            if (localStorage.getItem('loginOutCheck') === 'connecting') {
-                const soscketData = socketio(`${process.env.REACT_APP_API_URL}`);
-                soscketData.emit('hi', {
-                    name: DecryptKey(infomations.name),
-                    id: DecryptKey(infomations.id),
-                });
-                soscketData.on('users_come_in', (data: { message: [] }) => {
-                    dispatch(getChatting_members(data.message));
-                });
-                soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-                    console.log(data);
-                    handleVisibilityChange(data);
-                });
-                dispatch(getSocket(soscketData));
-            }
-        } else {
-            console.log('소켓 있음');
-            console.log(loginChecked);
-            console.log(socket);
-            if (loginChecked) {
-                socket.emit('hi', {
-                    name: DecryptKey(infomations.name),
-                    id: DecryptKey(infomations.id),
-                });
-                socket.on('users_come_in', (data: { message: [] }) => {
-                    dispatch(getChatting_members(data.message));
-                });
-                socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-                    console.log(data);
-                    handleVisibilityChange(data);
-                });
-            }
-        }
-    }, [socket]);
+    // useEffect(() => {
+    //     if (isEmptyObj(socket)) {
+    //         console.log(localStorage.getItem('loginOutCheck'));
+    //         console.log('소켓 없음');
+    //         console.log(loginChecked);
+    //         if (localStorage.getItem('loginOutCheck') === 'connecting') {
+    //             const soscketData = socketio(`${process.env.REACT_APP_API_URL}`);
+    //             soscketData.emit('hi', {
+    //                 name: DecryptKey(infomations.name),
+    //                 id: DecryptKey(infomations.id),
+    //             });
+    //             soscketData.on('users_come_in', (data: { message: [] }) => {
+    //                 dispatch(getChatting_members(data.message));
+    //             });
+    //             soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+    //                 console.log(data);
+    //                 handleVisibilityChange(data);
+    //             });
+    //             dispatch(getSocket(soscketData));
+    //         }
+    //     } else {
+    //         console.log('소켓 있음');
+    //         console.log(loginChecked);
+    //         console.log(socket);
+    //         if (loginChecked) {
+    //             socket.emit('hi', {
+    //                 name: DecryptKey(infomations.name),
+    //                 id: DecryptKey(infomations.id),
+    //             });
+    //             socket.on('users_come_in', (data: { message: [] }) => {
+    //                 dispatch(getChatting_members(data.message));
+    //             });
+    //             socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+    //                 console.log(data);
+    //                 handleVisibilityChange(data);
+    //             });
+    //         }
+    //     }
+    // }, [socket]);
 
     const handleSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -88,19 +88,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 localStorage.setItem('id', loginCheck.data.data.id);
                 localStorage.setItem('loginOutCheck', 'conneting');
                 dispatch(getPersionalInfo(loginCheck.data.data));
-                const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
-                soscketData.emit('hi', {
-                    name: loginCheck.data.data.name,
-                    id: loginCheck.data.data.id,
-                });
-                soscketData.on('users_come_in', (data: { message: [] }) => {
-                    dispatch(getChatting_members(data.message));
-                });
-                soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-                    console.log(data);
-                    handleVisibilityChange(data);
-                });
-                await dispatch(getSocket(soscketData));
+
                 setLoginCheck(true);
                 if (loginCheck.data.changePassword) {
                     history.push('/');

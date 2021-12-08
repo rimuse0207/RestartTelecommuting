@@ -3,17 +3,22 @@ import './Navigation.css';
 import Navigation from './Navigation';
 import { CgProfile } from 'react-icons/cg';
 import { DecryptKey } from '../../config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../models/index';
-
+import socketio from 'socket.io-client';
+import { getSocket } from '../../models/Socket';
+import { getChatting_members } from '../../models/ChattingMeber';
 type HambergerMenu = {
     titles: string;
     subtitles: string;
 };
 
 const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
+    const dispatch = useDispatch();
     const myMenuRef = useRef<any>('null');
     const [hambergerOpen, setHambergerOpen] = useState(false);
+    const socket = useSelector((state: RootState) => state.Socket.socket);
+    const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [menuStatus, setMenuStatus] = useState('');
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
@@ -35,6 +40,36 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
         };
     }, [myMenuRef]);
 
+    useEffect(() => {
+        socketconnect();
+    }, []);
+    function isEmptyObj(obj: {}) {
+        if (obj.constructor === Object && Object.keys(obj).length === 0) {
+            return true;
+        }
+
+        return false;
+    }
+    const socketconnect = async () => {
+        if (loginChecked && isEmptyObj(socket)) {
+            console.log('asdasdasdasdasdasdasdasdasdasd', isEmptyObj(socket));
+            const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+            soscketData.emit('hi', {
+                name: DecryptKey(InfomationState.name),
+                id: DecryptKey(InfomationState.id),
+            });
+            soscketData.on('users_come_in', (data: { message: [] }) => {
+                dispatch(getChatting_members(data.message));
+            });
+            soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+                handleVisibilityChange(data);
+            });
+            await dispatch(getSocket(soscketData));
+        }
+    };
+    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
+        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
+    };
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
