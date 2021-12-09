@@ -17,7 +17,7 @@ const ConnectedMainPage = () => {
                 <div style={{ height: '100%' }}>
                     <HambergerMenu titles="상대방 호출" subtitles="실시간 접속자 및 상대방 호출"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <ConnectedPeopleShow socket={socket}></ConnectedPeopleShow>
+                        <ConnectedPeopleShow></ConnectedPeopleShow>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>

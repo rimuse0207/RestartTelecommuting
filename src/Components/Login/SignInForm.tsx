@@ -88,8 +88,17 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 localStorage.setItem('id', loginCheck.data.data.id);
                 localStorage.setItem('loginOutCheck', 'conneting');
                 dispatch(getPersionalInfo(loginCheck.data.data));
+                const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+                soscketData.emit('hi', {
+                    name: loginCheck.data.data.name,
+                    id: loginCheck.data.data.id,
+                });
+                soscketData.on('users_come_in', (data: { message: [] }) => {
+                    dispatch(getChatting_members(data.message));
+                });
 
-                setLoginCheck(true);
+                await dispatch(getSocket(soscketData));
+                await setLoginCheck(true);
                 if (loginCheck.data.changePassword) {
                     history.push('/');
                 }
@@ -100,9 +109,9 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             alert('Login Error 서버 차단');
         }
     };
-    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
-        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
-    };
+    // const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
+    //     window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
+    // };
     return (
         <div>
             <div className="appAside">

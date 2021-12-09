@@ -3,21 +3,29 @@ import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models/index';
 
-type ConnectedPeopleShowProps = {
-    socket: any;
-};
-
-const ConnectedPeopleShow = ({ socket }: ConnectedPeopleShowProps) => {
+const ConnectedPeopleShow = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const checkedCheck = useRef<any>('null');
+    const socket = useSelector((state: RootState) => state.Socket.socket);
     const [connectNow, setConnectNow] = useState([]);
     const [checkBoxBelong, setCheckBoxBelong] = useState<any>([]);
 
+    function isEmptyObj(obj: {}) {
+        if (obj.constructor === Object && Object.keys(obj).length === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     useEffect(() => {
-        socket.emit('getConnectedPeople', {});
-        socket.on('getConnectedPeople', (data: any) => {
-            setConnectNow(data.data);
-        });
+        console.log('asdasdasdasdsad', socket);
+        if (!isEmptyObj(socket)) {
+            socket.emit('getConnectedPeople', {});
+            socket.on('getConnectedPeople', (data: any) => {
+                setConnectNow(data.data);
+            });
+        }
     }, [socket]);
 
     const handleChanges = (

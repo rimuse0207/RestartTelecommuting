@@ -5,6 +5,7 @@ import { getPersionalLOGOUT } from '../../models/PersonalInfo';
 import { RootState } from '../../models/index';
 import { DecryptKey } from '../../config';
 import { useHistory } from 'react-router';
+import { getSessionLOGOUT } from '../../models/Socket';
 type Navigation = {
     menuStatus: string;
 };
@@ -23,6 +24,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
         });
 
         sessionStorage.clear();
+        dispatch(getSessionLOGOUT());
         dispatch(getPersionalLOGOUT());
         history.push('/');
     };

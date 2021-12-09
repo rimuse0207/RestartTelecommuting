@@ -1,10 +1,14 @@
 import socketio from 'socket.io-client';
 
 const GETSOCKET = 'Socket/GETSOCKET' as const;
+const LOGOUTSOCKET = 'Socket/LOGOUTSOCKET' as const;
 
 export const getSocket = (sockets: any) => ({
     type: GETSOCKET,
     payload: sockets,
+});
+export const getSessionLOGOUT = () => ({
+    type: LOGOUTSOCKET,
 });
 // const getDataSocket = () => {
 //     try {
@@ -16,7 +20,7 @@ export const getSocket = (sockets: any) => ({
 //     }
 // };
 
-type SocketAction = ReturnType<typeof getSocket>;
+type SocketAction = ReturnType<typeof getSocket> | ReturnType<typeof getSessionLOGOUT>;
 
 type SocketState = {
     socket: any;
@@ -30,6 +34,8 @@ function Socket(state: SocketState = initialState, action: SocketAction): Socket
     switch (action.type) {
         case GETSOCKET:
             return { socket: action.payload };
+        case LOGOUTSOCKET:
+            return { socket: initialState };
         default:
             return state;
     }

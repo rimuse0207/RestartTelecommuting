@@ -52,7 +52,6 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     }
     const socketconnect = async () => {
         if (loginChecked && isEmptyObj(socket)) {
-            console.log('asdasdasdasdasdasdasdasdasdasd', isEmptyObj(socket));
             const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
             soscketData.emit('hi', {
                 name: DecryptKey(InfomationState.name),
