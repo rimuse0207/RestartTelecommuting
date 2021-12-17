@@ -14,15 +14,15 @@
 }
 
 .WeekAfterOTWorkSpace_big_div th {
-    background: #f7c80e;
-    border: 1px solid lightgray;
+    background: #2da8e5;
+    border: 1px solid lightgrcay;
 }
 .WeekAfterOTWorkSpace_big_div tr > td {
     border: 1px solid lightgray;
 }
 
 .testss > td {
-    background: #f7c80e;
+    background: #2da8e5;
     border: 1px solid black;
 }
 .WeekAferOTWorkSpace_date_change_span:hover {

@@ -210,11 +210,12 @@ a:hover {
     margin-left: 10px;
     width: 15px;
     height: 10px;
+    transform: rotate(180deg);
     transition: 0.5s;
 }
 .nav_hadleClicks_flases {
     transition: 0.5s;
-    transform: rotate(180deg);
+    transform: rotate(0deg);
 }
 
 #menu::-webkit-scrollbar {

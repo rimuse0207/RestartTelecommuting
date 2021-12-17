@@ -40,7 +40,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     <ul className="MenuDisblock">
                         <div className="slideDown">
                             <Link to="/">
-                                <li>신청 현황</li>
+                                <li>종합 업무 현황</li>
                             </Link>
                             {InfomationState.position === '이사' ||
                             InfomationState.position === '팀장' ||
@@ -50,14 +50,14 @@ const Navigation = ({ menuStatus }: Navigation) => {
                             DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
                             DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                                 <Link to="/TeamLeaderTelecommutingMainpage">
-                                    <li>팀원 신청 현황</li>
+                                    <li>팀원 종합 업무 현황</li>
                                 </Link>
                             ) : (
                                 <></>
                             )}
 
                             <Link to="/Telecommuting_workspace">
-                                <li>재택근무 신청</li>
+                                <li>재택근무</li>
                             </Link>
                             {InfomationState.position === '이사' ||
                             InfomationState.position === '팀장' ||

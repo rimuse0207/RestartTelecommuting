@@ -411,7 +411,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
         getDataOTData();
         toast.show({
             title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
-            content: '초과근로(OT) 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
+            content: '초과근로 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
             duration: 6000,
             DataSuccess: false,
         });
@@ -1153,17 +1153,17 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                     </div>
                     {leaderCheck ? (
                         <table>
-                            <thead style={{ backgroundColor: '#2da8e5' }}>
+                            <thead style={{ backgroundColor: '#f7c80e' }}>
                                 <tr
                                     className="testssBefore"
                                     style={{
                                         borderTop: '1.5px solid black',
                                         borderLeft: '1.3px solid black',
                                         borderRight: '1.3px solid black',
-                                        backgroundColor: '#2da8e5',
+                                        backgroundColor: '#f7c80e',
                                     }}
                                 >
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         일자
                                     </th>
 
@@ -1172,7 +1172,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         style={{
                                             borderRight: '1.2px solid black',
                                             borderBottom: '1.2px solid black',
-                                            backgroundColor: '#2da8e5',
+                                            backgroundColor: '#f7c80e',
                                         }}
                                     >
                                         소정근로
@@ -1182,18 +1182,18 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         style={{
                                             borderRight: '1.2px solid black',
                                             borderBottom: '1.2px solid black',
-                                            backgroundColor: '#2da8e5',
+                                            backgroundColor: '#f7c80e',
                                         }}
                                     >
                                         {' '}
                                         연장 근무
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         총 근무 <br />
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th className="OTSpace_OTReason_th" rowSpan={2} style={{ backgroundColor: '#2da8e5' }}>
+                                    <th className="OTSpace_OTReason_th" rowSpan={2} style={{ backgroundColor: '#f7c80e' }}>
                                         연장 사유
                                     </th>
                                 </tr>
@@ -1553,20 +1553,20 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                         </table>
                     ) : (
                         <table>
-                            <thead style={{ backgroundColor: '#2da8e5' }}>
+                            <thead style={{ backgroundColor: '#f7c80e' }}>
                                 <tr
                                     className="testssBefore"
                                     style={{
                                         borderTop: '1.5px solid black',
                                         borderLeft: '1.3px solid black',
                                         borderRight: '1.3px solid black',
-                                        backgroundColor: '#2da8e5',
+                                        backgroundColor: '#f7c80e',
                                     }}
                                 >
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         일자
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         공휴일
                                     </th>
                                     <th
@@ -1574,7 +1574,7 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         style={{
                                             borderRight: '1.2px solid black',
                                             borderBottom: '1.2px solid black',
-                                            backgroundColor: '#2da8e5',
+                                            backgroundColor: '#f7c80e',
                                         }}
                                     >
                                         소정근로
@@ -1584,18 +1584,18 @@ const WeekBeforeOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }:
                                         style={{
                                             borderRight: '1.2px solid black',
                                             borderBottom: '1.2px solid black',
-                                            backgroundColor: '#2da8e5',
+                                            backgroundColor: '#f7c80e',
                                         }}
                                     >
                                         {' '}
                                         연장 근무
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2da8e5' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         총 근무 <br />
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} style={{ backgroundColor: '#2da8e5' }} className="OTSpace_OTReason_th">
+                                    <th rowSpan={2} style={{ backgroundColor: '#f7c80e' }} className="OTSpace_OTReason_th">
                                         연장 사유
                                     </th>
                                 </tr>

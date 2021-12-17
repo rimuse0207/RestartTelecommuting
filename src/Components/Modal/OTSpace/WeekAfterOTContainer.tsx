@@ -23,10 +23,10 @@ const WeekAfterOTContainer = () => {
                     <div>
                         <div className="WeekOTMenubar_big_div">
                             <ul>
-                                <li style={BeforeORAfter ? { backgroundColor: '#2da8e5' } : {}} onClick={() => setBeforeORAfter(true)}>
+                                <li style={BeforeORAfter ? { backgroundColor: '#f7c80e' } : {}} onClick={() => setBeforeORAfter(true)}>
                                     사전 OT
                                 </li>
-                                <li style={BeforeORAfter ? {} : { backgroundColor: '#f7c80e' }} onClick={() => setBeforeORAfter(false)}>
+                                <li style={BeforeORAfter ? {} : { backgroundColor: '#2da8e5' }} onClick={() => setBeforeORAfter(false)}>
                                     사후 OT
                                 </li>
                             </ul>

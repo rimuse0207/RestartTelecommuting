@@ -8,6 +8,33 @@ import { RootState } from '../../models/index';
 import socketio from 'socket.io-client';
 import { getSocket } from '../../models/Socket';
 import { getChatting_members } from '../../models/ChattingMeber';
+import styled from 'styled-components';
+import { IoHome } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
+const HomeMenuClicksDivBox = styled.div`
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 100;
+    font-size: 2.3em;
+    background-color: white;
+    a {
+        color: black;
+    }
+    :hover {
+        cursor: pointer;
+    }
+    @media screen and (max-width: 1400px) {
+        width: 40px;
+        height: 40px;
+        font-size: 2em;
+    }
+`;
+
 type HambergerMenu = {
     titles: string;
     subtitles: string;
@@ -95,6 +122,17 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     </div>
                 </div>
             </div>
+            {window.location.pathname !== '/' ? (
+                <HomeMenuClicksDivBox>
+                    <Link to="/">
+                        <div>
+                            <IoHome></IoHome>
+                        </div>
+                    </Link>
+                </HomeMenuClicksDivBox>
+            ) : (
+                <div></div>
+            )}
 
             <div>
                 <Navigation menuStatus={menuStatus} />
