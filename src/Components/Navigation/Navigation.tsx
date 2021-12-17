@@ -48,6 +48,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
                             DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
                             DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
                             DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                            DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' ||
                             DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                                 <Link to="/TeamLeaderTelecommutingMainpage">
                                     <li>팀원 종합 업무 현황</li>

@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import './ChattingDesc.css';
 import { BsPersonSquare } from 'react-icons/bs';
-import { DecryptKey } from "../../../config"
-import { NotThingRoom } from "../../../config"
+import { DecryptKey } from '../../../config';
+import { NotThingRoom } from '../../../config';
 
 type ChattingDescProps = {
     name: string;
@@ -16,7 +16,7 @@ type ChattingDescProps = {
 };
 
 const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: ChattingDescProps) => {
-    const [roomnothing, setRoomNothing] = useState("");
+    const [roomnothing, setRoomNothing] = useState('');
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const infomation = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [messages, setMessages] = useState('');
@@ -30,12 +30,14 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     }, [allDesc]);
     useEffect(() => {
         scrollToBottom();
-    }, [allDesc])
+    }, [allDesc]);
     const messageSend = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (messages === '') {
+            return;
+        }
         if (roomId === 'nothing') {
-            if (roomnothing === "") {
-
+            if (roomnothing === '') {
                 const a = NotThingRoom(infomation.id, name);
                 setRoomNothing(a);
 
@@ -55,14 +57,13 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
                     RoomId: roomnothing,
                 });
             }
-
         } else {
             socket.emit('messageSendServer', {
                 messages,
                 To_Name: name,
                 TO_Name_id: id,
                 From_Name: DecryptKey(infomation.id),
-                RoomId: roomId
+                RoomId: roomId,
             });
         }
 
@@ -81,16 +82,18 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
         socket.on('successChatingDESC', (datas: { data: [] }) => {
             setAllDesc(datas.data);
         });
-
+        socket.on('sendMessageCome', (data: { roomID: [] }) => {
+            console.log(data.roomID);
+        });
     }, []);
     return (
         <div className="Chatting_app_DESC_BigBox_div" style={{ width: '100%', height: '90%' }}>
             <button onClick={handleClickChattingDescReturn}>뒤로 가기 </button>
-            <div style={{ height: "100%" }}>
+            <div style={{ height: '100%' }}>
                 <h1>{name}</h1>
 
                 <div className="Chatting_app_DESC_div" ref={scrollRef}>
-                    {allDesc.map((list: { user_id: string; message_desc: string; write_date: string, name: string }, i) => {
+                    {allDesc.map((list: { user_id: string; message_desc: string; write_date: string; name: string }, i) => {
                         return list.user_id === DecryptKey(infomation.id) ? (
                             <div key={list.write_date}>
                                 <div className="Chatting_app_DESC_right_div">

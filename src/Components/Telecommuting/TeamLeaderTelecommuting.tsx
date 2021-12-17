@@ -130,7 +130,8 @@ const TeamLeaderTelecommuting = () => {
             InfomationState.position === '팀장' ||
             InfomationState.team === '임원' ||
             IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr'
+            IDS === 'sjkim@dhk.co.kr' ||
+            IDS === 'jychoi@dhk.co.kr'
         ) {
             if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
         }
