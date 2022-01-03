@@ -11,6 +11,8 @@ import { getChatting_members } from '../../models/ChattingMeber';
 import styled from 'styled-components';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import Marquee from 'react-fast-marquee';
+import Test from './Test';
 const HomeMenuClicksDivBox = styled.div`
     width: 50px;
     height: 50px;
@@ -32,6 +34,71 @@ const HomeMenuClicksDivBox = styled.div`
         width: 40px;
         height: 40px;
         font-size: 2em;
+    }
+`;
+
+const NotificationMainBoxdiv = styled.div`
+    .TextMovingBoxdiv {
+        width: 37%;
+        text-align: start;
+        margin-left: 85px;
+        position: absolute;
+        margin-top: 20px;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul,
+        li {
+            list-style: none;
+        }
+
+        .notify-wrap {
+            position: relative;
+        }
+        .notify-wrap-inner {
+            height: 40px;
+            line-height: 40px;
+            padding: 0 20px;
+            margin: 0 30px;
+            text-align: center;
+        }
+        .ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .notify-scroll {
+            display: inline-block;
+
+            animation: text-scroll 35s linear infinite;
+        }
+        @keyframes text-scroll {
+            from {
+                transform: translateX(20%);
+                -moz-transform: translateX(20%);
+                -webkit-transform: translateX(20%);
+                -o-transform: translateX(20%);
+                -ms-transform: translateX(20%);
+            }
+            to {
+                transform: translateX(-100%);
+                -moz-transform: translateX(-100%);
+                -webkit-transform: translateX(-100%);
+                -o-transform: translateX(-100%);
+                -ms-transform: translateX(-100%);
+            }
+        }
+        .notify-scroll ul {
+            display: inline;
+        }
+        .notify-scroll ul li {
+            display: inline-block;
+            padding-right: 500px;
+            width: 30%;
+            margin-left: 500px;
+        }
     }
 `;
 
@@ -99,6 +166,14 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
+                <NotificationMainBoxdiv>
+                    <div className="TextMovingBoxdiv">
+                        <Marquee gradient={false} speed={60} pauseOnHover={true}>
+                            <div style={{ marginLeft: '300px' }}>asdasdasdasdad</div>
+                            <div style={{ marginLeft: '300px' }}>qweqweqweqweqwe</div>
+                        </Marquee>
+                    </div>
+                </NotificationMainBoxdiv>
                 <div className="MainTitles">
                     <h1>{titles}</h1>
                 </div>

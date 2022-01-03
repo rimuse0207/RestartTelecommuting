@@ -89,6 +89,39 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
         modalClose();
     };
 
+    const handleDeleteData = async () => {
+        const datasConfirm = window.confirm('삭제하시면 사전,사후OT 데이터가 전부 삭제됩니다.\n삭제를 원하시면 "예"를 눌러주세요.');
+        if (!datasConfirm) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+            console.log('No');
+            return;
+        } else {
+            try {
+                const DeleteDataServerSend = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/DeleteOTDatas`, {
+                    clicksData,
+                });
+                if (DeleteDataServerSend.data.dataSuccess) {
+                } else {
+                    toast.show({
+                        title: 'OT데이터 삭제 실패.',
+                        content: `사후OT 부문에 승인이 실패 하였습니다.(IT팀에 문의바람.)`,
+                        duration: 6000,
+                        DataSuccess: false,
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+                toast.show({
+                    title: 'OT데이터 삭제 실패',
+                    content: `서버와의 연결이 끊어졌습니다.(IT팀에 문의바람.)`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+            console.log(clicksData);
+        }
+    };
+
     return (
         <div>
             <h2>{clicksData.name}</h2>
@@ -512,6 +545,13 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
             <div>
                 {clicksData.leadercheck === 0 ? (
                     <div style={{ textAlign: 'end', marginTop: '30px' }}>
+                        <button
+                            style={{ marginRight: '50px', background: '#f45d5d' }}
+                            className="TeamLeaderAcceptDesc"
+                            onClick={handleDeleteData}
+                        >
+                            삭제하기
+                        </button>
                         <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
                             승인하기
                         </button>
