@@ -25,6 +25,7 @@ import ConnectedMainPage from './Components/ConnectedNow/ConnectedMainPage';
 import NewWindowMainPage from './Components/NewWIndow/NewWindowMainPage';
 import MonthTeleCommuting from './Components/MonthTeleCommuting/MonthTeleCommuting';
 import CeCalendarMainPage from './Components/CECalendar/CeCalendarMainPage';
+import CovidTextShowMainPage from './Components/COVID/CovidTextShowMainPage';
 // import PlayGround from './Components/PlayGround/PlayGround.js';
 
 ReactDOM.render(
@@ -47,6 +48,7 @@ ReactDOM.render(
                     <Route path="/MonthTelecommuting" component={MonthTeleCommuting}></Route>
                     <Route path="/VideoFocusOn/:key1/:key2" component={NewWindowMainPage}></Route>
                     <Route path="/CECalendar" component={CeCalendarMainPage}></Route>
+                    <Route path="/CovidTextShow" component={CovidTextShowMainPage}></Route>
                     {/* <Route path="/PlayGround" component={PlayGround}></Route> */}
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />

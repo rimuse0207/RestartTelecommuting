@@ -12,7 +12,8 @@ import styled from 'styled-components';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
-import Test from './Test';
+import CovidVirusMainPage from '../COVID/CovidVirusMainPage';
+import CovidTextShowMainPage from '../COVID/CovidTextShowMainPage';
 const HomeMenuClicksDivBox = styled.div`
     width: 50px;
     height: 50px;
@@ -169,8 +170,15 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                 <NotificationMainBoxdiv>
                     <div className="TextMovingBoxdiv">
                         <Marquee gradient={false} speed={60} pauseOnHover={true}>
-                            <div style={{ marginLeft: '300px' }}>asdasdasdasdad</div>
-                            <div style={{ marginLeft: '300px' }}>qweqweqweqweqwe</div>
+                            <div style={{ marginLeft: '500px' }}>
+                                <CovidVirusMainPage></CovidVirusMainPage>
+                            </div>
+                            {/* <div style={{ marginLeft: '500px' }}>
+                                <div>1. 사회적 거리두기 시행중입니다. (4인이상 모임을 삼가하여 주시기 바랍니다.)</div>
+                            </div>
+                            <div style={{ marginLeft: '500px' }}>
+                                <div>2. 위드코로나 시행중입니다. </div>
+                            </div> */}
                         </Marquee>
                     </div>
                 </NotificationMainBoxdiv>
