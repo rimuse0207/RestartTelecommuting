@@ -14,6 +14,9 @@ import { Link } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
 import CovidVirusMainPage from '../COVID/CovidVirusMainPage';
 import CovidTextShowMainPage from '../COVID/CovidTextShowMainPage';
+import Modal from 'react-modal';
+import CovidTextShowWrite from '../COVID/CovidTextShowWrite';
+import axios from 'axios';
 const HomeMenuClicksDivBox = styled.div`
     width: 50px;
     height: 50px;
@@ -39,66 +42,84 @@ const HomeMenuClicksDivBox = styled.div`
 `;
 
 const NotificationMainBoxdiv = styled.div`
+    position: relative;
     .TextMovingBoxdiv {
         width: 37%;
         text-align: start;
         margin-left: 85px;
         position: absolute;
         margin-top: 20px;
+    }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        ul,
-        li {
-            list-style: none;
-        }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    ul,
+    li {
+        list-style: none;
+    }
 
-        .notify-wrap {
-            position: relative;
-        }
-        .notify-wrap-inner {
-            height: 40px;
-            line-height: 40px;
-            padding: 0 20px;
-            margin: 0 30px;
-            text-align: center;
-        }
-        .ellipsis {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .notify-scroll {
-            display: inline-block;
+    .notify-wrap {
+        position: relative;
+    }
+    .notify-wrap-inner {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px;
+        margin: 0 30px;
+        text-align: center;
+    }
+    .ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .notify-scroll {
+        display: inline-block;
 
-            animation: text-scroll 35s linear infinite;
+        animation: text-scroll 35s linear infinite;
+    }
+    @keyframes text-scroll {
+        from {
+            transform: translateX(20%);
+            -moz-transform: translateX(20%);
+            -webkit-transform: translateX(20%);
+            -o-transform: translateX(20%);
+            -ms-transform: translateX(20%);
         }
-        @keyframes text-scroll {
-            from {
-                transform: translateX(20%);
-                -moz-transform: translateX(20%);
-                -webkit-transform: translateX(20%);
-                -o-transform: translateX(20%);
-                -ms-transform: translateX(20%);
-            }
-            to {
-                transform: translateX(-100%);
-                -moz-transform: translateX(-100%);
-                -webkit-transform: translateX(-100%);
-                -o-transform: translateX(-100%);
-                -ms-transform: translateX(-100%);
-            }
+        to {
+            transform: translateX(-100%);
+            -moz-transform: translateX(-100%);
+            -webkit-transform: translateX(-100%);
+            -o-transform: translateX(-100%);
+            -ms-transform: translateX(-100%);
         }
-        .notify-scroll ul {
-            display: inline;
-        }
-        .notify-scroll ul li {
-            display: inline-block;
-            padding-right: 500px;
-            width: 30%;
-            margin-left: 500px;
+    }
+    .notify-scroll ul {
+        display: inline;
+    }
+    .notify-scroll ul li {
+        display: inline-block;
+        padding-right: 500px;
+        width: 30%;
+        margin-left: 500px;
+    }
+`;
+
+const CloseModalButtonMainDivBox = styled.div`
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    button {
+        outline: none;
+        border: none;
+        padding: 15px;
+        font-size: 1.3em;
+        font-weight: bolder;
+        color: red;
+        :hover {
+            cursor: pointer;
         }
     }
 `;
@@ -107,7 +128,19 @@ type HambergerMenu = {
     titles: string;
     subtitles: string;
 };
-
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '60%',
+        height: '60%',
+    },
+};
+Modal.setAppElement('#COVIDUpdate');
 const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     const dispatch = useDispatch();
     const myMenuRef = useRef<any>('null');
@@ -116,6 +149,8 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [menuStatus, setMenuStatus] = useState('');
+    const [noticeData, setNoticeData] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         hambergerOpen ? setMenuStatus('') : setMenuStatus('isopen');
@@ -137,7 +172,20 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
 
     useEffect(() => {
         socketconnect();
+        getCovidData();
     }, []);
+
+    const getCovidData = async () => {
+        try {
+            const getCovidDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/covid_getData`);
+            if (getCovidDatas.data.dataSuccess) {
+                setNoticeData(getCovidDatas.data.datas);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     function isEmptyObj(obj: {}) {
         if (obj.constructor === Object && Object.keys(obj).length === 0) {
             return true;
@@ -164,13 +212,23 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
         window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
     };
+
+    const handleUpdateCovidText = () => {
+        if (DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' || DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr') {
+            setModalIsOpen(true);
+        }
+    };
+    function closeModal() {
+        getCovidData();
+        setModalIsOpen(false);
+    }
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
                 <NotificationMainBoxdiv>
-                    <div className="TextMovingBoxdiv">
-                        <Marquee gradient={false} speed={60} pauseOnHover={true}>
-                            <div style={{ marginLeft: '500px' }}>
+                    <div className="TextMovingBoxdiv" onDoubleClick={handleUpdateCovidText}>
+                        <Marquee gradient={false} speed={66} pauseOnHover={true}>
+                            <div style={{ marginLeft: '100px', fontSize: '1.3em' }}>
                                 <CovidVirusMainPage></CovidVirusMainPage>
                             </div>
                             {/* <div style={{ marginLeft: '500px' }}>
@@ -179,6 +237,15 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                             <div style={{ marginLeft: '500px' }}>
                                 <div>2. 위드코로나 시행중입니다. </div>
                             </div> */}
+                            {noticeData.map((list: { indexs: number; notice_text: string }, i) => {
+                                return (
+                                    <div key={list.indexs} style={{ marginLeft: '100px', fontSize: '1.3em' }}>
+                                        <div>
+                                            {i + 2}. {list.notice_text}{' '}
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </Marquee>
                     </div>
                 </NotificationMainBoxdiv>
@@ -219,6 +286,20 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
 
             <div>
                 <Navigation menuStatus={menuStatus} />
+            </div>
+
+            <div>
+                <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+                    <div style={{ marginTop: '50px' }}></div>
+                    <CloseModalButtonMainDivBox>
+                        <button onClick={closeModal}>X</button>
+                    </CloseModalButtonMainDivBox>
+                    <div>
+                        <div>
+                            <CovidTextShowWrite></CovidTextShowWrite>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         </div>
     );

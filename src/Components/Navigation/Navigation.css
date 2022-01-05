@@ -171,6 +171,7 @@ ul {
     padding: 10px 0 10px 30px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.14);
     border-top: 1px solid rgba(0, 0, 0, 0.14);
+    color: white;
 }
 
 .fa {

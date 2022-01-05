@@ -5,6 +5,7 @@ import { RootState } from '../../models';
 import SignInForm from '../Login/SignInForm';
 import SliderPage from '../SliderPage';
 import CovidTextShowWrite from './CovidTextShowWrite';
+import CovidResertMainPage from './CovidResertMainPage';
 const CovidTextShowMainPage = () => {
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
@@ -14,9 +15,9 @@ const CovidTextShowMainPage = () => {
         <div>
             {loginChecked ? (
                 <div>
-                    <HambergerMenu titles="USB/CD 사전 신청" subtitles="USB/CD 사전 신청 및 이메일 발송"></HambergerMenu>
+                    <HambergerMenu titles="백신 접종" subtitles="임직원 백신 접종 데이터 입력"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
-                        <CovidTextShowWrite></CovidTextShowWrite>
+                        <CovidResertMainPage></CovidResertMainPage>
                     </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>

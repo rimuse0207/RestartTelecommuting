@@ -161,6 +161,9 @@ const Navigation = ({ menuStatus }: Navigation) => {
                             <Link to="/CECalendar">
                                 <li>CSM</li>
                             </Link>
+                            <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
+                                <li>ERP</li>
+                            </Link>
                             <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
                                 <li>당직근무보고</li>
                             </Link>
