@@ -1,9 +1,12 @@
 import moment from 'moment';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillPencilFill } from 'react-icons/bs';
 import axios from 'axios';
-
+import { DecryptKey } from '../../config';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../models';
+import { AiFillDelete } from 'react-icons/ai';
 const CovidInputDataFormMainDivBox = styled.div`
     width: 80%;
 
@@ -90,12 +93,13 @@ const CovidResertMainPage = () => {
     const [InputName, setInputName] = useState('');
     const [InputList, setInputList] = useState('');
     const [getCovidData, setGetCovidData] = useState([]);
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const focusOn = useRef<any>(null);
 
     const handleSaveData = async (e: any) => {
         e.preventDefault();
 
-        if (InputDate === '' || InputName === '' || InputList === '') {
+        if (InputDate === '' || InputName === '') {
             alert('공란을 적부 입력하여 주세요.');
         } else {
             try {
@@ -105,13 +109,53 @@ const CovidResertMainPage = () => {
                     InputList,
                 });
                 if (SendData.data.dataSuccess) {
-                    setGetCovidData(SendData.data.datas);
+                    getData();
                     setInputList('');
                 } else {
                 }
             } catch (error) {
                 console.log(error);
             }
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            const getCovidData = await axios.get(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/covid_ShowData`, {
+                params: {
+                    id: DecryptKey(InfomationState.id),
+                },
+            });
+
+            if (!getCovidData.data.accesstoken) {
+                alert('권한이 없습니다.');
+                return;
+            } else if (getCovidData.data.dataSuccess) {
+                setGetCovidData(getCovidData.data.datas);
+            } else {
+                alert('에러 발생');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeleteCovid = async (datas: { name: string; inoculate: string; vaccine_list: string }) => {
+        try {
+            const DeleteCovidData = await axios.post(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/DeleteCovidData`, {
+                datas,
+            });
+            if (DeleteCovidData.data.dataSuccess) {
+                getData();
+            } else {
+                alert('에러 발생');
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -167,15 +211,19 @@ const CovidResertMainPage = () => {
                                     <th>이름</th>
                                     <th>접종일자</th>
                                     <th>접종 상태</th>
+                                    <th>삭제</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {getCovidData.map((list: { name: string; inoculate: string; vaccine_list: string }, i) => {
                                     return (
-                                        <tr>
+                                        <tr key={list.name}>
                                             <td>{list.name}</td>
                                             <td>{list.inoculate}</td>
                                             <td>{list.vaccine_list}</td>
+                                            <td style={{ textAlign: 'center' }} onClick={() => handleDeleteCovid(list)}>
+                                                <AiFillDelete></AiFillDelete>
+                                            </td>
                                         </tr>
                                     );
                                 })}
