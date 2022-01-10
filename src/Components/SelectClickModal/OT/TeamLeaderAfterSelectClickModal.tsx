@@ -90,10 +90,10 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
     };
 
     const handleDeleteData = async () => {
-        const datasConfirm = window.confirm('삭제하시면 사전,사후OT 데이터가 전부 삭제됩니다.\n삭제를 원하시면 "예"를 눌러주세요.');
+        const datasConfirm = window.confirm('삭제하시면 사후OT 데이터가 삭제됩니다.\n삭제를 원하시면 "예"를 눌러주세요.');
         if (!datasConfirm) {
             // 취소(아니오) 버튼 클릭 시 이벤트
-            console.log('No');
+
             return;
         } else {
             try {
@@ -101,6 +101,14 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                     clicksData,
                 });
                 if (DeleteDataServerSend.data.dataSuccess) {
+                    dispatch(getTeamLeaderAFTEROTdataThunk(moment(clicksData.date_mon).format('YYYY-MM'), InfomationState));
+                    toast.show({
+                        title: '사후 OT 테이터 삭제 완료.',
+                        content: `${clicksData.name}팀원의 사후OT를 삭제하셨습니다.`,
+                        duration: 6000,
+                        DataSuccess: true,
+                    });
+                    modalClose();
                 } else {
                     toast.show({
                         title: 'OT데이터 삭제 실패.',
@@ -118,7 +126,6 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                     DataSuccess: false,
                 });
             }
-            console.log(clicksData);
         }
     };
 
@@ -557,8 +564,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                         </button>
                     </div>
                 ) : (
-                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
-                        승인완료.
+                    <div style={{ textAlign: 'end', marginTop: '30px' }}>
+                        <button
+                            style={{ marginRight: '50px', background: '#f45d5d' }}
+                            className="TeamLeaderAcceptDesc"
+                            onClick={handleDeleteData}
+                        >
+                            삭제하기
+                        </button>
+                        <div style={{ display: 'inline-block' }} className="AcceptOkayDiv" onClick={() => modalClose()}>
+                            승인완료.
+                        </div>
                     </div>
                 )}
             </div>

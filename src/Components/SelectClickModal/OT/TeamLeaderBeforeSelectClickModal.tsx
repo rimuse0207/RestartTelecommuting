@@ -73,6 +73,49 @@ const TeamLeaderBeforeSelectClickModal = ({ clicksTitle, clicksData, modalClose 
 
         modalClose();
     };
+
+    const handleDeleteData = async () => {
+        const datasConfirm = window.confirm('삭제하시면 사전OT 데이터가 삭제됩니다.\n삭제를 원하시면 "예"를 눌러주세요.');
+        if (!datasConfirm) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+            return;
+        } else {
+            try {
+                const DeleteDataServerSend = await axios.post(
+                    `${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/DeleteBeforeOTDatas`,
+                    {
+                        clicksData,
+                    }
+                );
+                if (DeleteDataServerSend.data.dataSuccess) {
+                    dispatch(getTeamLeaderBEFOREOTdataThunk(moment(clicksData.date_mon).format('YYYY-MM'), InfomationState));
+                    toast.show({
+                        title: '사전 OT 테이터 삭제 완료.',
+                        content: `${clicksData.name}팀원의 사전OT를 삭제하셨습니다.`,
+                        duration: 6000,
+                        DataSuccess: true,
+                    });
+                    modalClose();
+                } else {
+                    toast.show({
+                        title: 'OT데이터 삭제 실패.',
+                        content: `사전OT 부문에 승인이 실패 하였습니다.(IT팀에 문의바람.)`,
+                        duration: 6000,
+                        DataSuccess: false,
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+                toast.show({
+                    title: 'OT데이터 삭제 실패',
+                    content: `서버와의 연결이 끊어졌습니다.(IT팀에 문의바람.)`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        }
+    };
+
     const getSomeData = async (clicksData: any) => {
         console.log(clicksData);
         try {
@@ -510,13 +553,29 @@ const TeamLeaderBeforeSelectClickModal = ({ clicksTitle, clicksData, modalClose 
             <div>
                 {clicksData.leadercheck === 0 ? (
                     <div style={{ textAlign: 'end', marginTop: '30px' }}>
+                        <button
+                            style={{ marginRight: '50px', background: '#f45d5d' }}
+                            className="TeamLeaderAcceptDesc"
+                            onClick={handleDeleteData}
+                        >
+                            삭제하기
+                        </button>
                         <button className="TeamLeaderAcceptDesc" onClick={handleDataClick}>
                             승인하기
                         </button>
                     </div>
                 ) : (
-                    <div className="AcceptOkayDiv" onClick={() => modalClose()}>
-                        승인완료.
+                    <div style={{ textAlign: 'end', marginTop: '30px' }}>
+                        <button
+                            style={{ marginRight: '50px', background: '#f45d5d' }}
+                            className="TeamLeaderAcceptDesc"
+                            onClick={handleDeleteData}
+                        >
+                            삭제하기
+                        </button>
+                        <div className="AcceptOkayDiv" onClick={() => modalClose()} style={{ display: 'inline-block' }}>
+                            승인완료.
+                        </div>
                     </div>
                 )}
             </div>

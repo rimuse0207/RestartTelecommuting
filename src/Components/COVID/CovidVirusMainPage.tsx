@@ -21,6 +21,7 @@ const CovidVirusMainPage = () => {
                 )}`
             );
             console.log(getDataCovidAPI);
+            console.log(moment().format('E'));
             if (getDataCovidAPI.status === 200) {
                 if (getDataCovidAPI.data.response.body.items.item.length === 3) {
                     setGetDataCovid(getDataCovidAPI.data.response.body.items.item);
