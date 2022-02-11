@@ -89,6 +89,41 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
         modalClose();
     };
 
+    const handleAfterOTCancel = async () => {
+        try {
+            const AfterOTAcceptData = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/AfterOTDataCancel`, {
+                clickedOTData: clicksData,
+            });
+            if (AfterOTAcceptData.data.dataCheck) {
+                dispatch(getTeamLeaderAFTEROTdataThunk(moment(clicksData.date_mon).format('YYYY-MM'), InfomationState));
+                toast.show({
+                    title: '팀장 승인 취소 완료.',
+                    content: `${clicksData.name} 팀원의 사후OT 부문에 승인 취소 하였습니다.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+            } else {
+                toast.show({
+                    title: '팀장 승인 취소 실패.',
+                    content: `사후OT 부문에 승인 취소에 실패 하였습니다.(IT팀에 문의바람.)`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+            modalClose();
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: '팀장 승인 취소 실패.',
+                content: `서버와의 연결이 끊어졌습니다.(IT팀에 문의바람.)`,
+                duration: 6000,
+                DataSuccess: false,
+            });
+        }
+
+        modalClose();
+    };
+
     const handleDeleteData = async () => {
         const datasConfirm = window.confirm('삭제하시면 사후OT 데이터가 삭제됩니다.\n삭제를 원하시면 "예"를 눌러주세요.');
         if (!datasConfirm) {
@@ -572,7 +607,10 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                         >
                             삭제하기
                         </button>
-                        <div style={{ display: 'inline-block' }} className="AcceptOkayDiv" onClick={() => modalClose()}>
+                        <button onClick={handleAfterOTCancel} className="TeamLeaderAcceptDesc">
+                            팀장승인 취소
+                        </button>
+                        <div style={{ display: 'block' }} className="AcceptOkayDiv" onClick={() => modalClose()}>
                             승인완료.
                         </div>
                     </div>

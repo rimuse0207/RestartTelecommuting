@@ -228,9 +228,6 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                 <NotificationMainBoxdiv>
                     <div className="TextMovingBoxdiv" onDoubleClick={handleUpdateCovidText}>
                         <Marquee gradient={false} speed={66} pauseOnHover={true}>
-                            <div style={{ marginLeft: '100px', fontSize: '1.3em' }}>
-                                <CovidVirusMainPage></CovidVirusMainPage>
-                            </div>
                             {/* <div style={{ marginLeft: '500px' }}>
                                 <div>1. 사회적 거리두기 시행중입니다. (4인이상 모임을 삼가하여 주시기 바랍니다.)</div>
                             </div>
@@ -241,11 +238,14 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                                 return (
                                     <div key={list.indexs} style={{ marginLeft: '100px', fontSize: '1.3em' }}>
                                         <div>
-                                            {i + 2}. {list.notice_text}{' '}
+                                            {i + 1}. {list.notice_text}{' '}
                                         </div>
                                     </div>
                                 );
                             })}
+                            <div style={{ marginLeft: '100px', fontSize: '1.3em' }}>
+                                <CovidVirusMainPage></CovidVirusMainPage>
+                            </div>
                         </Marquee>
                     </div>
                 </NotificationMainBoxdiv>

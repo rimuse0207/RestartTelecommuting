@@ -134,6 +134,74 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
             });
         }
     };
+
+    const handleAfterOTDelete = async () => {
+        try {
+            const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/DeleteOTDatas`, {
+                clicksData: clickedOTData,
+            });
+            console.log(serverSendAcceptOT);
+            if (serverSendAcceptOT.data.dataSuccess) {
+                toast.show({
+                    title: 'OT 데이터 삭제 완료.',
+                    content: `${clickedOTData.name}팀원의 OT를 삭제 하였습니다.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+                getDataOTData();
+                modalClose();
+            } else {
+                toast.show({
+                    title: 'OT 데이터 삭제 실패 (IT팀에 문의 바람)',
+                    content: `${clickedOTData.name}팀원의 OT 데이터 삭제가 실패 되었습니다. `,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: 'OT 데이터 삭제 실패 (IT팀에 문의 바람)',
+                content: `서버와의 통신이 끊어졌습니다. `,
+                duration: 6000,
+                DataSuccess: false,
+            });
+        }
+    };
+
+    const handleAfterOTCancel = async () => {
+        try {
+            const serverSendAcceptOT = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/AfterOTDataCancel`, {
+                clickedOTData,
+            });
+            if (serverSendAcceptOT.data.dataCheck) {
+                toast.show({
+                    title: '팀장 승인 취소 완료.',
+                    content: `${clickedOTData.name}팀원의 OT를 팀장 승인 취소 하였습니다.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+                getDataOTData();
+                modalClose();
+            } else {
+                toast.show({
+                    title: '팀장 승인 취소 실패 (IT팀에 문의 바람)',
+                    content: `${clickedOTData.name}팀원의 팀장 승인 취소가 실패 되었습니다. `,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: '팀장 승인 취소 실패 (IT팀에 문의 바람)',
+                content: `서버와의 통신이 끊어졌습니다. `,
+                duration: 6000,
+                DataSuccess: false,
+            });
+        }
+    };
+
     useEffect(() => {
         if (onClicked) CheckedDataOT();
     }, [clickedOTData]);
@@ -565,7 +633,21 @@ const TeamLeaderAfterModal = ({ onClicked, modalClose, clickedOTData, getDataOTD
                     </table>
                     <div style={{ textAlign: 'end', marginTop: '40px' }}>
                         {clickedOTData.leadercheck === 1 ? (
-                            '팀장승인 완료.'
+                            <div>
+                                <div>
+                                    <button onClick={handleAfterOTCancel} className="TeamLeaderAcceptDesc">
+                                        팀장승인 취소
+                                    </button>
+                                    <button
+                                        style={{ marginLeft: '30px', background: '#f78a8a' }}
+                                        onClick={handleAfterOTDelete}
+                                        className="TeamLeaderAcceptDesc"
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
+                                <div style={{ marginTop: '30px' }}> 팀장승인 완료.</div>
+                            </div>
                         ) : (
                             <button onClick={handleAfterOTAccept} className="TeamLeaderAcceptDesc">
                                 팀장승인
