@@ -43,25 +43,25 @@ const TeamLeaderOTPage = () => {
         } else if (id === 'ychong@dhk.co.kr') {
             setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
             setSelectTeam('A_dicer');
-        }else if(id === "hjlee@dhk.co.kr"){
+        } else if (id === 'hjlee@dhk.co.kr') {
             setShowTeam(['dicer']);
             setSelectTeam('dicer');
-        }else if(id === "wbjung@dhk.co.kr"){
+        } else if (id === 'wbjung@dhk.co.kr') {
             setShowTeam(['laser']);
             setSelectTeam('laser');
-        }else if(id === "jhshin@dhk.co.kr"){
+        } else if (id === 'jhshin@dhk.co.kr') {
             setShowTeam(['grinder']);
             setSelectTeam('grinder');
-        }else if(id === "cwjun@dhk.co.kr"){
+        } else if (id === 'cwjun@dhk.co.kr') {
             setShowTeam(['장비영업']);
             setSelectTeam('장비영업');
         }
     }, []);
 
     useEffect(() => {
-        if (showTeam[0] !== '권한없음'){
+        if (showTeam[0] !== '권한없음') {
             getDataSelectTeam();
-        } 
+        }
     }, [selectTeam]);
 
     const getDataSelectTeam = async () => {
@@ -80,6 +80,9 @@ const TeamLeaderOTPage = () => {
         }
     };
 
+    const HandleNameChecked = () => {
+        getDataSelectTeam();
+    };
     return (
         <div style={{ width: '90%', margin: '0 auto' }}>
             <div>
@@ -140,6 +143,7 @@ const TeamLeaderOTPage = () => {
                             );
                         })}
                     </select>
+                    {ShowName.length > 0 ? <div></div> : <button onClick={HandleNameChecked}>이름 확인 클릭</button>}
                 </div>
             </div>
             <div className="TeamLeaderFloat_box_div">

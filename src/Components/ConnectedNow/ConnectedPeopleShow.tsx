@@ -46,7 +46,7 @@ const ConnectedPeopleShow = () => {
             senderId: DecryptKey(InfomationState.id),
             senderName: DecryptKey(InfomationState.name),
         });
-        window.open(`https://192.168.2.241/${DecryptKey(InfomationState.id).split('@')[0]}`);
+        window.open(`https://ecomet11.disco.co.jp/${DecryptKey(InfomationState.id).split('@')[0]}`);
     };
 
     return (
