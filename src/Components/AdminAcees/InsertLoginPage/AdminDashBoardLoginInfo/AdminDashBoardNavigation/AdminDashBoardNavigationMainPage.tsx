@@ -71,20 +71,21 @@ const AdminDashBoardNavigationMainPage = () => {
                             <div className="Lists_texts">DASHBOARD</div>
                         </li>
                     </Link>
-                    <Link to="/AdminDashBoard/userprofile">
-                        <li style={selected === 'userprofile' ? { background: '#727272' } : {}}>
-                            <div className="Lists_icons">
-                                <FaRegUserCircle></FaRegUserCircle>
-                            </div>
-                            <div className="Lists_texts">USER PROFILE</div>
-                        </li>
-                    </Link> */}
-                    <Link to="/AdminDashBoard/LoginInfo">
+                    */}
+                    <Link to="/NewAdminInsertData/LoginInfo">
                         <li style={selected === 'LoginInfo' ? { background: '#727272' } : {}}>
                             <div className="Lists_icons">
                                 <MdOutlinePermContactCalendar></MdOutlinePermContactCalendar>
                             </div>
                             <div className="Lists_texts">LOGIN INFO</div>
+                        </li>
+                    </Link>
+                    <Link to="/NewAdminInsertData/TeleCheck">
+                        <li style={selected === 'TeleCheck' ? { background: '#727272' } : {}}>
+                            <div className="Lists_icons">
+                                <FaRegUserCircle></FaRegUserCircle>
+                            </div>
+                            <div className="Lists_texts">임직원 재택확인</div>
                         </li>
                     </Link>
                 </ul>
