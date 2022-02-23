@@ -120,13 +120,13 @@ const AdminDashBoardInsertUsersTable = () => {
                     title: `데이터 입력 완료`,
                     content: `${UpdateUsersData.name}님의 
                     ID:'${UpdateUsersData.id}' 
-                    Password:'${UpdateUsersData.id.split('@')[0]}1234' 입니다. `,
+                    Password:'${SaveLoginInfoDataFromServer.data.Newpassword}' 입니다. `,
                     duration: 6000,
                     DataSuccess: true,
                 });
                 setUpdateUserData({
                     name: '',
-                    company: 'EXICON',
+                    company: UpdateUsersData.company,
                     team: '',
                     position: '',
                     id: '',

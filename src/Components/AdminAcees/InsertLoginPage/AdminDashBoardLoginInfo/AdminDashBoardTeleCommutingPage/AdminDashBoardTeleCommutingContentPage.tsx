@@ -104,6 +104,7 @@ const AdminDashBoardTeleCommutingContentPage = ({ StaticsNaviButton }: AdminDash
                     <table className="type09">
                         <thead>
                             <tr>
+                                <th scope="cols">인덱스</th>
                                 <th scope="cols">이름</th>
                                 <th scope="cols">팀명</th>
                                 <th scope="cols">시작시간</th>
@@ -112,9 +113,10 @@ const AdminDashBoardTeleCommutingContentPage = ({ StaticsNaviButton }: AdminDash
                             </tr>
                         </thead>
                         <tbody>
-                            {getTableData.map((list: { name: string; stat_t: string; end_t: string; team: string }, i) => {
+                            {getTableData.map((list: { name: string; stat_t: string; end_t: string; team: string }, i: number) => {
                                 return (
                                     <tr style={list.end_t === '00:00' ? { background: 'orange' } : {}}>
+                                        <th>{i + 1}</th>
                                         <th scope="row">{list.name}</th>
                                         <td>{list.team}</td>
                                         <td>{list.stat_t}</td>

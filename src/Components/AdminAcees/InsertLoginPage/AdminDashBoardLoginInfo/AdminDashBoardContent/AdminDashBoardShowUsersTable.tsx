@@ -97,7 +97,7 @@ const AdminDashBoardShowUsersTable = ({ setStaticsNaviButton, setSelectedUsersDa
             if (ResetChangePasswordFromServer.data.dataSuccess) {
                 toast.show({
                     title: `비밀번호 초기화 완료`,
-                    content: `${data.name}님의 비밀번호는 ${data.id.split('@')[0]}1234  입니다.`,
+                    content: `${data.name}님의 비밀번호는 ${ResetChangePasswordFromServer.data.Newpassword}  입니다.`,
                     duration: 6000,
                     DataSuccess: true,
                 });

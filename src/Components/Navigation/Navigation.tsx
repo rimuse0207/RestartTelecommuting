@@ -31,161 +31,235 @@ const Navigation = ({ menuStatus }: Navigation) => {
     const dispatch = useDispatch();
     return (
         <div className={menuStatus} id="menu">
-            <div>
-                <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)}>
-                    근무메뉴
-                    <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${TeleMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
-                </h5>
-                {TeleMenuClicks ? (
-                    <ul className="MenuDisblock">
-                        <div className="slideDown">
+            {DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr' ? (
+                <>
+                    <div>
+                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)}>
+                            근무메뉴
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${TeleMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        {TeleMenuClicks ? (
+                            <ul className="MenuDisblock">
+                                <div className="slideDown">
+                                    <Link to="/">
+                                        <li>종합 업무 현황</li>
+                                    </Link>
+                                    {InfomationState.position === '이사' ||
+                                    InfomationState.position === '팀장' ||
+                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <Link to="/TeamLeaderTelecommutingMainpage">
+                                            <li>팀원 종합 업무 현황</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
+
+                                    <Link to="/Telecommuting_workspace">
+                                        <li>재택근무</li>
+                                    </Link>
+                                    {InfomationState.position === '이사' ||
+                                    InfomationState.position === '팀장' ||
+                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <Link to="/MonthTelecommuting">
+                                            <li>월별 재택 조회</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
+
+                                    <Link to="/USbWrite">
+                                        <li>USB/CD 사전 신청</li>
+                                    </Link>
+                                </div>
+                            </ul>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)}>
+                            OT메뉴
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${OTMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        {OTMenuClicks ? (
+                            <ul className="MenuDisblock">
+                                <div className="slideDown">
+                                    <Link to="/AfterOtworkspace">
+                                        <li>OT 신청</li>
+                                    </Link>
+                                    {InfomationState.position === '이사' ||
+                                    InfomationState.position === '팀장' ||
+                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <>
+                                            <Link to="/TeamLeaderPageMainPage">
+                                                <li>팀원 OT 조회</li>
+                                            </Link>
+                                            <Link to="/TeamSelectOTWorkSpace">
+                                                <li>월별 OT 조회</li>
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                            </ul>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)}>
+                            식대메뉴{' '}
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${FoodMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        {FoodMenuClicks ? (
+                            <ul className="MenuDisblock">
+                                <div className="slideDown">
+                                    <Link to="/meal_settlement">
+                                        <li>식대 정산 신청</li>
+                                    </Link>
+                                    {DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <Link to="/Admin_meal_Select">
+                                            <li>식대 정산 월별 조회</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                            </ul>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)}>
+                            기타메뉴
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        <ul>
+                            {ETCMenuClicks ? (
+                                <div className="slideDown">
+                                    {' '}
+                                    <Link to="/ConnectedNow">
+                                        <li>상대방 호출</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                                        <li>시설이용</li>
+                                    </Link>
+                                    <Link to="/CECalendar">
+                                        <li>CSM</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
+                                        <li>ERP</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
+                                        <li>당직근무보고</li>
+                                    </Link>
+                                    {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <Link to="/CovidTextShow">
+                                            <li>백신접종 데이터 입력</li>
+                                        </Link>
+                                    ) : (
+                                        <div></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+
                             <Link to="/">
-                                <li>종합 업무 현황</li>
+                                <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
+                                    - 로그아웃
+                                </li>
                             </Link>
-                            {InfomationState.position === '이사' ||
-                            InfomationState.position === '팀장' ||
-                            DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                <Link to="/TeamLeaderTelecommutingMainpage">
-                                    <li>팀원 종합 업무 현황</li>
-                                </Link>
-                            ) : (
-                                <></>
-                            )}
-
-                            <Link to="/Telecommuting_workspace">
-                                <li>재택근무</li>
-                            </Link>
-                            {InfomationState.position === '이사' ||
-                            InfomationState.position === '팀장' ||
-                            DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                <Link to="/MonthTelecommuting">
-                                    <li>월별 재택 조회</li>
-                                </Link>
-                            ) : (
-                                <></>
-                            )}
-
-                            <Link to="/USbWrite">
-                                <li>USB/CD 사전 신청</li>
-                            </Link>
-                        </div>
-                    </ul>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div>
-                <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)}>
-                    OT메뉴
-                    <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${OTMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
-                </h5>
-                {OTMenuClicks ? (
-                    <ul className="MenuDisblock">
-                        <div className="slideDown">
-                            <Link to="/AfterOtworkspace">
-                                <li>OT 신청</li>
-                            </Link>
-                            {InfomationState.position === '이사' ||
-                            InfomationState.position === '팀장' ||
-                            DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                <>
-                                    <Link to="/TeamLeaderPageMainPage">
-                                        <li>팀원 OT 조회</li>
+                        </ul>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div>
+                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)}>
+                            근무메뉴
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${TeleMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        {TeleMenuClicks ? (
+                            <ul className="MenuDisblock">
+                                <div className="slideDown">
+                                    <Link to="/">
+                                        <li>종합 업무 현황</li>
                                     </Link>
-                                    <Link to="/TeamSelectOTWorkSpace">
-                                        <li>월별 OT 조회</li>
+                                    <Link to="/Telecommuting_workspace">
+                                        <li>재택근무</li>
                                     </Link>
-                                </>
+                                </div>
+                            </ul>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)}>
+                            기타메뉴
+                            <img
+                                src={'/pngegg.png'}
+                                className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
+                            ></img>
+                        </h5>
+                        <ul>
+                            {ETCMenuClicks ? (
+                                <div className="slideDown">
+                                    <Link to="/ConnectedNow">
+                                        <li>상대방 호출</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                                        <li>시설이용</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
+                                        <li>당직근무보고</li>
+                                    </Link>
+                                </div>
                             ) : (
                                 <></>
                             )}
-                        </div>
-                    </ul>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div>
-                <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)}>
-                    식대메뉴{' '}
-                    <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${FoodMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
-                </h5>
-                {FoodMenuClicks ? (
-                    <ul className="MenuDisblock">
-                        <div className="slideDown">
-                            <Link to="/meal_settlement">
-                                <li>식대 정산 신청</li>
-                            </Link>
-                            {DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                            DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                <Link to="/Admin_meal_Select">
-                                    <li>식대 정산 월별 조회</li>
-                                </Link>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                    </ul>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div>
-                <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)}>
-                    기타메뉴
-                    <img src={'/pngegg.png'} className={`nav_handleClicks_arrow ${ETCMenuClicks ? 'nav_hadleClicks_flases' : ''}`}></img>
-                </h5>
-                <ul>
-                    {ETCMenuClicks ? (
-                        <div className="slideDown">
-                            {' '}
-                            <Link to="/ConnectedNow">
-                                <li>상대방 호출</li>
-                            </Link>
-                            <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
-                                <li>시설이용</li>
-                            </Link>
-                            <Link to="/CECalendar">
-                                <li>CSM</li>
-                            </Link>
-                            <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
-                                <li>ERP</li>
-                            </Link>
-                            <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
-                                <li>당직근무보고</li>
-                            </Link>
-                            {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                <Link to="/CovidTextShow">
-                                    <li>백신접종 데이터 입력</li>
-                                </Link>
-                            ) : (
-                                <div></div>
-                            )}
-                        </div>
-                    ) : (
-                        <></>
-                    )}
 
-                    <Link to="/">
-                        <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
-                            - 로그아웃
-                        </li>
-                    </Link>
-                </ul>
-            </div>
+                            <Link to="/">
+                                <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
+                                    - 로그아웃
+                                </li>
+                            </Link>
+                        </ul>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
