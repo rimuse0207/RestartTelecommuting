@@ -6,10 +6,28 @@ import { RootState } from '../../models/index';
 import { DecryptKey } from '../../config';
 import { useHistory } from 'react-router';
 import { getSessionLOGOUT } from '../../models/Socket';
+import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
+import Modal from 'react-modal';
 type Navigation = {
     menuStatus: string;
+    setHambergerOpen: any;
 };
-const Navigation = ({ menuStatus }: Navigation) => {
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90%',
+        height: '80%',
+    },
+};
+Modal.setAppElement('#ModalSet');
+
+const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const history = useHistory();
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -17,6 +35,7 @@ const Navigation = ({ menuStatus }: Navigation) => {
     const [OTMenuClicks, setOTMenuClicks] = useState(true);
     const [FoodMenuClicks, setFoodMenuClicks] = useState(true);
     const [ETCMenuClicks, setETCMenuClicks] = useState(true);
+    const [onClicked, setOnClickedSet] = useState(false);
     const handleLogout = () => {
         socket.emit('LogOut', {
             message: 'user 나감',
@@ -29,6 +48,10 @@ const Navigation = ({ menuStatus }: Navigation) => {
         history.push('/');
     };
     const dispatch = useDispatch();
+
+    const modalClose = () => {
+        setOnClickedSet(false);
+    };
     return (
         <div className={menuStatus} id="menu">
             {DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr' ? (
@@ -192,7 +215,15 @@ const Navigation = ({ menuStatus }: Navigation) => {
                             ) : (
                                 <></>
                             )}
-
+                            <Link
+                                to="#"
+                                onClick={e => {
+                                    setHambergerOpen(e);
+                                    setOnClickedSet(true);
+                                }}
+                            >
+                                <li>비밀번호 변경</li>
+                            </Link>
                             <Link to="/">
                                 <li onClick={handleLogout} style={{ fontWeight: 'bolder', color: '#052272' }}>
                                     - 로그아웃
@@ -260,6 +291,14 @@ const Navigation = ({ menuStatus }: Navigation) => {
                     </div>
                 </>
             )}
+            <div>
+                <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
+                    <PasswordChangeModalMainPage
+                        modalClose={() => modalClose()}
+                        ids={DecryptKey(InfomationState.id)}
+                    ></PasswordChangeModalMainPage>
+                </Modal>
+            </div>
         </div>
     );
 };

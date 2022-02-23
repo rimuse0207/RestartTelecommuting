@@ -205,7 +205,7 @@ const AdminDashBoardInsertUsersTable = () => {
                             <td>
                                 <input
                                     value={UpdateUsersData.team}
-                                    placeholder="경영지원팀"
+                                    placeholder="경영지원, S/W ...."
                                     onChange={e => setUpdateUserData({ ...UpdateUsersData, team: e.target.value })}
                                 ></input>
                             </td>

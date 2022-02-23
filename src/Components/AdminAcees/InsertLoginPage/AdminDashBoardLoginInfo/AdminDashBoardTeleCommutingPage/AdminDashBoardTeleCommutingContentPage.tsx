@@ -36,6 +36,8 @@ const AdminDashBoardTeleCommutingContentPageMainDivBox = styled.div`
         font-weight: bold;
         vertical-align: top;
         color: #369;
+        border: none;
+        background: #f3f6f7;
         border-bottom: 3px solid #036;
         font-size: 0.9em;
     }
@@ -44,6 +46,7 @@ const AdminDashBoardTeleCommutingContentPageMainDivBox = styled.div`
         padding: 10px;
         font-weight: bold;
         vertical-align: top;
+        border: none;
         border-bottom: 1px solid #ccc;
         background: #f3f6f7;
     }

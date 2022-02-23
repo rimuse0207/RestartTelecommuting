@@ -19,7 +19,6 @@ const ConnectedPeopleShow = () => {
     }
 
     useEffect(() => {
-        console.log('asdasdasdasdsad', socket);
         if (!isEmptyObj(socket)) {
             socket.emit('getConnectedPeople', {});
             socket.on('getConnectedPeople', (data: any) => {
@@ -46,7 +45,11 @@ const ConnectedPeopleShow = () => {
             senderId: DecryptKey(InfomationState.id),
             senderName: DecryptKey(InfomationState.name),
         });
-        window.open(`https://ecomet11.disco.co.jp/${DecryptKey(InfomationState.id).split('@')[0]}`);
+        if (DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr') {
+            window.open(`https://ecomet11.disco.co.jp/${DecryptKey(InfomationState.id).split('@')[0]}`);
+        } else {
+            window.open(`https://meet.jit.si/${DecryptKey(InfomationState.id).split('@')[0]}`);
+        }
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './SignInForm.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +8,26 @@ import { getSocket } from '../../models/Socket';
 import socketio from 'socket.io-client';
 import { getChatting_members } from '../../models/ChattingMeber';
 import { RootState } from '../../models/index';
-import { DecryptKey } from '../../config';
+import Modal from 'react-modal';
+import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
+
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
 };
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90%',
+        height: '90%',
+    },
+};
+Modal.setAppElement('#ModalSet');
 
 const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
     let history = useHistory();
@@ -20,7 +36,14 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
     const infomations = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [id, setIds] = useState<string | any>(localStorage.getItem('id') ? localStorage.getItem('id') : '');
     const [password, setPassword] = useState('');
+    const [onClicked, setOnClickedSet] = useState(false);
+
     const dispatch = useDispatch();
+
+    const modalClose = () => {
+        setOnClickedSet(false);
+        setPassword('');
+    };
 
     function isEmptyObj(obj: {}) {
         if (obj.constructor === Object && Object.keys(obj).length === 0) {
@@ -29,47 +52,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
 
         return false;
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // useEffect(() => {
-    //     if (isEmptyObj(socket)) {
-    //         console.log(localStorage.getItem('loginOutCheck'));
-    //         console.log('소켓 없음');
-    //         console.log(loginChecked);
-    //         if (localStorage.getItem('loginOutCheck') === 'connecting') {
-    //             const soscketData = socketio(`${process.env.REACT_APP_API_URL}`);
-    //             soscketData.emit('hi', {
-    //                 name: DecryptKey(infomations.name),
-    //                 id: DecryptKey(infomations.id),
-    //             });
-    //             soscketData.on('users_come_in', (data: { message: [] }) => {
-    //                 dispatch(getChatting_members(data.message));
-    //             });
-    //             soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-    //                 console.log(data);
-    //                 handleVisibilityChange(data);
-    //             });
-    //             dispatch(getSocket(soscketData));
-    //         }
-    //     } else {
-    //         console.log('소켓 있음');
-    //         console.log(loginChecked);
-    //         console.log(socket);
-    //         if (loginChecked) {
-    //             socket.emit('hi', {
-    //                 name: DecryptKey(infomations.name),
-    //                 id: DecryptKey(infomations.id),
-    //             });
-    //             socket.on('users_come_in', (data: { message: [] }) => {
-    //                 dispatch(getChatting_members(data.message));
-    //             });
-    //             socket.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-    //                 console.log(data);
-    //                 handleVisibilityChange(data);
-    //             });
-    //         }
-    //     }
-    // }, [socket]);
 
     const handleSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -84,34 +66,35 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 alert(loginCheck.data.message);
                 setPassword('');
             } else {
-                sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
-                localStorage.setItem('id', loginCheck.data.data.id);
-                localStorage.setItem('loginOutCheck', 'conneting');
-                dispatch(getPersionalInfo(loginCheck.data.data));
-                const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
-                soscketData.emit('hi', {
-                    name: loginCheck.data.data.name,
-                    id: loginCheck.data.data.id,
-                });
-                soscketData.on('users_come_in', (data: { message: [] }) => {
-                    dispatch(getChatting_members(data.message));
-                });
+                if (password === `${id.split('@')[0]}1234` || password === '!@yikc1234') {
+                    setOnClickedSet(true);
+                } else {
+                    sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
+                    localStorage.setItem('id', loginCheck.data.data.id);
+                    localStorage.setItem('loginOutCheck', 'conneting');
+                    dispatch(getPersionalInfo(loginCheck.data.data));
+                    const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+                    soscketData.emit('hi', {
+                        name: loginCheck.data.data.name,
+                        id: loginCheck.data.data.id,
+                    });
+                    soscketData.on('users_come_in', (data: { message: [] }) => {
+                        dispatch(getChatting_members(data.message));
+                    });
 
-                await dispatch(getSocket(soscketData));
-                await setLoginCheck(true);
-                if (loginCheck.data.changePassword) {
-                    history.push('/');
+                    await dispatch(getSocket(soscketData));
+                    await setLoginCheck(true);
+                    if (loginCheck.data.changePassword) {
+                        history.push('/');
+                    }
                 }
-                // return <Redirect push to="/" />
             }
         } catch (error) {
             console.log(error);
             alert('Login Error 서버 차단');
         }
     };
-    // const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
-    //     window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
-    // };
+
     return (
         <div>
             <div className="appAside">
@@ -159,6 +142,11 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                         </div>
                     </form>
                 </div>
+            </div>
+            <div>
+                <Modal isOpen={onClicked} style={customStyles} onRequestClose={modalClose}>
+                    <PasswordChangeModalMainPage modalClose={() => modalClose()} ids={id}></PasswordChangeModalMainPage>
+                </Modal>
             </div>
         </div>
     );
