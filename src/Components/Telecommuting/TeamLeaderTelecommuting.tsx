@@ -71,7 +71,9 @@ const TeamLeaderTelecommuting = () => {
             IDS === 'cwjun@dhk.co.kr' ||
             IDS === 'kcahn@dhk.co.kr' ||
             IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr'
+            IDS === 'ychong@dhk.co.kr' ||
+            IDS === 'siyi@dhk.co.kr' ||
+            IDS === 'ikkim@dhk.co.kr'
         ) {
             if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
         }
@@ -87,7 +89,9 @@ const TeamLeaderTelecommuting = () => {
             IDS === 'cwjun@dhk.co.kr' ||
             IDS === 'kcahn@dhk.co.kr' ||
             IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr'
+            IDS === 'ychong@dhk.co.kr' ||
+            IDS === 'siyi@dhk.co.kr' ||
+            IDS === 'ikkim@dhk.co.kr'
         ) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
         } else if (
@@ -111,7 +115,9 @@ const TeamLeaderTelecommuting = () => {
             IDS === 'cwjun@dhk.co.kr' ||
             IDS === 'kcahn@dhk.co.kr' ||
             IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr'
+            IDS === 'ychong@dhk.co.kr' ||
+            IDS === 'siyi@dhk.co.kr' ||
+            IDS === 'ikkim@dhk.co.kr'
         ) {
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
         } else if (

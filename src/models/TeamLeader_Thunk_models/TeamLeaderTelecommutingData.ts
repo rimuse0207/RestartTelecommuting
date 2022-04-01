@@ -56,7 +56,7 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),
             },
         });
-
+        console.log(TeleLeaderdataget);
         return TeleLeaderdataget.data.data;
     } catch (error) {
         console.log(error);
