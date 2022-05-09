@@ -211,6 +211,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     ) : (
                                         <div></div>
                                     )}
+                                    {DecryptKey(InfomationState.id) === "sjyoo@dhk.co.kr" ? <Link to="/Proceedings"><li>회의록 작성</li></Link>:<div></div>}
                                 </div>
                             ) : (
                                 <></>
