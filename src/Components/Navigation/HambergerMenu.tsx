@@ -225,7 +225,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
-                <NotificationMainBoxdiv>
+                {/* <NotificationMainBoxdiv>
                     <div className="TextMovingBoxdiv" onDoubleClick={handleUpdateCovidText}>
                         <Marquee gradient={false} speed={66} pauseOnHover={true}>
                             {noticeData.map((list: { indexs: number; notice_text: string }, i) => {
@@ -242,7 +242,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                             </div>
                         </Marquee>
                     </div>
-                </NotificationMainBoxdiv>
+                </NotificationMainBoxdiv> */}
                 <div className="MainTitles">
                     <h1>{titles}</h1>
                 </div>
