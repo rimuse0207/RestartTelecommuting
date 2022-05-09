@@ -71,6 +71,7 @@ const MealMonthMainPage = () => {
                         <option value="laser">Laser</option>
                         <option value="grinder">Grinder</option>
                         <option value="아산CE">아산CE</option>
+                        <option value="OEM">OEM</option>
                     </select>
                     <span style={{ marginLeft: '50px' }}>
                         <ExcelDataFormat

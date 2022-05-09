@@ -204,13 +204,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>
-                                    {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                        <Link to="/CovidTextShow">
-                                            <li>백신접종 데이터 입력</li>
-                                        </Link>
-                                    ) : (
-                                        <div></div>
-                                    )}
+                                   
                                 </div>
                             ) : (
                                 <></>
