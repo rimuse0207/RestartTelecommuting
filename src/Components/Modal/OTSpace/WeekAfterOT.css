@@ -29,8 +29,11 @@
     cursor: pointer;
 }
 
-.WeekAfterOTWorkSpace_big_div td > div {
+/* .WeekAfterOTWorkSpace_big_div td > div {
     height: 100px;
+} */
+.modal_container {
+    top: 60% !important;
 }
 
 td > div > .react-datepicker__input-container {

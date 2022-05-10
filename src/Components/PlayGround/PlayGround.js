@@ -95,9 +95,15 @@
 
 // export default PlayGround;
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import styled from 'styled-components';
+import TimePickerWrapper from 'react-times';
+// use material theme
+import 'react-times/css/material/default.css';
+// or you can use classic theme
+import 'react-times/css/classic/default.css';
+import { set } from 'date-fns';
 
 const USBCDApplyFormBoxDiv = styled.div`
     width: 90%;
@@ -108,64 +114,15 @@ const USBCDApplyFormBoxDiv = styled.div`
 `;
 
 const PlayGround = () => {
+    const [times, setTimes] = useState('09:00');
     return (
         <div>
-            <h2>USB/CD 사전 신청</h2>
-            <div>
-                <form>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">이름</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-                        <input className="CElogs_WriteData_FORM_InputBox" type="text" placeholder="이름"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">사용일자</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-                        <input type="text" className="CElogs_WriteData_FORM_InputBox" placeholder="사용일자"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">사용장비</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-
-                        <input type="text" className="CElogs_WriteData_FORM_InputBox" placeholder="사용장비"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">사용 파일명</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-
-                        <input className="CElogs_WriteData_FORM_InputBox" type="text" placeholder="사용 파일명"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">자사 or 고객</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-
-                        <input className="CElogs_WriteData_FORM_InputBox" type="text" placeholder="자사또는 고객"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <USBCDApplyFormBoxDiv>
-                        <div className="CElogs_WriteData_FORM_Text_label">사용이유</div>
-                        <div className="CElogs_WriteData_FORM_emoticon_div">
-                            <BsFillPencilFill></BsFillPencilFill>
-                        </div>
-
-                        <input className="CElogs_WriteData_FORM_InputBox" type="text" placeholder="사용이유"></input>
-                    </USBCDApplyFormBoxDiv>
-                    <div style={{ textAlign: 'end', width: '50%' }}>
-                        <button className="CElogs_WriteData_FORM_ButtonBox" type="submit">
-                            저장
-                        </button>
-                    </div>
-                </form>
-            </div>
+            <TimePickerWrapper
+                theme="classic"
+                timeFormat="HH:MM"
+                time={times}
+                onTimeChange={options => setTimes(`${options.hour}:${options.minute}`)}
+            ></TimePickerWrapper>
         </div>
     );
 };

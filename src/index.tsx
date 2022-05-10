@@ -28,8 +28,9 @@ import CeCalendarMainPage from './Components/CECalendar/CeCalendarMainPage';
 import CovidTextShowMainPage from './Components/COVID/CovidTextShowMainPage';
 import NewAdminInsert from './Components/NewAdmin/NewAdminInsert';
 import AdminDashBoardMainPage from './Components/AdminAcees/InsertLoginPage/AdminDashBoardMainPage';
-import ProceedingsMainPage from './Components/Proceedings/ProceedingsMainPage';
-// import PlayGround from './Components/PlayGround/PlayGround.js';
+import PlayGround from './Components/PlayGround/PlayGround.js';
+import OtContainerMainPage from './Components/OtMainPage/OtContainerMainPage';
+
 
 ReactDOM.render(
     <Provider store={store}>
@@ -53,9 +54,9 @@ ReactDOM.render(
                     <Route path="/CECalendar" component={CeCalendarMainPage}></Route>
                     <Route path="/CovidTextShow" component={CovidTextShowMainPage}></Route>
                     <Route path="/NewDataInsert" component={NewAdminInsert}></Route>
-                    <Route path="/Proceedings" component={ProceedingsMainPage}></Route>
                     <Route path="/NewAdminInsertData/:selected" component={AdminDashBoardMainPage}></Route>
-                    {/* <Route path="/PlayGround" component={PlayGround}></Route> */}
+                    <Route path="/PlayGround" component={PlayGround}></Route>
+                    <Route path="/AfterOTTest" component={OtContainerMainPage}></Route>
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>
