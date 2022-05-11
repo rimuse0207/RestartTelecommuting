@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import moment from 'moment';
 import ko from 'date-fns/locale/ko';
@@ -7,7 +7,7 @@ import { toast } from '../ToastMessage/ToastManager';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models/index';
 import { DecryptKey } from '../../config';
-import PrinterAfterSelectClickModal from '../SelectClickModal/OT/PrinterAfterSelectClickModal';
+import PrinterBeforeSelectClickModal from '../SelectClickModal/OT/PrinterBeforeSelectClickModal';
 // @ts-ignore
 import TimePickerWrapper from 'react-times';
 
@@ -17,19 +17,11 @@ import TimePickerWrapper from 'react-times';
 import 'react-times/css/material/default.css';
 // or you can use classic theme
 import 'react-times/css/classic/default.css';
-import styled from 'styled-components';
-import AfterOtTeamLeaderFinish from './OTTeamLeaderCheckFinish/AfterOtTeamLeaderFinish';
+import BeforeOtTeamLeaderFinish from './OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
 
-const SelectMainBox = styled.select`
-    padding: 15px;
-    font-size: 1em;
-    border: none;
-    background: #fff;
-    box-shadow: 2px 2px 15px 0 rgb(0 0 0 / 15%);
-`;
 registerLocale('ko', ko);
 
-type WeekAfterOTWorkSpaceProps = {
+type WeekBeforeOTWorkSpaceProps = {
     startDate: any;
     endDate: any;
     setStartDate: any;
@@ -50,10 +42,8 @@ type WeekInfomDataTypes = {
     OTreason3: string;
     holidayCheck: string;
     OTnightSum: number;
-    business_trip: string;
 };
-
-const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: WeekAfterOTWorkSpaceProps) => {
+const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: WeekBeforeOTWorkSpaceProps) => {
     const initialState = {
         clickDate: startDate.clone().format('YYYY-MM-DD'),
         basicStartTime: '09:00',
@@ -68,13 +58,13 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
         OTreason3: '',
         holidayCheck: 'weekday',
         OTnightSum: 0,
-        business_trip: '없음',
     };
     const [printerClicked, setPrinterClicked] = useState(false);
     const [clicksData, setClicksData] = useState({});
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const TimeOverCheck = useRef<any>();
     const [leaderCheck, setLeaderCheck] = useState(false);
     const [loading, setLoading] = useState(false);
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [monDateData, setMonDateData] = useState<WeekInfomDataTypes>(initialState);
     const [tueDateData, setTueDateData] = useState<WeekInfomDataTypes>(initialState);
     const [wedDateData, setWedDateData] = useState<WeekInfomDataTypes>(initialState);
@@ -83,10 +73,10 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
     const [satDateData, setSatDateData] = useState<WeekInfomDataTypes>(initialState);
     const [sunDateData, setSunDateData] = useState<WeekInfomDataTypes>(initialState);
 
-    //OT 데이터 불러오기
+    //사전 OT 데이터 불러오기
     const getDataOTData = async () => {
         setLoading(true);
-        const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_get_some_data`, {
+        const getServerOTDataCheck = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/NewBeforeOT_get_some_data`, {
             id: DecryptKey(InfomationState.id),
             startDate: startDate,
         });
@@ -99,14 +89,13 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicSumTime: getServerOTDataCheck.data.data[0].basic_mon_sum_time,
                 OTStartTime: getServerOTDataCheck.data.data[0].start_time_mon,
                 OTEndTime: getServerOTDataCheck.data.data[0].end_time_mon,
-                OTRestTime: getServerOTDataCheck.data.data[0].mon_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].mon_rest,
+                OTRestTime: getServerOTDataCheck.data.data[0].mon_rest,
                 OTSumTime: getServerOTDataCheck.data.data[0].mon_time,
                 OTreason1: getServerOTDataCheck.data.data[0].mon_reason,
                 OTreason2: getServerOTDataCheck.data.data[0].mon_reason1,
                 OTreason3: getServerOTDataCheck.data.data[0].mon_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].mon_night,
-                business_trip: '없음',
             });
             setTueDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
@@ -115,14 +104,13 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicSumTime: getServerOTDataCheck.data.data[0].basic_tue_sum_time,
                 OTStartTime: getServerOTDataCheck.data.data[0].start_time_tue,
                 OTEndTime: getServerOTDataCheck.data.data[0].end_time_tue,
-                OTRestTime: getServerOTDataCheck.data.data[0].tue_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].tue_rest,
+                OTRestTime: getServerOTDataCheck.data.data[0].tue_rest,
                 OTSumTime: getServerOTDataCheck.data.data[0].tue_time,
                 OTreason1: getServerOTDataCheck.data.data[0].tue_reason,
                 OTreason2: getServerOTDataCheck.data.data[0].tue_reason1,
                 OTreason3: getServerOTDataCheck.data.data[0].tue_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].tue_night,
-                business_trip: '없음',
             });
             setWedDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
@@ -131,14 +119,13 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 basicSumTime: getServerOTDataCheck.data.data[0].basic_wed_sum_time,
                 OTStartTime: getServerOTDataCheck.data.data[0].start_time_wed,
                 OTEndTime: getServerOTDataCheck.data.data[0].end_time_wed,
-                OTRestTime: getServerOTDataCheck.data.data[0].wed_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].wed_rest,
+                OTRestTime: getServerOTDataCheck.data.data[0].wed_rest,
                 OTSumTime: getServerOTDataCheck.data.data[0].wed_time,
                 OTreason1: getServerOTDataCheck.data.data[0].wed_reason,
                 OTreason2: getServerOTDataCheck.data.data[0].wed_reason1,
                 OTreason3: getServerOTDataCheck.data.data[0].wed_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].wed_night,
-                business_trip: '없음',
             });
             setThuDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
@@ -154,7 +141,6 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 OTreason3: getServerOTDataCheck.data.data[0].thu_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].thu_night,
-                business_trip: '없음',
             });
             setFriDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
@@ -170,12 +156,11 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 OTreason3: getServerOTDataCheck.data.data[0].fri_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].fri_night,
-                business_trip: '없음',
             });
             setSatDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: getServerOTDataCheck.data.data[0].basic_fri_start_time,
-                basicEndTime: getServerOTDataCheck.data.data[0].basic_fri_end_time,
+                basicStartTime: '09:00',
+                basicEndTime: '18:00',
                 basicSumTime: getServerOTDataCheck.data.data[0].basic_fri_sum_time,
                 OTStartTime: getServerOTDataCheck.data.data[0].start_time_sat,
                 OTEndTime: getServerOTDataCheck.data.data[0].end_time_sat,
@@ -186,13 +171,12 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 OTreason3: getServerOTDataCheck.data.data[0].sat_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].sat_night,
-                business_trip: '없음',
             });
             setSunDateData({
                 clickDate: startDate.clone().format('YYYY-MM-DD'),
-                basicStartTime: getServerOTDataCheck.data.data[0].basic_fri_start_time,
-                basicEndTime: getServerOTDataCheck.data.data[0].basic_fri_end_time,
-                basicSumTime: getServerOTDataCheck.data.data[0].basic_fri_sum_time,
+                basicStartTime: getServerOTDataCheck.data.data[0].basic_sun_start_time,
+                basicEndTime: getServerOTDataCheck.data.data[0].basic_sun_end_time,
+                basicSumTime: getServerOTDataCheck.data.data[0].basic_sun_sum_time,
                 OTStartTime: getServerOTDataCheck.data.data[0].start_time_sun,
                 OTEndTime: getServerOTDataCheck.data.data[0].end_time_sun,
                 OTRestTime: getServerOTDataCheck.data.data[0].sun_rest === '0' ? '00:00' : getServerOTDataCheck.data.data[0].sun_rest,
@@ -202,11 +186,10 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 OTreason3: getServerOTDataCheck.data.data[0].sun_reason2,
                 holidayCheck: 'weekday',
                 OTnightSum: getServerOTDataCheck.data.data[0].sun_night,
-                business_trip: '없음',
             });
             setLoading(false);
         } else {
-            // setMonDateData(initialState);
+            setMonDateData(initialState);
             setTueDateData(initialState);
             setWedDateData(initialState);
             setThuDateData(initialState);
@@ -216,13 +199,16 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
             setLoading(false);
         }
     };
-
-    //초기 렌더링 시 OT 데이터 불러오기 실행
     useEffect(() => {
         getDataOTData();
+        toast.show({
+            title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
+            content: '초과근로 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
+            duration: 3000,
+            DataSuccess: false,
+        });
     }, []);
 
-    /// 일시 변동 시 재 렌더링
     useEffect(() => {
         setLeaderCheck(false);
         getDataOTData();
@@ -803,84 +789,10 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
         setStartDate(startDate.clone().add(7, 'day'));
         setEndDate(endDate.clone().add(7, 'day'));
     };
-    const testClicks = () => {
-        console.log(monDateData, tueDateData, wedDateData, thuDateData, friDateData, satDateData, sunDateData);
-    };
-    const handleStoreOTData = async () => {
-        if (
-            monDateData.OTSumTime +
-                tueDateData.OTSumTime +
-                wedDateData.OTSumTime +
-                thuDateData.OTSumTime +
-                friDateData.OTSumTime +
-                satDateData.OTSumTime +
-                sunDateData.OTSumTime >
-            10
-        ) {
-            toast.show({
-                title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
-                duration: 6000,
-                DataSuccess: false,
-            });
-            return;
-        }
-        try {
-            const monDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/monDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                monDateData,
-            });
-            const tueDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/tueDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                tueDateData,
-            });
-            const wedDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/wedDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                wedDateData,
-            });
-            const thuDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/thuDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                thuDateData,
-            });
-            const friDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/friDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                friDateData,
-            });
-            const satDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/satDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                satDateData,
-            });
-            const sunDataSend = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/sunDateData`, {
-                id: DecryptKey(InfomationState.id),
-                name: DecryptKey(InfomationState.name),
-                team: InfomationState.team,
-                position: InfomationState.position,
-                sunDateData,
-            });
-        } catch (error) {
-            console.log(error);
-        }
 
+    const handleStoreOTData = async () => {
         try {
-            const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/OT_send_Data`, {
+            const dataSendServerOT = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/NewBeforeOT_send_Data`, {
                 id: DecryptKey(InfomationState.id),
                 name: DecryptKey(InfomationState.name),
                 team: InfomationState.team,
@@ -895,25 +807,24 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
             if (dataSendServerOT.data.dataSuccess) {
                 toast.show({
-                    title: '사후 OT 데이터 저장 성공 ',
-                    content: '사후 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
+                    title: '사전 OT 데이터 저장 성공 ',
+                    content: '사전 OT 데이터가 서버에 성공적으로 저장 되었습니다.',
                     duration: 6000,
                     DataSuccess: true,
                 });
             } else {
                 toast.show({
                     title: '에러발생. 데이터 저장 실패.',
-                    content: '사후 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
+                    content: '사전 OT 데이터 저장 실패. IT팀에 문의 바랍니다.',
                     duration: 6000,
                     DataSuccess: false,
                 });
             }
         } catch (error) {
             console.log(error);
-            alert('server와의 연결 끊김.');
             toast.show({
-                title: 'Error발생.',
-                content: 'server와의 연결 끊김. ErrorCode OT 20 ',
+                title: '에러발생. ',
+                content: 'server와의 연결 끊김. 에러 코드 사전 OT_1 발생.',
                 duration: 6000,
                 DataSuccess: false,
             });
@@ -1004,1058 +915,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
     };
 
     return (
-        // <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
-        //     {
-        //         <>
-        //             <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-        //                 <span
-        //                     className="WeekAferOTWorkSpace_date_change_span"
-        //                     style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
-        //                     onClick={handlesubTest}
-        //                 >
-        //                     {'<<<< '}
-        //                 </span>
-        //                 <h2 style={{ textAlign: 'center', display: 'inline', fontSize: '1.2em' }}>
-        //                     {startDate.format('YYYY년 MM월 DD일')}(월) ~ {endDate.format('YYYY년 MM월 DD일')}(일)
-        //                 </h2>
-        //                 <span
-        //                     className="WeekAferOTWorkSpace_date_change_span"
-        //                     style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
-        //                     onClick={handlenextTest}
-        //                 >
-        //                     {' >>>>'}
-        //                 </span>
-        //             </div>
-        //             {
-        //                 <table>
-        //                     <thead>
-        //                         <tr
-        //                             className="testss"
-        //                             style={{
-        //                                 borderTop: '1.5px solid black',
-        //                                 borderLeft: '1.3px solid black',
-        //                                 borderRight: '1.3px solid black',
-        //                             }}
-        //                         >
-        //                             <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-        //                                 일자
-        //                             </th>
-        //                             <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-        //                                 공휴일
-        //                             </th>
-        //                             <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
-        //                                 소정근로
-        //                             </th>
-        //                             <th rowSpan={2} style={{ borderRight: '1.2px solid black', fontSize: '1em' }}>
-        //                                 현장 <br />
-        //                                 OR <br />
-        //                                 출장 <br />
-        //                                 선택
-        //                                 <br />
-        //                             </th>
-        //                             <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
-        //                                 {' '}
-        //                                 연장 근무
-        //                             </th>
-        //                             <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
-        //                                 총 근무 <br />
-        //                                 합계 시간
-        //                                 <br />
-        //                             </th>
-        //                             <th rowSpan={2} className="OTSpace_OTReason_th">
-        //                                 연장 사유
-        //                             </th>
-        //                         </tr>
-        //                         <tr
-        //                             className="testss"
-        //                             style={{
-        //                                 borderBottom: '1.2px solid black',
-        //                                 borderLeft: '1.3px solid black',
-        //                                 borderRight: '1.3px solid black',
-        //                             }}
-        //                         >
-        //                             <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>
-        //                                 총 합계 <br /> 시간
-        //                             </td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
-        //                             <td style={{ borderRight: '1.2px solid black' }}>
-        //                                 총 합계 <br />
-        //                                 시간
-        //                             </td>
-        //                         </tr>
-        //                     </thead>
-        //                     <tbody>
-        //                         <tr>
-        //                             <td rowSpan={3} id="stat_date" width="100px">
-        //                                 {startDate.clone().format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 월요일
-        //                             </td>
-
-        //                             <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-        //                                 <label htmlFor="mon_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="mon_holiday_check"
-        //                                         name="mon_holiday_check"
-        //                                         value="weekday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setMonDateData({ ...monDateData, holidayCheck: 'weekday' });
-        //                                         }}
-        //                                         checked={monDateData.holidayCheck === 'weekday' ? true : false}
-        //                                     ></input>
-        //                                     평일
-        //                                 </label>
-        //                                 <br />
-
-        //                                 <label htmlFor="mon_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="mon_holiday_check"
-        //                                         name="mon_holiday_check"
-        //                                         value="holiday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setMonDateData({ ...monDateData, holidayCheck: 'holiday' });
-        //                                         }}
-        //                                         checked={monDateData.holidayCheck === 'holiday' ? true : false}
-        //                                     ></input>
-        //                                     공휴일
-        //                                 </label>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={monDateData.basicStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setMonDateData({ ...monDateData, basicStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={monDateData.basicEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setMonDateData({ ...monDateData, basicEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <span className="sum_time" id="sum_time_mon">
-        //                                     {monDateData.basicSumTime}
-        //                                 </span>
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={monDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setMonDateData({
-        //                                             ...monDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={monDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setMonDateData({ ...monDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={monDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setMonDateData({ ...monDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={monDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setMonDateData({ ...monDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <span className="sum_over_time" id="sum_over_time_monOver">
-        //                                     {monDateData.OTSumTime}
-        //                                 </span>
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <span id="sum_times_mon"> {monDateData.basicSumTime + monDateData.OTSumTime}</span> 시간
-        //                             </td>
-
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     value={monDateData.OTreason1}
-        //                                     onChange={e => setMonDateData({ ...monDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     value={monDateData.OTreason2}
-        //                                     onChange={e => setMonDateData({ ...monDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     value={monDateData.OTreason3}
-        //                                     onChange={e => setMonDateData({ ...monDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3} style={{ minWidth: '100px' }}>
-        //                                 {startDate.clone().add(1, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 화요일
-        //                             </td>
-
-        //                             <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-        //                                 <label htmlFor="tue_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="tue_holiday_check"
-        //                                         name="tue_holiday_check"
-        //                                         value="weekday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setTueDateData({ ...tueDateData, holidayCheck: 'weekday' });
-        //                                         }}
-        //                                         checked={tueDateData.holidayCheck === 'weekday' ? true : false}
-        //                                     ></input>
-        //                                     평일
-        //                                 </label>
-        //                                 <br />
-        //                                 <label htmlFor="tue_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="tue_holiday_check"
-        //                                         name="tue_holiday_check"
-        //                                         value="holiday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setTueDateData({ ...tueDateData, holidayCheck: 'holiday' });
-        //                                         }}
-        //                                         checked={tueDateData.holidayCheck === 'holiday' ? true : false}
-        //                                     ></input>
-        //                                     공휴일
-        //                                 </label>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={tueDateData.basicStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setTueDateData({ ...tueDateData, basicStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={tueDateData.basicEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setTueDateData({ ...tueDateData, basicEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_time" id="sum_time_tue">
-        //                                     {tueDateData.basicSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={tueDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setTueDateData({
-        //                                             ...tueDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={tueDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setTueDateData({ ...tueDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={tueDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setTueDateData({ ...tueDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={tueDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setTueDateData({ ...tueDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_tueOver">
-        //                                     {tueDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_tue">{tueDateData.basicSumTime + tueDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     value={tueDateData.OTreason1}
-        //                                     onChange={e => setTueDateData({ ...tueDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     value={tueDateData.OTreason2}
-        //                                     onChange={e => setTueDateData({ ...tueDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     value={tueDateData.OTreason3}
-        //                                     onChange={e => setTueDateData({ ...tueDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3}>
-        //                                 {startDate.clone().add(2, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 수요일
-        //                             </td>
-        //                             <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-        //                                 <label htmlFor="wed_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="wed_holiday_check"
-        //                                         name="wed_holiday_check"
-        //                                         value="weekday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setWedDateData({ ...wedDateData, holidayCheck: 'weekday' });
-        //                                         }}
-        //                                         checked={wedDateData.holidayCheck === 'weekday' ? true : false}
-        //                                     ></input>
-        //                                     평일
-        //                                 </label>
-        //                                 <br />
-        //                                 <label htmlFor="wed_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="wed_holiday_check"
-        //                                         name="wed_holiday_check"
-        //                                         value="holiday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setWedDateData({ ...wedDateData, holidayCheck: 'holiday' });
-        //                                         }}
-        //                                         checked={wedDateData.holidayCheck === 'holiday' ? true : false}
-        //                                     ></input>
-        //                                     공휴일
-        //                                 </label>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={wedDateData.basicStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setWedDateData({ ...wedDateData, basicStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={wedDateData.basicEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setWedDateData({ ...wedDateData, basicEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_time" id="sum_time_wed">
-        //                                     {wedDateData.basicSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={wedDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setWedDateData({
-        //                                             ...wedDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={wedDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setWedDateData({ ...wedDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={wedDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setWedDateData({ ...wedDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={wedDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setWedDateData({ ...wedDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_wedOver">
-        //                                     {wedDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_wed">{wedDateData.basicSumTime + wedDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     name="Wed_reason"
-        //                                     value={wedDateData.OTreason1}
-        //                                     onChange={e => setWedDateData({ ...wedDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     name="Wed_reason1"
-        //                                     value={wedDateData.OTreason2}
-        //                                     onChange={e => setWedDateData({ ...wedDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     name="Wed_reason2"
-        //                                     value={wedDateData.OTreason3}
-        //                                     onChange={e => setWedDateData({ ...wedDateData, OTreason3: e.target.value })}
-        //                                 >
-        //                                     {' '}
-        //                                 </textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3}>
-        //                                 {startDate.clone().add(3, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 목요일
-        //                             </td>
-        //                             <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-        //                                 <label htmlFor="thu_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="thu_holiday_check"
-        //                                         name="thu_holiday_check"
-        //                                         value="weekday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setThuDateData({ ...thuDateData, holidayCheck: 'weekday' });
-        //                                         }}
-        //                                         checked={thuDateData.holidayCheck === 'weekday' ? true : false}
-        //                                     ></input>
-        //                                     평일
-        //                                 </label>
-        //                                 <br />
-        //                                 <label htmlFor="thu_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="thu_holiday_check"
-        //                                         name="thu_holiday_check"
-        //                                         value="holiday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setThuDateData({ ...thuDateData, holidayCheck: 'holiday' });
-        //                                         }}
-        //                                         checked={thuDateData.holidayCheck === 'holiday' ? true : false}
-        //                                     ></input>
-        //                                     공휴일
-        //                                 </label>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={thuDateData.basicStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setThuDateData({ ...thuDateData, basicStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={thuDateData.basicEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setThuDateData({ ...thuDateData, basicEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_time" id="sum_time_thu">
-        //                                     {thuDateData.basicSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={thuDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setThuDateData({
-        //                                             ...thuDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={thuDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setThuDateData({ ...thuDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={thuDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setThuDateData({ ...thuDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={thuDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setThuDateData({ ...thuDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_thuOver">
-        //                                     {thuDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_thu">{thuDateData.basicSumTime + thuDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     name="Thu_reason"
-        //                                     value={thuDateData.OTreason1}
-        //                                     onChange={e => setThuDateData({ ...thuDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     name="Thu_reason1"
-        //                                     value={thuDateData.OTreason2}
-        //                                     onChange={e => setThuDateData({ ...thuDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     name="Thu_reason2"
-        //                                     value={thuDateData.OTreason3}
-        //                                     onChange={e => setThuDateData({ ...thuDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3}>
-        //                                 {startDate.clone().add(4, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 금요일
-        //                             </td>
-
-        //                             <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-        //                                 <label htmlFor="fri_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="fri_holiday_check"
-        //                                         name="fri_holiday_check"
-        //                                         value="weekday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setFriDateData({ ...friDateData, holidayCheck: 'weekday' });
-        //                                         }}
-        //                                         checked={friDateData.holidayCheck === 'weekday' ? true : false}
-        //                                     ></input>
-        //                                     평일
-        //                                 </label>
-        //                                 <br />
-        //                                 <label htmlFor="fri_holiday_check">
-        //                                     <input
-        //                                         type="radio"
-        //                                         id="fri_holiday_check"
-        //                                         name="fri_holiday_check"
-        //                                         value="holiday"
-        //                                         readOnly
-        //                                         onChange={() => {
-        //                                             setFriDateData({ ...friDateData, holidayCheck: 'holiday' });
-        //                                         }}
-        //                                         checked={friDateData.holidayCheck === 'holiday' ? true : false}
-        //                                     ></input>
-        //                                     공휴일
-        //                                 </label>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={friDateData.basicStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setFriDateData({ ...friDateData, basicStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={friDateData.basicEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setFriDateData({ ...friDateData, basicEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_time" id="sum_time_fri">
-        //                                     {friDateData.basicSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={friDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setFriDateData({
-        //                                             ...friDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={friDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setFriDateData({ ...friDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={friDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setFriDateData({ ...friDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={friDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setFriDateData({ ...friDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_friOver">
-        //                                     {friDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_fri">{friDateData.basicSumTime + friDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     name="Fri_reason"
-        //                                     value={friDateData.OTreason1}
-        //                                     onChange={e => setFriDateData({ ...friDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     name="Fri_reason1"
-        //                                     value={friDateData.OTreason2}
-        //                                     onChange={e => setFriDateData({ ...friDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     name="Fri_reason2"
-        //                                     value={friDateData.OTreason3}
-        //                                     onChange={e => setFriDateData({ ...friDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3}>
-        //                                 {startDate.clone().add(5, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 토요일
-        //                             </td>
-
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={satDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setSatDateData({
-        //                                             ...satDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={satDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSatDateData({ ...satDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={satDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSatDateData({ ...satDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={satDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSatDateData({ ...satDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_satOver">
-        //                                     {satDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_sat">{satDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     name="Sat_reason"
-        //                                     value={satDateData.OTreason1}
-        //                                     onChange={e => setSatDateData({ ...satDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     name="Sat_reason1"
-        //                                     value={satDateData.OTreason2}
-        //                                     onChange={e => setSatDateData({ ...satDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     name="Sat_reason2"
-        //                                     value={satDateData.OTreason3}
-        //                                     onChange={e => setSatDateData({ ...satDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr>
-        //                             <td rowSpan={3} id="stats_date">
-        //                                 {startDate.clone().add(6, 'day').format('YYYY-MM-DD')}
-        //                                 <br />
-        //                                 일요일
-        //                             </td>
-
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3}></td>
-        //                             <td rowSpan={3} width="100px">
-        //                                 <SelectMainBox
-        //                                     value={sunDateData.business_trip}
-        //                                     onChange={e =>
-        //                                         setSunDateData({
-        //                                             ...sunDateData,
-        //                                             business_trip: e.target.value,
-        //                                         })
-        //                                     }
-        //                                 >
-        //                                     <option value="없음">없음</option>
-        //                                     <option value="현장">현장</option>
-        //                                     <option value="출장">출장</option>
-        //                                 </SelectMainBox>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={sunDateData.OTStartTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSunDateData({ ...sunDateData, OTStartTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={sunDateData.OTEndTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSunDateData({ ...sunDateData, OTEndTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <TimePickerWrapper
-        //                                     theme="classic"
-        //                                     timeFormat="HH:MM"
-        //                                     time={sunDateData.OTRestTime}
-        //                                     onTimeChange={(options: any) =>
-        //                                         setSunDateData({ ...sunDateData, OTRestTime: `${options.hour}:${options.minute}` })
-        //                                     }
-        //                                 ></TimePickerWrapper>
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span className="sum_over_time" id="sum_over_time_sunOver">
-        //                                     {sunDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td rowSpan={3}>
-        //                                 <span id="sum_times_sun">{sunDateData.OTSumTime}</span> 시간
-        //                             </td>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유1"
-        //                                     name="Sun_reason"
-        //                                     value={sunDateData.OTreason1}
-        //                                     onChange={e => setSunDateData({ ...sunDateData, OTreason1: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유2"
-        //                                     name="Sun_reason1"
-        //                                     value={sunDateData.OTreason2}
-        //                                     onChange={e => setSunDateData({ ...sunDateData, OTreason2: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-        //                         <tr>
-        //                             <td className="reasontable">
-        //                                 <textarea
-        //                                     placeholder="사유3"
-        //                                     name="Sun_reason2"
-        //                                     value={sunDateData.OTreason3}
-        //                                     onChange={e => setSunDateData({ ...sunDateData, OTreason3: e.target.value })}
-        //                                 ></textarea>
-        //                             </td>
-        //                         </tr>
-
-        //                         <tr style={{ height: '50px', border: '1.1px solid black' }}>
-        //                             <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
-        //                                 소정근로 총합계
-        //                             </td>
-        //                             <td colSpan={2}>
-        //                                 <span id="total_sum_time">
-        //                                     {monDateData.basicSumTime +
-        //                                         tueDateData.basicSumTime +
-        //                                         wedDateData.basicSumTime +
-        //                                         thuDateData.basicSumTime +
-        //                                         friDateData.basicSumTime}
-        //                                 </span>
-        //                                 시간
-        //                             </td>
-        //                             <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
-        //                                 연장근무 총합계
-        //                             </td>
-        //                             <td colSpan={2}>
-        //                                 <span id="total_sum_over_time">
-        //                                     {monDateData.OTSumTime +
-        //                                         tueDateData.OTSumTime +
-        //                                         wedDateData.OTSumTime +
-        //                                         thuDateData.OTSumTime +
-        //                                         friDateData.OTSumTime +
-        //                                         satDateData.OTSumTime +
-        //                                         sunDateData.OTSumTime}
-        //                                 </span>{' '}
-        //                                 시간
-        //                             </td>
-        //                             <td></td>
-        //                         </tr>
-        //                     </tbody>
-        //                 </table>
-        //             }
-        //         </>
-        //     }
-        //     <div>
-        //         <button onClick={testClicks}>클릭스</button>
-        //     </div>
-        // </div>
-        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
+        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }} ref={TimeOverCheck}>
             {printerClicked ? (
                 <div></div>
             ) : (
@@ -2080,7 +940,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                         </span>
                     </div>
                     {leaderCheck ? (
-                        <AfterOtTeamLeaderFinish
+                        <BeforeOtTeamLeaderFinish
                             printerClicked={printerClicked}
                             startDate={startDate}
                             monDateData={monDateData}
@@ -2090,49 +950,57 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                             friDateData={friDateData}
                             satDateData={satDateData}
                             sunDateData={sunDateData}
-                        ></AfterOtTeamLeaderFinish>
+                        ></BeforeOtTeamLeaderFinish>
                     ) : (
                         <table>
-                            <thead>
+                            <thead style={{ backgroundColor: '#f7c80e' }}>
                                 <tr
-                                    className="testss"
+                                    className="testssBefore"
                                     style={{
                                         borderTop: '1.5px solid black',
                                         borderLeft: '1.3px solid black',
                                         borderRight: '1.3px solid black',
+                                        backgroundColor: '#f7c80e',
                                     }}
                                 >
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         일자
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         공휴일
                                     </th>
-                                    <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                                    <th
+                                        colSpan={3}
+                                        style={{
+                                            borderRight: '1.2px solid black',
+                                            borderBottom: '1.2px solid black',
+                                            backgroundColor: '#f7c80e',
+                                        }}
+                                    >
                                         소정근로
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', fontSize: '1em' }}>
-                                        현장 <br />
-                                        OR <br />
-                                        출장 <br />
-                                        선택
-                                        <br />
-                                    </th>
-                                    <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
+                                    <th
+                                        colSpan={4}
+                                        style={{
+                                            borderRight: '1.2px solid black',
+                                            borderBottom: '1.2px solid black',
+                                            backgroundColor: '#f7c80e',
+                                        }}
+                                    >
                                         {' '}
                                         연장 근무
                                     </th>
-                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black' }}>
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#f7c80e' }}>
                                         총 근무 <br />
                                         합계 시간
                                         <br />
                                     </th>
-                                    <th rowSpan={2} className="OTSpace_OTReason_th">
+                                    <th rowSpan={2} style={{ backgroundColor: '#f7c80e' }} className="OTSpace_OTReason_th">
                                         연장 사유
                                     </th>
                                 </tr>
                                 <tr
-                                    className="testss"
+                                    className="testssBefore"
                                     style={{
                                         borderBottom: '1.2px solid black',
                                         borderLeft: '1.3px solid black',
@@ -2219,21 +1087,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         </span>
                                         시간
                                     </td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={monDateData.business_trip}
-                                            onChange={e =>
-                                                setMonDateData({
-                                                    ...monDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3} width="100px">
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2365,21 +1219,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         </span>{' '}
                                         시간
                                     </td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={tueDateData.business_trip}
-                                            onChange={e =>
-                                                setTueDateData({
-                                                    ...tueDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2509,21 +1349,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         </span>{' '}
                                         시간
                                     </td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={wedDateData.business_trip}
-                                            onChange={e =>
-                                                setWedDateData({
-                                                    ...wedDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2658,21 +1484,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         </span>{' '}
                                         시간
                                     </td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={thuDateData.business_trip}
-                                            onChange={e =>
-                                                setThuDateData({
-                                                    ...thuDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2806,21 +1618,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                         </span>{' '}
                                         시간
                                     </td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={friDateData.business_trip}
-                                            onChange={e =>
-                                                setFriDateData({
-                                                    ...friDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2901,21 +1699,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                     <td rowSpan={3}></td>
                                     <td rowSpan={3}></td>
                                     <td rowSpan={3}></td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={satDateData.business_trip}
-                                            onChange={e =>
-                                                setSatDateData({
-                                                    ...satDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -2996,21 +1780,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                     <td rowSpan={3}></td>
                                     <td rowSpan={3}></td>
                                     <td rowSpan={3}></td>
-                                    <td rowSpan={3} width="100px">
-                                        <SelectMainBox
-                                            value={sunDateData.business_trip}
-                                            onChange={e =>
-                                                setSunDateData({
-                                                    ...sunDateData,
-                                                    business_trip: e.target.value,
-                                                })
-                                            }
-                                        >
-                                            <option value="없음">없음</option>
-                                            <option value="현장">현장</option>
-                                            <option value="출장">출장</option>
-                                        </SelectMainBox>
-                                    </td>
+
                                     <td rowSpan={3}>
                                         <TimePickerWrapper
                                             theme="classic"
@@ -3140,11 +1910,11 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
             )}
             <div className="fasfdasfas">
                 {printerClicked ? (
-                    <PrinterAfterSelectClickModal
+                    <PrinterBeforeSelectClickModal
                         printerClicked={printerClicked}
                         clicksData={clicksData}
                         setPrinterClicked={data => setPrinterClicked(data)}
-                    ></PrinterAfterSelectClickModal>
+                    ></PrinterBeforeSelectClickModal>
                 ) : (
                     <div></div>
                 )}
@@ -3153,4 +1923,4 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
     );
 };
 
-export default AfterOtWriteMainPage;
+export default BeforeOtWriteMainPage;
