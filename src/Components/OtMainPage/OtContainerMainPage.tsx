@@ -5,6 +5,7 @@ import { RootState } from '../../models/index';
 import SliderPage from '../SliderPage';
 import moment from 'moment';
 import AfterOtWriteMainPage from './AfterOtWriteMainPage';
+import BeforeOtWriteMainPage from './BeforeOtWriteMainPage';
 const OtContainerMainPage = () => {
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
@@ -32,12 +33,21 @@ const OtContainerMainPage = () => {
                         </div>
                     </div>
                     <div>
-                        <AfterOtWriteMainPage
-                            startDate={startDate}
-                            endDate={endDate}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate}
-                        ></AfterOtWriteMainPage>
+                        {BeforeORAfter ? (
+                            <BeforeOtWriteMainPage
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                            ></BeforeOtWriteMainPage>
+                        ) : (
+                            <AfterOtWriteMainPage
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                            ></AfterOtWriteMainPage>
+                        )}
                     </div>
                     {/* <SliderPage width={window.innerWidth} socket={socket}></SliderPage> */}
                 </div>
