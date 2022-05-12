@@ -10,6 +10,7 @@ type WeekBeforeOTWorkSpaceProps = {
     friDateData: WeekInfomDataTypes;
     satDateData: WeekInfomDataTypes;
     sunDateData: WeekInfomDataTypes;
+    id: string;
 };
 
 type WeekInfomDataTypes = {
@@ -36,6 +37,7 @@ const AfterOtTeamLeaderFinish = ({
     friDateData,
     satDateData,
     sunDateData,
+    id,
 }: WeekBeforeOTWorkSpaceProps) => {
     return (
         <div>
@@ -450,6 +452,17 @@ const AfterOtTeamLeaderFinish = ({
                 </tbody>
             </table>
             <div className="fasfdasfas">
+                <button
+                    onClick={() =>
+                        window.open(
+                            `http://localhost:3000/PrinterTest/after/${startDate.clone().format('YYYY-MM-DD')}/${id}`,
+                            'AfterOT',
+                            'width=980, height=700'
+                        )
+                    }
+                >
+                    출력하기
+                </button>
                 {/* {printerClicked ? (
                     <PrinterBeforeSelectClickModal
                         printerClicked={printerClicked}

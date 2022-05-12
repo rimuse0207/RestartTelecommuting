@@ -30,6 +30,9 @@ import NewAdminInsert from './Components/NewAdmin/NewAdminInsert';
 import AdminDashBoardMainPage from './Components/AdminAcees/InsertLoginPage/AdminDashBoardMainPage';
 import PlayGround from './Components/PlayGround/PlayGround.js';
 import OtContainerMainPage from './Components/OtMainPage/OtContainerMainPage';
+import OtPrinterMainPage from './Components/OtMainPage/OtPrinter/OtPrinterMainPage';
+import OtPrinterButton from './Components/OtMainPage/OtPrinter/OtPrinterButton';
+import TeamLeaderMonthOtPrinter from './Components/OtMainPage/OtPrinter/TeamLeaderMonthOtPrinter';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -56,6 +59,10 @@ ReactDOM.render(
                     <Route path="/NewAdminInsertData/:selected" component={AdminDashBoardMainPage}></Route>
                     <Route path="/PlayGround" component={PlayGround}></Route>
                     <Route path="/AfterOTTest" component={OtContainerMainPage}></Route>
+                    <Route path="/PrinterTest/:type/:date/:id" component={OtPrinterMainPage}></Route>
+                    <Route path="/TeamLeaderMonthOtPrint" component={TeamLeaderMonthOtPrinter}></Route>
+                    <Route path="/PrinterButton" component={OtPrinterButton}></Route>
+
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />
                 </Switch>

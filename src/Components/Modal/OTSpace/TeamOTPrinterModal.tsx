@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import styled from 'styled-components';
 
 const customStyles = {
     content: {
@@ -38,10 +40,28 @@ const TeamOTPrinterModal = ({ modalIsOpen, closeModal, showdatas, selectTeam, se
             }, 100);
         }
     }, [showdatas, selectTeam, modalIsOpen]);
+
+    // useEffect(() => {
+    //     getBusinessTripData();
+    // }, []);
+
+    // const getBusinessTripData = async () => {
+    //     try {
+    //         const getBusinessTripDatas = axios.get(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupData`, {
+    //             params: {
+    //                 selectTeam,
+    //                 SeletDate: `${selectYear}-${selectMonth}`,
+    //             },
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     return (
         <div>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-                <div className="TeamOTPrintermodal_big_box_div">
+                <div style={{ pageBreakBefore: 'always', pageBreakAfter: 'always' }} className="TeamOTPrintermodal_big_box_div">
                     <table>
                         <thead>
                             <tr>

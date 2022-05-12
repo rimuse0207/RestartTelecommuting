@@ -16,16 +16,7 @@ const TeamSelectOTSpace = () => {
 
     useEffect(() => {
         const id = DecryptKey(InfomationState.id);
-        // if (
-        //     id === 'sjyoo@dhk.co.kr' ||
-        //     id === 'sjkim@dhk.co.kr' ||
-        //     id === 'jycha@dhk.co.kr' ||
-        //     id === 'jhlee1@dhk.co.kr' ||
-        //     id === 'htchoi@dhk.co.kr' ||
-        //     id === 'jmlee@dhk.co.kr'
-        // ) {
-        //     setShowTeam(['dicer', 'laser', 'grinder', '장비영업', '부품소재', '영업기술', '경영지원', '아산CE']);
-        // }
+
         if (
             id === 'sjyoo@dhk.co.kr' ||
             id === 'sjkim@dhk.co.kr' ||

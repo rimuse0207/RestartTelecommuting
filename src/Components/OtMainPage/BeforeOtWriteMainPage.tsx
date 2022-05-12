@@ -200,7 +200,7 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
         }
     };
     useEffect(() => {
-        getDataOTData();
+        // getDataOTData();
         toast.show({
             title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
             content: '초과근로 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
@@ -950,6 +950,7 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
                             friDateData={friDateData}
                             satDateData={satDateData}
                             sunDateData={sunDateData}
+                            id={DecryptKey(InfomationState.id)}
                         ></BeforeOtTeamLeaderFinish>
                     ) : (
                         <table>
@@ -1894,11 +1895,6 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
                         {leaderCheck ? (
                             <div style={{ fontSize: 'x-large', margin: '30px' }}>
                                 <div style={{ textAlign: 'end', marginRight: '30px' }}>팀장승인 완료</div>
-                                <div style={{ marginTop: '30px', paddingBottom: '30px' }}>
-                                    <button className="Printer_Button_overOT" onClick={handlePrinterClicks}>
-                                        출력하기
-                                    </button>
-                                </div>
                             </div>
                         ) : (
                             <div className="WeekAfterOTWorkSpace_store_button_div">

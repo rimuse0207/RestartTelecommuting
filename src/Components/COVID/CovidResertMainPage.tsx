@@ -120,7 +120,7 @@ const CovidResertMainPage = () => {
     };
 
     useEffect(() => {
-        getData();
+        // getData();
     }, []);
 
     const getData = async () => {
@@ -161,7 +161,7 @@ const CovidResertMainPage = () => {
 
     return (
         <CovidInputDataFormMainDivBox>
-            <div className="FloatMainDivBox">
+            {/* <div className="FloatMainDivBox">
                 <div className="FloatMainDivBoxLeft">
                     <form onSubmit={e => handleSaveData(e)}>
                         <div className="Inputboxs">
@@ -231,7 +231,7 @@ const CovidResertMainPage = () => {
                         </CovidShowTableBox>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </CovidInputDataFormMainDivBox>
     );
 };
