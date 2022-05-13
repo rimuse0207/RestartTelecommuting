@@ -13,7 +13,7 @@ const OtPrinterMainPageMainDivBox = styled.div`
         border-collapse: collapse;
         .Reason_Main_td {
             width: 50%;
-            height: 40px;
+            height: 100px;
             text-align: start;
         }
     }
@@ -40,6 +40,7 @@ const OtPrinterMainPageMainDivBox = styled.div`
             padding: 0px;
             page-break-after: avoid;
             page-break-before: avoid;
+            font-size: 12px !important;
         }
     }
 `;
@@ -284,156 +285,100 @@ const OtPrinterMainPage = () => {
                                     <td>종료</td>
                                 </tr>
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_mon}</td>
-                                    <td rowSpan={3}>월요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_mon}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_mon}</td>
-                                    <td rowSpan={3}>{clicksData.mon_rest}</td>
-                                    <td rowSpan={3}>{clicksData.mon_time}</td>
+                                    <td>{clicksData.date_mon}</td>
+                                    <td>월요일</td>
+                                    <td>{clicksData.start_time_mon}</td>
+                                    <td>{clicksData.end_time_mon}</td>
+                                    <td>{clicksData.mon_rest}</td>
+                                    <td>{clicksData.mon_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.mon_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.mon_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.mon_reason2}
+                                        <pre>{clicksData.mon_reason}</pre>
+                                        <pre>{clicksData.mon_reason1}</pre>
+                                        <pre>{clicksData.mon_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_tue}</td>
-                                    <td rowSpan={3}>화요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_tue}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_tue}</td>
-                                    <td rowSpan={3}>{clicksData.tue_rest}</td>
-                                    <td rowSpan={3}>{clicksData.tue_time}</td>
+                                    <td>{clicksData.date_tue}</td>
+                                    <td>화요일</td>
+                                    <td>{clicksData.start_time_tue}</td>
+                                    <td>{clicksData.end_time_tue}</td>
+                                    <td>{clicksData.tue_rest}</td>
+                                    <td>{clicksData.tue_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.tue_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.tue_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.tue_reason2}
+                                        <pre>{clicksData.tue_reason}</pre>
+                                        <pre>{clicksData.tue_reason1}</pre>
+                                        <pre>{clicksData.tue_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_wed}</td>
-                                    <td rowSpan={3}>수요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_wed}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_wed}</td>
-                                    <td rowSpan={3}>{clicksData.wed_rest}</td>
-                                    <td rowSpan={3}>{clicksData.wed_time}</td>
+                                    <td>{clicksData.date_wed}</td>
+                                    <td>수요일</td>
+                                    <td>{clicksData.start_time_wed}</td>
+                                    <td>{clicksData.end_time_wed}</td>
+                                    <td>{clicksData.wed_rest}</td>
+                                    <td>{clicksData.wed_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.wed_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.wed_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.wed_reason2}
+                                        <pre>{clicksData.wed_reason}</pre>
+                                        <pre>{clicksData.wed_reason1}</pre>
+                                        <pre>{clicksData.wed_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_thu}</td>
-                                    <td rowSpan={3}>목요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_thu}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_thu}</td>
-                                    <td rowSpan={3}>{clicksData.thu_rest}</td>
-                                    <td rowSpan={3}>{clicksData.thu_time}</td>
+                                    <td>{clicksData.date_thu}</td>
+                                    <td>목요일</td>
+                                    <td>{clicksData.start_time_thu}</td>
+                                    <td>{clicksData.end_time_thu}</td>
+                                    <td>{clicksData.thu_rest}</td>
+                                    <td>{clicksData.thu_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.thu_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.thu_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.thu_reason2}
+                                        <pre>{clicksData.thu_reason}</pre>
+                                        <pre>{clicksData.thu_reason1}</pre>
+                                        <pre>{clicksData.thu_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_fri}</td>
-                                    <td rowSpan={3}>금요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_fri}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_fri}</td>
-                                    <td rowSpan={3}>{clicksData.fri_rest}</td>
-                                    <td rowSpan={3}>{clicksData.fri_time}</td>
+                                    <td>{clicksData.date_fri}</td>
+                                    <td>금요일</td>
+                                    <td>{clicksData.start_time_fri}</td>
+                                    <td>{clicksData.end_time_fri}</td>
+                                    <td>{clicksData.fri_rest}</td>
+                                    <td>{clicksData.fri_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.fri_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.fri_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.fri_reason2}
+                                        <pre>{clicksData.fri_reason}</pre>
+                                        <pre>{clicksData.fri_reason1}</pre>
+                                        <pre>{clicksData.fri_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_sat}</td>
-                                    <td rowSpan={3}>토요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_sat}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_sat}</td>
-                                    <td rowSpan={3}>{clicksData.sat_rest}</td>
-                                    <td rowSpan={3}>{clicksData.sat_time}</td>
+                                    <td>{clicksData.date_sat}</td>
+                                    <td>토요일</td>
+                                    <td>{clicksData.start_time_sat}</td>
+                                    <td>{clicksData.end_time_sat}</td>
+                                    <td>{clicksData.sat_rest}</td>
+                                    <td>{clicksData.sat_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sat_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sat_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sat_reason2}
+                                        <pre>{clicksData.sat_reason}</pre>
+                                        <pre>{clicksData.sat_reason1}</pre>
+                                        <pre>{clicksData.sat_reason2}</pre>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td rowSpan={3}>{clicksData.date_sun}</td>
-                                    <td rowSpan={3}>일요일</td>
-                                    <td rowSpan={3}>{clicksData.start_time_sun}</td>
-                                    <td rowSpan={3}>{clicksData.end_time_sun}</td>
-                                    <td rowSpan={3}>{clicksData.sun_rest}</td>
-                                    <td rowSpan={3}>{clicksData.sun_time}</td>
+                                    <td>{clicksData.date_sun}</td>
+                                    <td>일요일</td>
+                                    <td>{clicksData.start_time_sun}</td>
+                                    <td>{clicksData.end_time_sun}</td>
+                                    <td>{clicksData.sun_rest}</td>
+                                    <td>{clicksData.sun_time}</td>
                                     <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sun_reason}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sun_reason1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="Reason_Main_td">
-                                        {clicksData.sun_reason2}
+                                        <pre>{clicksData.sun_reason}</pre>
+                                        <pre>{clicksData.sun_reason1}</pre>
+                                        <pre>{clicksData.sun_reason2}</pre>
                                     </td>
                                 </tr>
                             </tbody>

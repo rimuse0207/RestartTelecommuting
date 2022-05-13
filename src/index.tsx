@@ -33,6 +33,9 @@ import OtContainerMainPage from './Components/OtMainPage/OtContainerMainPage';
 import OtPrinterMainPage from './Components/OtMainPage/OtPrinter/OtPrinterMainPage';
 import OtPrinterButton from './Components/OtMainPage/OtPrinter/OtPrinterButton';
 import TeamLeaderMonthOtPrinter from './Components/OtMainPage/OtPrinter/TeamLeaderMonthOtPrinter';
+import MealPrinterMainPage from './Components/OtMainPage/MealPrinter/MealPrinterMainPage';
+import BusinessExcelUplodaerMainPage from './Components/BusniessExcelUploader/BusinessExcelUploaderMainPage';
+import BusinessTripShowMainPage from './Components/BusinessShowMainPage/BusinessTripShowMainPage';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -60,7 +63,10 @@ ReactDOM.render(
                     <Route path="/PlayGround" component={PlayGround}></Route>
                     <Route path="/AfterOTTest" component={OtContainerMainPage}></Route>
                     <Route path="/PrinterTest/:type/:date/:id" component={OtPrinterMainPage}></Route>
-                    <Route path="/TeamLeaderMonthOtPrint" component={TeamLeaderMonthOtPrinter}></Route>
+                    <Route path="/TeamLeaderMonthOtPrint/:year/:month/:team" component={TeamLeaderMonthOtPrinter}></Route>
+                    <Route path="/PrinterMeal/:date/:id/:name/:team" component={MealPrinterMainPage}></Route>
+                    <Route path="/BusinessExcelUploader" component={BusinessExcelUplodaerMainPage}></Route>
+                    <Route path="/BusinessShow" component={BusinessTripShowMainPage}></Route>
                     <Route path="/PrinterButton" component={OtPrinterButton}></Route>
 
                     <Route path="*" component={ErrorPage} />
