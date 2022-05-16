@@ -69,6 +69,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 if (password === `${id.split('@')[0]}1234` || password === '!@yikc1234') {
                     setOnClickedSet(true);
                 } else {
+                    console.log(loginCheck);
                     sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
                     localStorage.setItem('id', loginCheck.data.data.id);
                     localStorage.setItem('loginOutCheck', 'conneting');
