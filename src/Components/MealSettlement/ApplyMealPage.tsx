@@ -45,18 +45,10 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
 
     const data_get = async () => {
         try {
-            // const dataget = await axios.post(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
-            //     id: DecryptKey(InfomationState.id),
-            //     team: InfomationState.team,
-            //     name: DecryptKey(InfomationState.name),
-            //     selectDate,
-            // });
             const dataget = await axios.get(`${process.env.REACT_APP_DB_HOST}/Meal_app_servers/Data_get_applyMeal`, {
                 params: {
                     selectDate,
-                },
-                headers: {
-                    Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+                    id: DecryptKey(InfomationState.id),
                 },
             });
             if (dataget.data.dataSuccess) {
@@ -228,108 +220,6 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                     <div className="Float_parent_after">
                         <div className="Float_left_div">
                             {Caution ? (
-                                //     <div id="form-div">
-                                //         <form className="form" id="form1" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleChange(e)}>
-                                //             <div className="halfdiv">
-                                //                 <div className="name">
-                                //                     <input
-                                //                         name="team"
-                                //                         value={InfomationState.team}
-                                //                         type="text"
-                                //                         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //                         placeholder="team"
-                                //                         id="team"
-                                //                         readOnly
-                                //                     />
-                                //                 </div>
-                                //                 <div className="name">
-                                //                     <input
-                                //                         name="name"
-                                //                         value={DecryptKey(InfomationState.name)}
-                                //                         type="text"
-                                //                         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //                         placeholder="Name"
-                                //                         id="name"
-                                //                         readOnly
-                                //                     />
-                                //                 </div>
-                                //             </div>
-                                //             <div className="halfdiv">
-                                //                 <div className="name">
-                                //                     {/* <input
-                                //         name="workdate"
-                                //         type="text"
-                                //         className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //         placeholder="일자 (Click here)"
-                                //         id="datepicker"
-                                //         autoComplete="off"
-                                //     /> */}
-                                //                     <DatePicker
-                                //                         placeholderText="보실 날짜를 선택해주세요."
-                                //                         dateFormat="yyyy-MM-dd(eee)"
-                                //                         locale="ko"
-                                //                         customInput={<ExampleCustomInput />}
-                                //                         selected={startDate}
-                                //                         withPortal
-                                //                         portalId="root-portal"
-                                //                         onChange={(date: any) => setStartDate(date)}
-                                //                     />
-                                //                 </div>
-                                //                 <div className="name">
-                                //                     <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
-                                //                         <option value="중식">중식</option>
-                                //                         <option value="석식">석식</option>
-                                //                     </select>
-                                //                 </div>
-                                //             </div>
-
-                                //             <div className="name2">
-                                //                 <input
-                                //                     name="spending"
-                                //                     type="number"
-                                //                     step="1000"
-                                //                     min={0}
-                                //                     value={MealPrice}
-                                //                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                //                         setMealPrice(e.target.value);
-                                //                     }}
-                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //                     placeholder="지출 금액 (숫자만 입력)"
-                                //                     id="spending"
-                                //                 />
-                                //             </div>
-                                //             <div className="name2">
-                                //                 <input
-                                //                     name="place"
-                                //                     type="text"
-                                //                     value={MealPlace}
-                                //                     onChange={e => setMealPlace(e.target.value)}
-                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //                     placeholder="방문처 ex) SK하이닉스, 삼성전자"
-                                //                     id="place"
-                                //                 />
-                                //             </div>
-                                //             <div className="name2">
-                                //                 <input
-                                //                     name="location"
-                                //                     type="text"
-                                //                     value={MealPosition}
-                                //                     onChange={e => setMealPosition(e.target.value)}
-                                //                     className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                //                     placeholder="지역 ex) 이천, 온양"
-                                //                     id="location"
-                                //                 />
-                                //             </div>
-
-                                //             <div className="submit">
-                                //                 <input type="button" value="등록하기" id="button-blue" onClick={Meal_sendData} />
-                                //                 {/* <div className="textEx" style={{ color: 'rgba(93, 93, 93, 0.4)' }}>
-                                //     참고..
-                                // </div>
-                                // */}
-                                //             </div>
-                                //         </form>
-                                //     </div>
                                 <div>
                                     <h2 style={{ marginTop: '30px', marginBottom: '30px' }}>식대 정산 등록</h2>
                                     <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
@@ -457,8 +347,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                             <div className="textEx">*출장 일당 지급일은 식대 지원대상에서 제외</div>
                                             <div className="textEx">*식대지원 한도: 7,000원/1식</div>
                                             <div className="textEx">*익월 3영업일 까지 등록 가능</div>
-                                            <div className="textEx">*중식지원 제외 지역 (성남시, 아산시 둔포면)</div>
-                                            <div className="textEx">*식대 정산 매월 하나의 전표로 정산 가능합니다.</div>
+                                            <div className="textEx">*중식지원 제외 지역 (성남시)</div>
+                                            <div className="textEx">*식대정산은 매월에 하나의 전표로 정산</div>
                                         </div>
                                         <div style={{ width: '100%', margin: '0 auto' }}>
                                             <button
@@ -585,7 +475,19 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                     {pickerDate ? (
                         <div></div>
                     ) : (
-                        <button className="Printer_Button_overOT" onClick={() => setPrinterClicked(true)}>
+                        <button
+                            className="Printer_Button_overOT"
+                            onClick={() => {
+                                // setPrinterClicked(true);
+                                window.open(
+                                    `/PrinterMeal/${selectDate}/${DecryptKey(InfomationState.id)}/${DecryptKey(InfomationState.name)}/${
+                                        InfomationState.team
+                                    }`,
+                                    'MealMonth',
+                                    'width=980, height=700'
+                                );
+                            }}
+                        >
                             인쇄하기
                         </button>
                     )}

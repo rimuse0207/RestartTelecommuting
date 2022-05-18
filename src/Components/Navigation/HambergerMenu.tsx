@@ -172,7 +172,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
 
     useEffect(() => {
         socketconnect();
-        getCovidData();
+        // getCovidData();
     }, []);
 
     const getCovidData = async () => {

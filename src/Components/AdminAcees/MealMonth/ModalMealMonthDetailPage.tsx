@@ -202,6 +202,17 @@ const ModalMealMonthDetailPage = ({
                             </table>
                         </div>
                     </div>
+                    <button
+                        onClick={() =>
+                            window.open(
+                                `/PrinterMeal/${selectedYear}-${selectedMonth}/${selectedIds}/${selectedNames}/${usersTeam}`,
+                                'MealMonth',
+                                'width=980, height=700'
+                            )
+                        }
+                    >
+                        출력 하기
+                    </button>
                 </Modal>
             </div>
         </div>

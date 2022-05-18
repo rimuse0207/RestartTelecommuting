@@ -7,6 +7,7 @@ import { DecryptKey } from '../../config';
 import { useHistory } from 'react-router';
 import { getSessionLOGOUT } from '../../models/Socket';
 import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
+import { getAccessDataError } from '../../models/Access_Redux/Access_Redux';
 import Modal from 'react-modal';
 type Navigation = {
     menuStatus: string;
@@ -31,6 +32,9 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const history = useHistory();
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const BusinessAdminAcessState = useSelector((state: RootState) => state.Access_Control.BusinessAdminAccess);
+    const BusinessAccess = useSelector((state: RootState) => state.Access_Control.BusinessAccess);
+
     const [TeleMenuClicks, setTeleMenuClicks] = useState(true);
     const [OTMenuClicks, setOTMenuClicks] = useState(true);
     const [FoodMenuClicks, setFoodMenuClicks] = useState(true);
@@ -43,6 +47,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
         });
 
         sessionStorage.clear();
+        dispatch(getAccessDataError());
         dispatch(getSessionLOGOUT());
         dispatch(getPersionalLOGOUT());
         history.push('/');
@@ -141,6 +146,33 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     ) : (
                                         <></>
                                     )}
+                                    {BusinessAccess ? (
+                                        <>
+                                            <Link to="/AfterOTTest">
+                                                <li>(임시) test OT 신청</li>
+                                            </Link>
+                                            <Link to="/BusinessShow">
+                                                <li>월별 현장 출장 조회</li>
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    {BusinessAdminAcessState ? (
+                                        <>
+                                            <Link to="/">
+                                                <li>
+                                                    월별 팀원
+                                                    <br /> 현장 출장 조회
+                                                </li>
+                                            </Link>
+                                            <Link to="/BusinessExcelUploader">
+                                                <li>ERP 파일 업로드</li>
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             </ul>
                         ) : (
@@ -213,8 +245,6 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     //     <div></div>
                                     // )} */}
                                     {DecryptKey(InfomationState.id) === "sjyoo@dhk.co.kr" ? <Link to="/Proceedings"><li>회의록 작성</li></Link>:<div></div>}
-
-                                   
 
                                 </div>
                             ) : (

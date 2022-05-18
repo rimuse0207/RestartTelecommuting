@@ -89,7 +89,23 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                 ></PersonDBClickModal>
             </table>
             <div>
-                <button onClick={() => setIsOpen2(true)}>출력하기</button>
+                {selectTeam ? (
+                    <button
+                        onClick={() => {
+                            setIsOpen2(true);
+                            // window.open(
+                            //     `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
+                            //     'MonthOT',
+                            //     'width=980, height=700'
+                            // );
+                        }}
+                    >
+                        출력하기
+                    </button>
+                ) : (
+                    <div></div>
+                )}
+
                 <TeamOTPrinterModal
                     modalIsOpen={modalIsOpen2}
                     closeModal={() => {

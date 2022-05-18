@@ -10,6 +10,7 @@ import { getChatting_members } from '../../models/ChattingMeber';
 import { RootState } from '../../models/index';
 import Modal from 'react-modal';
 import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
+import { GetAccessData } from '../../models/Access_Redux/Access_Redux';
 
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
@@ -69,10 +70,16 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 if (password === `${id.split('@')[0]}1234` || password === '!@yikc1234') {
                     setOnClickedSet(true);
                 } else {
+                    console.log(loginCheck);
                     sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
                     localStorage.setItem('id', loginCheck.data.data.id);
                     localStorage.setItem('loginOutCheck', 'conneting');
+                    const BusinessAccessDatas = {
+                        BusinessAccess: loginCheck.data.BusinessAccess,
+                        BusinessAdminAccess: loginCheck.data.BusinessAdminAccess,
+                    };
                     dispatch(getPersionalInfo(loginCheck.data.data));
+                    dispatch(GetAccessData(BusinessAccessDatas));
                     const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
                     soscketData.emit('hi', {
                         name: loginCheck.data.data.name,
