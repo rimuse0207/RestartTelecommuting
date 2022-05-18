@@ -14,6 +14,7 @@ import TeamLeaderFoodData from './TeamLeader_Thunk_models/TeamLeaderFoodData';
 import TeamLeaderBeforeOTData from './TeamLeader_Thunk_models/TeamLeaderBeforeOTData';
 import TeamLeaderAfterOTData from './TeamLeader_Thunk_models/TeamLeaderAfterOTData';
 import numberingTest from './ReduxTestFile';
+import Access_Control from './Access_Redux/Access_Redux';
 
 const rootReducer = combineReducers({
     Socket,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     TeamLeaderAfterOTData,
     PartsData,
     numberingTest,
+    Access_Control,
 });
 
 export default rootReducer;

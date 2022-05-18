@@ -73,6 +73,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
     const [printerClicked, setPrinterClicked] = useState(false);
     const [clicksData, setClicksData] = useState({});
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const BusinessAcessState = useSelector((state: RootState) => state.Access_Control.BusinessAccess);
     const [leaderCheck, setLeaderCheck] = useState(false);
     const [loading, setLoading] = useState(false);
     const [monDateData, setMonDateData] = useState<WeekInfomDataTypes>(initialState);
@@ -223,11 +224,6 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     };
 
-    // //초기 렌더링 시 OT 데이터 불러오기 실행
-    // useEffect(() => {
-    //     getDataOTData();
-    // }, []);
-
     /// 일시 변동 시 재 렌더링
     useEffect(() => {
         setLeaderCheck(false);
@@ -240,566 +236,6 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
         setSatDateData({ ...satDateData, clickDate: startDate.clone().format('YYYY-MM-DD') });
         setSunDateData({ ...sunDateData, clickDate: startDate.clone().format('YYYY-MM-DD') });
     }, [startDate]);
-
-    //월요일 시간 변동 시, 합계 변경
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${monDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${monDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${monDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${monDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${monDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setMonDateData({
-                    ...monDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setMonDateData({
-                    ...monDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-
-                setMonDateData({
-                    ...monDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setMonDateData({
-                    ...monDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        monDateData.basicStartTime,
-        monDateData.basicEndTime,
-        monDateData.OTEndTime,
-        monDateData.OTStartTime,
-        monDateData.OTRestTime,
-        monDateData.clickDate,
-    ]);
-
-    // 화요일 시간 변동 시 state변경
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${tueDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${tueDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${tueDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${tueDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${tueDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setTueDateData({
-                    ...tueDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setTueDateData({
-                    ...tueDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setTueDateData({
-                    ...tueDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setTueDateData({
-                    ...tueDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        tueDateData.basicStartTime,
-        tueDateData.basicEndTime,
-        tueDateData.OTEndTime,
-        tueDateData.OTStartTime,
-        tueDateData.OTRestTime,
-        tueDateData.clickDate,
-    ]);
-
-    // 수요일 시간 변경 시 state변경
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${wedDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${wedDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${wedDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${wedDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${wedDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setWedDateData({
-                    ...wedDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setWedDateData({
-                    ...wedDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setWedDateData({
-                    ...wedDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setWedDateData({
-                    ...wedDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        wedDateData.basicStartTime,
-        wedDateData.basicEndTime,
-        wedDateData.OTEndTime,
-        wedDateData.OTStartTime,
-        wedDateData.OTRestTime,
-        wedDateData.clickDate,
-    ]);
-
-    // 목요일 state 변경시 재 렌더링
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${thuDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${thuDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${thuDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${thuDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${thuDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setThuDateData({
-                    ...thuDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setThuDateData({
-                    ...thuDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setThuDateData({
-                    ...thuDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setThuDateData({
-                    ...thuDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        thuDateData.basicStartTime,
-        thuDateData.basicEndTime,
-        thuDateData.OTEndTime,
-        thuDateData.OTStartTime,
-        thuDateData.OTRestTime,
-        thuDateData.clickDate,
-    ]);
-
-    //금요일 시간 변경 시 재렌더링
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${friDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${friDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${friDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${friDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${friDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setFriDateData({
-                    ...friDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setFriDateData({
-                    ...friDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setFriDateData({
-                    ...friDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setFriDateData({
-                    ...friDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        friDateData.basicStartTime,
-        friDateData.basicEndTime,
-        friDateData.OTEndTime,
-        friDateData.OTStartTime,
-        friDateData.OTRestTime,
-        friDateData.clickDate,
-    ]);
-
-    // 토요일 시간 변경 시 재 렌더링
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${satDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${satDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${satDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${satDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${satDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setSatDateData({
-                    ...satDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setSatDateData({
-                    ...satDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setSatDateData({
-                    ...satDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setSatDateData({
-                    ...satDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        satDateData.basicStartTime,
-        satDateData.basicEndTime,
-        satDateData.OTEndTime,
-        satDateData.OTStartTime,
-        satDateData.OTRestTime,
-        satDateData.clickDate,
-    ]);
-
-    //일요일 시간 변동 시 재렌더링
-    useEffect(() => {
-        const OTendTimes = moment(`2022-01-01 ${sunDateData.OTEndTime}`);
-        const OTStartTimes = moment(`2022-01-01 ${sunDateData.OTStartTime}`);
-        const OTRestTimes = moment(`2022-01-01 ${sunDateData.OTRestTime}`);
-        const OTBasicStartTimes = moment(`2022-01-01 ${sunDateData.basicStartTime}`);
-        const OTBasicEndTimes = moment(`2022-01-01 ${sunDateData.basicEndTime}`);
-
-        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
-        const restPlusTime = moment
-            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
-            .asHours();
-        const nightTime = moment
-            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
-            .asHours();
-        let nightTimeCal = 0;
-        if (nightTime > 0) {
-            nightTimeCal = nightTime;
-        } else if (nightTime < -15) {
-            nightTimeCal = 24 + nightTime;
-        }
-
-        if (startPlusEnd < 0) {
-            startPlusEnd = 24 + startPlusEnd;
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setSunDateData({
-                    ...sunDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setSunDateData({
-                    ...sunDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        } else {
-            if (startPlusEnd - restPlusTime < 0) {
-                toast.show({
-                    title: '근무시간보다 ',
-                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
-                    duration: 3000,
-                    DataSuccess: false,
-                });
-                setSunDateData({
-                    ...sunDateData,
-                    OTSumTime: startPlusEnd,
-                    OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            } else {
-                setSunDateData({
-                    ...sunDateData,
-                    OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
-                    OTnightSum: nightTimeCal,
-                });
-            }
-        }
-    }, [
-        sunDateData.basicStartTime,
-        sunDateData.basicEndTime,
-        sunDateData.OTEndTime,
-        sunDateData.OTStartTime,
-        sunDateData.OTRestTime,
-        sunDateData.clickDate,
-    ]);
 
     const handlesubTest = () => {
         setStartDate(startDate.clone().subtract(7, 'day'));
@@ -910,88 +346,88 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
         }
     };
 
-    const handlePrinterClicks = () => {
-        const data = {
-            date_mon: startDate.clone().format('YYYY-MM-DD'),
-            date_tue: startDate.clone().add(1, 'day').format('YYYY-MM-DD'),
-            date_wed: startDate.clone().add(2, 'day').format('YYYY-MM-DD'),
-            date_thu: startDate.clone().add(3, 'day').format('YYYY-MM-DD'),
-            date_fri: startDate.clone().add(4, 'day').format('YYYY-MM-DD'),
-            date_sat: startDate.clone().add(5, 'day').format('YYYY-MM-DD'),
-            date_sun: startDate.clone().add(6, 'day').format('YYYY-MM-DD'),
+    // const handlePrinterClicks = () => {
+    //     const data = {
+    //         date_mon: startDate.clone().format('YYYY-MM-DD'),
+    //         date_tue: startDate.clone().add(1, 'day').format('YYYY-MM-DD'),
+    //         date_wed: startDate.clone().add(2, 'day').format('YYYY-MM-DD'),
+    //         date_thu: startDate.clone().add(3, 'day').format('YYYY-MM-DD'),
+    //         date_fri: startDate.clone().add(4, 'day').format('YYYY-MM-DD'),
+    //         date_sat: startDate.clone().add(5, 'day').format('YYYY-MM-DD'),
+    //         date_sun: startDate.clone().add(6, 'day').format('YYYY-MM-DD'),
 
-            end_time_mon: monDateData.OTEndTime,
-            end_time_tue: tueDateData.OTEndTime,
-            end_time_wed: wedDateData.OTEndTime,
-            end_time_thu: thuDateData.OTEndTime,
-            end_time_fri: friDateData.OTEndTime,
-            end_time_sat: satDateData.OTEndTime,
-            end_time_sun: sunDateData.OTEndTime,
+    //         end_time_mon: monDateData.OTEndTime,
+    //         end_time_tue: tueDateData.OTEndTime,
+    //         end_time_wed: wedDateData.OTEndTime,
+    //         end_time_thu: thuDateData.OTEndTime,
+    //         end_time_fri: friDateData.OTEndTime,
+    //         end_time_sat: satDateData.OTEndTime,
+    //         end_time_sun: sunDateData.OTEndTime,
 
-            start_time_mon: monDateData.OTStartTime,
-            start_time_tue: tueDateData.OTStartTime,
-            start_time_wed: wedDateData.OTStartTime,
-            start_time_thu: thuDateData.OTStartTime,
-            start_time_fri: friDateData.OTStartTime,
-            start_time_sat: satDateData.OTStartTime,
-            start_time_sun: sunDateData.OTStartTime,
+    //         start_time_mon: monDateData.OTStartTime,
+    //         start_time_tue: tueDateData.OTStartTime,
+    //         start_time_wed: wedDateData.OTStartTime,
+    //         start_time_thu: thuDateData.OTStartTime,
+    //         start_time_fri: friDateData.OTStartTime,
+    //         start_time_sat: satDateData.OTStartTime,
+    //         start_time_sun: sunDateData.OTStartTime,
 
-            mon_rest: monDateData.OTRestTime,
-            tue_rest: tueDateData.OTRestTime,
-            wed_rest: wedDateData.OTRestTime,
-            thu_rest: thuDateData.OTRestTime,
-            fri_rest: friDateData.OTRestTime,
-            sat_rest: satDateData.OTRestTime,
-            sun_rest: sunDateData.OTRestTime,
+    //         mon_rest: monDateData.OTRestTime,
+    //         tue_rest: tueDateData.OTRestTime,
+    //         wed_rest: wedDateData.OTRestTime,
+    //         thu_rest: thuDateData.OTRestTime,
+    //         fri_rest: friDateData.OTRestTime,
+    //         sat_rest: satDateData.OTRestTime,
+    //         sun_rest: sunDateData.OTRestTime,
 
-            mon_time: monDateData.OTSumTime,
-            tue_time: tueDateData.OTSumTime,
-            wed_time: wedDateData.OTSumTime,
-            thu_time: thuDateData.OTSumTime,
-            fri_time: friDateData.OTSumTime,
-            sat_time: satDateData.OTSumTime,
-            sun_time: sunDateData.OTSumTime,
+    //         mon_time: monDateData.OTSumTime,
+    //         tue_time: tueDateData.OTSumTime,
+    //         wed_time: wedDateData.OTSumTime,
+    //         thu_time: thuDateData.OTSumTime,
+    //         fri_time: friDateData.OTSumTime,
+    //         sat_time: satDateData.OTSumTime,
+    //         sun_time: sunDateData.OTSumTime,
 
-            mon_night: monDateData.OTnightSum,
-            tue_night: tueDateData.OTnightSum,
-            wed_night: wedDateData.OTnightSum,
-            thu_night: thuDateData.OTnightSum,
-            fri_night: friDateData.OTnightSum,
-            sat_night: satDateData.OTnightSum,
-            sun_night: sunDateData.OTnightSum,
+    //         mon_night: monDateData.OTnightSum,
+    //         tue_night: tueDateData.OTnightSum,
+    //         wed_night: wedDateData.OTnightSum,
+    //         thu_night: thuDateData.OTnightSum,
+    //         fri_night: friDateData.OTnightSum,
+    //         sat_night: satDateData.OTnightSum,
+    //         sun_night: sunDateData.OTnightSum,
 
-            mon_reason: monDateData.OTreason1,
-            mon_reason1: monDateData.OTreason2,
-            mon_reason2: monDateData.OTreason3,
-            tue_reason: tueDateData.OTreason1,
-            tue_reason1: tueDateData.OTreason2,
-            tue_reason2: tueDateData.OTreason3,
-            wed_reason: wedDateData.OTreason1,
-            wed_reason1: wedDateData.OTreason2,
-            wed_reason2: wedDateData.OTreason3,
-            thu_reason: thuDateData.OTreason1,
-            thu_reason1: thuDateData.OTreason2,
-            thu_reason2: thuDateData.OTreason3,
-            fri_reason: friDateData.OTreason1,
-            fri_reason1: friDateData.OTreason2,
-            fri_reason2: friDateData.OTreason3,
-            sat_reason: satDateData.OTreason1,
-            sat_reason1: satDateData.OTreason2,
-            sat_reason2: satDateData.OTreason3,
-            sun_reason: sunDateData.OTreason1,
-            sun_reason1: sunDateData.OTreason2,
-            sun_reason2: sunDateData.OTreason3,
-            sum_time: 0,
-            number: 0,
-            leadercheck: 1,
-            id: DecryptKey(InfomationState.id),
-            name: DecryptKey(InfomationState.name),
-            position: InfomationState.position,
-            team: InfomationState.team,
-        };
-        setClicksData(data);
-        setPrinterClicked(true);
-    };
+    //         mon_reason: monDateData.OTreason1,
+    //         mon_reason1: monDateData.OTreason2,
+    //         mon_reason2: monDateData.OTreason3,
+    //         tue_reason: tueDateData.OTreason1,
+    //         tue_reason1: tueDateData.OTreason2,
+    //         tue_reason2: tueDateData.OTreason3,
+    //         wed_reason: wedDateData.OTreason1,
+    //         wed_reason1: wedDateData.OTreason2,
+    //         wed_reason2: wedDateData.OTreason3,
+    //         thu_reason: thuDateData.OTreason1,
+    //         thu_reason1: thuDateData.OTreason2,
+    //         thu_reason2: thuDateData.OTreason3,
+    //         fri_reason: friDateData.OTreason1,
+    //         fri_reason1: friDateData.OTreason2,
+    //         fri_reason2: friDateData.OTreason3,
+    //         sat_reason: satDateData.OTreason1,
+    //         sat_reason1: satDateData.OTreason2,
+    //         sat_reason2: satDateData.OTreason3,
+    //         sun_reason: sunDateData.OTreason1,
+    //         sun_reason1: sunDateData.OTreason2,
+    //         sun_reason2: sunDateData.OTreason3,
+    //         sum_time: 0,
+    //         number: 0,
+    //         leadercheck: 1,
+    //         id: DecryptKey(InfomationState.id),
+    //         name: DecryptKey(InfomationState.name),
+    //         position: InfomationState.position,
+    //         team: InfomationState.team,
+    //     };
+    //     setClicksData(data);
+    //     setPrinterClicked(true);
+    // };
 
     return (
         <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
@@ -1057,13 +493,18 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                             <th colSpan={3} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
                                                 소정근로
                                             </th>
-                                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', fontSize: '1em' }}>
-                                                현장 <br />
-                                                OR <br />
-                                                출장 <br />
-                                                선택
-                                                <br />
-                                            </th>
+                                            {BusinessAcessState ? (
+                                                <th rowSpan={2} style={{ borderRight: '1.2px solid black', fontSize: '1em' }}>
+                                                    현장 <br />
+                                                    OR <br />
+                                                    출장 <br />
+                                                    선택
+                                                    <br />
+                                                </th>
+                                            ) : (
+                                                ''
+                                            )}
+
                                             <th colSpan={4} style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black' }}>
                                                 {' '}
                                                 연장 근무
@@ -1104,36 +545,43 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                             startDate={startDate}
                                             monDateData={monDateData}
                                             setMonDateData={setMonDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterMondayComponent>
                                         <AfterTuedayComponent
                                             startDate={startDate}
                                             tueDateData={tueDateData}
                                             setTueDateData={setTueDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterTuedayComponent>
                                         <AfterWeddayComponent
                                             startDate={startDate}
                                             wedDateData={wedDateData}
                                             setWedDateData={setWedDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterWeddayComponent>
                                         <AfterThudayComponent
                                             startDate={startDate}
                                             thuDateData={thuDateData}
                                             setThuDateData={setThuDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterThudayComponent>
                                         <AfterFridayComponent
                                             startDate={startDate}
                                             friDateData={friDateData}
                                             setFriDateData={setFriDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterFridayComponent>
                                         <AfterSatdayComponent
                                             startDate={startDate}
                                             satDateData={satDateData}
                                             setSatDateData={setSatDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterSatdayComponent>
                                         <AfterSundayComponent
                                             startDate={startDate}
                                             sunDateData={sunDateData}
                                             setSunDateData={setSunDateData}
+                                            BusinessAcessState={BusinessAcessState}
                                         ></AfterSundayComponent>
                                         <tr style={{ height: '50px', border: '1.1px solid black' }}>
                                             <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
@@ -1185,7 +633,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                     </div>
                 </>
             )}
-            <div className="fasfdasfas">
+            {/* <div className="fasfdasfas">
                 {printerClicked ? (
                     <PrinterAfterSelectClickModal
                         printerClicked={printerClicked}
@@ -1195,7 +643,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 ) : (
                     <div></div>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 };

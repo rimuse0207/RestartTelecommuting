@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FileDrop } from 'react-file-drop';
 import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
+import { toast } from '../ToastMessage/ToastManager';
 
 const BusinessExcelUploaderContentMainDivBox = styled.div`
     width: 80%;
@@ -126,8 +127,16 @@ const UploadedFileDataUlBox = styled.ul`
         }
     }
 `;
+
+type FileuploadDatasType = {
+    name: string;
+};
+
 const BusinessExcelUploaderContent = () => {
     const [file, setFile] = useState<any>([]);
+    const [UploadedFinish, setUploadedFinish] = useState(false);
+    const [UploadedData, setUploadedData] = useState<FileuploadDatasType[]>([]);
+    const [InsertedData, setInsertedData] = useState<FileuploadDatasType[]>([]);
     const handle = (files: any) => {
         let arr = Object.values(files);
         const dd = file.concat(arr);
@@ -159,6 +168,16 @@ const BusinessExcelUploaderContent = () => {
             );
             if (SendFileDataFromServer.data.dataSuccess) {
                 console.log(SendFileDataFromServer);
+                setFile([]);
+                setUploadedData(SendFileDataFromServer.data.DB_Upate_logs);
+                setInsertedData(SendFileDataFromServer.data.DB_Insert_logs);
+                toast.show({
+                    title: '업로드 완료.',
+                    content: 'ERP 출장 파일 데이터 DB에 저장 완료.',
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+                setUploadedFinish(true);
             } else {
                 alert('error');
             }
@@ -200,6 +219,30 @@ const BusinessExcelUploaderContent = () => {
                 <div>
                     <button onClick={() => SaveDataFromFile()}>저장</button>
                 </div>
+            </div>
+            <div>
+                <h3>추가된 데이터</h3>
+                <ul>
+                    {InsertedData.map((list, j) => {
+                        return (
+                            <li>
+                                {j + 1}. {list.name}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+            <div>
+                <h3>변경된 데이터</h3>
+                <ul>
+                    {UploadedData.map((list, j) => {
+                        return (
+                            <li>
+                                {j + 1}. {list.name}
+                            </li>
+                        );
+                    })}
+                </ul>
             </div>
         </BusinessExcelUploaderContentMainDivBox>
     );

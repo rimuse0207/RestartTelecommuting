@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
-import { PrinterButtonContainer } from '../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
+import { useParams } from 'react-router-dom';
 const BusinessTripShowContentMainDivBox = styled.div`
     .Telecommuting_Table {
         height: auto;
@@ -61,26 +61,33 @@ type ErpDatasTypes = {
     business_tip_length: number;
     upload_date: string;
 };
-const BusinessTripShowContent = () => {
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const [getMoment, setMoment] = useState(moment());
 
-    const today = getMoment;
+type paramasTypes = {
+    id: string;
+    team: string;
+    name: string;
+    year: string;
+    month: string;
+};
+const BusinessTripPrinterContent = () => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const { id, team, name, year, month } = useParams<paramasTypes>();
+
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
     useEffect(() => {
         if (InfomationState) getBusinessData();
-    }, [InfomationState, getMoment]);
+    }, [InfomationState]);
 
     const getBusinessData = async () => {
         try {
             const getBusinessDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupData`, {
                 params: {
-                    team: InfomationState.team,
-                    name: DecryptKey(InfomationState.name),
-                    id: DecryptKey(InfomationState.id),
-                    year: moment(getMoment).format('YYYY'),
-                    month: moment(getMoment).format('MM'),
+                    team,
+                    name,
+                    id,
+                    year,
+                    month,
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
@@ -94,7 +101,7 @@ const BusinessTripShowContent = () => {
     };
 
     const calendarArr = () => {
-        const today = moment(`${moment(getMoment).format('YYYY')}-${moment(getMoment).format('MM')}-01`);
+        const today = moment(`${year}-${month}-01`);
         const firstWeek = today.clone().startOf('month').week();
         const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
         let result: Array<any> = [];
@@ -132,14 +139,7 @@ const BusinessTripShowContent = () => {
                                                     const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
                                                     const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
-                                                        <div
-                                                            style={{
-                                                                marginBottom: '5px',
-                                                                backgroundColor: '#e8f4b0',
-                                                            }}
-                                                        >
-                                                            ERP 출장 O
-                                                        </div>
+                                                        <div style={{ marginBottom: '5px' }}>ERP 출장 O</div>
                                                     ) : (
                                                         <div></div>
                                                     );
@@ -152,7 +152,7 @@ const BusinessTripShowContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장신청(OT) △</div>
+                                                                <div style={{}}>현장신청(OT) △</div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -173,27 +173,10 @@ const BusinessTripShowContent = () => {
     return (
         <BusinessTripShowContentMainDivBox>
             <div className="CanlenderPagePrinter">
-                <div className="control">
-                    <button
-                        onClick={() => {
-                            setMoment(getMoment.clone().subtract(1, 'month'));
-                        }}
-                    >
-                        {'<<<'}
-                    </button>
-                    <span>{today.format('YYYY년 MM월')}</span>
-                    <button
-                        onClick={() => {
-                            setMoment(getMoment.clone().add(1, 'month'));
-                        }}
-                    >
-                        {'>>>'}
-                    </button>
-                </div>
                 <div>
                     <h2>
-                        {moment(getMoment).format('YYYY년 MM월')} {InfomationState.team.toUpperCase()}
-                        {DecryptKey(InfomationState.name)}
+                        {year}년 {month}월 {team.toUpperCase()}
+                        {name}
                     </h2>
                     <table className="Telecommuting_Table">
                         <thead>
@@ -211,7 +194,7 @@ const BusinessTripShowContent = () => {
                     </table>
                 </div>
             </div>
-
+            );
             <ErpShowTableMainDivBox>
                 <table>
                     <thead>
@@ -240,25 +223,8 @@ const BusinessTripShowContent = () => {
                     </tbody>
                 </table>
             </ErpShowTableMainDivBox>
-            <PrinterButtonContainer>
-                <div className="WeekAfterOTWorkSpace_store_button_div">
-                    <button
-                        onClick={() =>
-                            window.open(
-                                `/BusinessShowMonthPrinter/${DecryptKey(InfomationState.id)}/${DecryptKey(InfomationState.name)}/${
-                                    InfomationState.team
-                                }/${moment(getMoment).format('YYYY')}/${moment(getMoment).format('MM')}`,
-                                'BusinessShowMonthPrinter',
-                                'width=980, height=700'
-                            )
-                        }
-                    >
-                        출력하기
-                    </button>
-                </div>
-            </PrinterButtonContainer>
         </BusinessTripShowContentMainDivBox>
     );
 };
 
-export default BusinessTripShowContent;
+export default BusinessTripPrinterContent;

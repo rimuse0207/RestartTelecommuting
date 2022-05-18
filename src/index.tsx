@@ -36,6 +36,7 @@ import TeamLeaderMonthOtPrinter from './Components/OtMainPage/OtPrinter/TeamLead
 import MealPrinterMainPage from './Components/OtMainPage/MealPrinter/MealPrinterMainPage';
 import BusinessExcelUplodaerMainPage from './Components/BusniessExcelUploader/BusinessExcelUploaderMainPage';
 import BusinessTripShowMainPage from './Components/BusinessShowMainPage/BusinessTripShowMainPage';
+import BusinessTripPrinterContent from './Components/BusinessShowMainPage/BusinessTripPrinterContent';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -68,6 +69,7 @@ ReactDOM.render(
                     <Route path="/BusinessExcelUploader" component={BusinessExcelUplodaerMainPage}></Route>
                     <Route path="/BusinessShow" component={BusinessTripShowMainPage}></Route>
                     <Route path="/PrinterButton" component={OtPrinterButton}></Route>
+                    <Route path="/BusinessShowMonthPrinter/:id/:name/:team/:year/:month" component={BusinessTripPrinterContent}></Route>
 
                     <Route path="*" component={ErrorPage} />
                     <Redirect path="*" to="/ErrorPage" />

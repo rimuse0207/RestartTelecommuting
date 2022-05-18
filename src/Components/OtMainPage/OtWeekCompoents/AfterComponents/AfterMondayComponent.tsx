@@ -1,12 +1,95 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TimeClicksOptions, RestTimeClicksOptions } from '../SelectTimeOptionData';
 import { OtMonComponentsProps } from '../OTComponentPropsType';
+import moment from 'moment';
+import { toast } from '../../../ToastMessage/ToastManager';
 
-const AfterMondayComponent = ({ monDateData, setMonDateData, startDate }: OtMonComponentsProps) => {
+const AfterMondayComponent = ({ monDateData, setMonDateData, startDate, BusinessAcessState }: OtMonComponentsProps) => {
+    //월요일 시간 변동 시, 합계 변경
+    useEffect(() => {
+        const OTendTimes = moment(`2022-01-01 ${monDateData.OTEndTime}`);
+        const OTStartTimes = moment(`2022-01-01 ${monDateData.OTStartTime}`);
+        const OTRestTimes = moment(`2022-01-01 ${monDateData.OTRestTime}`);
+        const OTBasicStartTimes = moment(`2022-01-01 ${monDateData.basicStartTime}`);
+        const OTBasicEndTimes = moment(`2022-01-01 ${monDateData.basicEndTime}`);
+
+        let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
+        const restPlusTime = moment
+            .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
+            .asHours();
+
+        const nightTime = moment
+            .duration(OTendTimes.diff(moment(`${OTendTimes.format('YYYY-MM-DD')} 22:00`).format('YYYY-MM-DD HH:mm')))
+            .asHours();
+        let nightTimeCal = 0;
+        if (nightTime > 0) {
+            nightTimeCal = nightTime;
+        } else if (nightTime < -15) {
+            nightTimeCal = 24 + nightTime;
+        }
+
+        if (startPlusEnd < 0) {
+            startPlusEnd = 24 + startPlusEnd;
+            if (startPlusEnd - restPlusTime < 0) {
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                    DataSuccess: false,
+                });
+                setMonDateData({
+                    ...monDateData,
+                    OTSumTime: startPlusEnd,
+                    OTRestTime: '00:00',
+                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    OTnightSum: nightTimeCal,
+                });
+            } else {
+                setMonDateData({
+                    ...monDateData,
+                    OTSumTime: startPlusEnd - restPlusTime,
+                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    OTnightSum: nightTimeCal,
+                });
+            }
+        } else {
+            if (startPlusEnd - restPlusTime < 0) {
+                toast.show({
+                    title: '근무시간보다 ',
+                    content: '휴게시간이 더 큽니다. (휴게시간 초기화 실행)',
+                    duration: 3000,
+                    DataSuccess: false,
+                });
+
+                setMonDateData({
+                    ...monDateData,
+                    OTSumTime: startPlusEnd,
+                    OTRestTime: '00:00',
+                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    OTnightSum: nightTimeCal,
+                });
+            } else {
+                setMonDateData({
+                    ...monDateData,
+                    OTSumTime: startPlusEnd - restPlusTime,
+                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    OTnightSum: nightTimeCal,
+                });
+            }
+        }
+    }, [
+        monDateData.basicStartTime,
+        monDateData.basicEndTime,
+        monDateData.OTEndTime,
+        monDateData.OTStartTime,
+        monDateData.OTRestTime,
+        monDateData.clickDate,
+    ]);
+
     return (
         <>
             <tr>
@@ -94,27 +177,32 @@ const AfterMondayComponent = ({ monDateData, setMonDateData, startDate }: OtMonC
                     </span>
                     시간
                 </td>
-                <td rowSpan={3} width="100px">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">출장OR현장</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            label="출장OR현장"
-                            value={monDateData.business_trip}
-                            onChange={e =>
-                                setMonDateData({
-                                    ...monDateData,
-                                    business_trip: e.target.value,
-                                })
-                            }
-                        >
-                            <MenuItem value="없음">없음</MenuItem>
-                            <MenuItem value="현장">현장</MenuItem>
-                            <MenuItem value="출장">출장</MenuItem>
-                        </Select>
-                    </FormControl>
-                </td>
+                {BusinessAcessState ? (
+                    <td rowSpan={3} width="100px">
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">출장OR현장</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                label="출장OR현장"
+                                value={monDateData.business_trip}
+                                onChange={e =>
+                                    setMonDateData({
+                                        ...monDateData,
+                                        business_trip: e.target.value,
+                                    })
+                                }
+                            >
+                                <MenuItem value="없음">없음</MenuItem>
+                                <MenuItem value="현장">현장</MenuItem>
+                                <MenuItem value="출장">출장</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </td>
+                ) : (
+                    <></>
+                )}
+
                 <td rowSpan={3} width="100px">
                     <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
                         <InputLabel id="demo-select-small">시작시간</InputLabel>
