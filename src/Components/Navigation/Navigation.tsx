@@ -146,11 +146,11 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     ) : (
                                         <></>
                                     )}
+                                    <Link to="/AfterOTTest">
+                                        <li>(임시) OT 신청</li>
+                                    </Link>
                                     {BusinessAccess ? (
                                         <>
-                                            <Link to="/AfterOTTest">
-                                                <li>(임시) test OT 신청</li>
-                                            </Link>
                                             <Link to="/BusinessShow">
                                                 <li>월별 현장 출장 조회</li>
                                             </Link>
@@ -160,15 +160,22 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     )}
                                     {BusinessAdminAcessState ? (
                                         <>
-                                            <Link to="/">
+                                            <Link to="/TeamLeaderBusinessTripMainPage">
                                                 <li>
                                                     월별 팀원
                                                     <br /> 현장 출장 조회
                                                 </li>
                                             </Link>
-                                            <Link to="/BusinessExcelUploader">
-                                                <li>ERP 파일 업로드</li>
-                                            </Link>
+                                            {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ? (
+                                                <Link to="/BusinessExcelUploader">
+                                                    <li>ERP 파일 업로드</li>
+                                                </Link>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </>
                                     ) : (
                                         <></>

@@ -71,9 +71,10 @@ type businiessTypes = {
 };
 const TeamLeaderMonthOtPrinter = () => {
     const { year, month, team } = useParams<paramasTypes>();
-    const [showdatas, setShowdatas] = useState([{ name: '', sumTimes: 0, nightTimes: 0, holidaySum_time: 0 }]);
+    const [showdatas, setShowdatas] = useState([{ name: '', sumTimes: 0, nightTimes: 0, holidaySum_time: 0, business_legnth: 0 }]);
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [Loading, setLoading] = useState(false);
+
     useEffect(() => {
         getDataSelectTeam();
         // getBusinessData();
@@ -96,6 +97,8 @@ const TeamLeaderMonthOtPrinter = () => {
                 selectTeam: team,
             });
 
+            // console.log(getDataShowTeam);
+
             if (getDataShowTeam.data.dataSucess) {
                 if (getDataShowTeam.data.datas.length > 0) {
                     let datapush: any = [];
@@ -115,8 +118,10 @@ const TeamLeaderMonthOtPrinter = () => {
                             sumTimes: sumTime,
                             nightTimes: nightTime,
                             holidaySum_time,
+                            business_legnth: getDataShowTeam.data.datas[i].rows4 ? getDataShowTeam.data.datas[i].rows4.length : 0,
                         });
                     }
+
                     await setShowdatas(datapush);
                     setLoading(true);
                 }
@@ -219,16 +224,25 @@ const TeamLeaderMonthOtPrinter = () => {
                         <table>
                             <thead>
                                 <tr>
-                                    <th colSpan={4} rowSpan={2}>
+                                    <th
+                                        colSpan={
+                                            team.toUpperCase() === 'LASER' ||
+                                            team.toUpperCase() === 'GRINDER' ||
+                                            team.toUpperCase() === 'DICER'
+                                                ? 5
+                                                : 4
+                                        }
+                                        rowSpan={2}
+                                    >
                                         <h3>
                                             {team.toUpperCase()}
                                             <br />
                                             연장(휴일) 근무 실시보고서
                                         </h3>
                                     </th>
-                                    <th style={{ background: '#c9cc51', width: '150px' }}>작성자</th>
-                                    <th style={{ background: '#c9cc51', width: '150px' }}>검토</th>
-                                    <th style={{ background: '#c9cc51', width: '150px' }}>승인</th>
+                                    <th style={{ background: '#c9cc51', width: '100px' }}>작성자</th>
+                                    <th style={{ background: '#c9cc51', width: '100px' }}>검토</th>
+                                    <th style={{ background: '#c9cc51', width: '100px' }}>승인</th>
                                 </tr>
                                 <tr>
                                     <td style={{ height: '50px', background: 'white' }}></td>
@@ -239,27 +253,58 @@ const TeamLeaderMonthOtPrinter = () => {
                             <tbody>
                                 <tr>
                                     <td style={{ fontWeight: 'bolder' }}>근무년월</td>
-                                    <td colSpan={2} style={{ fontWeight: 'bolder' }}>{`${'2022'}년 ${'05'}월`}</td>
-
+                                    <td colSpan={2} style={{ fontWeight: 'bolder' }}>{`${year}년 ${month}월`}</td>
+                                    {team.toUpperCase() === 'LASER' ||
+                                    team.toUpperCase() === 'GRINDER' ||
+                                    team.toUpperCase() === 'DICER' ? (
+                                        <td></td>
+                                    ) : (
+                                        <></>
+                                    )}
                                     <td colSpan={4}>OT 시간</td>
                                 </tr>
                                 <tr>
                                     <td>순서</td>
                                     <td>성명</td>
                                     <td>부서명</td>
+                                    {team.toUpperCase() === 'LASER' ||
+                                    team.toUpperCase() === 'GRINDER' ||
+                                    team.toUpperCase() === 'DICER' ? (
+                                        <td>현장 일수</td>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    <td>합계</td>
                                     <td colSpan={2}>연장</td>
                                     <td>휴일</td>
-                                    <td>합계</td>
                                 </tr>
 
                                 {showdatas.map(
-                                    (list: { name: string; sumTimes: number; nightTimes: number; holidaySum_time: number }, i: number) => {
+                                    (
+                                        list: {
+                                            name: string;
+                                            sumTimes: number;
+                                            nightTimes: number;
+                                            holidaySum_time: number;
+                                            business_legnth: number;
+                                        },
+                                        i: number
+                                    ) => {
                                         return (
                                             <>
                                                 <tr>
                                                     <td rowSpan={2}>{i + 1}</td>
                                                     <td rowSpan={2}>{list.name}</td>
                                                     <td rowSpan={2}>{team.toUpperCase()}팀</td>
+                                                    {team.toUpperCase() === 'LASER' ||
+                                                    team.toUpperCase() === 'GRINDER' ||
+                                                    team.toUpperCase() === 'DICER' ? (
+                                                        <td rowSpan={2}>
+                                                            {list.business_legnth === 0 ? '' : `${list.business_legnth} 일`}
+                                                        </td>
+                                                    ) : (
+                                                        <></>
+                                                    )}
                                                     <td rowSpan={2}>
                                                         {list.sumTimes - list.holidaySum_time > 0
                                                             ? list.sumTimes - list.holidaySum_time + ' 시간'
@@ -267,6 +312,7 @@ const TeamLeaderMonthOtPrinter = () => {
                                                     </td>
                                                     <td style={{ background: '#c9cc51' }}>심야</td>
                                                     <td rowSpan={2}>{list.holidaySum_time > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
+
                                                     <td rowSpan={2}>{list.sumTimes > 0 ? list.sumTimes + ' 시간' : ''}</td>
                                                 </tr>
                                                 <tr>

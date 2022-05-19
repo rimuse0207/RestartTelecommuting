@@ -16,7 +16,7 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
         dateYear: selectYear,
         dateMonth: selectMonth,
     });
-    const [showdatas, setShowdatas] = useState([{ name: '', sumTimes: 0, nightTimes: 0, holidaySum_time: 0 }]);
+    const [showdatas, setShowdatas] = useState([{ name: '', sumTimes: 0, nightTimes: 0, holidaySum_time: 0, business_length: 0 }]);
     const [dataloading, setDataLoading] = useState(false);
     useEffect(() => {
         let datapush: any = [];
@@ -24,6 +24,7 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
             var sumTime = 0;
             var nightTime = 0;
             var holidaySum_time = 0;
+
             for (var j = 0; j < teamBelongInfo[i].rows2.length; j++) {
                 sumTime = sumTime + teamBelongInfo[i].rows2[j].mon_time;
                 nightTime = nightTime + teamBelongInfo[i].rows2[j].night_date;
@@ -31,7 +32,13 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
             for (var k = 0; k < teamBelongInfo[i].rows3.length; k++) {
                 holidaySum_time = holidaySum_time + teamBelongInfo[i].rows3[k].mon_time;
             }
-            datapush = datapush.concat({ name: teamBelongInfo[i].name, sumTimes: sumTime, nightTimes: nightTime, holidaySum_time });
+            datapush = datapush.concat({
+                name: teamBelongInfo[i].name,
+                sumTimes: sumTime,
+                nightTimes: nightTime,
+                holidaySum_time,
+                business_length: teamBelongInfo[i].rows4 ? teamBelongInfo[i].rows4.length : 0,
+            });
         }
         setShowdatas(datapush);
     }, [teamBelongInfo]);
@@ -50,6 +57,14 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                         <th style={{ width: '100px' }}>연장</th>
                         <th style={{ width: '100px' }}>심야</th>
                         <th style={{ width: '100px' }}>휴일</th>
+                        {selectTeam.toUpperCase() === 'LASER' ||
+                        selectTeam.toUpperCase() === 'GRINDER' ||
+                        selectTeam.toUpperCase() === 'DICER' ? (
+                            <th style={{ width: '100px' }}>현장 일수</th>
+                        ) : (
+                            <></>
+                        )}
+
                         <th style={{ width: '100px' }}>총 합계</th>
                     </tr>
                 </thead>
@@ -72,6 +87,15 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                                 </td>
                                 <td>{list.nightTimes > 0 || list.sumTimes > 0 || list.holidaySum_time ? list.nightTimes + ' 시간' : ''}</td>
                                 <td>{list.holidaySum_time > 0 || list.sumTimes > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
+
+                                {selectTeam.toUpperCase() === 'LASER' ||
+                                selectTeam.toUpperCase() === 'GRINDER' ||
+                                selectTeam.toUpperCase() === 'DICER' ? (
+                                    <td>{list.business_length === 0 ? '' : `${list.business_length} 일`}</td>
+                                ) : (
+                                    <></>
+                                )}
+
                                 <td>{list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes + ' 시간' : ''}</td>
                             </tr>
                         );
@@ -92,12 +116,12 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                 {selectTeam ? (
                     <button
                         onClick={() => {
-                            setIsOpen2(true);
-                            // window.open(
-                            //     `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
-                            //     'MonthOT',
-                            //     'width=980, height=700'
-                            // );
+                            // setIsOpen2(true);
+                            window.open(
+                                `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
+                                'MonthOT',
+                                'width=980, height=700'
+                            );
                         }}
                     >
                         출력하기

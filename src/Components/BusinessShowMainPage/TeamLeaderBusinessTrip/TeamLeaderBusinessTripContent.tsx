@@ -3,9 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../models';
-import { DecryptKey } from '../../config';
-import { useParams } from 'react-router-dom';
+import { RootState } from '../../../models';
+import { DecryptKey } from '../../../config';
+import { PrinterButtonContainer } from '../../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
 const BusinessTripShowContentMainDivBox = styled.div`
     .Telecommuting_Table {
         height: auto;
@@ -17,14 +17,16 @@ const BusinessTripShowContentMainDivBox = styled.div`
 
 const ErpShowTableMainDivBox = styled.div`
     table {
-        width: 100%;
+        width: 70%;
         border-collapse: collapse;
         margin-top: 20px;
+        margin-left: 20px;
+        margin-bottom: 20px;
     }
     th,
     td {
         border: none;
-        border: 1px solid #444444;
+        border-bottom: 1px solid #444444;
         background-color: none !important;
         padding: 10px;
         font-size: 0.8em;
@@ -40,26 +42,6 @@ const ErpShowTableMainDivBox = styled.div`
     }
     h4 {
         margin-top: 20px;
-    }
-`;
-
-const PrinterInfoMainDivBox = styled.div`
-    display: flex;
-    justify-content: end;
-    table {
-        border-collapse: collapse;
-        text-align: center;
-        font-size: 1em;
-        width: 100%;
-    }
-    table > thead,
-    th {
-        background-color: #fff !important;
-        font-size: 0.9em;
-        font-weight: bold;
-    }
-    tr > td {
-        border: 1px solid black;
     }
 `;
 
@@ -83,51 +65,47 @@ type ErpDatasTypes = {
     upload_date: string;
 };
 
-type paramasTypes = {
-    id: string;
-    team: string;
-    name: string;
-    year: string;
-    month: string;
+type TeamLeaderBusinessTripContentTypes = {
+    selectName: string;
+    selectTeam: string;
+    selectYear: string;
+    selectMonth: string;
+    selectId: string;
 };
-const BusinessTripPrinterContent = () => {
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const { id, team, name, year, month } = useParams<paramasTypes>();
 
+const TeamLeaderBusinessTripContent = ({
+    selectName,
+    selectTeam,
+    selectYear,
+    selectMonth,
+    selectId,
+}: TeamLeaderBusinessTripContentTypes) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [getMoment, setMoment] = useState(moment());
+
+    const today = getMoment;
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
-    const [Loading, setLoading] = useState(false);
     useEffect(() => {
         if (InfomationState) getBusinessData();
-    }, [InfomationState]);
-
-    useEffect(() => {
-        if (Loading) {
-            setTimeout(() => {
-                window.print();
-            }, 1000);
-            window.onafterprint = function () {
-                window.close();
-            };
-        }
-    }, [Loading]);
+    }, [selectName, selectYear, selectMonth, selectId]);
 
     const getBusinessData = async () => {
+        setBusinessDatas([]);
+        setErpDatas([]);
         try {
             const getBusinessDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupData`, {
                 params: {
-                    team,
-                    name,
-                    id,
-                    year,
-                    month,
+                    team: selectTeam,
+                    name: selectName,
+                    id: selectId,
+                    year: selectYear,
+                    month: selectMonth,
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
-                console.log(getBusinessDatas);
-                await setBusinessDatas(getBusinessDatas.data.datas);
-                await setErpDatas(getBusinessDatas.data.ERP_data);
-                await setLoading(true);
+                setBusinessDatas(getBusinessDatas.data.datas);
+                setErpDatas(getBusinessDatas.data.ERP_data);
             }
         } catch (error) {
             console.log(error);
@@ -135,7 +113,7 @@ const BusinessTripPrinterContent = () => {
     };
 
     const calendarArr = () => {
-        const today = moment(`${year}-${month}-01`);
+        const today = moment(`${selectYear}-${selectMonth}-01`);
         const firstWeek = today.clone().startOf('month').week();
         const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
         let result: Array<any> = [];
@@ -173,7 +151,14 @@ const BusinessTripPrinterContent = () => {
                                                     const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
                                                     const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
-                                                        <div style={{ marginBottom: '5px', fontSize: '10px' }}>출장 일당 (ERP)</div>
+                                                        <div
+                                                            style={{
+                                                                marginBottom: '5px',
+                                                                backgroundColor: '#e8f4b0',
+                                                            }}
+                                                        >
+                                                            출장 일당 (ERP)
+                                                        </div>
                                                     ) : (
                                                         <div></div>
                                                     );
@@ -186,9 +171,7 @@ const BusinessTripPrinterContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ fontWeight: 'bolder', fontSize: '1.25em', color: 'red' }}>
-                                                                    현장 수당 (OT)
-                                                                </div>
+                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당 (OT)</div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -210,39 +193,10 @@ const BusinessTripPrinterContent = () => {
         <BusinessTripShowContentMainDivBox>
             <div className="CanlenderPagePrinter">
                 <div>
-                    <PrinterInfoMainDivBox>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td colSpan={2}>
-                                        월별 현장 수당 신청서
-                                        <br />
-                                    </td>
-                                    <td>근무년월</td>
-                                    <td>
-                                        {year}년 {month}월
-                                    </td>
-                                    <td rowSpan={2}>
-                                        팀장
-                                        <br />
-                                        서명
-                                    </td>
-                                    <td rowSpan={2} style={{ width: '120px' }}></td>
-                                </tr>
-                                <tr>
-                                    <td>부서</td>
-                                    <td>{team.toUpperCase()}</td>
-                                    <td>성명</td>
-                                    <td>
-                                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                            <div>{name}</div>
-                                            <div>(인)</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </PrinterInfoMainDivBox>
+                    <h2>
+                        {selectYear}년 {selectMonth}월 {selectTeam.toUpperCase()}
+                        {selectName}
+                    </h2>
                     <table className="Telecommuting_Table">
                         <thead>
                             <tr>
@@ -259,6 +213,7 @@ const BusinessTripPrinterContent = () => {
                     </table>
                 </div>
             </div>
+
             <ErpShowTableMainDivBox>
                 <h4>ERP 출장 등록 현황</h4>
                 <table>
@@ -268,26 +223,39 @@ const BusinessTripPrinterContent = () => {
                             <th>출장지</th>
                             <th>출장 기간</th>
                             <th>출장 일수</th>
-                            <th>비고</th>
                         </tr>
                     </thead>
                     <tbody>
                         {ErpDatas.map((list, i) => {
                             return (
-                                <tr>
+                                <tr key={list.paper_code}>
                                     <td>{list.name}</td>
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
                                     <td>{list.business_tip_length} 일</td>
-                                    <td style={{ width: '250px' }}></td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </table>
             </ErpShowTableMainDivBox>
+            <PrinterButtonContainer>
+                <div className="WeekAfterOTWorkSpace_store_button_div">
+                    <button
+                        onClick={() =>
+                            window.open(
+                                `/BusinessShowMonthPrinter/${selectId}/${selectName}/${selectTeam}/${selectYear}/${selectMonth}`,
+                                'BusinessShowMonthPrinter',
+                                'width=980, height=700'
+                            )
+                        }
+                    >
+                        출력하기
+                    </button>
+                </div>
+            </PrinterButtonContainer>
         </BusinessTripShowContentMainDivBox>
     );
 };
 
-export default BusinessTripPrinterContent;
+export default TeamLeaderBusinessTripContent;

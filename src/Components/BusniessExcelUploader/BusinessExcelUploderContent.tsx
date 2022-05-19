@@ -128,8 +128,37 @@ const UploadedFileDataUlBox = styled.ul`
     }
 `;
 
+const TableContainerDivMainPage = styled.div`
+    margin-top: 30px;
+    thead {
+        font-size: 0.8em;
+    }
+    .blueone {
+        border-collapse: collapse;
+    }
+    .blueone th {
+        padding: 10px;
+        color: #168;
+        border: none;
+        background-color: #fff;
+        border-bottom: 3px solid #168;
+        text-align: left;
+    }
+    .blueone td {
+        color: #669;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .blueone tr:hover td {
+        color: #004;
+    }
+`;
+
 type FileuploadDatasType = {
     name: string;
+    paper_code: string;
+    business_trip_period: string;
+    business_tip_length: number;
 };
 
 const BusinessExcelUploaderContent = () => {
@@ -179,7 +208,12 @@ const BusinessExcelUploaderContent = () => {
                 });
                 setUploadedFinish(true);
             } else {
-                alert('error');
+                toast.show({
+                    title: '업로드 실패.',
+                    content: 'IT팀에 문의 바랍니다.',
+                    duration: 6000,
+                    DataSuccess: false,
+                });
             }
         } catch (error) {
             console.log(error);
@@ -220,30 +254,62 @@ const BusinessExcelUploaderContent = () => {
                     <button onClick={() => SaveDataFromFile()}>저장</button>
                 </div>
             </div>
-            <div>
+
+            <TableContainerDivMainPage>
                 <h3>추가된 데이터</h3>
-                <ul>
-                    {InsertedData.map((list, j) => {
-                        return (
-                            <li>
-                                {j + 1}. {list.name}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-            <div>
+                <table className="blueone">
+                    <thead>
+                        <tr>
+                            <th>인덱스</th>
+                            <th>전표 번호</th>
+                            <th>이름</th>
+                            <th>출장 기간</th>
+                            <th>출장 일수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {InsertedData.map((list, j) => {
+                            return (
+                                <tr>
+                                    <td>{j + 1}</td>
+                                    <td>{list.paper_code}</td>
+                                    <td>{list.name}</td>
+                                    <td>{list.business_trip_period}</td>
+                                    <td>{list.business_tip_length}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </TableContainerDivMainPage>
+
+            <TableContainerDivMainPage>
                 <h3>변경된 데이터</h3>
-                <ul>
-                    {UploadedData.map((list, j) => {
-                        return (
-                            <li>
-                                {j + 1}. {list.name}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                <table className="blueone">
+                    <thead>
+                        <tr>
+                            <th>인덱스</th>
+                            <th>전표 번호</th>
+                            <th>이름</th>
+                            <th>출장 기간</th>
+                            <th>출장 일수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {UploadedData.map((list, j) => {
+                            return (
+                                <tr>
+                                    <td>{j + 1}</td>
+                                    <td>{list.paper_code}</td>
+                                    <td>{list.name}</td>
+                                    <td>{list.business_trip_period}</td>
+                                    <td>{list.business_tip_length}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </TableContainerDivMainPage>
         </BusinessExcelUploaderContentMainDivBox>
     );
 };

@@ -40,6 +40,9 @@ const ErpShowTableMainDivBox = styled.div`
         font-size: 1em !important;
         background-color: none !important;
     }
+    h4 {
+        margin-top: 20px;
+    }
 `;
 
 type businiessTypes = {
@@ -138,7 +141,7 @@ const BusinessTripShowContent = () => {
                                                                 backgroundColor: '#e8f4b0',
                                                             }}
                                                         >
-                                                            ERP 출장 O
+                                                            출장 일당 (ERP)
                                                         </div>
                                                     ) : (
                                                         <div></div>
@@ -152,7 +155,7 @@ const BusinessTripShowContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장신청(OT) △</div>
+                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당 (OT)</div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -213,17 +216,14 @@ const BusinessTripShowContent = () => {
             </div>
 
             <ErpShowTableMainDivBox>
+                <h4>ERP 출장 등록 현황</h4>
                 <table>
                     <thead>
                         <tr>
                             <th>성명</th>
                             <th>출장지</th>
                             <th>출장 기간</th>
-                            <th>
-                                출장 일수
-                                <br />
-                                (일당/40000)
-                            </th>
+                            <th>출장 일수</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -233,7 +233,7 @@ const BusinessTripShowContent = () => {
                                     <td>{list.name}</td>
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length}</td>
+                                    <td>{list.business_tip_length} 일</td>
                                 </tr>
                             );
                         })}
