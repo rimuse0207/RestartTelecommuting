@@ -59,7 +59,8 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                         <th style={{ width: '100px' }}>휴일</th>
                         {selectTeam.toUpperCase() === 'LASER' ||
                         selectTeam.toUpperCase() === 'GRINDER' ||
-                        selectTeam.toUpperCase() === 'DICER' ? (
+                        selectTeam.toUpperCase() === 'DICER' ||
+                        selectTeam.toUpperCase() === '영업기술' ? (
                             <th style={{ width: '100px' }}>현장 일수</th>
                         ) : (
                             <></>
@@ -90,7 +91,8 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
 
                                 {selectTeam.toUpperCase() === 'LASER' ||
                                 selectTeam.toUpperCase() === 'GRINDER' ||
-                                selectTeam.toUpperCase() === 'DICER' ? (
+                                selectTeam.toUpperCase() === 'DICER' ||
+                                selectTeam.toUpperCase() === '영업기술' ? (
                                     <td>{list.business_length === 0 ? '' : `${list.business_length} 일`}</td>
                                 ) : (
                                     <></>

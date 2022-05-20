@@ -11,10 +11,19 @@ type TeleSelectClickModalProps = {
     clicksData: any | null;
     modalClose: () => void;
 };
-
+type BusinessCheckDataType = {
+    indexs: number;
+    id: string;
+    name: string;
+    apply_date: string;
+    teamleader_check: number;
+    type: string;
+    BusinessAccess: number;
+};
 const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
     const [printerClicked, setPrinterClicked] = useState(false);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [BusinessCheck, setBusinessCheck] = useState<BusinessCheckDataType[]>([]);
     const [checkedOTdata, setcheckedOTdata] = useState({
         start_time_mon: '',
         start_time_tue: '',
@@ -38,7 +47,6 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
     }, [clicksData]);
 
     const getSomeData = async (clicksData: any) => {
-        console.log(clicksData);
         try {
             const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/AfterOTDataSelectModal`, {
                 date: moment(clicksData.date_mon).format('YYYY-MM-DD'),
@@ -46,6 +54,7 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
             });
             if (getSomeDatas.data.dataSuccess) {
                 setcheckedOTdata(getSomeDatas.data.data[0]);
+                setBusinessCheck(getSomeDatas.data.business_check);
             }
         } catch (error) {
             console.log(error);
@@ -56,17 +65,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
             <h2>사후 OT</h2>
             <div>
                 <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: '0', textAlign: 'center' }}>
-                    <thead style={{ backgroundColor: '#F7C80E' }}>
+                    <thead style={{ backgroundColor: '#2DA8E5' }}>
                         <tr
                             className="testssBefore"
                             style={{
                                 borderTop: '1.5px solid black',
                                 borderLeft: '1.3px solid black',
                                 borderRight: '1.3px solid black',
-                                backgroundColor: '#F7C80E',
+                                backgroundColor: '#2DA8E5',
                             }}
                         >
-                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
                                 일자
                             </th>
                             <th
@@ -74,28 +83,41 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 style={{
                                     borderRight: '1.2px solid black',
                                     borderBottom: '1.2px solid black',
-                                    backgroundColor: '#F7C80E',
+                                    backgroundColor: '#2DA8E5',
                                 }}
                             >
                                 소정근로
                             </th>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
+                                        현장 수당
+                                        <br />
+                                        출장 일당
+                                    </th>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <th
                                 colSpan={4}
                                 style={{
                                     borderRight: '1.2px solid black',
                                     borderBottom: '1.2px solid black',
-                                    backgroundColor: '#F7C80E',
+                                    backgroundColor: '#2DA8E5',
                                 }}
                             >
                                 {' '}
                                 연장 근무
                             </th>
-                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
                                 총 근무 <br />
                                 합계 시간
                                 <br />
                             </th>
-                            <th rowSpan={2} style={{ backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ backgroundColor: '#2DA8E5' }}>
                                 연장 사유
                             </th>
                         </tr>
@@ -141,7 +163,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>
                                 시간
                             </td>
-
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[0].type === '없음' ? '' : BusinessCheck[0].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3} width="100px">
                                 {clicksData.start_time_mon}
                             </td>
@@ -191,6 +223,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[1].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[1].type === '없음' ? '' : BusinessCheck[1].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_tue}</td>
                             <td rowSpan={3}>{clicksData.end_time_tue}</td>
                             <td rowSpan={3}>{clicksData.tue_rest}</td>
@@ -233,6 +276,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[2].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[2].type === '없음' ? '' : BusinessCheck[2].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_wed}</td>
                             <td rowSpan={3}>{clicksData.end_time_wed}</td>
                             <td rowSpan={3}>{clicksData.wed_rest}</td>
@@ -275,6 +329,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[3].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[3].type === '없음' ? '' : BusinessCheck[3].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_thu}</td>
                             <td rowSpan={3}>{clicksData.end_time_thu}</td>
                             <td rowSpan={3}>{clicksData.thu_rest}</td>
@@ -317,6 +382,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[4].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[4].type === '없음' ? '' : BusinessCheck[4].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_fri}</td>
                             <td rowSpan={3}>{clicksData.end_time_fri}</td>
                             <td rowSpan={3}>{clicksData.fri_rest}</td>
@@ -354,6 +430,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[5].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[5].type === '없음' ? '' : BusinessCheck[5].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_sat}</td>
                             <td rowSpan={3}>{clicksData.end_time_sat}</td>
                             <td rowSpan={3}>{clicksData.sat_rest}</td>
@@ -391,6 +478,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[6].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[6].type === '없음' ? '' : BusinessCheck[6].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_sun}</td>
                             <td rowSpan={3}>{clicksData.end_time_sun}</td>
                             <td rowSpan={3}>{clicksData.sun_rest}</td>
@@ -481,7 +579,17 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                         <div className="AcceptOkayDiv" onClick={() => modalClose()}>
                             승인완료.
                         </div>
-                        <button className="Printer_Button_overOT" onClick={() => setPrinterClicked(true)}>
+                        <button
+                            className="Printer_Button_overOT"
+                            onClick={() => {
+                                // setPrinterClicked(true)
+                                window.open(
+                                    `/PrinterTest/after/${clicksData.date_mon}/${clicksData.id}`,
+                                    'AfterOT',
+                                    'width=980, height=700'
+                                );
+                            }}
+                        >
                             인쇄하기
                         </button>
                     </div>

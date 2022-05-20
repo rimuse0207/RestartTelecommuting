@@ -77,7 +77,6 @@ const TeamLeaderMonthOtPrinter = () => {
 
     useEffect(() => {
         getDataSelectTeam();
-        // getBusinessData();
     }, []);
     useEffect(() => {
         if (Loading) {
@@ -96,8 +95,6 @@ const TeamLeaderMonthOtPrinter = () => {
                 selectMonth: month,
                 selectTeam: team,
             });
-
-            // console.log(getDataShowTeam);
 
             if (getDataShowTeam.data.dataSucess) {
                 if (getDataShowTeam.data.datas.length > 0) {
@@ -131,91 +128,6 @@ const TeamLeaderMonthOtPrinter = () => {
         }
     };
 
-    // const getBusinessData = async () => {
-    //     try {
-    //         const getBusinessDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupData`, {
-    //             params: {
-    //                 team,
-    //                 year,
-    //                 month,
-    //             },
-    //         });
-    //         if (getBusinessDatas.data.dataSuccess) {
-    //             console.log(getBusinessDatas);
-    //             setBusinessDatas(getBusinessDatas.data.datas);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    // const calendarArr = (datas: businiessTypes) => {
-    //     const today = moment(`${year}-${month}-01`);
-    //     const firstWeek = today.clone().startOf('month').week();
-    //     const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
-    //     let result: Array<any> = [];
-    //     let week: number = firstWeek;
-    //     for (week; week <= lastWeek; week++) {
-    //         result = result.concat(
-    //             <tr key={week}>
-    //                 {Array(7)
-    //                     .fill(0)
-    //                     // eslint-disable-next-line no-loop-func
-    //                     .map((data, index) => {
-    //                         let days = today.clone().startOf('year').week(week).startOf('week').add(index, 'day');
-
-    //                         if (days.format('MM') !== today.format('MM')) {
-    //                             return (
-    //                                 <td key={index} className="Telecommuting_Table_nextMonth">
-    //                                     <div className="Telecommuting_Table_dayNumber">
-    //                                         {/* <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div> */}
-    //                                     </div>
-    //                                 </td>
-    //                             );
-    //                         } else {
-    //                             return (
-    //                                 <td
-    //                                     key={index}
-    //                                     className={
-    //                                         moment().format('YYYY-MM-DD') === days.format('YYYY-MM-DD')
-    //                                             ? 'Telecommuting_table_today'
-    //                                             : 'Telecommuting_Table_nowMonth'
-    //                                     }
-    //                                 >
-    //                                     <div className="Telecommuting_Table_dayNumber">
-    //                                         <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
-    //                                         <div className="Text">
-    //                                             {datas.datas.map((list: any) => {
-    //                                                 return days.format('YYYY-MM-DD') === list.apply_date ? (
-    //                                                     list.type === '없음' ? (
-    //                                                         ''
-    //                                                     ) : list.type === '출장' ? (
-    //                                                         <div>
-    //                                                             <div>출장</div>
-    //                                                             <div style={{ fontSize: '80px', textAlign: 'center' }}>○</div>
-    //                                                         </div>
-    //                                                     ) : (
-    //                                                         <div>
-    //                                                             <div>현장</div>
-    //                                                             <div style={{ fontSize: '80px', textAlign: 'center' }}>△</div>
-    //                                                         </div>
-    //                                                     )
-    //                                                 ) : (
-    //                                                     <div></div>
-    //                                                 );
-    //                                             })}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                             );
-    //                         }
-    //                     })}
-    //             </tr>
-    //         );
-    //     }
-    //     return result;
-    // };
-
     return (
         <TeamLeaderMonthOtPrinterMainDivBox>
             <div>
@@ -228,7 +140,8 @@ const TeamLeaderMonthOtPrinter = () => {
                                         colSpan={
                                             team.toUpperCase() === 'LASER' ||
                                             team.toUpperCase() === 'GRINDER' ||
-                                            team.toUpperCase() === 'DICER'
+                                            team.toUpperCase() === 'DICER' ||
+                                            team.toUpperCase() === '영업기술'
                                                 ? 5
                                                 : 4
                                         }
@@ -256,7 +169,8 @@ const TeamLeaderMonthOtPrinter = () => {
                                     <td colSpan={2} style={{ fontWeight: 'bolder' }}>{`${year}년 ${month}월`}</td>
                                     {team.toUpperCase() === 'LASER' ||
                                     team.toUpperCase() === 'GRINDER' ||
-                                    team.toUpperCase() === 'DICER' ? (
+                                    team.toUpperCase() === 'DICER' ||
+                                    team.toUpperCase() === '영업기술' ? (
                                         <td></td>
                                     ) : (
                                         <></>
@@ -269,14 +183,16 @@ const TeamLeaderMonthOtPrinter = () => {
                                     <td>부서명</td>
                                     {team.toUpperCase() === 'LASER' ||
                                     team.toUpperCase() === 'GRINDER' ||
-                                    team.toUpperCase() === 'DICER' ? (
+                                    team.toUpperCase() === 'DICER' ||
+                                    team.toUpperCase() === '영업기술' ? (
                                         <td>현장 일수</td>
                                     ) : (
                                         <></>
                                     )}
-                                    <td>합계</td>
+
                                     <td colSpan={2}>연장</td>
                                     <td>휴일</td>
+                                    <td>합계</td>
                                 </tr>
 
                                 {showdatas.map(
@@ -298,7 +214,8 @@ const TeamLeaderMonthOtPrinter = () => {
                                                     <td rowSpan={2}>{team.toUpperCase()}팀</td>
                                                     {team.toUpperCase() === 'LASER' ||
                                                     team.toUpperCase() === 'GRINDER' ||
-                                                    team.toUpperCase() === 'DICER' ? (
+                                                    team.toUpperCase() === 'DICER' ||
+                                                    team.toUpperCase() === '영업기술' ? (
                                                         <td rowSpan={2}>
                                                             {list.business_legnth === 0 ? '' : `${list.business_legnth} 일`}
                                                         </td>
@@ -312,7 +229,6 @@ const TeamLeaderMonthOtPrinter = () => {
                                                     </td>
                                                     <td style={{ background: '#c9cc51' }}>심야</td>
                                                     <td rowSpan={2}>{list.holidaySum_time > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
-
                                                     <td rowSpan={2}>{list.sumTimes > 0 ? list.sumTimes + ' 시간' : ''}</td>
                                                 </tr>
                                                 <tr>
@@ -334,34 +250,6 @@ const TeamLeaderMonthOtPrinter = () => {
                                 )}
                             </tbody>
                         </table>
-                        {/* {BusinessDatas.map((list, i) => {
-                            return list.datas.length !== 0 ? (
-                                <div className="CanlenderPagePrinter">
-                                    <div>
-                                        <h2>
-                                            {year}년 {month}월 {team.toUpperCase()}
-                                            {'                                         '} {list.name}
-                                        </h2>
-                                        <table className="Telecommuting_Table">
-                                            <thead>
-                                                <tr>
-                                                    <th>일</th>
-                                                    <th>월</th>
-                                                    <th>화</th>
-                                                    <th>수</th>
-                                                    <th>목</th>
-                                                    <th>금</th>
-                                                    <th>토</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>{calendarArr(list)}</tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div></div>
-                            );
-                        })} */}
                     </div>
                 ) : (
                     <div>Loading....</div>

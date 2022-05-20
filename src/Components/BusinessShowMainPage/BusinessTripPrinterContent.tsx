@@ -186,7 +186,7 @@ const BusinessTripPrinterContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ fontWeight: 'bolder', fontSize: '1.25em', color: 'red' }}>
+                                                                <div style={{ fontWeight: 'bolder', fontSize: '10px', color: 'red' }}>
                                                                     현장 수당 (OT)
                                                                 </div>
                                                             </div>
@@ -215,7 +215,7 @@ const BusinessTripPrinterContent = () => {
                             <thead>
                                 <tr>
                                     <td colSpan={2}>
-                                        월별 현장 수당 신청서
+                                        현장 수당 신청서
                                         <br />
                                     </td>
                                     <td>근무년월</td>
