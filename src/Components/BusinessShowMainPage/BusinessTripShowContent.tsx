@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import { PrinterButtonContainer } from '../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
+import { toast } from '../ToastMessage/ToastManager';
 const BusinessTripShowContentMainDivBox = styled.div`
     .Telecommuting_Table {
         height: auto;
@@ -17,7 +18,7 @@ const BusinessTripShowContentMainDivBox = styled.div`
 
 const ErpShowTableMainDivBox = styled.div`
     table {
-        width: 70%;
+        width: 95%;
         border-collapse: collapse;
         margin-top: 20px;
         margin-left: 20px;
@@ -63,6 +64,7 @@ type ErpDatasTypes = {
     business_trip_period: string;
     business_tip_length: number;
     upload_date: string;
+    erp_business_write_write_reason: string;
 };
 const BusinessTripShowContent = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -93,6 +95,49 @@ const BusinessTripShowContent = () => {
             }
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    const handleChangeReason = (e: React.ChangeEvent<HTMLTextAreaElement>, data: ErpDatasTypes) => {
+        const findIndexs = ErpDatas.findIndex(item => item.paper_code === data.paper_code);
+        let copyErpDatas = [...ErpDatas];
+        if (findIndexs != -1) {
+            copyErpDatas[findIndexs] = { ...copyErpDatas[findIndexs], erp_business_write_write_reason: e.target.value };
+        }
+        setErpDatas(copyErpDatas);
+    };
+    const handleSaveData = async () => {
+        try {
+            const Erp_data_reason_send = await axios.post(
+                `${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/Business_Reason_Write`,
+                {
+                    ErpDatas,
+                }
+            );
+
+            if (Erp_data_reason_send.data.dataSuccess) {
+                toast.show({
+                    title: '데이터 저장 완료.',
+                    content: `현장 수당의 데이터 저장 완료.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+            } else {
+                toast.show({
+                    title: '데이터 저장 실패.',
+                    content: ` ' 제거후 다시 시도해주세요.`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: 'Error 발생',
+                content: `IT팀에 문의바랍니다.`,
+                duration: 6000,
+                DataSuccess: false,
+            });
         }
     };
 
@@ -141,7 +186,7 @@ const BusinessTripShowContent = () => {
                                                                 backgroundColor: '#e8f4b0',
                                                             }}
                                                         >
-                                                            출장 일당 (ERP)
+                                                            출장 일당
                                                         </div>
                                                     ) : (
                                                         <div></div>
@@ -155,7 +200,7 @@ const BusinessTripShowContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당 (OT)</div>
+                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당</div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -217,6 +262,7 @@ const BusinessTripShowContent = () => {
 
             <ErpShowTableMainDivBox>
                 <h4>ERP 출장 등록 현황</h4>
+                <div style={{ textAlign: 'end', width: '95%' }}>*특이사항은 비고에 수기 작성 바랍니다.</div>
                 <table>
                     <thead>
                         <tr>
@@ -224,6 +270,7 @@ const BusinessTripShowContent = () => {
                             <th>출장지</th>
                             <th>출장 기간</th>
                             <th>출장 일수</th>
+                            <th style={{ width: '500px' }}>비고 </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -234,6 +281,14 @@ const BusinessTripShowContent = () => {
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
                                     <td>{list.business_tip_length} 일</td>
+                                    <td style={{ width: '500px' }}>
+                                        {/* <textarea
+                                            style={{ width: '400px', height: '60px', padding: '10px' }}
+                                            value={list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChangeReason(e, list)}
+                                            placeholder="출장 일당과 현장 수당이 겹치는 경우 비고에 출장 날짜 필수 기재"
+                                        ></textarea> */}
+                                    </td>
                                 </tr>
                             );
                         })}
@@ -242,6 +297,7 @@ const BusinessTripShowContent = () => {
             </ErpShowTableMainDivBox>
             <PrinterButtonContainer>
                 <div className="WeekAfterOTWorkSpace_store_button_div">
+                    {/* <button onClick={() => handleSaveData()}>저장</button> */}
                     <button
                         onClick={() =>
                             window.open(

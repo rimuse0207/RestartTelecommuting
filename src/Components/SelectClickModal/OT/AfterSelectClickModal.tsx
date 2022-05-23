@@ -530,7 +530,19 @@ const AfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSele
                                 </span>
                                 시간
                             </td>
-                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <td>{BusinessCheck.reduce((count, data) => (data.type === '현장' ? count + 1 : count), 0)}일</td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
+                            <td
+                                colSpan={BusinessCheck.length > 0 ? (BusinessCheck[0].BusinessAccess ? 2 : 3) : 3}
+                                style={{ background: 'darkgray', fontWeight: 'bolder' }}
+                            >
                                 연장근무 총합계
                             </td>
                             <td colSpan={1}>

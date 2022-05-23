@@ -17,7 +17,7 @@ const BusinessTripShowContentMainDivBox = styled.div`
 
 const ErpShowTableMainDivBox = styled.div`
     table {
-        width: 70%;
+        width: 95%;
         border-collapse: collapse;
         margin-top: 20px;
         margin-left: 20px;
@@ -63,6 +63,7 @@ type ErpDatasTypes = {
     business_trip_period: string;
     business_tip_length: number;
     upload_date: string;
+    erp_business_write_write_reason: string;
 };
 
 type TeamLeaderBusinessTripContentTypes = {
@@ -157,7 +158,7 @@ const TeamLeaderBusinessTripContent = ({
                                                                 backgroundColor: '#e8f4b0',
                                                             }}
                                                         >
-                                                            출장 일당 (ERP)
+                                                            출장 일당
                                                         </div>
                                                     ) : (
                                                         <div></div>
@@ -171,7 +172,7 @@ const TeamLeaderBusinessTripContent = ({
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당 (OT)</div>
+                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당</div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -223,6 +224,7 @@ const TeamLeaderBusinessTripContent = ({
                             <th>출장지</th>
                             <th>출장 기간</th>
                             <th>출장 일수</th>
+                            <th style={{ width: '500px' }}>비고</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -233,6 +235,9 @@ const TeamLeaderBusinessTripContent = ({
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
                                     <td>{list.business_tip_length} 일</td>
+                                    <td style={{ width: '500px' }}>
+                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                    </td>
                                 </tr>
                             );
                         })}

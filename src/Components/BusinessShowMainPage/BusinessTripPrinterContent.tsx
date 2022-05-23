@@ -81,6 +81,7 @@ type ErpDatasTypes = {
     business_trip_period: string;
     business_tip_length: number;
     upload_date: string;
+    erp_business_write_write_reason: string;
 };
 
 type paramasTypes = {
@@ -173,7 +174,7 @@ const BusinessTripPrinterContent = () => {
                                                     const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
                                                     const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
-                                                        <div style={{ marginBottom: '5px', fontSize: '10px' }}>출장 일당 (ERP)</div>
+                                                        <div style={{ marginBottom: '5px', fontSize: '10px' }}>출장 일당</div>
                                                     ) : (
                                                         <div></div>
                                                     );
@@ -187,7 +188,7 @@ const BusinessTripPrinterContent = () => {
                                                         ) : (
                                                             <div>
                                                                 <div style={{ fontWeight: 'bolder', fontSize: '10px', color: 'red' }}>
-                                                                    현장 수당 (OT)
+                                                                    현장 수당
                                                                 </div>
                                                             </div>
                                                         )
@@ -268,7 +269,7 @@ const BusinessTripPrinterContent = () => {
                             <th>출장지</th>
                             <th>출장 기간</th>
                             <th>출장 일수</th>
-                            <th>비고</th>
+                            <th style={{ width: '300px' }}>비고</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -279,7 +280,9 @@ const BusinessTripPrinterContent = () => {
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
                                     <td>{list.business_tip_length} 일</td>
-                                    <td style={{ width: '250px' }}></td>
+                                    <td style={{ width: '300px' }}>
+                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                    </td>
                                 </tr>
                             );
                         })}
