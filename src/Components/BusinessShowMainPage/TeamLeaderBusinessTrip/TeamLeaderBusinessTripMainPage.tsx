@@ -16,7 +16,7 @@ const BusinessTripShowMainPage = () => {
         <div className="App">
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="월별 팀원 출장 현장 조회" subtitles="월별 팀원 출장 현장 조회"></HambergerMenu>
+                    <HambergerMenu titles="팀원 현장 수당 정산 조회" subtitles="팀원 현장 수당 정산 조회"></HambergerMenu>
                     <div style={{ position: 'relative', marginLeft: '10px' }}>
                         <TeamLeaderPersonClickContent></TeamLeaderPersonClickContent>
                     </div>

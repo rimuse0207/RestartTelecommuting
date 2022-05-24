@@ -116,7 +116,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                     </div>
                     <div>
                         <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)}>
-                            OT메뉴
+                            업무메뉴
                             <img
                                 src={'/pngegg.png'}
                                 className={`nav_handleClicks_arrow ${OTMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
@@ -125,7 +125,10 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         {OTMenuClicks ? (
                             <ul className="MenuDisblock">
                                 <div className="slideDown">
-                                    <Link to="/AfterOtworkspace">
+                                    {/* <Link to="/AfterOtworkspace">
+                                        <li>OT 신청</li>
+                                    </Link> */}
+                                    <Link to="/AfterOTTest">
                                         <li>OT 신청</li>
                                     </Link>
                                     {InfomationState.position === '이사' ||
@@ -146,13 +149,11 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     ) : (
                                         <></>
                                     )}
-                                    <Link to="/AfterOTTest">
-                                        <li>(임시) OT 신청</li>
-                                    </Link>
+
                                     {BusinessAccess ? (
                                         <>
                                             <Link to="/BusinessShow">
-                                                <li>월별 현장 출장 조회</li>
+                                                <li>현장 수당 정산</li>
                                             </Link>
                                         </>
                                     ) : (
@@ -161,10 +162,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     {BusinessAdminAcessState ? (
                                         <>
                                             <Link to="/TeamLeaderBusinessTripMainPage">
-                                                <li>
-                                                    월별 팀원
-                                                    <br /> 현장 출장 조회
-                                                </li>
+                                                <li>팀원 현장 수당 정산 조회</li>
                                             </Link>
                                             {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
                                             DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||

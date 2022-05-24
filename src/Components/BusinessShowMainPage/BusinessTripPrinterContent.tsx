@@ -7,6 +7,7 @@ import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import { useParams } from 'react-router-dom';
 const BusinessTripShowContentMainDivBox = styled.div`
+    padding: 20px;
     .Telecommuting_Table {
         height: auto;
     }
@@ -174,7 +175,7 @@ const BusinessTripPrinterContent = () => {
                                                     const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
                                                     const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
-                                                        <div style={{ marginBottom: '5px', fontSize: '10px' }}>출장 일당</div>
+                                                        <div style={{ marginBottom: '5px', fontSize: '1.2em' }}>출장 일당</div>
                                                     ) : (
                                                         <div></div>
                                                     );
@@ -187,9 +188,7 @@ const BusinessTripPrinterContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ fontWeight: 'bolder', fontSize: '10px', color: 'red' }}>
-                                                                    현장 수당
-                                                                </div>
+                                                                <h2 style={{ color: 'red', fontSize: '1.2em' }}>현장 수당</h2>
                                                             </div>
                                                         )
                                                     ) : (
@@ -265,10 +264,10 @@ const BusinessTripPrinterContent = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>성명</th>
+                            <th style={{ width: '100px' }}>성명</th>
                             <th>출장지</th>
                             <th>출장 기간</th>
-                            <th>출장 일수</th>
+                            <th style={{ width: '50px' }}>출장 일수</th>
                             <th style={{ width: '300px' }}>비고</th>
                         </tr>
                     </thead>

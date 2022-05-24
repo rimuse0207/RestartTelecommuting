@@ -14,7 +14,7 @@ const MealMonthSelect = () => {
         <div>
             {loginChecked ? (
                 <div>
-                    <HambergerMenu titles="식대정산 월별 조회" subtitles="팀별 팀원 식대 신청 조회"></HambergerMenu>
+                    <HambergerMenu titles="식대 정산 월별 조회" subtitles="팀별 팀원 식대 신청 조회"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <MealMonthMainPage></MealMonthMainPage>
                     </div>

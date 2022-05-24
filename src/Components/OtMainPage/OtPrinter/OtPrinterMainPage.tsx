@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 const OtPrinterMainPageMainDivBox = styled.div`
+    padding: 20px;
     table {
         width: 100%;
         border: 1px solid #444444;
@@ -35,6 +36,7 @@ const OtPrinterMainPageMainDivBox = styled.div`
             width: 420mm;
             height: 297mm;
             margin: auto; /* margin: auto auto; 로 자동 여백 설정도 가능 */
+            padding: 10px;
         }
         table {
             padding: 0px;
@@ -80,7 +82,7 @@ const OtPrinterMainPage = () => {
                     startDate,
                 }
             );
-            console.log(getServerOTDataCheck);
+
             if (getServerOTDataCheck.data.dataComeIn) {
                 const {
                     end_time_mon,

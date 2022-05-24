@@ -5,6 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const TeamLeaderMonthOtPrinterMainDivBox = styled.div`
+    padding: 20px;
     table {
         width: 100%;
         border: 1px solid #444444;
@@ -44,8 +45,9 @@ const TeamLeaderMonthOtPrinterMainDivBox = styled.div`
             width: 420mm;
             /* height: 297mm; */
             height: 297mm;
-            margin: 0px; /* margin: auto auto; 로 자동 여백 설정도 가능 */
+            margin: 10px; /* margin: auto auto; 로 자동 여백 설정도 가능 */
         }
+
         table {
             padding: 0px;
         }
@@ -165,16 +167,28 @@ const TeamLeaderMonthOtPrinter = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td style={{ fontWeight: 'bolder' }}>근무년월</td>
+                                    <td
+                                        colSpan={
+                                            team.toUpperCase() === 'LASER' ||
+                                            team.toUpperCase() === 'GRINDER' ||
+                                            team.toUpperCase() === 'DICER' ||
+                                            team.toUpperCase() === '영업기술'
+                                                ? 2
+                                                : 1
+                                        }
+                                        style={{ fontWeight: 'bolder', height: '25px' }}
+                                    >
+                                        근무년월
+                                    </td>
                                     <td colSpan={2} style={{ fontWeight: 'bolder' }}>{`${year}년 ${month}월`}</td>
-                                    {team.toUpperCase() === 'LASER' ||
+                                    {/* {team.toUpperCase() === 'LASER' ||
                                     team.toUpperCase() === 'GRINDER' ||
                                     team.toUpperCase() === 'DICER' ||
                                     team.toUpperCase() === '영업기술' ? (
                                         <td></td>
                                     ) : (
                                         <></>
-                                    )}
+                                    )} */}
                                     <td colSpan={4}>OT 시간</td>
                                 </tr>
                                 <tr>

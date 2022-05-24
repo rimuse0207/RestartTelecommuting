@@ -17,8 +17,8 @@ const OtContainerMainPage = () => {
             {loginChecked ? (
                 <div>
                     <HambergerMenu
-                        titles={BeforeORAfter ? 'OT사전' : 'OT사후'}
-                        subtitles={BeforeORAfter ? 'OT사전 신청' : 'OT사후 실시보고'}
+                        titles={BeforeORAfter ? '사전 OT' : '사후 OT'}
+                        subtitles={BeforeORAfter ? '사전 OT 신청' : '사후 OT 실시보고'}
                     ></HambergerMenu>
                     <div>
                         <div className="WeekOTMenubar_big_div">

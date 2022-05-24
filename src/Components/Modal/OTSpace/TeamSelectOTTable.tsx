@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PersonDBClickModal from './PersonDBClickModal';
 import TeamOTPrinterModal from './TeamOTPrinterModal';
+import { PrinterButtonContainer } from '../../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
 type TeamSelectOTTableProps = {
     teamBelongInfo: any;
     selectTeam: string;
@@ -116,18 +117,35 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
             </table>
             <div>
                 {selectTeam ? (
-                    <button
-                        onClick={() => {
-                            // setIsOpen2(true);
-                            window.open(
-                                `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
-                                'MonthOT',
-                                'width=980, height=700'
-                            );
-                        }}
-                    >
-                        출력하기
-                    </button>
+                    // <button
+                    //     onClick={() => {
+                    //         // setIsOpen2(true);
+                    //         window.open(
+                    //             `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
+                    //             'MonthOT',
+                    //             'width=980, height=700'
+                    //         );
+                    //     }}
+                    // >
+                    //     출력하기
+                    // </button>
+                    <PrinterButtonContainer>
+                        <div className="WeekAfterOTWorkSpace_store_button_div">
+                            {/* <button onClick={() => handleSaveData()}>저장</button> */}
+                            <button
+                                onClick={() => {
+                                    // setIsOpen2(true);
+                                    window.open(
+                                        `/TeamLeaderMonthOtPrint/${selectYear}/${selectMonth}/${selectTeam}`,
+                                        'MonthOT',
+                                        'width=980, height=700'
+                                    );
+                                }}
+                            >
+                                출력하기
+                            </button>
+                        </div>
+                    </PrinterButtonContainer>
                 ) : (
                     <div></div>
                 )}

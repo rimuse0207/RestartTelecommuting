@@ -14,7 +14,7 @@ const BusinessExcelUplodaerMainPage = () => {
         <BusinessExcelUplodaerMainPageMainDivBox>
             <div className="App">
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="ERP 출장 엑셀 업로드" subtitles="엑셀 업로드"></HambergerMenu>
+                    <HambergerMenu titles="ERP 파일 업로드" subtitles="엑셀 업로드"></HambergerMenu>
                     <BusinessExcelUploaderContent></BusinessExcelUploaderContent>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>
