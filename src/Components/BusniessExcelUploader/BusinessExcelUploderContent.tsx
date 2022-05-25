@@ -296,9 +296,7 @@ const BusinessExcelUploaderContent = () => {
                 </UploadedFileDataUlBox>
             </div>
             <div>
-                <div>
-                    <button onClick={() => SaveDataFromFile()}>저장</button>
-                </div>
+                <div>{file.length > 0 ? <button onClick={() => SaveDataFromFile()}>저장</button> : <></>}</div>
             </div>
 
             <TableContainerDivMainPage>

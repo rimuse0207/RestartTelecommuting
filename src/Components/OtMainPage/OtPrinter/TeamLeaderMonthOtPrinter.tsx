@@ -5,7 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const TeamLeaderMonthOtPrinterMainDivBox = styled.div`
-    padding: 20px;
+    padding: 10px;
     table {
         width: 100%;
         border: 1px solid #444444;

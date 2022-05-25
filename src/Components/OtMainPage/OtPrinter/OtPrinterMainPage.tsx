@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 const OtPrinterMainPageMainDivBox = styled.div`
-    padding: 20px;
+    padding: 10px;
     table {
         width: 100%;
         border: 1px solid #444444;

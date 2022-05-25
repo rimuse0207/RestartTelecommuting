@@ -497,7 +497,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                                 <th rowSpan={2} style={{ borderRight: '1.2px solid black', fontSize: '0.9em' }}>
                                                     현장 수당
                                                     <br />
-                                                    출장 일당
+                                                    출장 일비
                                                     <br />
                                                 </th>
                                             ) : (

@@ -116,7 +116,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                     </div>
                     <div>
                         <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)}>
-                            업무메뉴
+                            OT메뉴
                             <img
                                 src={'/pngegg.png'}
                                 className={`nav_handleClicks_arrow ${OTMenuClicks ? 'nav_hadleClicks_flases' : ''}`}
