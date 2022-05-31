@@ -37,12 +37,7 @@ import MealPrinterMainPage from './Components/OtMainPage/MealPrinter/MealPrinter
 import BusinessExcelUplodaerMainPage from './Components/BusniessExcelUploader/BusinessExcelUploaderMainPage';
 import BusinessTripShowMainPage from './Components/BusinessShowMainPage/BusinessTripShowMainPage';
 import BusinessTripPrinterContent from './Components/BusinessShowMainPage/BusinessTripPrinterContent';
-<<<<<<< HEAD
-
-
-=======
 import TeamLeaderBusinessTripMainPage from './Components/BusinessShowMainPage/TeamLeaderBusinessTrip/TeamLeaderBusinessTripMainPage';
->>>>>>> remotes/origin/company
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
