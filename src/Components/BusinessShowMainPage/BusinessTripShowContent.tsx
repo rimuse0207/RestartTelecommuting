@@ -73,9 +73,33 @@ const BusinessTripShowContent = () => {
     const today = getMoment;
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
+    const [PrinterControlData, setPrinterControlData] = useState(false);
     useEffect(() => {
-        if (InfomationState) getBusinessData();
+        if (InfomationState) {
+            getPrinterControl();
+            getBusinessData();
+        }
     }, [InfomationState, getMoment]);
+
+    const getPrinterControl = async () => {
+        try {
+            const getPrinterControlFromServer = await axios.get(
+                `${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupDataPrinter`,
+                {
+                    params: {
+                        date: moment(getMoment).format('YYYY-MM'),
+                    },
+                }
+            );
+            console.log(getPrinterControlFromServer);
+            if (getPrinterControlFromServer.data.dataSuccess) {
+                console.log(getPrinterControlFromServer);
+                setPrinterControlData(getPrinterControlFromServer.data.data[0].business_printer_control_type === 1 ? true : false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getBusinessData = async () => {
         try {
@@ -298,19 +322,25 @@ const BusinessTripShowContent = () => {
             <PrinterButtonContainer>
                 <div className="WeekAfterOTWorkSpace_store_button_div">
                     {/* <button onClick={() => handleSaveData()}>저장</button> */}
-                    <button
-                        onClick={() =>
-                            window.open(
-                                `/BusinessShowMonthPrinter/${DecryptKey(InfomationState.id)}/${DecryptKey(InfomationState.name)}/${
-                                    InfomationState.team
-                                }/${moment(getMoment).format('YYYY')}/${moment(getMoment).format('MM')}`,
-                                'BusinessShowMonthPrinter',
-                                'width=980, height=700'
-                            )
-                        }
-                    >
-                        출력하기
-                    </button>
+                    {PrinterControlData ? (
+                        <button
+                            onClick={() =>
+                                window.open(
+                                    `/BusinessShowMonthPrinter/${DecryptKey(InfomationState.id)}/${DecryptKey(InfomationState.name)}/${
+                                        InfomationState.team
+                                    }/${moment(getMoment).format('YYYY')}/${moment(getMoment).format('MM')}`,
+                                    'BusinessShowMonthPrinter',
+                                    'width=980, height=700'
+                                )
+                            }
+                        >
+                            출력하기
+                        </button>
+                    ) : (
+                        <div>
+                            <h4>ERP 출장내역이 업로드 되지 않아 출력이 불가합니다.</h4>
+                        </div>
+                    )}
                 </div>
             </PrinterButtonContainer>
         </BusinessTripShowContentMainDivBox>

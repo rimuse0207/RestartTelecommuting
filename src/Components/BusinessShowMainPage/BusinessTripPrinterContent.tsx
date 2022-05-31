@@ -215,7 +215,7 @@ const BusinessTripPrinterContent = () => {
                             <thead>
                                 <tr>
                                     <td colSpan={2}>
-                                        현장 수당 신청서
+                                        현장 수당 정산서
                                         <br />
                                     </td>
                                     <td>근무년월</td>

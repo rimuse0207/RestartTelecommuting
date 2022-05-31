@@ -16,7 +16,7 @@ const TeamSelectMainPage = () => {
         <div>
             {loginChecked ? (
                 <div>
-                    <HambergerMenu titles="월별 OT 조회" subtitles="팀별 월 OT 조회"></HambergerMenu>
+                    <HambergerMenu titles="근무 실시보고서" subtitles="근무 실시보고서"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <TeamSelectOTSpace></TeamSelectOTSpace>
                     </div>

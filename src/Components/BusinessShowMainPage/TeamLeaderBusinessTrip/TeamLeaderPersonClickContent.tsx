@@ -121,9 +121,8 @@ const TeamLeaderPersonClickContent = () => {
                     })}
                 </select>
                 <select
-                    // value={selectName}
+                    value={`${selectName}||${selectId}`}
                     onChange={e => {
-                        console.log(e.target.value);
                         setSelectName(e.target.value.split('||')[0]);
                         setSelectId(e.target.value.split('||')[1]);
                     }}
@@ -137,6 +136,9 @@ const TeamLeaderPersonClickContent = () => {
                             </option>
                         );
                     })}
+                    <option value={`${DecryptKey(InfomationState.name)}||${DecryptKey(InfomationState.id)}`}>
+                        {DecryptKey(InfomationState.name)}
+                    </option>
                 </select>
                 {ShowName.length > 0 ? <div></div> : <button onClick={HandleNameChecked}>이름 확인 클릭</button>}
             </div>

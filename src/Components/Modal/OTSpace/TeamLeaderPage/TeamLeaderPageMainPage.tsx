@@ -15,7 +15,7 @@ const TeamLeaderPageMainPage = () => {
         <div>
             {loginChecked ? (
                 <div>
-                    <HambergerMenu titles="팀원 OT 조회" subtitles="팀원 사전 사후 OT 조회"></HambergerMenu>
+                    <HambergerMenu titles="팀원 OT 승인" subtitles="팀원 사전 사후 OT 승인"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <TeamLeaderOTPage></TeamLeaderOTPage>
                     </div>

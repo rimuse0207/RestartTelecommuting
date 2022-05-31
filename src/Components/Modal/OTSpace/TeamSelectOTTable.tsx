@@ -55,9 +55,6 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                         <th style={{ width: '50px' }}>순서</th>
                         <th style={{ width: '100px' }}>성명</th>
                         <th style={{ width: '150px' }}>부서명</th>
-                        <th style={{ width: '100px' }}>연장</th>
-                        <th style={{ width: '100px' }}>심야</th>
-                        <th style={{ width: '100px' }}>휴일</th>
                         {selectTeam.toUpperCase() === 'LASER' ||
                         selectTeam.toUpperCase() === 'GRINDER' ||
                         selectTeam.toUpperCase() === 'DICER' ||
@@ -66,6 +63,9 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                         ) : (
                             <></>
                         )}
+                        <th style={{ width: '100px' }}>연장</th>
+                        <th style={{ width: '100px' }}>심야</th>
+                        <th style={{ width: '100px' }}>휴일</th>
 
                         <th style={{ width: '100px' }}>총 합계</th>
                     </tr>
@@ -84,12 +84,6 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                                 <td>{list.name}</td>
                                 {/* <td>{list.team.toUpperCase()}</td> */}
                                 <td>{selectTeam.toUpperCase()}</td>
-                                <td>
-                                    {list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes - list.holidaySum_time + ' 시간' : ''}
-                                </td>
-                                <td>{list.nightTimes > 0 || list.sumTimes > 0 || list.holidaySum_time ? list.nightTimes + ' 시간' : ''}</td>
-                                <td>{list.holidaySum_time > 0 || list.sumTimes > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
-
                                 {selectTeam.toUpperCase() === 'LASER' ||
                                 selectTeam.toUpperCase() === 'GRINDER' ||
                                 selectTeam.toUpperCase() === 'DICER' ||
@@ -98,6 +92,11 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                                 ) : (
                                     <></>
                                 )}
+                                <td>
+                                    {list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes - list.holidaySum_time + ' 시간' : ''}
+                                </td>
+                                <td>{list.nightTimes > 0 || list.sumTimes > 0 || list.holidaySum_time ? list.nightTimes + ' 시간' : ''}</td>
+                                <td>{list.holidaySum_time > 0 || list.sumTimes > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
 
                                 <td>{list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes + ' 시간' : ''}</td>
                             </tr>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { RiEyeOffFill, RiEyeFill } from 'react-icons/ri';
 import moment from 'moment';
+import { toast } from '../ToastMessage/ToastManager';
 
 const BusinessPrinterControllMainPageMainDivBox = styled.div`
     width: 70%;
@@ -35,6 +36,7 @@ const BusinessPrinterControllMainPageMainDivBox = styled.div`
                 margin-top: 20px;
                 padding: 10px;
                 width: 45%;
+                border-radius: 10px;
                 h3 {
                     margin-bottom: 10px;
                 }
@@ -90,7 +92,35 @@ const BusinessPrinterControllMainPage = () => {
     };
 
     const handleClicks = async (month: string, data: boolean) => {
-        console.log(month, data);
+        try {
+            const postDatasSendServer = await axios.post(`${process.env.REACT_APP_DB_HOST}/sales_server/SelectPrinterChangeData`, {
+                month,
+                data,
+            });
+            if (postDatasSendServer.data.dataSuccess) {
+                getPrinterOpenData();
+                if (data) {
+                    toast.show({
+                        title: '데이터 변경 성공',
+                        content: `${moment(month).format('YYYY년 MM월')}의 현장 수당 정산 출력이 불가하게 변경하였습니다.`,
+                        duration: 6000,
+                        DataSuccess: false,
+                    });
+                } else {
+                    toast.show({
+                        title: '데이터 변경 성공',
+                        content: `${moment(month).format('YYYY년 MM월')}의 현장 수당 정산 출력이 가능하게 변경하였습니다.`,
+                        duration: 6000,
+                        DataSuccess: true,
+                    });
+                }
+            } else {
+                alert('에러발생');
+            }
+        } catch (error) {
+            console.log(error);
+            alert('에러발생');
+        }
     };
     return (
         <BusinessPrinterControllMainPageMainDivBox>
@@ -116,7 +146,9 @@ const BusinessPrinterControllMainPage = () => {
                             <h3>01월</h3>
                             <div>
                                 {PrinterOpenData.january ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -127,13 +159,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.february ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('february', PrinterOpenData.february)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-02`, PrinterOpenData.february)}
                     >
                         <div>
                             <h3>02월</h3>
                             <div>
                                 {PrinterOpenData.february ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -144,13 +178,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.march ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('march', PrinterOpenData.march)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-03`, PrinterOpenData.march)}
                     >
                         <div>
                             <h3>03월</h3>
                             <div>
                                 {PrinterOpenData.march ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -161,13 +197,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.april ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('april', PrinterOpenData.april)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-04`, PrinterOpenData.april)}
                     >
                         <div>
                             <h3>04월</h3>
                             <div>
                                 {PrinterOpenData.april ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -178,13 +216,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.may ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('may', PrinterOpenData.may)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-05`, PrinterOpenData.may)}
                     >
                         <div>
                             <h3>05월</h3>
                             <div>
                                 {PrinterOpenData.may ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -195,13 +235,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.june ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('june', PrinterOpenData.june)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-06`, PrinterOpenData.june)}
                     >
                         <div>
                             <h3>06월</h3>
                             <div>
                                 {PrinterOpenData.june ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -212,13 +254,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.july ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('july', PrinterOpenData.july)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-07`, PrinterOpenData.july)}
                     >
                         <div>
                             <h3>07월</h3>
                             <div>
                                 {PrinterOpenData.july ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -229,13 +273,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.august ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('august', PrinterOpenData.august)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-08`, PrinterOpenData.august)}
                     >
                         <div>
                             <h3>08월</h3>
                             <div>
                                 {PrinterOpenData.august ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -246,13 +292,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.september ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('september', PrinterOpenData.september)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-09`, PrinterOpenData.september)}
                     >
                         <div>
                             <h3>09월</h3>
                             <div>
                                 {PrinterOpenData.september ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -263,13 +311,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.october ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('october', PrinterOpenData.october)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-10`, PrinterOpenData.october)}
                     >
                         <div>
                             <h3>10월</h3>
                             <div>
                                 {PrinterOpenData.october ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -280,13 +330,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.november ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('november', PrinterOpenData.november)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-11`, PrinterOpenData.november)}
                     >
                         <div>
                             <h3>11월</h3>
                             <div>
                                 {PrinterOpenData.november ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>
@@ -297,13 +349,15 @@ const BusinessPrinterControllMainPage = () => {
                     </li>
                     <li
                         className={PrinterOpenData.december ? 'PrinterOn' : 'PrinterOff'}
-                        onClick={() => handleClicks('december', PrinterOpenData.december)}
+                        onClick={() => handleClicks(`${NowYear.format('YYYY')}-12`, PrinterOpenData.december)}
                     >
                         <div>
                             <h3>12월</h3>
                             <div>
                                 {PrinterOpenData.december ? (
-                                    <RiEyeFill></RiEyeFill>
+                                    <div>
+                                        <span>프린터 출력이 가능합니다.</span>
+                                    </div>
                                 ) : (
                                     <div>
                                         <span>출력이 불가합니다.</span>

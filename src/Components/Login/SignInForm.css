@@ -31,14 +31,14 @@
     display: block;
     text-transform: uppercase;
     font-size: 1.2em;
-    color: black;
+    color: white;
     font-weight: bold;
 }
 .formFieldInput {
     width: 85%;
     background-color: transparent;
     border: none;
-    color: black;
+    color: white;
     outline: none;
     border-bottom: 1px solid #445366;
     font-size: 1em;
@@ -48,7 +48,7 @@
 }
 
 .formFieldInput::placeholder {
-    color: #616e7f;
+    color: white;
 }
 
 .formFieldButton {
@@ -82,9 +82,11 @@
     position: relative;
     top: 1.5px;
 }
-
+.formFields {
+    margin-top: 20%;
+}
 .formFieldTermsLink {
-    color: black;
+    color: white;
     border-bottom: 1px solid #6b5b95;
     text-decoration: none;
     display: inline-block;
@@ -98,7 +100,7 @@
 
 .appAside {
     width: 50%;
-    background-color: lightgray;
+    background-color: #2e6abe;
     height: 100vh;
     float: left;
     filter: drop-shadow(2px 4px 6px black);
@@ -106,7 +108,7 @@
 
 .appForm {
     width: 50%;
-    background-color: lightgray;
+    background-color: #2e6abe;
     padding: 25px 40px;
     overflow: auto;
     height: 100vh;
@@ -115,11 +117,11 @@
 }
 
 .formCenter h1 {
-    color: black;
+    color: white;
     font-size: 3rem;
 }
 .logo_center {
     height: 100%;
-    padding-top: 20%;
     text-align: center;
+    overflow: hidden;
 }

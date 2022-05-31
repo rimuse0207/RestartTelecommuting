@@ -83,14 +83,34 @@ const TeamLeaderBusinessTripContent = ({
 }: TeamLeaderBusinessTripContentTypes) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [getMoment, setMoment] = useState(moment());
-
+    const [PrinterControlData, setPrinterControlData] = useState(false);
     const today = getMoment;
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
     useEffect(() => {
-        if (InfomationState) getBusinessData();
+        if (InfomationState) {
+            getPrinterControl();
+            getBusinessData();
+        }
     }, [selectName, selectYear, selectMonth, selectId]);
+    const getPrinterControl = async () => {
+        try {
+            const getPrinterControlFromServer = await axios.get(
+                `${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupDataPrinter`,
+                {
+                    params: {
+                        date: `${selectYear}-${selectMonth}`,
+                    },
+                }
+            );
 
+            if (getPrinterControlFromServer.data.dataSuccess) {
+                setPrinterControlData(getPrinterControlFromServer.data.data[0].business_printer_control_type === 1 ? true : false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const getBusinessData = async () => {
         setBusinessDatas([]);
         setErpDatas([]);
@@ -246,7 +266,7 @@ const TeamLeaderBusinessTripContent = ({
             </ErpShowTableMainDivBox>
             <PrinterButtonContainer>
                 <div className="WeekAfterOTWorkSpace_store_button_div">
-                    <button
+                    {/* <button
                         onClick={() =>
                             window.open(
                                 `/BusinessShowMonthPrinter/${selectId}/${selectName}/${selectTeam}/${selectYear}/${selectMonth}`,
@@ -256,7 +276,24 @@ const TeamLeaderBusinessTripContent = ({
                         }
                     >
                         출력하기
-                    </button>
+                    </button> */}
+                    {PrinterControlData ? (
+                        <button
+                            onClick={() =>
+                                window.open(
+                                    `/BusinessShowMonthPrinter/${selectId}/${selectName}/${selectTeam}/${selectYear}/${selectMonth}`,
+                                    'BusinessShowMonthPrinter',
+                                    'width=980, height=700'
+                                )
+                            }
+                        >
+                            출력하기
+                        </button>
+                    ) : (
+                        <div>
+                            <h4>ERP 출장내역이 업로드 되지 않아 출력이 불가합니다.</h4>
+                        </div>
+                    )}
                 </div>
             </PrinterButtonContainer>
         </BusinessTripShowContentMainDivBox>
