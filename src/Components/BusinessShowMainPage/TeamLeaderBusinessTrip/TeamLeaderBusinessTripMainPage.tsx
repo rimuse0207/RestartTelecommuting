@@ -5,6 +5,8 @@ import SignInForm from '../../Login/SignInForm';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 
+import TeamLeaderPersonClickContent from './TeamLeaderPersonClickContent';
+
 const BusinessTripShowMainPage = () => {
     const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
@@ -14,8 +16,10 @@ const BusinessTripShowMainPage = () => {
         <div className="App">
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="월별 출장 현장 조회" subtitles="월별 출장 현장 조회"></HambergerMenu>
-                    <div style={{ position: 'relative', marginLeft: '10px' }}></div>
+                    <HambergerMenu titles="현장 수당 정산" subtitles="현장 수당 정산"></HambergerMenu>
+                    <div style={{ position: 'relative', marginLeft: '10px' }}>
+                        <TeamLeaderPersonClickContent></TeamLeaderPersonClickContent>
+                    </div>
                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
                 </div>
             ) : (

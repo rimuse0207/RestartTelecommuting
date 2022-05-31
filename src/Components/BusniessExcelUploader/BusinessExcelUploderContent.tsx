@@ -4,10 +4,16 @@ import { FileDrop } from 'react-file-drop';
 import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
-
+import moment from 'moment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 const BusinessExcelUploaderContentMainDivBox = styled.div`
     width: 80%;
     margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
     .upload-file-wrapper {
         border: 1px dashed rgba(0, 0, 0, 0.2);
         width: '600px';
@@ -102,6 +108,14 @@ const BusinessExcelUploaderContentMainDivBox = styled.div`
         font-size: 14px;
         color: #cdcdcd;
     }
+
+    .DBDateSelect {
+        margin-bottom: 30px;
+        select {
+            width: 200px;
+            height: 50px;
+        }
+    }
 `;
 
 const UploadedFileDataUlBox = styled.ul`
@@ -128,15 +142,45 @@ const UploadedFileDataUlBox = styled.ul`
     }
 `;
 
+const TableContainerDivMainPage = styled.div`
+    margin-top: 30px;
+    thead {
+        font-size: 0.8em;
+    }
+    .blueone {
+        border-collapse: collapse;
+    }
+    .blueone th {
+        padding: 10px;
+        color: #168;
+        border: none;
+        background-color: #fff;
+        border-bottom: 3px solid #168;
+        text-align: left;
+    }
+    .blueone td {
+        color: #669;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .blueone tr:hover td {
+        color: #004;
+    }
+`;
+
 type FileuploadDatasType = {
     name: string;
+    paper_code: string;
+    business_trip_period: string;
+    business_tip_length: number;
 };
 
 const BusinessExcelUploaderContent = () => {
     const [file, setFile] = useState<any>([]);
     const [UploadedFinish, setUploadedFinish] = useState(false);
-    const [UploadedData, setUploadedData] = useState<FileuploadDatasType[]>([]);
+    // const [UploadedData, setUploadedData] = useState<FileuploadDatasType[]>([]);
     const [InsertedData, setInsertedData] = useState<FileuploadDatasType[]>([]);
+    const [SelectDate, setSelectDate] = useState('없음');
     const handle = (files: any) => {
         let arr = Object.values(files);
         const dd = file.concat(arr);
@@ -151,9 +195,18 @@ const BusinessExcelUploaderContent = () => {
 
     const SaveDataFromFile = async () => {
         try {
+            if (SelectDate === '없음') {
+                alert('DB 저장 날짜를 선택 해 주세요.');
+                return;
+            } else if (file.length === 0) {
+                alert('등록 된 파일이 없습니다.');
+                return;
+            }
             const formData = new FormData();
+
             file.map((list: any, i: number) => {
                 formData.append(`file`, list);
+                formData.append('SelectDate', SelectDate);
             });
 
             const config = {
@@ -169,7 +222,7 @@ const BusinessExcelUploaderContent = () => {
             if (SendFileDataFromServer.data.dataSuccess) {
                 console.log(SendFileDataFromServer);
                 setFile([]);
-                setUploadedData(SendFileDataFromServer.data.DB_Upate_logs);
+                // setUploadedData(SendFileDataFromServer.data.DB_Upate_logs);
                 setInsertedData(SendFileDataFromServer.data.DB_Insert_logs);
                 toast.show({
                     title: '업로드 완료.',
@@ -179,7 +232,12 @@ const BusinessExcelUploaderContent = () => {
                 });
                 setUploadedFinish(true);
             } else {
-                alert('error');
+                toast.show({
+                    title: '업로드 실패.',
+                    content: 'IT팀에 문의 바랍니다.',
+                    duration: 6000,
+                    DataSuccess: false,
+                });
             }
         } catch (error) {
             console.log(error);
@@ -188,7 +246,29 @@ const BusinessExcelUploaderContent = () => {
 
     return (
         <BusinessExcelUploaderContentMainDivBox>
+            <div className="DBDateSelect">
+                <h3>DB 저장 날짜 선택</h3>
+                <div style={{ marginTop: '20px' }}>
+                    <FormControl sx={{ m: 1, width: 300 }} size="small">
+                        <InputLabel id="demo-select-small">DB 등록 날짜</InputLabel>
+                        <Select
+                            labelId="demo-select-small"
+                            id="demo-select-small"
+                            label="DB 등록 날짜"
+                            value={SelectDate}
+                            onChange={e => setSelectDate(e.target.value)}
+                        >
+                            <MenuItem value={'없음'}>없음</MenuItem>
+                            <MenuItem value={moment().clone().subtract(1, 'month').format('YYYY-MM')}>
+                                {moment().clone().subtract(1, 'month').format('YYYY년 MM월')}
+                            </MenuItem>
+                            <MenuItem value={moment().format('YYYY-MM')}>{moment().format('YYYY년 MM월')}</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+            </div>
             <h3>ERP 출장 정보 업로드 파일</h3>
+
             <div className="upload-file-wrapper">
                 <FileDrop onDrop={(files, event) => handle(files)}>
                     <p>업로드 하실 파일을 드래그 또는 클릭 하여 추가 </p>
@@ -216,34 +296,64 @@ const BusinessExcelUploaderContent = () => {
                 </UploadedFileDataUlBox>
             </div>
             <div>
-                <div>
-                    <button onClick={() => SaveDataFromFile()}>저장</button>
-                </div>
+                <div>{file.length > 0 ? <button onClick={() => SaveDataFromFile()}>저장</button> : <></>}</div>
             </div>
-            <div>
+
+            <TableContainerDivMainPage>
                 <h3>추가된 데이터</h3>
-                <ul>
-                    {InsertedData.map((list, j) => {
-                        return (
-                            <li>
-                                {j + 1}. {list.name}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-            <div>
+                <table className="blueone">
+                    <thead>
+                        <tr>
+                            <th>인덱스</th>
+                            <th>전표 번호</th>
+                            <th>이름</th>
+                            <th>출장 기간</th>
+                            <th>출장 일수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {InsertedData.map((list, j) => {
+                            return (
+                                <tr>
+                                    <td>{j + 1}</td>
+                                    <td>{list.paper_code}</td>
+                                    <td>{list.name}</td>
+                                    <td>{list.business_trip_period}</td>
+                                    <td>{list.business_tip_length}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </TableContainerDivMainPage>
+
+            {/* <TableContainerDivMainPage>
                 <h3>변경된 데이터</h3>
-                <ul>
-                    {UploadedData.map((list, j) => {
-                        return (
-                            <li>
-                                {j + 1}. {list.name}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                <table className="blueone">
+                    <thead>
+                        <tr>
+                            <th>인덱스</th>
+                            <th>전표 번호</th>
+                            <th>이름</th>
+                            <th>출장 기간</th>
+                            <th>출장 일수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {UploadedData.map((list, j) => {
+                            return (
+                                <tr>
+                                    <td>{j + 1}</td>
+                                    <td>{list.paper_code}</td>
+                                    <td>{list.name}</td>
+                                    <td>{list.business_trip_period}</td>
+                                    <td>{list.business_tip_length}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </TableContainerDivMainPage> */}
         </BusinessExcelUploaderContentMainDivBox>
     );
 };

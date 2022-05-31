@@ -13,7 +13,7 @@ const TeamLeaderTelecommutingMainpage = () => {
         <div className="App">
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="팀원 업무 현황" subtitles="팀원 종합 업무 현황 조회"></HambergerMenu>
+                    <HambergerMenu titles="팀원 종합 업무 현황" subtitles="팀원 종합 업무 현황 조회"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <TeamLeaderTelecommuting></TeamLeaderTelecommuting>
                     </div>

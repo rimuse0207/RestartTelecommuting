@@ -7,6 +7,7 @@ import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import { useParams } from 'react-router-dom';
 const BusinessTripShowContentMainDivBox = styled.div`
+    padding: 20px;
     .Telecommuting_Table {
         height: auto;
     }
@@ -17,16 +18,14 @@ const BusinessTripShowContentMainDivBox = styled.div`
 
 const ErpShowTableMainDivBox = styled.div`
     table {
-        width: 70%;
+        width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
-        margin-left: 20px;
-        margin-bottom: 20px;
     }
     th,
     td {
         border: none;
-        border-bottom: 1px solid #444444;
+        border: 1px solid #444444;
         background-color: none !important;
         padding: 10px;
         font-size: 0.8em;
@@ -39,6 +38,29 @@ const ErpShowTableMainDivBox = styled.div`
         border: none;
         font-size: 1em !important;
         background-color: none !important;
+    }
+    h4 {
+        margin-top: 20px;
+    }
+`;
+
+const PrinterInfoMainDivBox = styled.div`
+    display: flex;
+    justify-content: end;
+    table {
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 1em;
+        width: 100%;
+    }
+    table > thead,
+    th {
+        background-color: #fff !important;
+        font-size: 0.9em;
+        font-weight: bold;
+    }
+    tr > td {
+        border: 1px solid black;
     }
 `;
 
@@ -60,6 +82,7 @@ type ErpDatasTypes = {
     business_trip_period: string;
     business_tip_length: number;
     upload_date: string;
+    erp_business_write_write_reason: string;
 };
 
 type paramasTypes = {
@@ -75,9 +98,21 @@ const BusinessTripPrinterContent = () => {
 
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
+    const [Loading, setLoading] = useState(false);
     useEffect(() => {
         if (InfomationState) getBusinessData();
     }, [InfomationState]);
+
+    useEffect(() => {
+        if (Loading) {
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+            window.onafterprint = function () {
+                window.close();
+            };
+        }
+    }, [Loading]);
 
     const getBusinessData = async () => {
         try {
@@ -92,8 +127,9 @@ const BusinessTripPrinterContent = () => {
             });
             if (getBusinessDatas.data.dataSuccess) {
                 console.log(getBusinessDatas);
-                setBusinessDatas(getBusinessDatas.data.datas);
-                setErpDatas(getBusinessDatas.data.ERP_data);
+                await setBusinessDatas(getBusinessDatas.data.datas);
+                await setErpDatas(getBusinessDatas.data.ERP_data);
+                await setLoading(true);
             }
         } catch (error) {
             console.log(error);
@@ -139,7 +175,7 @@ const BusinessTripPrinterContent = () => {
                                                     const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
                                                     const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
-                                                        <div style={{ marginBottom: '5px' }}>ERP 출장 O</div>
+                                                        <div style={{ marginBottom: '5px', fontSize: '1.2em' }}>출장 일당</div>
                                                     ) : (
                                                         <div></div>
                                                     );
@@ -152,7 +188,7 @@ const BusinessTripPrinterContent = () => {
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{}}>현장신청(OT) △</div>
+                                                                <h2 style={{ color: 'red', fontSize: '1.2em' }}>현장 수당</h2>
                                                             </div>
                                                         )
                                                     ) : (
@@ -174,10 +210,39 @@ const BusinessTripPrinterContent = () => {
         <BusinessTripShowContentMainDivBox>
             <div className="CanlenderPagePrinter">
                 <div>
-                    <h2>
-                        {year}년 {month}월 {team.toUpperCase()}
-                        {name}
-                    </h2>
+                    <PrinterInfoMainDivBox>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td colSpan={2}>
+                                        현장 수당 정산서
+                                        <br />
+                                    </td>
+                                    <td>근무년월</td>
+                                    <td>
+                                        {year}년 {month}월
+                                    </td>
+                                    <td rowSpan={2}>
+                                        팀장
+                                        <br />
+                                        서명
+                                    </td>
+                                    <td rowSpan={2} style={{ width: '120px' }}></td>
+                                </tr>
+                                <tr>
+                                    <td>부서</td>
+                                    <td>{team.toUpperCase()}</td>
+                                    <td>성명</td>
+                                    <td>
+                                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                            <div>{name}</div>
+                                            <div>(인)</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </PrinterInfoMainDivBox>
                     <table className="Telecommuting_Table">
                         <thead>
                             <tr>
@@ -194,19 +259,16 @@ const BusinessTripPrinterContent = () => {
                     </table>
                 </div>
             </div>
-            );
             <ErpShowTableMainDivBox>
+                <h4>ERP 출장 등록 현황</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>성명</th>
+                            <th style={{ width: '100px' }}>성명</th>
                             <th>출장지</th>
                             <th>출장 기간</th>
-                            <th>
-                                출장 일수
-                                <br />
-                                (일당/40000)
-                            </th>
+                            <th style={{ width: '50px' }}>출장 일수</th>
+                            <th style={{ width: '300px' }}>비고</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -216,7 +278,10 @@ const BusinessTripPrinterContent = () => {
                                     <td>{list.name}</td>
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length}</td>
+                                    <td>{list.business_tip_length} 일</td>
+                                    <td style={{ width: '300px' }}>
+                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                    </td>
                                 </tr>
                             );
                         })}

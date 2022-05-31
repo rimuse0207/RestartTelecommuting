@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const MealPrinterMainPageDivBox = styled.div`
+    padding: 10px;
     @page {
         size: A4;
         background: none;

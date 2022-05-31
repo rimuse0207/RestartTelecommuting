@@ -3,10 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../models';
-import { DecryptKey } from '../../config';
-import { PrinterButtonContainer } from '../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
-import { toast } from '../ToastMessage/ToastManager';
+import { RootState } from '../../../models';
+import { DecryptKey } from '../../../config';
+import { PrinterButtonContainer } from '../../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
 const BusinessTripShowContentMainDivBox = styled.div`
     .Telecommuting_Table {
         height: auto;
@@ -66,54 +65,66 @@ type ErpDatasTypes = {
     upload_date: string;
     erp_business_write_write_reason: string;
 };
-const BusinessTripShowContent = () => {
+
+type TeamLeaderBusinessTripContentTypes = {
+    selectName: string;
+    selectTeam: string;
+    selectYear: string;
+    selectMonth: string;
+    selectId: string;
+};
+
+const TeamLeaderBusinessTripContent = ({
+    selectName,
+    selectTeam,
+    selectYear,
+    selectMonth,
+    selectId,
+}: TeamLeaderBusinessTripContentTypes) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [getMoment, setMoment] = useState(moment());
-
+    const [PrinterControlData, setPrinterControlData] = useState(false);
     const today = getMoment;
     const [BusinessDatas, setBusinessDatas] = useState<businiessTypes[]>([]);
     const [ErpDatas, setErpDatas] = useState<ErpDatasTypes[]>([]);
-    const [PrinterControlData, setPrinterControlData] = useState(false);
     useEffect(() => {
         if (InfomationState) {
             getPrinterControl();
             getBusinessData();
         }
-    }, [InfomationState, getMoment]);
-
+    }, [selectName, selectYear, selectMonth, selectId]);
     const getPrinterControl = async () => {
         try {
             const getPrinterControlFromServer = await axios.get(
                 `${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupDataPrinter`,
                 {
                     params: {
-                        date: moment(getMoment).format('YYYY-MM'),
+                        date: `${selectYear}-${selectMonth}`,
                     },
                 }
             );
-            console.log(getPrinterControlFromServer);
+
             if (getPrinterControlFromServer.data.dataSuccess) {
-                console.log(getPrinterControlFromServer);
                 setPrinterControlData(getPrinterControlFromServer.data.data[0].business_printer_control_type === 1 ? true : false);
             }
         } catch (error) {
             console.log(error);
         }
     };
-
     const getBusinessData = async () => {
+        setBusinessDatas([]);
+        setErpDatas([]);
         try {
             const getBusinessDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/businessGroupData`, {
                 params: {
-                    team: InfomationState.team,
-                    name: DecryptKey(InfomationState.name),
-                    id: DecryptKey(InfomationState.id),
-                    year: moment(getMoment).format('YYYY'),
-                    month: moment(getMoment).format('MM'),
+                    team: selectTeam,
+                    name: selectName,
+                    id: selectId,
+                    year: selectYear,
+                    month: selectMonth,
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
-                console.log(getBusinessDatas);
                 setBusinessDatas(getBusinessDatas.data.datas);
                 setErpDatas(getBusinessDatas.data.ERP_data);
             }
@@ -122,51 +133,8 @@ const BusinessTripShowContent = () => {
         }
     };
 
-    const handleChangeReason = (e: React.ChangeEvent<HTMLTextAreaElement>, data: ErpDatasTypes) => {
-        const findIndexs = ErpDatas.findIndex(item => item.paper_code === data.paper_code);
-        let copyErpDatas = [...ErpDatas];
-        if (findIndexs != -1) {
-            copyErpDatas[findIndexs] = { ...copyErpDatas[findIndexs], erp_business_write_write_reason: e.target.value };
-        }
-        setErpDatas(copyErpDatas);
-    };
-    const handleSaveData = async () => {
-        try {
-            const Erp_data_reason_send = await axios.post(
-                `${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/Business_Reason_Write`,
-                {
-                    ErpDatas,
-                }
-            );
-
-            if (Erp_data_reason_send.data.dataSuccess) {
-                toast.show({
-                    title: '데이터 저장 완료.',
-                    content: `현장 수당의 데이터 저장 완료.`,
-                    duration: 6000,
-                    DataSuccess: true,
-                });
-            } else {
-                toast.show({
-                    title: '데이터 저장 실패.',
-                    content: ` ' 제거후 다시 시도해주세요.`,
-                    duration: 6000,
-                    DataSuccess: false,
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            toast.show({
-                title: 'Error 발생',
-                content: `IT팀에 문의바랍니다.`,
-                duration: 6000,
-                DataSuccess: false,
-            });
-        }
-    };
-
     const calendarArr = () => {
-        const today = moment(`${moment(getMoment).format('YYYY')}-${moment(getMoment).format('MM')}-01`);
+        const today = moment(`${selectYear}-${selectMonth}-01`);
         const firstWeek = today.clone().startOf('month').week();
         const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
         let result: Array<any> = [];
@@ -245,27 +213,10 @@ const BusinessTripShowContent = () => {
     return (
         <BusinessTripShowContentMainDivBox>
             <div className="CanlenderPagePrinter">
-                <div className="control">
-                    <button
-                        onClick={() => {
-                            setMoment(getMoment.clone().subtract(1, 'month'));
-                        }}
-                    >
-                        {'<<<'}
-                    </button>
-                    <span>{today.format('YYYY년 MM월')}</span>
-                    <button
-                        onClick={() => {
-                            setMoment(getMoment.clone().add(1, 'month'));
-                        }}
-                    >
-                        {'>>>'}
-                    </button>
-                </div>
                 <div>
                     <h2>
-                        {moment(getMoment).format('YYYY년 MM월')} {InfomationState.team.toUpperCase()}
-                        {DecryptKey(InfomationState.name)}
+                        {selectYear}년 {selectMonth}월 {selectTeam.toUpperCase()}
+                        {selectName}
                     </h2>
                     <table className="Telecommuting_Table">
                         <thead>
@@ -286,7 +237,6 @@ const BusinessTripShowContent = () => {
 
             <ErpShowTableMainDivBox>
                 <h4>ERP 출장 등록 현황</h4>
-                <div style={{ textAlign: 'end', width: '95%' }}>*특이사항은 비고에 수기 작성 바랍니다.</div>
                 <table>
                     <thead>
                         <tr>
@@ -294,24 +244,19 @@ const BusinessTripShowContent = () => {
                             <th>출장지</th>
                             <th>출장 기간</th>
                             <th>출장 일수</th>
-                            <th style={{ width: '500px' }}>비고 </th>
+                            <th style={{ width: '500px' }}>비고</th>
                         </tr>
                     </thead>
                     <tbody>
                         {ErpDatas.map((list, i) => {
                             return (
-                                <tr>
+                                <tr key={list.paper_code}>
                                     <td>{list.name}</td>
                                     <td>{list.business_location}</td>
                                     <td>{list.business_trip_period}</td>
                                     <td>{list.business_tip_length} 일</td>
                                     <td style={{ width: '500px' }}>
-                                        {/* <textarea
-                                            style={{ width: '400px', height: '60px', padding: '10px' }}
-                                            value={list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
-                                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChangeReason(e, list)}
-                                            placeholder="출장 일당과 현장 수당이 겹치는 경우 비고에 출장 날짜 필수 기재"
-                                        ></textarea> */}
+                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
                                     </td>
                                 </tr>
                             );
@@ -321,14 +266,22 @@ const BusinessTripShowContent = () => {
             </ErpShowTableMainDivBox>
             <PrinterButtonContainer>
                 <div className="WeekAfterOTWorkSpace_store_button_div">
-                    {/* <button onClick={() => handleSaveData()}>저장</button> */}
+                    {/* <button
+                        onClick={() =>
+                            window.open(
+                                `/BusinessShowMonthPrinter/${selectId}/${selectName}/${selectTeam}/${selectYear}/${selectMonth}`,
+                                'BusinessShowMonthPrinter',
+                                'width=980, height=700'
+                            )
+                        }
+                    >
+                        출력하기
+                    </button> */}
                     {PrinterControlData ? (
                         <button
                             onClick={() =>
                                 window.open(
-                                    `/BusinessShowMonthPrinter/${DecryptKey(InfomationState.id)}/${DecryptKey(InfomationState.name)}/${
-                                        InfomationState.team
-                                    }/${moment(getMoment).format('YYYY')}/${moment(getMoment).format('MM')}`,
+                                    `/BusinessShowMonthPrinter/${selectId}/${selectName}/${selectTeam}/${selectYear}/${selectMonth}`,
                                     'BusinessShowMonthPrinter',
                                     'width=980, height=700'
                                 )
@@ -347,4 +300,4 @@ const BusinessTripShowContent = () => {
     );
 };
 
-export default BusinessTripShowContent;
+export default TeamLeaderBusinessTripContent;

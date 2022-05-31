@@ -253,9 +253,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     <span></span>
                     <span></span>
                 </div>
-                <div className="title">
-                    <span className="Navigation_title_text_css">{subtitles}</span>
-                </div>
+                <div className="title">{/* <span className="Navigation_title_text_css">{subtitles}</span> */}</div>
                 <div>
                     <div className="Navigation_Info_div">
                         <div>

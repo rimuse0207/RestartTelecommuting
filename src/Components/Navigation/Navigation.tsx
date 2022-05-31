@@ -125,7 +125,10 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         {OTMenuClicks ? (
                             <ul className="MenuDisblock">
                                 <div className="slideDown">
-                                    <Link to="/AfterOtworkspace">
+                                    {/* <Link to="/AfterOtworkspace">
+                                        <li>OT 신청</li>
+                                    </Link> */}
+                                    <Link to="/AfterOTTest">
                                         <li>OT 신청</li>
                                     </Link>
                                     {InfomationState.position === '이사' ||
@@ -137,22 +140,39 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
                                         <>
                                             <Link to="/TeamLeaderPageMainPage">
-                                                <li>팀원 OT 조회</li>
-                                            </Link>
-                                            <Link to="/TeamSelectOTWorkSpace">
-                                                <li>월별 OT 조회</li>
+                                                <li>팀원 OT 승인</li>
                                             </Link>
                                         </>
                                     ) : (
                                         <></>
                                     )}
+
                                     {BusinessAccess ? (
                                         <>
-                                            <Link to="/AfterOTTest">
-                                                <li>(임시) test OT 신청</li>
-                                            </Link>
-                                            <Link to="/BusinessShow">
-                                                <li>월별 현장 출장 조회</li>
+                                            {BusinessAdminAcessState ? (
+                                                <Link to="/TeamLeaderBusinessTripMainPage">
+                                                    <li>현장 수당 정산</li>
+                                                </Link>
+                                            ) : (
+                                                <Link to="/BusinessShow">
+                                                    <li>현장 수당 정산</li>
+                                                </Link>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
+
+                                    {InfomationState.position === '이사' ||
+                                    InfomationState.position === '팀장' ||
+                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
+                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                        <>
+                                            <Link to="/TeamSelectOTWorkSpace">
+                                                <li>근무 실시보고서</li>
                                             </Link>
                                         </>
                                     ) : (
@@ -160,15 +180,16 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     )}
                                     {BusinessAdminAcessState ? (
                                         <>
-                                            <Link to="/">
-                                                <li>
-                                                    월별 팀원
-                                                    <br /> 현장 출장 조회
-                                                </li>
-                                            </Link>
-                                            <Link to="/BusinessExcelUploader">
-                                                <li>ERP 파일 업로드</li>
-                                            </Link>
+                                            {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
+                                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ? (
+                                                <Link to="/BusinessExcelUploader">
+                                                    <li>ERP 파일 업로드</li>
+                                                </Link>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </>
                                     ) : (
                                         <></>

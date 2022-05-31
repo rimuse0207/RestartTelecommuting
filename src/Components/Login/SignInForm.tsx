@@ -106,14 +106,14 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
         <div>
             <div className="appAside">
                 <div className="logo_center">
-                    <img src="/dhks.jpg" width="70%"></img>
+                    <img src="/test.jpg" width="100%"></img>
                 </div>
             </div>
             <div className="appForm">
                 <div className="formCenter">
                     <form className="formFields" onSubmit={(event: React.SyntheticEvent) => handleSubmit(event)}>
-                        <h1>DHKS</h1>
-                        <h2>Portal Site</h2>
+                        {/* <h1>재택 프로그램</h1> */}
+                        <h1>Portal Site</h1>
                         <div className="formField">
                             <label className="formFieldLabel" htmlFor="email">
                                 E-Mail Address

@@ -11,9 +11,20 @@ type TeleSelectClickModalProps = {
     modalClose: () => void;
 };
 
+type BusinessCheckDataType = {
+    indexs: number;
+    id: string;
+    name: string;
+    apply_date: string;
+    teamleader_check: number;
+    type: string;
+    BusinessAccess: number;
+};
+
 const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }: TeleSelectClickModalProps) => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [BusinessCheck, setBusinessCheck] = useState<BusinessCheckDataType[]>([]);
     const [checkedOTdata, setcheckedOTdata] = useState({
         start_time_mon: '',
         start_time_tue: '',
@@ -37,14 +48,15 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
     }, [clicksData]);
 
     const getSomeData = async (clicksData: any) => {
-        console.log(clicksData);
         try {
             const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/TeamSelectOT_app_server/AfterOTDataSelectModal`, {
                 date: moment(clicksData.date_mon).format('YYYY-MM-DD'),
                 id: clicksData.id,
             });
+
             if (getSomeDatas.data.dataSuccess) {
                 setcheckedOTdata(getSomeDatas.data.data[0]);
+                setBusinessCheck(getSomeDatas.data.business_check);
             }
         } catch (error) {
             console.log(error);
@@ -169,17 +181,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
             <h2>{clicksData.name}</h2>
             <div>
                 <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: '0', textAlign: 'center' }}>
-                    <thead style={{ backgroundColor: '#F7C80E' }}>
+                    <thead style={{ backgroundColor: '#2DA8E5' }}>
                         <tr
                             className="testssBefore"
                             style={{
                                 borderTop: '1.5px solid black',
                                 borderLeft: '1.3px solid black',
                                 borderRight: '1.3px solid black',
-                                backgroundColor: '#F7C80E',
+                                backgroundColor: '#2DA8E5',
                             }}
                         >
-                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
                                 일자
                             </th>
                             <th
@@ -187,28 +199,41 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 style={{
                                     borderRight: '1.2px solid black',
                                     borderBottom: '1.2px solid black',
-                                    backgroundColor: '#F7C80E',
+                                    backgroundColor: '#2DA8E5',
                                 }}
                             >
                                 소정근로
                             </th>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
+                                        현장 수당
+                                        <br />
+                                        출장 일당
+                                    </th>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <th
                                 colSpan={4}
                                 style={{
                                     borderRight: '1.2px solid black',
                                     borderBottom: '1.2px solid black',
-                                    backgroundColor: '#F7C80E',
+                                    backgroundColor: '#2DA8E5',
                                 }}
                             >
                                 {' '}
                                 연장 근무
                             </th>
-                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ borderRight: '1.2px solid black', backgroundColor: '#2DA8E5' }}>
                                 총 근무 <br />
                                 합계 시간
                                 <br />
                             </th>
-                            <th rowSpan={2} style={{ backgroundColor: '#F7C80E' }}>
+                            <th rowSpan={2} style={{ backgroundColor: '#2DA8E5' }}>
                                 연장 사유
                             </th>
                         </tr>
@@ -254,6 +279,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[0].type === '없음' ? '' : BusinessCheck[0].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
 
                             <td rowSpan={3} width="100px">
                                 {clicksData.start_time_mon}
@@ -304,6 +340,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[1].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[1].type === '없음' ? '' : BusinessCheck[1].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_tue}</td>
                             <td rowSpan={3}>{clicksData.end_time_tue}</td>
                             <td rowSpan={3}>{clicksData.tue_rest}</td>
@@ -346,6 +393,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[2].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[2].type === '없음' ? '' : BusinessCheck[2].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_wed}</td>
                             <td rowSpan={3}>{clicksData.end_time_wed}</td>
                             <td rowSpan={3}>{clicksData.wed_rest}</td>
@@ -388,6 +446,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[3].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[3].type === '없음' ? '' : BusinessCheck[3].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_thu}</td>
                             <td rowSpan={3}>{clicksData.end_time_thu}</td>
                             <td rowSpan={3}>{clicksData.thu_rest}</td>
@@ -430,6 +499,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>{' '}
                                 시간
                             </td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[4].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[4].type === '없음' ? '' : BusinessCheck[4].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_fri}</td>
                             <td rowSpan={3}>{clicksData.end_time_fri}</td>
                             <td rowSpan={3}>{clicksData.fri_rest}</td>
@@ -467,6 +547,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[5].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[5].type === '없음' ? '' : BusinessCheck[5].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_sat}</td>
                             <td rowSpan={3}>{clicksData.end_time_sat}</td>
                             <td rowSpan={3}>{clicksData.sat_rest}</td>
@@ -504,6 +595,17 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
                             <td rowSpan={3}></td>
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[6].BusinessAccess ? (
+                                    <td rowSpan={3} width="100px">
+                                        {BusinessCheck[6].type === '없음' ? '' : BusinessCheck[6].type}
+                                    </td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
                             <td rowSpan={3}>{clicksData.start_time_sun}</td>
                             <td rowSpan={3}>{clicksData.end_time_sun}</td>
                             <td rowSpan={3}>{clicksData.sun_rest}</td>
@@ -545,7 +647,21 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                                 </span>
                                 시간
                             </td>
-                            <td colSpan={3} style={{ background: 'darkgray', fontWeight: 'bolder' }}>
+
+                            {BusinessCheck.length > 0 ? (
+                                BusinessCheck[0].BusinessAccess ? (
+                                    <td>{BusinessCheck.reduce((count, data) => (data.type === '현장' ? count + 1 : count), 0)}일</td>
+                                ) : (
+                                    <></>
+                                )
+                            ) : (
+                                <></>
+                            )}
+
+                            <td
+                                colSpan={BusinessCheck.length > 0 ? (BusinessCheck[0].BusinessAccess ? 2 : 3) : 3}
+                                style={{ background: 'darkgray', fontWeight: 'bolder' }}
+                            >
                                 연장근무 총합계
                             </td>
                             <td colSpan={1}>

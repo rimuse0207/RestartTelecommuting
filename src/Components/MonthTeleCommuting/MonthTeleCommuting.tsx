@@ -16,7 +16,7 @@ const MonthTeleCommuting = () => {
             {' '}
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="재택 월별 조회" subtitles="월별 재택 조회 및 엑셀 다운로드"></HambergerMenu>
+                    <HambergerMenu titles="월별 재택 조회" subtitles="월별 재택 조회 및 엑셀 다운로드"></HambergerMenu>
                     <div style={{ position: 'relative' }}>
                         <MonthTeleCommutingMainPage></MonthTeleCommutingMainPage>
                     </div>

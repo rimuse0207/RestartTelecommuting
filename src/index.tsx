@@ -37,8 +37,12 @@ import MealPrinterMainPage from './Components/OtMainPage/MealPrinter/MealPrinter
 import BusinessExcelUplodaerMainPage from './Components/BusniessExcelUploader/BusinessExcelUploaderMainPage';
 import BusinessTripShowMainPage from './Components/BusinessShowMainPage/BusinessTripShowMainPage';
 import BusinessTripPrinterContent from './Components/BusinessShowMainPage/BusinessTripPrinterContent';
+<<<<<<< HEAD
 
 
+=======
+import TeamLeaderBusinessTripMainPage from './Components/BusinessShowMainPage/TeamLeaderBusinessTrip/TeamLeaderBusinessTripMainPage';
+>>>>>>> remotes/origin/company
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}></PersistGate>
@@ -69,6 +73,7 @@ ReactDOM.render(
                     <Route path="/PrinterMeal/:date/:id/:name/:team" component={MealPrinterMainPage}></Route>
                     <Route path="/BusinessExcelUploader" component={BusinessExcelUplodaerMainPage}></Route>
                     <Route path="/BusinessShow" component={BusinessTripShowMainPage}></Route>
+                    <Route path="/TeamLeaderBusinessTripMainPage" component={TeamLeaderBusinessTripMainPage}></Route>
                     <Route path="/PrinterButton" component={OtPrinterButton}></Route>
                     <Route path="/BusinessShowMonthPrinter/:id/:name/:team/:year/:month" component={BusinessTripPrinterContent}></Route>
 

@@ -15,7 +15,7 @@ const BusinessTripShowMainPage = () => {
         <div className="App">
             {loginChecked ? (
                 <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="월별 출장 현장 조회" subtitles="월별 출장 현장 조회"></HambergerMenu>
+                    <HambergerMenu titles="현장 수당 정산" subtitles="현장 수당 정산"></HambergerMenu>
                     <div style={{ position: 'relative', marginLeft: '10px' }}>
                         <BusinessTripShowContent></BusinessTripShowContent>
                     </div>
