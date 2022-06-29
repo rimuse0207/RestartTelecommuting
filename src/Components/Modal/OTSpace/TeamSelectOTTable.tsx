@@ -95,10 +95,28 @@ const TeamSelectOTTable = ({ teamBelongInfo, selectTeam, selectYear, selectMonth
                                 <td>
                                     {list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes - list.holidaySum_time + ' 시간' : ''}
                                 </td>
-                                <td>{list.nightTimes > 0 || list.sumTimes > 0 || list.holidaySum_time ? list.nightTimes + ' 시간' : ''}</td>
-                                <td>{list.holidaySum_time > 0 || list.sumTimes > 0 ? list.holidaySum_time + ' 시간' : ''}</td>
+                                <td>
+                                    {list.nightTimes > 0 || list.sumTimes > 0 || list.holidaySum_time
+                                        ? list.nightTimes === 0
+                                            ? ''
+                                            : list.nightTimes + ' 시간'
+                                        : ''}
+                                </td>
+                                <td>
+                                    {list.holidaySum_time > 0 || list.sumTimes > 0
+                                        ? list.holidaySum_time === 0
+                                            ? ''
+                                            : list.holidaySum_time + ' 시간'
+                                        : ''}
+                                </td>
 
-                                <td>{list.sumTimes > 0 || list.holidaySum_time > 0 ? list.sumTimes + ' 시간' : ''}</td>
+                                <td>
+                                    {list.sumTimes > 0 || list.holidaySum_time > 0
+                                        ? list.sumTimes === 0
+                                            ? ''
+                                            : list.sumTimes + ' 시간'
+                                        : ''}
+                                </td>
                             </tr>
                         );
                     })}

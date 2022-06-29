@@ -12,6 +12,7 @@ type WeekBeforeOTWorkSpaceProps = {
     friDateData: WeekInfomDataTypes;
     satDateData: WeekInfomDataTypes;
     sunDateData: WeekInfomDataTypes;
+
     id: string;
 };
 
@@ -29,6 +30,7 @@ type WeekInfomDataTypes = {
     OTreason3: string;
     holidayCheck: string;
     OTnightSum: number;
+    business_trip: string;
 };
 const AfterOtTeamLeaderFinish = ({
     startDate,
@@ -130,7 +132,7 @@ const AfterOtTeamLeaderFinish = ({
                             </span>
                             시간
                         </td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{monDateData.business_trip}</td>
 
                         <td width="100px">{monDateData.OTStartTime}</td>
                         <td width="100px">{monDateData.OTEndTime}</td>
@@ -167,7 +169,7 @@ const AfterOtTeamLeaderFinish = ({
                             </span>{' '}
                             시간
                         </td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{tueDateData.business_trip}</td>
                         <td>{tueDateData.OTStartTime}</td>
                         <td>{tueDateData.OTEndTime}</td>
                         <td>{tueDateData.OTRestTime}</td>
@@ -202,7 +204,7 @@ const AfterOtTeamLeaderFinish = ({
                             </span>{' '}
                             시간
                         </td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{wedDateData.business_trip}</td>
                         <td>{wedDateData.OTStartTime}</td>
                         <td>{wedDateData.OTEndTime}</td>
                         <td>{wedDateData.OTRestTime}</td>
@@ -237,7 +239,7 @@ const AfterOtTeamLeaderFinish = ({
                             </span>{' '}
                             시간
                         </td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{thuDateData.business_trip}</td>
                         <td>{thuDateData.OTStartTime}</td>
                         <td>{thuDateData.OTEndTime}</td>
                         <td>{thuDateData.OTRestTime}</td>
@@ -272,7 +274,7 @@ const AfterOtTeamLeaderFinish = ({
                             </span>{' '}
                             시간
                         </td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{friDateData.business_trip}</td>
                         <td>{friDateData.OTStartTime}</td>
                         <td>{friDateData.OTEndTime}</td>
                         <td>{friDateData.OTRestTime}</td>
@@ -302,7 +304,7 @@ const AfterOtTeamLeaderFinish = ({
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{satDateData.business_trip}</td>
                         <td>{satDateData.OTStartTime}</td>
                         <td>{satDateData.OTEndTime}</td>
                         <td>{satDateData.OTRestTime}</td>
@@ -334,7 +336,7 @@ const AfterOtTeamLeaderFinish = ({
 
                         <td></td>
                         <td></td>
-                        <td width="100px">{`현장`}</td>
+                        <td width="100px">{sunDateData.business_trip}</td>
                         <td>{sunDateData.OTStartTime}</td>
                         <td>{sunDateData.OTEndTime}</td>
                         <td>{sunDateData.OTRestTime}</td>

@@ -703,7 +703,7 @@ const Telecommuting = () => {
     return (
         <div>
             <div className="Telecommuting_date_show_div">
-                <div className="Telecommuting_apply_div_box">
+                {/* <div className="Telecommuting_apply_div_box">
                     <button
                         onClick={() => {
                             setClicksData(null);
@@ -712,7 +712,7 @@ const Telecommuting = () => {
                     >
                         작성하기
                     </button>
-                </div>
+                </div> */}
                 <div className="control">
                     <button
                         onClick={() => {

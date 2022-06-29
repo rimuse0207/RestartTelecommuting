@@ -61,7 +61,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -74,7 +76,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -87,7 +91,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -100,7 +106,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -114,7 +122,7 @@ const CeCalendarPublicPage = () => {
                 setData(
                     data.map(item =>
                         item.indexs === datas.indexs
-                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: '유성재' }
+                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: DecryptKey(InfomationState.name) }
                             : item
                     )
                 );
@@ -128,7 +136,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -141,7 +151,9 @@ const CeCalendarPublicPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }

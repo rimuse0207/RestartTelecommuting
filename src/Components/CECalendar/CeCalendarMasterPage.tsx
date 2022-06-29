@@ -64,8 +64,11 @@ const CeCalendarMasterPage = () => {
     const dataGetSome = async () => {
         try {
             const DataGetSomeCECalendar = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`);
+            console.log(DataGetSomeCECalendar);
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
+            } else {
+                alert('에러');
             }
         } catch (error) {
             console.log(error);
@@ -111,12 +114,12 @@ const CeCalendarMasterPage = () => {
             }
         } catch (error) {
             console.log(error);
-             toast.show({
-                 title: 'ERROR!',
-                 content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
-                 duration: 6000,
-                 DataSuccess: false,
-             });
+            toast.show({
+                title: 'ERROR!',
+                content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+                duration: 6000,
+                DataSuccess: false,
+            });
         }
     };
 
@@ -201,7 +204,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -214,7 +219,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -227,7 +234,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -240,7 +249,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -254,7 +265,7 @@ const CeCalendarMasterPage = () => {
                 setData(
                     data.map(item =>
                         item.indexs === datas.indexs
-                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: '유성재' }
+                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: DecryptKey(InfomationState.name) }
                             : item
                     )
                 );
@@ -268,7 +279,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -281,7 +294,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -568,7 +583,7 @@ const CeCalendarMasterPage = () => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <WriteData dataInsertOn={() => dataGetSome()}></WriteData>
+                <WriteData dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></WriteData>
             </Modal>
         </div>
     );

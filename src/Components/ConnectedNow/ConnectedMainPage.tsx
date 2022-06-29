@@ -6,24 +6,33 @@ import SliderPage from '../SliderPage';
 import SignInForm from '../Login/SignInForm';
 import ConnectedPeopleShow from './ConnectedPeopleShow';
 
-const ConnectedMainPage = () => {
-    const socket = useSelector((state: RootState) => state.Socket.socket);
-    const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
+// const ConnectedMainPage = () => {
+//     const socket = useSelector((state: RootState) => state.Socket.socket);
+//     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
 
-    const [loginCheck, setLoginCheck] = useState(false);
+//     const [loginCheck, setLoginCheck] = useState(false);
+//     return (
+//         <div>
+//             {loginChecked ? (
+//                 <div style={{ height: '100%' }}>
+//                     <HambergerMenu titles="상대방 호출" subtitles="실시간 접속자 및 상대방 호출"></HambergerMenu>
+//                     <div style={{ position: 'relative' }}>
+//                         <ConnectedPeopleShow></ConnectedPeopleShow>
+//                     </div>
+//                     <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
+//                 </div>
+//             ) : (
+//                 <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>
+//             )}
+//         </div>
+//     );
+// };
+
+const ConnectedMainPage = () => {
     return (
         <div>
-            {loginChecked ? (
-                <div style={{ height: '100%' }}>
-                    <HambergerMenu titles="상대방 호출" subtitles="실시간 접속자 및 상대방 호출"></HambergerMenu>
-                    <div style={{ position: 'relative' }}>
-                        <ConnectedPeopleShow></ConnectedPeopleShow>
-                    </div>
-                    <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
-                </div>
-            ) : (
-                <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>
-            )}
+            <HambergerMenu titles="상대방 호출" subtitles="실시간 접속자 및 상대방 호출"></HambergerMenu>
+            <ConnectedPeopleShow></ConnectedPeopleShow>
         </div>
     );
 };

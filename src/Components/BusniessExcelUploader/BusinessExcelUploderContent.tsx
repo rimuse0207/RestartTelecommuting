@@ -241,6 +241,12 @@ const BusinessExcelUploaderContent = () => {
             }
         } catch (error) {
             console.log(error);
+            toast.show({
+                title: '업로드 실패.',
+                content: 'IT팀에 문의 바랍니다.',
+                duration: 6000,
+                DataSuccess: false,
+            });
         }
     };
 
