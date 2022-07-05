@@ -3,6 +3,15 @@ import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models/index';
 
+type socketProps = {
+    id: string;
+    name: string;
+    team: string;
+    socket_id: string;
+    company: string;
+    position: string;
+};
+
 const ConnectedPeopleShow = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const checkedCheck = useRef<any>('null');
@@ -23,19 +32,25 @@ const ConnectedPeopleShow = () => {
             socket.emit('getConnectedPeople', {});
             socket.on('getConnectedPeople', (data: any) => {
                 setConnectNow(data.data);
+                console.log(data);
+            });
+            socket.on('disconnected', (data: any) => {
+                setConnectNow(data.data);
+                console.log(data);
+            });
+            socket.on('users_come_in', (data: any) => {
+                setConnectNow(data.data);
+                console.log(data);
             });
         }
     }, [socket]);
 
-    const handleChanges = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        data: { name: string; team: string; connect_socket_id: string; company: string; connect_id: string }
-    ) => {
+    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>, data: socketProps) => {
         if (e.target.checked) {
-            const checked = [{ name: data.name, socketsID: data.connect_socket_id, id: data.connect_id }];
+            const checked = [{ name: data.name, socketsID: data.socket_id, id: data.id }];
             setCheckBoxBelong(checkBoxBelong.concat(checked));
         } else {
-            setCheckBoxBelong(checkBoxBelong.filter((user: { id: string }) => user.id !== data.connect_id));
+            setCheckBoxBelong(checkBoxBelong.filter((user: { id: string }) => user.id !== data.id));
         }
     };
 
@@ -70,36 +85,24 @@ const ConnectedPeopleShow = () => {
                             <tbody>
                                 {connectNow
                                     .filter((item: { company: string }) => item.company.includes('DHKS'))
-                                    .map(
-                                        (
-                                            list: {
-                                                name: string;
-                                                team: string;
-                                                connect_socket_id: string;
-                                                company: string;
-                                                connect_id: string;
-                                                position: string;
-                                            },
-                                            i
-                                        ) => {
-                                            return (
-                                                <tr key={list.connect_socket_id}>
-                                                    <td>
-                                                        <input
-                                                            ref={checkedCheck}
-                                                            className="CheckedChecked"
-                                                            type="checkbox"
-                                                            onChange={e => handleChanges(e, list)}
-                                                            readOnly
-                                                        />
-                                                    </td>
-                                                    <td>{list.name}</td>
-                                                    <td>{list.team}팀</td>
-                                                    <td>{list.position}</td>
-                                                </tr>
-                                            );
-                                        }
-                                    )}
+                                    .map((list: socketProps, i) => {
+                                        return (
+                                            <tr key={list.socket_id}>
+                                                <td>
+                                                    <input
+                                                        ref={checkedCheck}
+                                                        className="CheckedChecked"
+                                                        type="checkbox"
+                                                        onChange={e => handleChanges(e, list)}
+                                                        readOnly
+                                                    />
+                                                </td>
+                                                <td>{list.name}</td>
+                                                <td>{list.team}팀</td>
+                                                <td>{list.position}</td>
+                                            </tr>
+                                        );
+                                    })}
                             </tbody>
                         </table>
                     </div>
@@ -117,36 +120,24 @@ const ConnectedPeopleShow = () => {
                             <tbody>
                                 {connectNow
                                     .filter((item: { company: string }) => item.company.includes('EXICON'))
-                                    .map(
-                                        (
-                                            list: {
-                                                name: string;
-                                                team: string;
-                                                connect_socket_id: string;
-                                                company: string;
-                                                connect_id: string;
-                                                position: string;
-                                            },
-                                            i
-                                        ) => {
-                                            return (
-                                                <tr key={list.connect_socket_id}>
-                                                    <td>
-                                                        <input
-                                                            ref={checkedCheck}
-                                                            className="CheckedChecked"
-                                                            type="checkbox"
-                                                            onChange={e => handleChanges(e, list)}
-                                                            readOnly
-                                                        />
-                                                    </td>
-                                                    <td>{list.name}</td>
-                                                    <td>{list.team}팀</td>
-                                                    <td>{list.position}</td>
-                                                </tr>
-                                            );
-                                        }
-                                    )}
+                                    .map((list: socketProps, i) => {
+                                        return (
+                                            <tr key={list.socket_id}>
+                                                <td>
+                                                    <input
+                                                        ref={checkedCheck}
+                                                        className="CheckedChecked"
+                                                        type="checkbox"
+                                                        onChange={e => handleChanges(e, list)}
+                                                        readOnly
+                                                    />
+                                                </td>
+                                                <td>{list.name}</td>
+                                                <td>{list.team}팀</td>
+                                                <td>{list.position}</td>
+                                            </tr>
+                                        );
+                                    })}
                             </tbody>
                         </table>
                     </div>
@@ -167,17 +158,17 @@ const ConnectedPeopleShow = () => {
                                     .map(
                                         (
                                             list: {
+                                                id: string;
                                                 name: string;
                                                 team: string;
-                                                connect_socket_id: string;
+                                                socket_id: string;
                                                 company: string;
-                                                connect_id: string;
                                                 position: string;
                                             },
                                             i
                                         ) => {
                                             return (
-                                                <tr key={list.connect_socket_id}>
+                                                <tr key={list.socket_id}>
                                                     <td>
                                                         <input
                                                             ref={checkedCheck}

@@ -15,7 +15,7 @@ import TeamLeaderBeforeOTData from './TeamLeader_Thunk_models/TeamLeaderBeforeOT
 import TeamLeaderAfterOTData from './TeamLeader_Thunk_models/TeamLeaderAfterOTData';
 import numberingTest from './ReduxTestFile';
 import Access_Control from './Access_Redux/Access_Redux';
-
+import CSMFiltering from './CSMFilteringRedux/CSMFilteringRedux';
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
@@ -33,6 +33,7 @@ const rootReducer = combineReducers({
     PartsData,
     numberingTest,
     Access_Control,
+    CSMFiltering,
 });
 
 export default rootReducer;

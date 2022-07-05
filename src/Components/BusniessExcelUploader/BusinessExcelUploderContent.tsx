@@ -118,7 +118,7 @@ const BusinessExcelUploaderContentMainDivBox = styled.div`
     }
 `;
 
-const UploadedFileDataUlBox = styled.ul`
+export const UploadedFileDataUlBox = styled.ul`
     border: 1px solid black;
     li {
         padding: 10px;
@@ -142,7 +142,7 @@ const UploadedFileDataUlBox = styled.ul`
     }
 `;
 
-const TableContainerDivMainPage = styled.div`
+export const TableContainerDivMainPage = styled.div`
     margin-top: 30px;
     thead {
         font-size: 0.8em;

@@ -48,7 +48,6 @@ const RouterPageMainDivBox = styled.div`
 const RouterPage = () => {
     const dispatch = useDispatch();
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
-    // const socket = useSelector((state: RootState) => state.Socket.socket);
     useEffect(() => {
         if (loginChecked) socketconnect();
     }, [loginChecked]);

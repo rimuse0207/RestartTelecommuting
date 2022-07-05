@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import CeCalendarMasterPage from './CeCalendarMasterPage';
+import CeCalendarSubMenu from './CeCalendarSubMenu';
 
 // const CeCalendarMainPage = () => {
 //     const socket = useSelector((state: RootState) => state.Socket.socket);
@@ -41,8 +42,8 @@ const CeCalendarMainPage = () => {
     return (
         <div>
             <HambergerMenu titles="CSM" subtitles="CSM관리"></HambergerMenu>
-            {DecryptKey(InfomationState.name) === '이광민' ? (
-                <CeCalendarMasterPage></CeCalendarMasterPage>
+            {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
+                <CeCalendarSubMenu></CeCalendarSubMenu>
             ) : (
                 <CeCalendarPublicPage></CeCalendarPublicPage>
             )}
