@@ -123,7 +123,7 @@ const RouterPage = () => {
                                     {/* 상대방 호출 */}
                                     <Route path="/ConnectedNow" component={ConnectedMainPage}></Route>
                                     {/* CSM */}
-                                    <Route path="/CECalendar" component={CeCalendarMainPage}></Route>
+                                    <Route path="/CECalendar/:pagenumber" component={CeCalendarMainPage}></Route>
                                     {/* 비밀번호 변경 */}
                                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                                     {/* Exicon, YIKC 사용자 등록 */}

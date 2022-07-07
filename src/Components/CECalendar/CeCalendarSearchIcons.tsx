@@ -8,8 +8,10 @@ import { GrPowerReset } from 'react-icons/gr';
 import { GoSearch } from 'react-icons/go';
 import Modal from 'react-modal';
 import WriterPage from './WriterPage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../models';
 import { CSMFilteringAdd, CSMFilteringReset } from '../../models/CSMFilteringRedux/CSMFilteringRedux';
+import { DecryptKey } from '../../config';
 
 const customStyles = {
     content: {
@@ -199,20 +201,13 @@ type FilteringDataTypes = {
 
 const CeCalendarSearchIcons = () => {
     const dispatch = useDispatch();
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const [SelectClicksModals, setSelectClicksModals] = useState({
         FilterSearch: false,
         NewDataModal: false,
     });
-    const [FilteringData, setFilteringData] = useState<FilteringDataTypes>({
-        state: '',
-        grade: '',
-        start_issue_date: '',
-        finish_issue_date: '',
-        CSMNumber: '',
-        ModelNumber: '',
-        Binds: '',
-        custom: '',
-    });
+    const [FilteringData, setFilteringData] = useState<FilteringDataTypes>(GetCSMFilteringData);
 
     function closeModal() {
         setSelectClicksModals({
@@ -241,6 +236,7 @@ const CeCalendarSearchIcons = () => {
                 Binds: '',
                 custom: '',
             });
+            await window.location.replace(`/CECalendar/${1}`);
         } catch (error) {
             console.log(error);
         }
@@ -248,7 +244,8 @@ const CeCalendarSearchIcons = () => {
 
     const handleClickFilterData = async () => {
         try {
-            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            await window.location.replace(`/CECalendar/${1}`);
         } catch (error) {
             console.log(error);
         }
@@ -257,7 +254,8 @@ const CeCalendarSearchIcons = () => {
     const handleEnterClicks = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            await window.location.replace(`/CECalendar/${1}`);
         } catch (error) {
             console.log(error);
         }
@@ -281,20 +279,24 @@ const CeCalendarSearchIcons = () => {
                     </div>
                     <div className="IconText">필터 검색</div>
                 </div>
-                <div>
-                    <div
-                        className="NewDataIcons"
-                        onClick={() =>
-                            setSelectClicksModals({
-                                ...SelectClicksModals,
-                                NewDataModal: !SelectClicksModals.NewDataModal,
-                            })
-                        }
-                    >
-                        <BsFillBagPlusFill></BsFillBagPlusFill>
+                {DecryptKey(InfomationState.name) === '이광민' ? (
+                    <div>
+                        <div
+                            className="NewDataIcons"
+                            onClick={() =>
+                                setSelectClicksModals({
+                                    ...SelectClicksModals,
+                                    NewDataModal: !SelectClicksModals.NewDataModal,
+                                })
+                            }
+                        >
+                            <BsFillBagPlusFill></BsFillBagPlusFill>
+                        </div>
+                        <div className="IconText">데이터 추가</div>
                     </div>
-                    <div className="IconText">데이터 추가</div>
-                </div>
+                ) : (
+                    <></>
+                )}
             </div>
 
             {SelectClicksModals.FilterSearch ? (

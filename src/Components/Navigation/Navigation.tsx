@@ -253,7 +253,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     {/* <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                                         <li>시설이용</li>
                                     </Link> */}
-                                    <Link to="/CECalendar">
+                                    <Link to="/CECalendar/1">
                                         <li>CSM</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>

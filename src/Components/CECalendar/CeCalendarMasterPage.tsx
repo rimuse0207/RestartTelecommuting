@@ -6,8 +6,27 @@ import { useSelector } from 'react-redux';
 import { DecryptKey } from '../../config';
 import { toast } from '../ToastMessage/ToastManager';
 import styled from 'styled-components';
+import CeCalendarPageNation from './CeCalendarPageNation';
+import { useParams } from 'react-router-dom';
+import Modal from 'react-modal';
+import CeCalendarUpdateModals from './CeCalendarModals/CeCalendarUpdateModals';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        height: '70%',
+    },
+};
+Modal.setAppElement('#ModalSet');
+
 export const AssetTableMainDivBox = styled.div`
-    max-height: 120vh;
+    /* max-height: 120vh; */
     overflow: auto;
     background-color: #fff;
     margin: 0 auto;
@@ -93,17 +112,62 @@ export const AssetTableMainDivBox = styled.div`
             color: limegreen;
         }
     }
+    .CeCalendar_paginations {
+        width: 50%;
+        margin: 0 auto;
+        margin-top: 30px;
+        ul {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            li {
+                margin-left: 20px;
+                margin-right: 20px;
+                font-weight: bolder;
+                :hover {
+                    cursor: pointer;
+                    color: blue;
+                }
+            }
+        }
+    }
 `;
+
+export type CeCalendarTableProps = {
+    indexs: number;
+    state: string;
+    grade: string;
+    issue_date: string;
+    CSMNumber: string;
+    ModelNumber: string;
+    Binds: string;
+    custom: string;
+    publish: string;
+    apply: string;
+    entering: string;
+    CE: string;
+    customDate: string;
+    PAY: string;
+    finall: string;
+    hiddenOn: number;
+};
+
+export type paramasTypes = {
+    pagenumber: string;
+};
 const CeCalendarMasterPage = () => {
+    const { pagenumber } = useParams<paramasTypes>();
     const [hiddenChecked, setHiddenChecked] = useState(false);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [PageNumbers, setPageNumbers] = useState(0);
 
-    const [data, setData] = useState([
+    const [data, setData] = useState<CeCalendarTableProps[]>([
         {
             indexs: 1,
             state: 'Close',
             grade: 'SDC',
+            issue_date: moment().format('YYYY-MM-DD'),
             CSMNumber: 'SDC19003',
             ModelNumber: 'DFL7161C',
             Binds: 'PA1749',
@@ -118,6 +182,29 @@ const CeCalendarMasterPage = () => {
             hiddenOn: 0,
         },
     ]);
+    const [ModalOpen, setModalOpen] = useState(false);
+    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>({
+        indexs: 0,
+        state: '',
+        grade: '',
+        issue_date: moment().format('YYYY-MM-DD'),
+        CSMNumber: '',
+        ModelNumber: '',
+        Binds: '',
+        custom: '',
+        publish: moment().format('YYYY-MM-DD'),
+        apply: moment().format('YYYY-MM-DD'),
+        entering: moment().format('YYYY-MM-DD'),
+        CE: moment().format('YYYY-MM-DD'),
+        customDate: moment().format('YYYY-MM-DD'),
+        PAY: moment().format('YYYY-MM-DD'),
+        finall: moment().format('YYYY-MM-DD'),
+        hiddenOn: 0,
+    });
+
+    function closeModal() {
+        setModalOpen(false);
+    }
 
     useEffect(() => {
         dataGetSome();
@@ -127,10 +214,12 @@ const CeCalendarMasterPage = () => {
         try {
             const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
                 GetCSMFilteringData,
+                pagenumber,
             });
-            console.log(DataGetSomeCECalendar);
+
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
+                setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
             } else {
                 alert('에러');
             }
@@ -366,13 +455,23 @@ const CeCalendarMasterPage = () => {
             }
         }
     };
+
+    const handleSubUpdateData = async (list: CeCalendarTableProps) => {
+        try {
+            setGetCeCalendarDatas(list);
+            setModalOpen(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <AssetTableMainDivBox>
-            <div>
+            <div style={{ display: 'inline-block' }}>
                 <div>
                     <div onClick={() => setHiddenChecked(!hiddenChecked)} className="ThirdTest_list_hidden_box">
                         <input type="checkbox" checked={hiddenChecked}></input>
-                        {hiddenChecked ? <span>숨김 목록 보기</span> : <span>숨김 목록 숨기기</span>}
+                        {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
                     </div>
                 </div>
             </div>
@@ -395,6 +494,7 @@ const CeCalendarMasterPage = () => {
                         <th>고객</th>
                         <th>PAY</th>
                         <th>완료</th>
+                        <th>자세히</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -415,7 +515,7 @@ const CeCalendarMasterPage = () => {
                         } else if (!list.finall) {
                             classnamesAUTO = 'basic_finish';
                         }
-                        return (
+                        return list.hiddenOn === 0 ? (
                             <tr key={list.indexs}>
                                 <td>
                                     <input
@@ -463,7 +563,6 @@ const CeCalendarMasterPage = () => {
                                             <div>{list.apply ? list.apply_name : ''}</div>
                                         </div>
                                     )}
-                                    {/* <div className="Insert_dates">{list.apply}</div> */}
                                 </td>
                                 <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
                                     {classnamesAUTO === 'basic_blue' ? (
@@ -479,7 +578,6 @@ const CeCalendarMasterPage = () => {
                                             <div>{list.entering ? list.entering_name : ''}</div>
                                         </div>
                                     )}
-                                    {/* <div className="Insert_dates">{list.entering}</div> */}
                                 </td>
                                 <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
                                     {classnamesAUTO === 'basic_purple' ? (
@@ -495,7 +593,6 @@ const CeCalendarMasterPage = () => {
                                             <div>{list.CE ? list.CE_name : ''}</div>
                                         </div>
                                     )}
-                                    {/* <div className="Insert_dates">{list.CE}</div> */}
                                 </td>
                                 <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
                                     {classnamesAUTO === 'basic_skyblue' ? (
@@ -511,7 +608,6 @@ const CeCalendarMasterPage = () => {
                                             <div>{list.customDate ? list.customDate_name : ''}</div>
                                         </div>
                                     )}
-                                    {/* <div className="Insert_dates">{list.customDate}</div> */}
                                 </td>
                                 <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
                                     {classnamesAUTO === 'basic_orange' ? (
@@ -533,7 +629,6 @@ const CeCalendarMasterPage = () => {
                                             <div>{list.PAY ? list.PAY_name : ''}</div>
                                         </div>
                                     )}
-                                    {/* <div className="Insert_dates">{list.PAY}</div> */}
                                 </td>
                                 <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
                                     {classnamesAUTO === 'basic_finish' ? (
@@ -556,11 +651,220 @@ const CeCalendarMasterPage = () => {
                                         </div>
                                     )}
                                 </td>
+                                <td onClick={() => handleSubUpdateData(list)}>클릭</td>
                             </tr>
+                        ) : hiddenChecked ? (
+                            <tr key={list.indexs}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={list.hiddenOn === 0 ? false : true}
+                                        onChange={e => handleChangeClickHidden(e, list)}
+                                    ></input>
+                                </td>
+                                <td>{i + 1}</td>
+                                <td>{list.state}</td>
+                                <td>{list.grade}</td>
+                                <td>{list.issue_date}</td>
+                                <td>{list.CSMNumber}</td>
+                                <td>{list.ModelNumber}</td>
+                                <td>{list.Binds}</td>
+                                <td>{list.custom}</td>
+                                <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
+                                    <div className="Insert_dates">
+                                        {classnamesAUTO === 'basic_yellow' ? (
+                                            <div>
+                                                <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="ThirdTest_Delete_for_div_box"
+                                                onDoubleClick={() => handleClicksDeleteData(list, '발행')}
+                                            >
+                                                <div>{list.publish}</div>
+                                                <div>{list.publish ? list.publish_name : ''}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                                <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_lime' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '신청')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '신청')}
+                                        >
+                                            <div>{list.apply}</div>
+                                            <div>{list.apply ? list.apply_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_blue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '입고')}
+                                        >
+                                            <div>{list.entering}</div>
+                                            <div>{list.entering ? list.entering_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_purple' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
+                                        >
+                                            <div>{list.CE}</div>
+                                            <div>{list.CE ? list.CE_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_skyblue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '고객')}
+                                        >
+                                            <div>{list.customDate}</div>
+                                            <div>{list.customDate ? list.customDate_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_orange' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
+                                                <div>
+                                                    <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
+                                        >
+                                            <div>{list.PAY}</div>
+                                            <div>{list.PAY ? list.PAY_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_finish' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
+                                                <div>
+                                                    <button onClick={() => handleClicks(list, 'finished')}>확인</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                        >
+                                            <div>{list.finall}</div>
+                                            <div>{list.finall_name}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td>클릭</td>
+                            </tr>
+                        ) : (
+                            <></>
                         );
                     })}
                 </tbody>
             </table>
+            <div className="CeCalendar_paginations">
+                <ul>
+                    {Number(pagenumber) > 3 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${1}`)}>1</li>
+                            <li>...</li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 2 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}`)}>
+                                {Number(pagenumber) - 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 1 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}`)}>
+                                {Number(pagenumber) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    <li style={{ color: '#0031f7' }}>{pagenumber}</li>
+
+                    {Number(pagenumber) + 1 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}`)}>
+                                {Number(pagenumber) + 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) + 2 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}`)}>
+                                {Number(pagenumber) + 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) < Math.ceil(PageNumbers / 20) - 3 ? (
+                        <>
+                            {' '}
+                            <li>...</li>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / 20) - 1}`)}>
+                                {Math.ceil(PageNumbers / 20) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                </ul>
+            </div>
+
+            <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+                <CeCalendarUpdateModals closeModal={closeModal} getCeCalendarDatas={getCeCalendarDatas}></CeCalendarUpdateModals>
+            </Modal>
         </AssetTableMainDivBox>
     );
 };

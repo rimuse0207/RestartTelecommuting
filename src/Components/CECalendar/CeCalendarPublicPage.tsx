@@ -5,15 +5,15 @@ import moment from 'moment';
 import axios from 'axios';
 import './CeCalendarPublicPage.css';
 import { DecryptKey } from '../../config';
-const CeCalendarPublicPage = () => {
-    const [searchState, setSearchState] = useState('');
-    const [searchGrade, setSearchGrade] = useState('');
-    const [searchCSMNumber, setSearchCSMNumber] = useState('');
-    const [searchModelNumber, setSearchModelNumber] = useState('');
-    const [searchBinds, setSearchBinds] = useState('');
-    const [searchCustom, setSearchCustom] = useState('');
+import styled from 'styled-components';
+import { AssetTableMainDivBox, paramasTypes } from './CeCalendarMasterPage';
+import { useParams } from 'react-router-dom';
 
+const CeCalendarPublicPage = () => {
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const { pagenumber } = useParams<paramasTypes>();
+    const [PageNumbers, setPageNumbers] = useState(0);
     const [data, setData] = useState([
         {
             indexs: 1,
@@ -39,10 +39,14 @@ const CeCalendarPublicPage = () => {
 
     const dataGetSome = async () => {
         try {
-            const DataGetSomeCECalendar = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`);
+            const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/PublicDataGetSome`, {
+                GetCSMFilteringData,
+                pagenumber,
+            });
             console.log(DataGetSomeCECalendar);
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
+                setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
             }
         } catch (error) {
             console.log(error);
@@ -51,7 +55,6 @@ const CeCalendarPublicPage = () => {
     };
 
     const handleClicks = async (datas: any, text: string) => {
-        console.log(text);
         if (text === '발행') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
                 selectEnter: '발행',
@@ -160,60 +163,11 @@ const CeCalendarPublicPage = () => {
         }
     };
     return (
-        <div style={{ margin: '30px auto', width: '95%', textAlign: 'center' }}>
-            <table style={{ tableLayout: 'fixed', wordBreak: 'break-all', borderCollapse: 'collapse', width: '100%' }}>
+        <AssetTableMainDivBox>
+            <table className="type09" id="CeCalendarTables">
                 <thead>
-                    <tr>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchState}
-                                onChange={e => setSearchState(e.target.value)}
-                                placeholder="상태 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchGrade}
-                                onChange={e => setSearchGrade(e.target.value)}
-                                placeholder="등급 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchCSMNumber}
-                                onChange={e => setSearchCSMNumber(e.target.value)}
-                                placeholder="CSM 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchModelNumber}
-                                onChange={e => setSearchModelNumber(e.target.value)}
-                                placeholder="MODEL 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchBinds}
-                                onChange={e => setSearchBinds(e.target.value)}
-                                placeholder="제번 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchCustom}
-                                onChange={e => setSearchCustom(e.target.value)}
-                                placeholder="고객사 검색"
-                            ></input>
-                        </th>
-                    </tr>
                     <tr className="Title_table">
+                        <th style={{ width: '100px' }}>인덱스</th>
                         <th style={{ width: '100px' }}>상태</th>
                         <th style={{ width: '100px' }}>등급</th>
                         <th style={{ width: '100px' }}>CSM</th>
@@ -230,150 +184,200 @@ const CeCalendarPublicPage = () => {
                     </tr>
                 </thead>
                 <tbody className="CecalendarPaddingdelete" style={{ fontSize: '1em', padding: '0px' }}>
-                    {data
-                        .filter((item: any, j) => (item.hiddenOn ? '' : data))
-                        .filter((item, j) => item.state.toUpperCase().includes(searchState.toUpperCase()))
-                        .filter((item, j) => item.grade.toUpperCase().includes(searchGrade.toUpperCase()))
-                        .filter((item, j) => item.CSMNumber.toUpperCase().includes(searchCSMNumber.toUpperCase()))
-                        .filter((item, j) => item.ModelNumber.toUpperCase().includes(searchModelNumber.toUpperCase()))
-                        .filter((item, j) => item.Binds.toUpperCase().includes(searchBinds.toUpperCase()))
-                        .filter((item, j) => item.custom.toUpperCase().includes(searchCustom.toUpperCase()))
-                        .map((list: any, i) => {
-                            var classnamesAUTO = 'basic';
-                            if (!list.publish) {
-                                classnamesAUTO = 'basic_yellow';
-                            } else if (!list.apply) {
-                                classnamesAUTO = 'basic_lime';
-                            } else if (!list.entering) {
-                                classnamesAUTO = 'basic_blue';
-                            } else if (!list.CE) {
-                                classnamesAUTO = 'basic_purple';
-                            } else if (!list.customDate) {
-                                classnamesAUTO = 'basic_skyblue';
-                            } else if (!list.PAY) {
-                                classnamesAUTO = 'basic_orange';
-                            } else if (!list.finall) {
-                                classnamesAUTO = 'basic_finish';
-                            }
-                            return (
-                                <tr>
-                                    <td>{list.state}</td>
-                                    <td>{list.grade}</td>
-                                    <td>{list.CSMNumber}</td>
-                                    <td>{list.ModelNumber}</td>
-                                    <td>{list.Binds}</td>
-                                    <td>{list.custom}</td>
-                                    <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
-                                        <div className="Insert_dates">
-                                            {classnamesAUTO === 'basic_yellow' ? (
-                                                <div>
-                                                    <button onClick={() => handleClicks(list, '발행')}>확인</button>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <div>{list.publish}</div>
-                                                    <div>{list.publish ? list.publish_name : ''}</div>
-                                                </div>
-                                            )}
+                    {data.map((list: any, i) => {
+                        var classnamesAUTO = 'basic';
+                        if (!list.publish) {
+                            classnamesAUTO = 'basic_yellow';
+                        } else if (!list.apply) {
+                            classnamesAUTO = 'basic_lime';
+                        } else if (!list.entering) {
+                            classnamesAUTO = 'basic_blue';
+                        } else if (!list.CE) {
+                            classnamesAUTO = 'basic_purple';
+                        } else if (!list.customDate) {
+                            classnamesAUTO = 'basic_skyblue';
+                        } else if (!list.PAY) {
+                            classnamesAUTO = 'basic_orange';
+                        } else if (!list.finall) {
+                            classnamesAUTO = 'basic_finish';
+                        }
+                        return (
+                            <tr>
+                                <td>{i + 1}</td>
+                                <td>{list.state}</td>
+                                <td>{list.grade}</td>
+                                <td>{list.CSMNumber}</td>
+                                <td>{list.ModelNumber}</td>
+                                <td>{list.Binds}</td>
+                                <td>{list.custom}</td>
+                                <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
+                                    <div className="Insert_dates">
+                                        {classnamesAUTO === 'basic_yellow' ? (
+                                            <div>
+                                                <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <div>{list.publish}</div>
+                                                <div>{list.publish ? list.publish_name : ''}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                                <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_lime' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '신청')}>확인</button>
                                         </div>
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_lime' ? (
+                                    ) : (
+                                        <div>
+                                            <div>{list.apply}</div>
+                                            <div>{list.apply ? list.apply_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_blue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <div>{list.entering}</div>
+                                            <div>{list.entering ? list.entering_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_purple' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <div>{list.CE}</div>
+                                            <div>{list.CE ? list.CE_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_skyblue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <div>{list.customDate}</div>
+                                            <div>{list.customDate ? list.customDate_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_orange' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
                                             <div>
-                                                <button onClick={() => handleClicks(list, '신청')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <div>{list.apply}</div>
-                                                <div>{list.apply ? list.apply_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.apply}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_blue' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, '입고')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <div>{list.entering}</div>
-                                                <div>{list.entering ? list.entering_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.entering}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_purple' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, 'CE')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <div>{list.CE}</div>
-                                                <div>{list.CE ? list.CE_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.CE}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_skyblue' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, '고객')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <div>{list.customDate}</div>
-                                                <div>{list.customDate ? list.customDate_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.customDate}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_orange' ? (
-                                            DecryptKey(InfomationState.name) === '이지원' ||
-                                            DecryptKey(InfomationState.name) === '이광민' ? (
                                                 <div>
-                                                    <div>
-                                                        <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
-                                                    </div>
+                                                    <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
                                                 </div>
-                                            ) : (
-                                                <div></div>
-                                            )
-                                        ) : (
-                                            <div>
-                                                <div>{list.PAY}</div>
-                                                <div>{list.PAY ? list.PAY_name : ''}</div>
                                             </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.PAY}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_finish' ? (
-                                            DecryptKey(InfomationState.name) === '이지원' ||
-                                            DecryptKey(InfomationState.name) === '이광민' ? (
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div>
+                                            <div>{list.PAY}</div>
+                                            <div>{list.PAY ? list.PAY_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_finish' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
                                                 <div>
-                                                    <div>
-                                                        <button onClick={() => handleClicks(list, 'finished')}>확인</button>
-                                                    </div>
+                                                    <button onClick={() => handleClicks(list, 'finished')}>확인</button>
                                                 </div>
-                                            ) : (
-                                                <div></div>
-                                            )
-                                        ) : (
-                                            <div>
-                                                <div>{list.finall}</div>
-                                                <div>{list.finall_name}</div>
                                             </div>
-                                        )}
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div>
+                                            <div>{list.finall}</div>
+                                            <div>{list.finall_name}</div>
+                                        </div>
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
-        </div>
+            <div className="CeCalendar_paginations">
+                <ul>
+                    {Number(pagenumber) > 3 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${1}`)}>1</li>
+                            <li>...</li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 2 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}`)}>
+                                {Number(pagenumber) - 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 1 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}`)}>
+                                {Number(pagenumber) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    <li style={{ color: '#0031f7' }}>{pagenumber}</li>
+
+                    {Number(pagenumber) + 1 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}`)}>
+                                {Number(pagenumber) + 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) + 2 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}`)}>
+                                {Number(pagenumber) + 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) < Math.ceil(PageNumbers / 20) - 3 ? (
+                        <>
+                            {' '}
+                            <li>...</li>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / 20) - 1}`)}>
+                                {Math.ceil(PageNumbers / 20) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                </ul>
+            </div>
+        </AssetTableMainDivBox>
     );
 };
 
