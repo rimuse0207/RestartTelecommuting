@@ -33,7 +33,7 @@ const CeCalendarSubMenu = () => {
     return (
         <CeCalendarSubMenuMainDivBox>
             <div>
-                {DecryptKey(InfomationState.name) === '이광민' ? (
+                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
                     <div>
                         <ul className="CeCalendarSubMenu_SubMenusUl">
                             <li style={SubMenuClicks === 'Table' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Table')}>

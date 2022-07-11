@@ -49,7 +49,7 @@ const MonthTeleCommutingTableBox = ({
                     id: IDS,
                 }
             );
-            console.log(MonthTeleDataServer);
+
             if (MonthTeleDataServer.data.dataSuccess) {
                 setMonthTeleDatas(MonthTeleDataServer.data.data);
             }

@@ -16,6 +16,7 @@ const WriterPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
     const [ModelNumberData, setModelNumberData] = useState('');
     const [BindsData, setBindsData] = useState('');
     const [customData, setCustomData] = useState('');
+    const [issue_date, setissue_date] = useState('');
 
     const handleClicks = async (e: any) => {
         e.preventDefault();
@@ -23,6 +24,7 @@ const WriterPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
             const DataAddCeCalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataSaved`, {
                 stateData,
                 gradeData,
+                issue_date,
                 CSMNumberData,
                 ModelNumberData,
                 BindsData,
@@ -31,6 +33,7 @@ const WriterPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
             if (DataAddCeCalendar.data.dataSuccess) {
                 dataInsertOn();
                 closeModal();
+                window.location.reload();
             } else {
                 alert('에러 발생');
             }
@@ -68,6 +71,19 @@ const WriterPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
                                 className="CElogs_WriteData_FORM_InputBox"
                                 value={gradeData}
                                 onChange={e => setGradeData(e.target.value)}
+                                placeholder="등급"
+                            ></input>
+                        </div>
+                        <div className="CElogs_WriteData_FORM_div_box">
+                            <div className="CElogs_WriteData_FORM_Text_label">발행일</div>
+                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                <BsFillPencilFill></BsFillPencilFill>
+                            </div>
+                            <input
+                                type="date"
+                                className="CElogs_WriteData_FORM_InputBox"
+                                value={issue_date}
+                                onChange={e => setissue_date(e.target.value)}
                                 placeholder="등급"
                             ></input>
                         </div>

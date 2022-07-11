@@ -1,12 +1,16 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import { toast } from '../../ToastMessage/ToastManager';
 import { CeCalendarTableProps } from '../CeCalendarMasterPage';
 
 Modal.setAppElement('#ModalSet');
 type CeCalendarUpdateModalsProps = {
     closeModal: () => void;
     getCeCalendarDatas: CeCalendarTableProps;
+    hadleDeleteData: () => void;
+    hadleUpdateData: (data: CeCalendarTableProps) => void;
 };
 
 const CeCalendarUpdateModalsMainDivBox = styled.div`
@@ -68,6 +72,7 @@ const CeCalendarUpdateModalsMainDivBox = styled.div`
                     border: none;
                     font-size: 1em;
                     font-weight: bolder;
+                    border-radius: 5px;
                     :hover {
                         cursor: pointer;
                     }
@@ -86,44 +91,116 @@ const CeCalendarUpdateModalsMainDivBox = styled.div`
     }
 `;
 
-const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas }: CeCalendarUpdateModalsProps) => {
+const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteData, hadleUpdateData }: CeCalendarUpdateModalsProps) => {
     const [UpdateCalendarData, setUpdateCalendarData] = useState<CeCalendarTableProps>(getCeCalendarDatas);
+    const handleDeleteData = async () => {
+        if (!window.confirm('정말 삭제 하시겠습니까?')) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+            return;
+        }
+        try {
+            const DeleteDataCSM = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteCSMData`, {
+                getCeCalendarDatas,
+            });
+            if (DeleteDataCSM.data.dataSuccess) {
+                hadleDeleteData();
+                closeModal();
+                toast.show({
+                    title: 'CSM 데이터 삭제',
+                    content: `model: ${getCeCalendarDatas.ModelNumber} , 제번: ${getCeCalendarDatas.Binds}의 데이터 삭제 완료.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+            } else {
+                toast.show({
+                    title: 'CSM 데이터 삭제 실패',
+                    content: `IT팀에 문의 바랍니다.`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: 'CSM 데이터 삭제 실패',
+                content: `IT팀에 문의 바랍니다.`,
+                duration: 6000,
+                DataSuccess: false,
+            });
+        }
+    };
+
+    const handleUpdateData = async () => {
+        try {
+            const UpdateDataCSM = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateDataCSM`, {
+                UpdateCalendarData,
+            });
+            if (UpdateDataCSM.data.dataSuccess) {
+                hadleUpdateData(UpdateCalendarData);
+                closeModal();
+                toast.show({
+                    title: 'CSM 데이터 수정',
+                    content: `model: ${getCeCalendarDatas.ModelNumber} , 제번: ${getCeCalendarDatas.Binds}의 데이터 수정 완료.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+            } else {
+                toast.show({
+                    title: 'CSM 데이터 수정 실패',
+                    content: `IT팀에 문의 바랍니다.`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.show({
+                title: 'CSM 데이터 수정 실패',
+                content: `IT팀에 문의 바랍니다.`,
+                duration: 6000,
+                DataSuccess: false,
+            });
+        }
+    };
+
     return (
         <CeCalendarUpdateModalsMainDivBox>
             <div className="Float_main_cotainer">
                 <div className="Float_Left">
+                    <h2>변경 전 데이터</h2>
                     <table className="type03">
                         <tr>
                             <th scope="row">상태</th>
-                            <td>{getCeCalendarDatas?.state}</td>
+                            <td>{getCeCalendarDatas.state}</td>
                         </tr>
                         <tr>
                             <th scope="row">등급</th>
-                            <td>{getCeCalendarDatas?.grade}</td>
+                            <td>{getCeCalendarDatas.grade}</td>
                         </tr>
                         <tr>
                             <th scope="row">발행일</th>
-                            <td>{getCeCalendarDatas?.issue_date}</td>
+                            <td>{getCeCalendarDatas.issue_date}</td>
                         </tr>
                         <tr>
                             <th scope="row">CSM</th>
-                            <td>{getCeCalendarDatas?.CSMNumber}</td>
+                            <td>{getCeCalendarDatas.CSMNumber}</td>
                         </tr>
                         <tr>
                             <th scope="row">MODEL</th>
-                            <td>{getCeCalendarDatas?.ModelNumber}</td>
+                            <td>{getCeCalendarDatas.ModelNumber}</td>
                         </tr>
                         <tr>
                             <th scope="row">제번</th>
-                            <td>{getCeCalendarDatas?.Binds}</td>
+                            <td>{getCeCalendarDatas.Binds}</td>
                         </tr>
                         <tr>
                             <th scope="row">고객사</th>
-                            <td>{getCeCalendarDatas?.custom}</td>
+                            <td>{getCeCalendarDatas.custom}</td>
                         </tr>
                     </table>
                 </div>
                 <div className="Float_Right">
+                    <h2>변경 할 데이터</h2>
                     <table className="type03">
                         <tr>
                             <th scope="row">상태</th>
@@ -147,6 +224,7 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas }: CeCalendarUp
                             <th scope="row">발행일</th>
                             <td>
                                 <input
+                                    type="date"
                                     value={UpdateCalendarData.issue_date}
                                     onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, issue_date: e.target.value })}
                                 ></input>
@@ -190,10 +268,12 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas }: CeCalendarUp
                         </tr>
                     </table>
                     <div className="Modals_Update_button">
-                        <button className="DeleteButton" onClick={}>
+                        <button className="DeleteButton" onClick={handleDeleteData}>
                             삭제
                         </button>
-                        <button className="UpdateButton">수정</button>
+                        <button className="UpdateButton" onClick={handleUpdateData}>
+                            수정
+                        </button>
                         <button className="CancleButton" onClick={() => closeModal()}>
                             취소
                         </button>

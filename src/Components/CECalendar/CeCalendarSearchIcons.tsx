@@ -279,7 +279,7 @@ const CeCalendarSearchIcons = () => {
                     </div>
                     <div className="IconText">필터 검색</div>
                 </div>
-                {DecryptKey(InfomationState.name) === '이광민' ? (
+                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
                     <div>
                         <div
                             className="NewDataIcons"

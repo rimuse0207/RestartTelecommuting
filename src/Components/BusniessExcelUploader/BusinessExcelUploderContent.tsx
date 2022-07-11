@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import LoaderMainPage from '../Loader/LoaderMainPage';
 const BusinessExcelUploaderContentMainDivBox = styled.div`
     width: 80%;
     margin: 0 auto;
@@ -181,6 +182,7 @@ const BusinessExcelUploaderContent = () => {
     // const [UploadedData, setUploadedData] = useState<FileuploadDatasType[]>([]);
     const [InsertedData, setInsertedData] = useState<FileuploadDatasType[]>([]);
     const [SelectDate, setSelectDate] = useState('없음');
+    const [loading, setLoading] = useState(false);
     const handle = (files: any) => {
         let arr = Object.values(files);
         const dd = file.concat(arr);
@@ -202,6 +204,7 @@ const BusinessExcelUploaderContent = () => {
                 alert('등록 된 파일이 없습니다.');
                 return;
             }
+            setLoading(true);
             const formData = new FormData();
 
             file.map((list: any, i: number) => {
@@ -231,6 +234,7 @@ const BusinessExcelUploaderContent = () => {
                     DataSuccess: true,
                 });
                 setUploadedFinish(true);
+                setLoading(false);
             } else {
                 toast.show({
                     title: '업로드 실패.',
@@ -238,6 +242,7 @@ const BusinessExcelUploaderContent = () => {
                     duration: 6000,
                     DataSuccess: false,
                 });
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
@@ -247,6 +252,7 @@ const BusinessExcelUploaderContent = () => {
                 duration: 6000,
                 DataSuccess: false,
             });
+            setLoading(false);
         }
     };
 
@@ -333,33 +339,7 @@ const BusinessExcelUploaderContent = () => {
                 </table>
             </TableContainerDivMainPage>
 
-            {/* <TableContainerDivMainPage>
-                <h3>변경된 데이터</h3>
-                <table className="blueone">
-                    <thead>
-                        <tr>
-                            <th>인덱스</th>
-                            <th>전표 번호</th>
-                            <th>이름</th>
-                            <th>출장 기간</th>
-                            <th>출장 일수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {UploadedData.map((list, j) => {
-                            return (
-                                <tr>
-                                    <td>{j + 1}</td>
-                                    <td>{list.paper_code}</td>
-                                    <td>{list.name}</td>
-                                    <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </TableContainerDivMainPage> */}
+            <LoaderMainPage loading={loading}></LoaderMainPage>
         </BusinessExcelUploaderContentMainDivBox>
     );
 };

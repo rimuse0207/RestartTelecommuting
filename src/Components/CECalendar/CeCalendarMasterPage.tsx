@@ -220,6 +220,7 @@ const CeCalendarMasterPage = () => {
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
                 setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
+                console.log(DataGetSomeCECalendar);
             } else {
                 alert('에러');
             }
@@ -460,6 +461,30 @@ const CeCalendarMasterPage = () => {
         try {
             setGetCeCalendarDatas(list);
             setModalOpen(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const hadleDeleteData = async () => {
+        try {
+            const delete_Before_data = data.filter(item => item.indexs !== getCeCalendarDatas.indexs);
+            setData(delete_Before_data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const hadleUpdateData = async (UpdateData: CeCalendarTableProps) => {
+        try {
+            const update_Before_data = data.map(item => {
+                if (item.indexs === UpdateData.indexs) {
+                    return UpdateData;
+                } else {
+                    return item;
+                }
+            });
+
+            setData(update_Before_data);
         } catch (error) {
             console.log(error);
         }
@@ -863,7 +888,12 @@ const CeCalendarMasterPage = () => {
             </div>
 
             <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-                <CeCalendarUpdateModals closeModal={closeModal} getCeCalendarDatas={getCeCalendarDatas}></CeCalendarUpdateModals>
+                <CeCalendarUpdateModals
+                    closeModal={closeModal}
+                    getCeCalendarDatas={getCeCalendarDatas}
+                    hadleDeleteData={hadleDeleteData}
+                    hadleUpdateData={updatedata => hadleUpdateData(updatedata)}
+                ></CeCalendarUpdateModals>
             </Modal>
         </AssetTableMainDivBox>
     );

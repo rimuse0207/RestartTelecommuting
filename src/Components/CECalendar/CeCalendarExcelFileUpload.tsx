@@ -5,6 +5,7 @@ import { UploadedFileDataUlBox, TableContainerDivMainPage } from '../BusniessExc
 import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
+import LoaderMainPage from '../Loader/LoaderMainPage';
 const CeCalendarExcelFileUploadMainDivBox = styled.div`
     width: 90%;
     margin: 0 auto;
@@ -28,6 +29,7 @@ const CeCalendarExcelFileUpload = () => {
         const dd = file.concat(arr);
         setFile(dd);
     };
+    const [loading, setLoading] = useState(false);
     const handleDeleteFromFiles = (xData: any) => {
         const deleteFileData = file.filter((item: { name: string }) => {
             return item.name === xData.name ? '' : item;
@@ -40,6 +42,7 @@ const CeCalendarExcelFileUpload = () => {
                 alert('등록 된 파일이 없습니다.');
                 return;
             }
+            setLoading(true);
             const formData = new FormData();
 
             file.map((list: any, i: number) => {
@@ -56,10 +59,9 @@ const CeCalendarExcelFileUpload = () => {
                 formData,
                 config
             );
+
             if (SendFileDataFromServer.data.dataSuccess) {
-                console.log(SendFileDataFromServer);
                 setFile([]);
-                // setUploadedData(SendFileDataFromServer.data.DB_Upate_logs);
                 setInsertedData(SendFileDataFromServer.data.DB_Insert_logs);
                 toast.show({
                     title: '업로드 완료.',
@@ -67,7 +69,7 @@ const CeCalendarExcelFileUpload = () => {
                     duration: 6000,
                     DataSuccess: true,
                 });
-                // setUploadedFinish(true);
+                setLoading(false);
             } else {
                 toast.show({
                     title: '업로드 실패.',
@@ -75,6 +77,7 @@ const CeCalendarExcelFileUpload = () => {
                     duration: 6000,
                     DataSuccess: false,
                 });
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
@@ -84,6 +87,7 @@ const CeCalendarExcelFileUpload = () => {
                 duration: 6000,
                 DataSuccess: false,
             });
+            setLoading(false);
         }
     };
     return (
@@ -151,6 +155,7 @@ const CeCalendarExcelFileUpload = () => {
                     </tbody>
                 </table>
             </TableContainerDivMainPage>
+            <LoaderMainPage loading={loading}></LoaderMainPage>
         </CeCalendarExcelFileUploadMainDivBox>
     );
 };
