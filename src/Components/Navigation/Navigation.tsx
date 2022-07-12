@@ -125,9 +125,6 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         {OTMenuClicks ? (
                             <ul className="MenuDisblock">
                                 <div className="slideDown">
-                                    {/* <Link to="/AfterOtworkspace">
-                                        <li>OT 신청</li>
-                                    </Link> */}
                                     <Link to="/AfterOTTest">
                                         <li>OT 신청</li>
                                     </Link>
@@ -160,7 +157,15 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                             )}
                                         </>
                                     ) : (
-                                        <></>
+                                        <>
+                                            {BusinessAdminAcessState ? (
+                                                <Link to="/TeamLeaderBusinessTripMainPage">
+                                                    <li>현장 수당 정산</li>
+                                                </Link>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </>
                                     )}
 
                                     {InfomationState.position === '이사' ||
@@ -245,10 +250,10 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
                                     </Link>
-                                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                                    {/* <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                                         <li>시설이용</li>
-                                    </Link>
-                                    <Link to="/CECalendar">
+                                    </Link> */}
+                                    <Link to="/CECalendar/1">
                                         <li>CSM</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
@@ -258,19 +263,19 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <li>당직근무보고</li>
                                     </Link>
 
-                                    {/* // {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
-                                    //     <Link to="/CovidTextShow">
-                                    //         <li>백신접종 데이터 입력</li>
-                                    //     </Link>
-                                    // ) : (
-                                    //     <div></div>
-                                    // )} */}
-                                    {DecryptKey(InfomationState.id) === "sjyoo@dhk.co.kr" ? <Link to="/Proceedings"><li>회의록 작성</li></Link>:<div></div>}
-
+                                    <Link
+                                        to="#"
+                                        onClick={() =>
+                                            window.open(`http://192.168.2.241:4555/${window.sessionStorage.getItem('DHKS_TOKEN')}`)
+                                        }
+                                    >
+                                        <li>CE 교육 자료</li>
+                                    </Link>
                                 </div>
                             ) : (
                                 <></>
                             )}
+
                             <Link
                                 to="#"
                                 onClick={e => {
@@ -327,9 +332,9 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
                                     </Link>
-                                    <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
+                                    {/* <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                                         <li>시설이용</li>
-                                    </Link>
+                                    </Link> */}
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>

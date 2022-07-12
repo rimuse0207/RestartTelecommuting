@@ -32,9 +32,7 @@ Modal.setAppElement('#ModalSet');
 
 const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
     let history = useHistory();
-    const socket = useSelector((state: RootState) => state.Socket.socket);
-    const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
-    const infomations = useSelector((state: RootState) => state.PersonalInfo.infomation);
+
     const [id, setIds] = useState<string | any>(localStorage.getItem('id') ? localStorage.getItem('id') : '');
     const [password, setPassword] = useState('');
     const [onClicked, setOnClickedSet] = useState(false);
@@ -45,14 +43,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
         setOnClickedSet(false);
         setPassword('');
     };
-
-    function isEmptyObj(obj: {}) {
-        if (obj.constructor === Object && Object.keys(obj).length === 0) {
-            return true;
-        }
-
-        return false;
-    }
 
     const handleSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -70,7 +60,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                 if (password === `${id.split('@')[0]}1234` || password === '!@yikc1234') {
                     setOnClickedSet(true);
                 } else {
-                    console.log(loginCheck);
                     sessionStorage.setItem('DHKS_TOKEN', loginCheck.data.token);
                     localStorage.setItem('id', loginCheck.data.data.id);
                     localStorage.setItem('loginOutCheck', 'conneting');
@@ -80,17 +69,9 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                     };
                     dispatch(getPersionalInfo(loginCheck.data.data));
                     dispatch(GetAccessData(BusinessAccessDatas));
-                    const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
-                    soscketData.emit('hi', {
-                        name: loginCheck.data.data.name,
-                        id: loginCheck.data.data.id,
-                    });
-                    soscketData.on('users_come_in', (data: { message: [] }) => {
-                        dispatch(getChatting_members(data.message));
-                    });
+                    // const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+                    // await dispatch(getSocket(soscketData));
 
-                    await dispatch(getSocket(soscketData));
-                    await setLoginCheck(true);
                     if (loginCheck.data.changePassword) {
                         history.push('/');
                     }
@@ -112,7 +93,6 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
             <div className="appForm">
                 <div className="formCenter">
                     <form className="formFields" onSubmit={(event: React.SyntheticEvent) => handleSubmit(event)}>
-                        {/* <h1>재택 프로그램</h1> */}
                         <h1>Portal Site</h1>
                         <div className="formField">
                             <label className="formFieldLabel" htmlFor="email">

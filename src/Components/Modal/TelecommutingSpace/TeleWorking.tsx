@@ -7,6 +7,8 @@ import { DecryptKey } from '../../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { toast } from '../../ToastMessage/ToastManager';
+import { OneParamsPost } from '../../API/POSTApi/PostApi';
+
 type TeleWorkingProps = {
     pickerDate?: string | null | undefined;
 };
@@ -26,10 +28,8 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
 
     const TodayCheckTele = async () => {
         try {
-            const TodayCheckTele = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Tele_Today_Check`, {
-                id: DecryptKey(InfomationState.id),
-                date: moment().format('YYYY-MM-DD'),
-            });
+            const paramsData = { id: DecryptKey(InfomationState.id), date: moment().format('YYYY-MM-DD') };
+            const TodayCheckTele = await OneParamsPost(`/Tele_app_server/Tele_Today_Check`, paramsData);
             if (TodayCheckTele.data.dataSuccess && TodayCheckTele.data.isChk) {
                 setTodayDataisChk(true);
                 setStartTime(TodayCheckTele.data.data[0].stat_t);
@@ -60,10 +60,8 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
     };
     const TodayCheckTeleStart = async () => {
         try {
-            const TodayCheckTele = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Tele_Today_CheckStart`, {
-                id: DecryptKey(InfomationState.id),
-                date: moment().format('YYYY-MM-DD'),
-            });
+            const paramsData = { id: DecryptKey(InfomationState.id), date: moment().format('YYYY-MM-DD') };
+            const TodayCheckTele = await OneParamsPost(`/Tele_app_server/Tele_Today_CheckStart`, paramsData);
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
                     title: '데이터 저장 완료.',
@@ -96,11 +94,8 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
     };
     const TodayCheckTeleEnded = async () => {
         try {
-            const TodayCheckTele = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Tele_Today_CheckEnded`, {
-                id: DecryptKey(InfomationState.id),
-                date: moment().format('YYYY-MM-DD'),
-                desc: WorkBookWrite,
-            });
+            const paramsData = { id: DecryptKey(InfomationState.id), date: moment().format('YYYY-MM-DD'), desc: WorkBookWrite };
+            const TodayCheckTele = await OneParamsPost(`/Tele_app_server/Tele_Today_CheckEnded`, paramsData);
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
                     title: '데이터 저장 완료.',
@@ -125,11 +120,12 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
     const handleClickWorkbook = async () => {
         if (!TeleStart) return alert('재택근무시에만 작성 가능합니다.');
         try {
-            const TodayCheckTele = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Tele_Workbook_Store`, {
+            const paramsData = {
                 id: DecryptKey(InfomationState.id),
                 date: moment().format('YYYY-MM-DD'),
                 desc: WorkBookWrite,
-            });
+            };
+            const TodayCheckTele = await OneParamsPost(`/Tele_app_server/Tele_Workbook_Store`, paramsData);
             if (TodayCheckTele.data.dataSuccess) {
                 toast.show({
                     title: '데이터 저장 완료.',
@@ -207,9 +203,6 @@ const TeleWorking = ({ pickerDate }: TeleWorkingProps) => {
                                         onChange={e => setWorkBookWrite(e.target.value)}
                                     ></textarea>
                                     <div style={{ textAlign: 'end' }}>
-                                        {/* <button style={{ marginRight: '40px' }} className="Tele_Float_Right_box_button_store">
-                                    임시 저장
-                                </button> */}
                                         <button className="Tele_Float_Right_box_button_store" onClick={handleClickWorkbook}>
                                             임시 저장
                                         </button>

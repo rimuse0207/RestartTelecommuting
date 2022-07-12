@@ -5,6 +5,7 @@ import { toast } from '../../ToastMessage/ToastManager';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { TeamLeader_getTelecommutingThunk } from '../../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
+import { OneParamsPost } from '../../API/POSTApi/PostApi';
 type TeleSelectClickModalProps = {
     clicksTitle: string;
     clicksData: any | null;
@@ -27,10 +28,8 @@ const PersonTeleSelectClickModal = ({ clicksTitle, clicksData, modalClose }: Tel
 
     const getSomeData = async (clicksData: any) => {
         try {
-            const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/getSumWrokData`, {
-                date: moment(clicksData.day).format('YYYY-MM-DD'),
-                id: clicksData.id,
-            });
+            const paramsData = { date: moment(clicksData.day).format('YYYY-MM-DD'), id: clicksData.id };
+            const getSomeDatas = await OneParamsPost(`/Tele_app_server/getSumWrokData`, paramsData);
             if (getSomeDatas.data.dataSuccess) {
                 setDetailTeleData(getSomeDatas.data.data[0]);
             }

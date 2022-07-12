@@ -6,7 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../models/index';
 import { TeamLeader_getTelecommutingThunk } from '../../../models/TeamLeader_Thunk_models/TeamLeaderTelecommutingData';
 import { DecryptKey } from '../../../config';
+import { OneParamsPost } from '../../API/POSTApi/PostApi';
 import 'moment/locale/ko';
+
 type TeleSelectClickModalProps = {
     clicksTitle: string;
     clicksData: any | null;
@@ -29,14 +31,15 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
 
     const handleCommentSend = async () => {
         try {
-            const SendCommentData = await axios.post(`${process.env.REACT_APP_API_URL}/OT_app_server/commentMailSend`, {
+            const paramsData = {
                 id: DecryptKey(InfomationState.id),
                 name: DecryptKey(InfomationState.name),
                 team: InfomationState.team,
                 position: InfomationState.position,
                 commentDesc,
                 clicksData,
-            });
+            };
+            const SendCommentData = await OneParamsPost(`/OT_app_server/commentMailSend`, paramsData);
             if (SendCommentData.data.dataSuccess) {
                 setCommentDesc('');
                 setCommentDataOn(true);
@@ -60,9 +63,8 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
     };
     const handleDataClick = async () => {
         try {
-            const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/TeamLeaderAccept_Tele`, {
-                clicksData,
-            });
+            const paramsData = { clicksData };
+            const getSomeDatas = await OneParamsPost(`/Tele_app_server/TeamLeaderAccept_Tele`, paramsData);
             if (getSomeDatas.data.dataSuccess) {
                 dispatch(TeamLeader_getTelecommutingThunk(moment(clicksData.day).format('YYYY-MM'), InfomationState));
                 toast.show({
@@ -89,10 +91,8 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
     }, [commentDataOn]);
     const getSomeData = async (clicksData: any) => {
         try {
-            const getSomeDatas = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/getSumWrokData`, {
-                date: moment(clicksData.day).format('YYYY-MM-DD'),
-                id: clicksData.id,
-            });
+            const paramsData = { date: moment(clicksData.day).format('YYYY-MM-DD'), id: clicksData.id };
+            const getSomeDatas = await OneParamsPost(`/Tele_app_server/getSumWrokData`, paramsData);
             if (getSomeDatas.data.dataSuccess) {
                 setDetailTeleData(getSomeDatas.data.data[0]);
             }
@@ -102,10 +102,9 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
     };
     const handleNextData = async (types: string) => {
         try {
+            const paramsData = { clicksData };
             if (types === 'pre') {
-                const PreDataTeleModal = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/GetPreDataTeleModal`, {
-                    clicksData,
-                });
+                const PreDataTeleModal = await OneParamsPost(`/Tele_app_server/GetPreDataTeleModal`, paramsData);
                 if (PreDataTeleModal.data.dataSuccess) {
                     if (PreDataTeleModal.data.dataMessage) {
                         toast.show({
@@ -121,9 +120,7 @@ const TeleSelectClickModal = ({ clicksTitle, clicksData, modalClose, setClicksDa
                     }
                 }
             } else if (types === 'next') {
-                const PreDataTeleModal = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/GetNextDataTeleModal`, {
-                    clicksData,
-                });
+                const PreDataTeleModal = await OneParamsPost(`/Tele_app_server/GetNextDataTeleModal`, paramsData);
                 if (PreDataTeleModal.data.dataSuccess) {
                     if (PreDataTeleModal.data.dataMessage) {
                         toast.show({

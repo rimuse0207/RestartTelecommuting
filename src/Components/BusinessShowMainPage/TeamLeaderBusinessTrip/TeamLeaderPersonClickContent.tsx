@@ -5,6 +5,12 @@ import moment from 'moment';
 import axios from 'axios';
 import { DecryptKey } from '../../../config';
 import TeamLeaderBusinessTripContent from './TeamLeaderBusinessTripContent';
+import styled from 'styled-components';
+
+const TeamLeaderPersonClickContentMainDivBox = styled.div`
+    padding-left: 20px;
+    padding-right: 20px;
+`;
 
 const TeamLeaderPersonClickContent = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -76,7 +82,7 @@ const TeamLeaderPersonClickContent = () => {
         getDataSelectTeam();
     };
     return (
-        <div>
+        <TeamLeaderPersonClickContentMainDivBox>
             <div className="TeamSelectOTSpace_select_box_div" style={{ marginTop: '20px', marginBottom: '20px' }}>
                 <select
                     style={{ margin: 0, width: '100px' }}
@@ -149,7 +155,7 @@ const TeamLeaderPersonClickContent = () => {
                 selectMonth={selectMonth}
                 selectId={selectId}
             ></TeamLeaderBusinessTripContent>
-        </div>
+        </TeamLeaderPersonClickContentMainDivBox>
     );
 };
 

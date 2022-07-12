@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
-import WriteData from './WriterPage';
-import { AiFillPlusCircle } from 'react-icons/ai';
-import Modal from 'react-modal';
 import { RootState } from '../../models';
 import { useSelector } from 'react-redux';
 import { DecryptKey } from '../../config';
 import { toast } from '../ToastMessage/ToastManager';
+import styled from 'styled-components';
+import CeCalendarPageNation from './CeCalendarPageNation';
+import { useParams } from 'react-router-dom';
+import Modal from 'react-modal';
+import CeCalendarUpdateModals from './CeCalendarModals/CeCalendarUpdateModals';
+
 const customStyles = {
     content: {
         top: '50%',
@@ -21,27 +24,150 @@ const customStyles = {
     },
 };
 Modal.setAppElement('#ModalSet');
-const CeCalendarMasterPage = () => {
-    const [searchState, setSearchState] = useState('');
-    const [searchGrade, setSearchGrade] = useState('');
-    const [searchCSMNumber, setSearchCSMNumber] = useState('');
-    const [searchModelNumber, setSearchModelNumber] = useState('');
-    const [searchBinds, setSearchBinds] = useState('');
-    const [searchCustom, setSearchCustom] = useState('');
-    const [hiddenChecked, setHiddenChecked] = useState(false);
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
 
-    function afterOpenModal() {}
+export const AssetTableMainDivBox = styled.div`
+    /* max-height: 120vh; */
+    overflow: auto;
+    background-color: #fff;
+    margin: 0 auto;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-left: 10px;
+    margin-right: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    direction: ltr;
+    scrollbar-color: #d4aa70 #e4e4e4;
+    scrollbar-width: thin;
+    width: 98%;
+    padding-bottom: 50px;
 
-    function closeModal() {
-        setIsOpen(false);
+    ::-webkit-scrollbar {
+        width: 20px;
     }
-    const [data, setData] = useState([
+
+    ::-webkit-scrollbar-track {
+        background-color: #e4e4e4;
+        border-radius: 100px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 100px;
+        border: 7px solid transparent;
+        background-clip: content-box;
+        background-color: #368;
+    }
+
+    table {
+        font-size: 0.8em;
+        position: relative;
+        width: 100%;
+    }
+
+    table.type09 {
+        border-collapse: collapse;
+        text-align: left;
+        line-height: 1.5;
+    }
+    table.type09 > thead > tr > th {
+        padding: 10px;
+        font-weight: bold;
+        vertical-align: top;
+        color: #369;
+        border: none;
+        border-bottom: 3px solid #036;
+        background: #f3f6f7 !important;
+        font-size: 0.7em;
+    }
+    table.type09 tbody th {
+        width: 150px;
+        padding: 10px;
+        font-weight: bold;
+        vertical-align: top;
+        border-bottom: 1px solid #ccc;
+        background: #f3f6f7;
+    }
+    table.type09 td {
+        /* width: 300px; */
+        padding: 5px;
+        vertical-align: center;
+        border-bottom: 1px solid #ccc;
+        font-size: 1em;
+        text-align: center;
+    }
+    .UserMinusIcons,
+    .UserPlusIcons {
+        font-size: 1.5em;
+        display: inline-block;
+    }
+    .UserMinusIcons {
+        :hover {
+            cursor: pointer;
+            color: red;
+        }
+    }
+    .UserPlusIcons {
+        :hover {
+            cursor: pointer;
+            color: limegreen;
+        }
+    }
+    .CeCalendar_paginations {
+        width: 50%;
+        margin: 0 auto;
+        margin-top: 30px;
+        ul {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            li {
+                margin-left: 20px;
+                margin-right: 20px;
+                font-weight: bolder;
+                :hover {
+                    cursor: pointer;
+                    color: blue;
+                }
+            }
+        }
+    }
+`;
+
+export type CeCalendarTableProps = {
+    indexs: number;
+    state: string;
+    grade: string;
+    issue_date: string;
+    CSMNumber: string;
+    ModelNumber: string;
+    Binds: string;
+    custom: string;
+    publish: string;
+    apply: string;
+    entering: string;
+    CE: string;
+    customDate: string;
+    PAY: string;
+    finall: string;
+    hiddenOn: number;
+};
+
+export type paramasTypes = {
+    pagenumber: string;
+};
+const CeCalendarMasterPage = () => {
+    const { pagenumber } = useParams<paramasTypes>();
+    const [hiddenChecked, setHiddenChecked] = useState(false);
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [PageNumbers, setPageNumbers] = useState(0);
+
+    const [data, setData] = useState<CeCalendarTableProps[]>([
         {
             indexs: 1,
             state: 'Close',
             grade: 'SDC',
+            issue_date: moment().format('YYYY-MM-DD'),
             CSMNumber: 'SDC19003',
             ModelNumber: 'DFL7161C',
             Binds: 'PA1749',
@@ -56,16 +182,47 @@ const CeCalendarMasterPage = () => {
             hiddenOn: 0,
         },
     ]);
+    const [ModalOpen, setModalOpen] = useState(false);
+    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>({
+        indexs: 0,
+        state: '',
+        grade: '',
+        issue_date: moment().format('YYYY-MM-DD'),
+        CSMNumber: '',
+        ModelNumber: '',
+        Binds: '',
+        custom: '',
+        publish: moment().format('YYYY-MM-DD'),
+        apply: moment().format('YYYY-MM-DD'),
+        entering: moment().format('YYYY-MM-DD'),
+        CE: moment().format('YYYY-MM-DD'),
+        customDate: moment().format('YYYY-MM-DD'),
+        PAY: moment().format('YYYY-MM-DD'),
+        finall: moment().format('YYYY-MM-DD'),
+        hiddenOn: 0,
+    });
+
+    function closeModal() {
+        setModalOpen(false);
+    }
 
     useEffect(() => {
         dataGetSome();
-    }, []);
+    }, [GetCSMFilteringData]);
 
     const dataGetSome = async () => {
         try {
-            const DataGetSomeCECalendar = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`);
+            const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
+                GetCSMFilteringData,
+                pagenumber,
+            });
+
             if (DataGetSomeCECalendar.data.dataSuccess) {
                 setData(DataGetSomeCECalendar.data.datas);
+                setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
+                console.log(DataGetSomeCECalendar);
+            } else {
+                alert('에러');
             }
         } catch (error) {
             console.log(error);
@@ -111,12 +268,12 @@ const CeCalendarMasterPage = () => {
             }
         } catch (error) {
             console.log(error);
-             toast.show({
-                 title: 'ERROR!',
-                 content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
-                 duration: 6000,
-                 DataSuccess: false,
-             });
+            toast.show({
+                title: 'ERROR!',
+                content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+                duration: 6000,
+                DataSuccess: false,
+            });
         }
     };
 
@@ -201,7 +358,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, publish: moment().format('YYYY-MM-DD'), publish_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -214,7 +373,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, apply: moment().format('YYYY-MM-DD'), apply_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -227,7 +388,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, entering: moment().format('YYYY-MM-DD'), entering_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -240,7 +403,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, CE: moment().format('YYYY-MM-DD'), CE_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -254,7 +419,7 @@ const CeCalendarMasterPage = () => {
                 setData(
                     data.map(item =>
                         item.indexs === datas.indexs
-                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: '유성재' }
+                            ? { ...item, customDate: moment().format('YYYY-MM-DD'), customDate_name: DecryptKey(InfomationState.name) }
                             : item
                     )
                 );
@@ -268,7 +433,9 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, PAY: moment().format('YYYY-MM-DD'), PAY_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
@@ -281,92 +448,66 @@ const CeCalendarMasterPage = () => {
             if (DataUpdateCECalendar.data.dataSuccess) {
                 setData(
                     data.map(item =>
-                        item.indexs === datas.indexs ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: '유성재' } : item
+                        item.indexs === datas.indexs
+                            ? { ...item, finall: moment().format('YYYY-MM-DD'), finall_name: DecryptKey(InfomationState.name) }
+                            : item
                     )
                 );
             }
         }
     };
+
+    const handleSubUpdateData = async (list: CeCalendarTableProps) => {
+        try {
+            setGetCeCalendarDatas(list);
+            setModalOpen(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const hadleDeleteData = async () => {
+        try {
+            const delete_Before_data = data.filter(item => item.indexs !== getCeCalendarDatas.indexs);
+            setData(delete_Before_data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const hadleUpdateData = async (UpdateData: CeCalendarTableProps) => {
+        try {
+            const update_Before_data = data.map(item => {
+                if (item.indexs === UpdateData.indexs) {
+                    return UpdateData;
+                } else {
+                    return item;
+                }
+            });
+
+            setData(update_Before_data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
-        <div style={{ margin: '30px auto', width: '95%', textAlign: 'center' }}>
-            <div>
-                <div style={{ textAlign: 'end' }}>
+        <AssetTableMainDivBox>
+            <div style={{ display: 'inline-block' }}>
+                <div>
                     <div onClick={() => setHiddenChecked(!hiddenChecked)} className="ThirdTest_list_hidden_box">
                         <input type="checkbox" checked={hiddenChecked}></input>
-                        {hiddenChecked ? <span>숨김 목록 보기</span> : <span>숨김 목록 숨기기</span>}
+                        {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
                     </div>
                 </div>
             </div>
-            <table style={{ tableLayout: 'fixed', wordBreak: 'break-all', borderCollapse: 'collapse', width: '100%' }}>
+            <table className="type09" id="CeCalendarTables">
                 <thead>
                     <tr>
-                        <th>
-                            <button
-                                onClick={() => {
-                                    setSearchState('');
-                                    setSearchGrade('');
-                                    setSearchCSMNumber('');
-                                    setSearchModelNumber('');
-                                    setSearchBinds('');
-                                    setSearchCustom('');
-                                }}
-                            >
-                                필터 초기화
-                            </button>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchState}
-                                onChange={e => setSearchState(e.target.value)}
-                                placeholder="상태 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchGrade}
-                                onChange={e => setSearchGrade(e.target.value)}
-                                placeholder="등급 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchCSMNumber}
-                                onChange={e => setSearchCSMNumber(e.target.value)}
-                                placeholder="CSM 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchModelNumber}
-                                onChange={e => setSearchModelNumber(e.target.value)}
-                                placeholder="MODEL 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchBinds}
-                                onChange={e => setSearchBinds(e.target.value)}
-                                placeholder="제번 검색"
-                            ></input>
-                        </th>
-                        <th>
-                            <input
-                                style={{ width: '100%', height: '100%', paddingLeft: '5px', margin: '0px', display: 'block' }}
-                                value={searchCustom}
-                                onChange={e => setSearchCustom(e.target.value)}
-                                placeholder="고객사 검색"
-                            ></input>
-                        </th>
-                    </tr>
-                    <tr className="Title_table">
                         <th>숨김</th>
+                        <th>인덱스</th>
                         <th>상태</th>
                         <th>등급</th>
+                        <th>발행일</th>
                         <th>CSM</th>
                         <th>MODEL</th>
                         <th>제번</th>
@@ -378,199 +519,383 @@ const CeCalendarMasterPage = () => {
                         <th>고객</th>
                         <th>PAY</th>
                         <th>완료</th>
+                        <th>자세히</th>
                     </tr>
                 </thead>
-                <tbody className="CecalendarPaddingdelete">
-                    {data
-                        .filter((item, j) => (hiddenChecked ? !item.hiddenOn : data))
-                        .filter((item, j) => item.state.toUpperCase().includes(searchState.toUpperCase()))
-                        .filter((item, j) => item.grade.toUpperCase().includes(searchGrade.toUpperCase()))
-                        .filter((item, j) => item.CSMNumber.toUpperCase().includes(searchCSMNumber.toUpperCase()))
-                        .filter((item, j) => item.ModelNumber.toUpperCase().includes(searchModelNumber.toUpperCase()))
-                        .filter((item, j) => item.Binds.toUpperCase().includes(searchBinds.toUpperCase()))
-                        .filter((item, j) => item.custom.toUpperCase().includes(searchCustom.toUpperCase()))
-                        .map((list: any, i) => {
-                            var classnamesAUTO = 'basic';
-                            if (!list.publish) {
-                                classnamesAUTO = 'basic_yellow';
-                            } else if (!list.apply) {
-                                classnamesAUTO = 'basic_lime';
-                            } else if (!list.entering) {
-                                classnamesAUTO = 'basic_blue';
-                            } else if (!list.CE) {
-                                classnamesAUTO = 'basic_purple';
-                            } else if (!list.customDate) {
-                                classnamesAUTO = 'basic_skyblue';
-                            } else if (!list.PAY) {
-                                classnamesAUTO = 'basic_orange';
-                            } else if (!list.finall) {
-                                classnamesAUTO = 'basic_finish';
-                            }
-                            return (
-                                <tr key={list.indexs}>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            checked={list.hiddenOn === 0 ? false : true}
-                                            onChange={e => handleChangeClickHidden(e, list)}
-                                        ></input>
-                                    </td>
-                                    <td>{list.state}</td>
-                                    <td>{list.grade}</td>
-                                    <td>{list.CSMNumber}</td>
-                                    <td>{list.ModelNumber}</td>
-                                    <td>{list.Binds}</td>
-                                    <td>{list.custom}</td>
-                                    <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
-                                        <div className="Insert_dates">
-                                            {classnamesAUTO === 'basic_yellow' ? (
-                                                <div>
-                                                    <button onClick={() => handleClicks(list, '발행')}>확인</button>
-                                                </div>
-                                            ) : (
-                                                <div
-                                                    className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, '발행')}
-                                                >
-                                                    <div>{list.publish}</div>
-                                                    <div>{list.publish ? list.publish_name : ''}</div>
-                                                </div>
-                                            )}
+                <tbody>
+                    {data.map((list: any, i) => {
+                        var classnamesAUTO = 'basic';
+                        if (!list.publish) {
+                            classnamesAUTO = 'basic_yellow';
+                        } else if (!list.apply) {
+                            classnamesAUTO = 'basic_lime';
+                        } else if (!list.entering) {
+                            classnamesAUTO = 'basic_blue';
+                        } else if (!list.CE) {
+                            classnamesAUTO = 'basic_purple';
+                        } else if (!list.customDate) {
+                            classnamesAUTO = 'basic_skyblue';
+                        } else if (!list.PAY) {
+                            classnamesAUTO = 'basic_orange';
+                        } else if (!list.finall) {
+                            classnamesAUTO = 'basic_finish';
+                        }
+                        return list.hiddenOn === 0 ? (
+                            <tr key={list.indexs}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={list.hiddenOn === 0 ? false : true}
+                                        onChange={e => handleChangeClickHidden(e, list)}
+                                    ></input>
+                                </td>
+                                <td>{i + 1}</td>
+                                <td>{list.state}</td>
+                                <td>{list.grade}</td>
+                                <td>{list.issue_date}</td>
+                                <td>{list.CSMNumber}</td>
+                                <td>{list.ModelNumber}</td>
+                                <td>{list.Binds}</td>
+                                <td>{list.custom}</td>
+                                <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
+                                    <div className="Insert_dates">
+                                        {classnamesAUTO === 'basic_yellow' ? (
+                                            <div>
+                                                <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="ThirdTest_Delete_for_div_box"
+                                                onDoubleClick={() => handleClicksDeleteData(list, '발행')}
+                                            >
+                                                <div>{list.publish}</div>
+                                                <div>{list.publish ? list.publish_name : ''}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                                <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_lime' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '신청')}>확인</button>
                                         </div>
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_lime' ? (
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '신청')}
+                                        >
+                                            <div>{list.apply}</div>
+                                            <div>{list.apply ? list.apply_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_blue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '입고')}
+                                        >
+                                            <div>{list.entering}</div>
+                                            <div>{list.entering ? list.entering_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_purple' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
+                                        >
+                                            <div>{list.CE}</div>
+                                            <div>{list.CE ? list.CE_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_skyblue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '고객')}
+                                        >
+                                            <div>{list.customDate}</div>
+                                            <div>{list.customDate ? list.customDate_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_orange' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
                                             <div>
-                                                <button onClick={() => handleClicks(list, '신청')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div
-                                                className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, '신청')}
-                                            >
-                                                <div>{list.apply}</div>
-                                                <div>{list.apply ? list.apply_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.apply}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_blue' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, '입고')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div
-                                                className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, '입고')}
-                                            >
-                                                <div>{list.entering}</div>
-                                                <div>{list.entering ? list.entering_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.entering}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_purple' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, 'CE')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div
-                                                className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
-                                            >
-                                                <div>{list.CE}</div>
-                                                <div>{list.CE ? list.CE_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.CE}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_skyblue' ? (
-                                            <div>
-                                                <button onClick={() => handleClicks(list, '고객')}>확인</button>
-                                            </div>
-                                        ) : (
-                                            <div
-                                                className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, '고객')}
-                                            >
-                                                <div>{list.customDate}</div>
-                                                <div>{list.customDate ? list.customDate_name : ''}</div>
-                                            </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.customDate}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_orange' ? (
-                                            DecryptKey(InfomationState.name) === '이지원' ||
-                                            DecryptKey(InfomationState.name) === '이광민' ? (
                                                 <div>
-                                                    <div>
-                                                        <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
-                                                    </div>
+                                                    <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
                                                 </div>
-                                            ) : (
-                                                <div></div>
-                                            )
-                                        ) : (
-                                            <div
-                                                className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
-                                            >
-                                                <div>{list.PAY}</div>
-                                                <div>{list.PAY ? list.PAY_name : ''}</div>
                                             </div>
-                                        )}
-                                        {/* <div className="Insert_dates">{list.PAY}</div> */}
-                                    </td>
-                                    <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
-                                        {classnamesAUTO === 'basic_finish' ? (
-                                            DecryptKey(InfomationState.name) === '이지원' ||
-                                            DecryptKey(InfomationState.name) === '이광민' ? (
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
+                                        >
+                                            <div>{list.PAY}</div>
+                                            <div>{list.PAY ? list.PAY_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_finish' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
                                                 <div>
-                                                    <div>
-                                                        <button onClick={() => handleClicks(list, 'finished')}>확인</button>
-                                                    </div>
+                                                    <button onClick={() => handleClicks(list, 'finished')}>확인</button>
                                                 </div>
-                                            ) : (
-                                                <div></div>
-                                            )
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                        >
+                                            <div>{list.finall}</div>
+                                            <div>{list.finall_name}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td onClick={() => handleSubUpdateData(list)}>클릭</td>
+                            </tr>
+                        ) : hiddenChecked ? (
+                            <tr key={list.indexs}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={list.hiddenOn === 0 ? false : true}
+                                        onChange={e => handleChangeClickHidden(e, list)}
+                                    ></input>
+                                </td>
+                                <td>{i + 1}</td>
+                                <td>{list.state}</td>
+                                <td>{list.grade}</td>
+                                <td>{list.issue_date}</td>
+                                <td>{list.CSMNumber}</td>
+                                <td>{list.ModelNumber}</td>
+                                <td>{list.Binds}</td>
+                                <td>{list.custom}</td>
+                                <td className={classnamesAUTO} style={list.publish ? {} : { backgroundColor: 'white' }}>
+                                    <div className="Insert_dates">
+                                        {classnamesAUTO === 'basic_yellow' ? (
+                                            <div>
+                                                <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                            </div>
                                         ) : (
                                             <div
                                                 className="ThirdTest_Delete_for_div_box"
-                                                onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                                onDoubleClick={() => handleClicksDeleteData(list, '발행')}
                                             >
-                                                <div>{list.finall}</div>
-                                                <div>{list.finall_name}</div>
+                                                <div>{list.publish}</div>
+                                                <div>{list.publish ? list.publish_name : ''}</div>
                                             </div>
                                         )}
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                    </div>
+                                </td>
+                                <td className={classnamesAUTO} style={list.apply ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_lime' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '신청')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '신청')}
+                                        >
+                                            <div>{list.apply}</div>
+                                            <div>{list.apply ? list.apply_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.entering ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_blue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '입고')}
+                                        >
+                                            <div>{list.entering}</div>
+                                            <div>{list.entering ? list.entering_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.CE ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_purple' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
+                                        >
+                                            <div>{list.CE}</div>
+                                            <div>{list.CE ? list.CE_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.customDate ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_skyblue' ? (
+                                        <div>
+                                            <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, '고객')}
+                                        >
+                                            <div>{list.customDate}</div>
+                                            <div>{list.customDate ? list.customDate_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.PAY ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_orange' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
+                                                <div>
+                                                    <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
+                                        >
+                                            <div>{list.PAY}</div>
+                                            <div>{list.PAY ? list.PAY_name : ''}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className={classnamesAUTO} style={list.finall ? {} : { backgroundColor: 'white' }}>
+                                    {classnamesAUTO === 'basic_finish' ? (
+                                        DecryptKey(InfomationState.name) === '이지원' || DecryptKey(InfomationState.name) === '이광민' ? (
+                                            <div>
+                                                <div>
+                                                    <button onClick={() => handleClicks(list, 'finished')}>확인</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    ) : (
+                                        <div
+                                            className="ThirdTest_Delete_for_div_box"
+                                            onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                        >
+                                            <div>{list.finall}</div>
+                                            <div>{list.finall_name}</div>
+                                        </div>
+                                    )}
+                                </td>
+                                <td>클릭</td>
+                            </tr>
+                        ) : (
+                            <></>
+                        );
+                    })}
                 </tbody>
             </table>
-            <div className="CElogs_WriteData_Add_data_main_div_box">
-                <div
-                    className={modalIsOpen ? 'CElogs_WriteData_Add_data_div_box_opens' : 'CElogs_WriteData_Add_data_div_box'}
-                    style={{ width: '100px', fontSize: '100px' }}
-                    onClick={() => setIsOpen(true)}
-                >
-                    <AiFillPlusCircle></AiFillPlusCircle>
-                </div>
+            <div className="CeCalendar_paginations">
+                <ul>
+                    {Number(pagenumber) > 3 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${1}`)}>1</li>
+                            <li>...</li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 2 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}`)}>
+                                {Number(pagenumber) - 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                    {Number(pagenumber) - 1 > 0 ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}`)}>
+                                {Number(pagenumber) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    <li style={{ color: '#0031f7' }}>{pagenumber}</li>
+
+                    {Number(pagenumber) + 1 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}`)}>
+                                {Number(pagenumber) + 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) + 2 < Math.ceil(PageNumbers / 20) ? (
+                        <>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}`)}>
+                                {Number(pagenumber) + 2}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    {Number(pagenumber) < Math.ceil(PageNumbers / 20) - 3 ? (
+                        <>
+                            {' '}
+                            <li>...</li>
+                            <li onClick={() => window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / 20) - 1}`)}>
+                                {Math.ceil(PageNumbers / 20) - 1}
+                            </li>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                </ul>
             </div>
-            <Modal
-                isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <WriteData dataInsertOn={() => dataGetSome()}></WriteData>
+
+            <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+                <CeCalendarUpdateModals
+                    closeModal={closeModal}
+                    getCeCalendarDatas={getCeCalendarDatas}
+                    hadleDeleteData={hadleDeleteData}
+                    hadleUpdateData={updatedata => hadleUpdateData(updatedata)}
+                ></CeCalendarUpdateModals>
             </Modal>
-        </div>
+        </AssetTableMainDivBox>
     );
 };
 

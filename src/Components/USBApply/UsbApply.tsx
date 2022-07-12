@@ -13,6 +13,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { GiClick } from 'react-icons/gi';
 import { CgSelectR } from 'react-icons/cg';
 import styled from 'styled-components';
+import LoaderMainPage from '../Loader/LoaderMainPage';
 
 export const USBCDApplyFormBoxDiv = styled.div`
     width: 90%;
@@ -114,8 +115,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const ExampleCustomInput = ({ value, onClick }: any) => (
         <button className="example-custom-input10" onClick={onClick}>
-            {' '}
-            {value}{' '}
+            {value}
         </button>
     );
     useEffect(() => {
@@ -130,6 +130,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
     const [filename, setfilename] = useState('');
     const [useText, setUseText] = useState('');
     const [usbownership, setUsbownership] = useState('자사');
+    const [loading, setLoading] = useState(false);
     const [question, setQuestion] = useState([
         {
             index: 1,
@@ -214,33 +215,53 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
             });
             return;
         }
-        const mailsendOkay = await axios.post(`${process.env.REACT_APP_DB_HOST}/USB_app_server/usbmailsend`, {
-            selecteDate: moment(startDate).format('YYYY-MM-DD'),
-            question,
-            id: DecryptKey(InfomationState.id),
-            name: DecryptKey(InfomationState.name),
-            equipment,
-            filename,
-            text: useText,
-            ownership: usbownership,
-            team: InfomationState.team,
-        });
-        if (mailsendOkay.data.DataSendSuccess) {
-            const selecteDatess = moment(startDate).format('YYYY-MM');
-            dispatch(getUSBCDThunk(selecteDatess, InfomationState));
-            toast.show({
-                title: '신청완료. ',
-                content: '메일 발송 완료. 팀장 승인을 기다려 주세요.',
-                duration: 6000,
-                DataSuccess: true,
+        try {
+            setLoading(true);
+            const mailsendOkay = await axios.post(`${process.env.REACT_APP_DB_HOST}/USB_app_server/usbmailsend`, {
+                selecteDate: moment(startDate).format('YYYY-MM-DD'),
+                question,
+                id: DecryptKey(InfomationState.id),
+                name: DecryptKey(InfomationState.name),
+                equipment,
+                filename,
+                text: useText,
+                ownership: usbownership,
+                team: InfomationState.team,
             });
-        } else {
+            if (mailsendOkay.data.DataSendSuccess) {
+                const selecteDatess = moment(startDate).format('YYYY-MM');
+                dispatch(getUSBCDThunk(selecteDatess, InfomationState));
+                toast.show({
+                    title: '신청완료. ',
+                    content: '메일 발송 완료. 팀장 승인을 기다려 주세요.',
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000);
+            } else {
+                toast.show({
+                    title: '메일 전송 실패 ',
+                    content: '메일 발송 실패. IT팀에 문의 주세요.',
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000);
+            }
+        } catch (error) {
+            console.log(error);
             toast.show({
                 title: '메일 전송 실패 ',
                 content: '메일 발송 실패. IT팀에 문의 주세요.',
                 duration: 6000,
                 DataSuccess: false,
             });
+            setTimeout(() => {
+                setLoading(false);
+            }, 3000);
         }
     };
     return (
@@ -271,79 +292,9 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                     </div>
                 </div>
                 <div className="USB_right_box">
-                    {/* <div id="form-div"> */}
                     <div style={{ padding: '30px' }}>
                         <h2 style={{ marginBottom: '30px' }}>USB/CD 사전 신청</h2>
-                        {/* <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
-                            <div className="usb_name">
-                                <input
-                                    value={DecryptKey(InfomationState.name)}
-                                    type="text"
-                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                    placeholder="Name"
-                                    id="name"
-                                    readOnly
-                                />
-                            </div>
-                            <div className="usb_name Datepickers">
-                                <span className="Usb_span_box">사용일자:</span>
-                                <DatePicker
-                                    placeholderText="보실 날짜를 선택해주세요."
-                                    dateFormat="yyyy-MM-dd(eee)"
-                                    locale="ko"
-                                    customInput={<ExampleCustomInput />}
-                                    selected={startDate}
-                                    withPortal
-                                    portalId="root-portal"
-                                    onChange={(date: any) => setStartDate(date)}
-                                />
-                            </div>
-                            <div className="usb_name">
-                                <input
-                                    name="equipment"
-                                    type="text"
-                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                    placeholder="사용장비"
-                                    id="equipment"
-                                    value={equipment}
-                                    onChange={e => setequipment(e.target.value)}
-                                />
-                            </div>
-                            <div className="usb_name">
-                                <input
-                                    name="filename"
-                                    type="text"
-                                    className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                    placeholder="사용 파일명"
-                                    id="filename"
-                                    value={filename}
-                                    onChange={e => setfilename(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <select name="ownership" onChange={e => setUsbownership(e.target.value)}>
-                                    <option value="자사" selected>
-                                        자사
-                                    </option>
-                                    <option value="고객">고객</option>
-                                </select>
-                            </div>
-                            <div className="text">
-                                <textarea
-                                    name="text"
-                                    className="validate[required,length[6,300]] feedback-input"
-                                    id="comment"
-                                    placeholder="사용 이유"
-                                    value={useText}
-                                    onChange={e => setUseText(e.target.value)}
-                                ></textarea>
-                            </div>
-                            <div className="submit">
-                                <input type="button" value="이메일 보내기" id="button-blue" onClick={handleSendMail} />
-                                <div className="ease"></div>
-                            </div>
-                        </form>
-                    </div> */}
+
                         <div>
                             <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
                                 <USBCDApplyFormBoxDiv>
@@ -441,6 +392,7 @@ const UsbApply = ({ pickerDate }: UsbApplyProps) => {
                     </div>
                 </div>
             </div>
+            <LoaderMainPage loading={loading}></LoaderMainPage>
         </div>
     );
 };

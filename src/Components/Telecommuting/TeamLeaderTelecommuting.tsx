@@ -31,6 +31,7 @@ import {
 import { DecryptKey } from '../../config';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
+import { NothingGet } from '../API/GETApi/GetApi';
 const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -161,11 +162,13 @@ const TeamLeaderTelecommuting = () => {
 
     const getSomeNamesData = async () => {
         try {
-            const getSomeNamesDataServer = await axios.get(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
-                headers: {
-                    Authorization: sessionStorage.getItem('DHKS_TOKEN'),
-                },
-            });
+            // const getSomeNamesDataServer = await axios.get(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
+            //     headers: {
+            //         Authorization: sessionStorage.getItem('DHKS_TOKEN'),
+            //     },
+            // });
+            const getSomeNamesDataServer = await NothingGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`);
+
             if (getSomeNamesDataServer.data.dataSuccess) {
                 setBelongsName(getSomeNamesDataServer.data.datas);
             } else {

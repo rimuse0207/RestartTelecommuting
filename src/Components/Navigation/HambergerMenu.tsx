@@ -170,21 +170,21 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
         };
     }, [myMenuRef]);
 
-    useEffect(() => {
-        socketconnect();
-        // getCovidData();
-    }, []);
+    // useEffect(() => {
+    //     socketconnect();
+    //     // getCovidData();
+    // }, []);
 
-    const getCovidData = async () => {
-        try {
-            const getCovidDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/covid_getData`);
-            if (getCovidDatas.data.dataSuccess) {
-                setNoticeData(getCovidDatas.data.datas);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const getCovidData = async () => {
+    //     try {
+    //         const getCovidDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/covid_getData`);
+    //         if (getCovidDatas.data.dataSuccess) {
+    //             setNoticeData(getCovidDatas.data.datas);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     function isEmptyObj(obj: {}) {
         if (obj.constructor === Object && Object.keys(obj).length === 0) {
@@ -193,35 +193,16 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
 
         return false;
     }
-    const socketconnect = async () => {
-        if (loginChecked && isEmptyObj(socket)) {
-            const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
-            soscketData.emit('hi', {
-                name: DecryptKey(InfomationState.name),
-                id: DecryptKey(InfomationState.id),
-            });
-            soscketData.on('users_come_in', (data: { message: [] }) => {
-                dispatch(getChatting_members(data.message));
-            });
-            soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-                handleVisibilityChange(data);
-            });
-            await dispatch(getSocket(soscketData));
-        }
-    };
-    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
-        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
-    };
 
-    const handleUpdateCovidText = () => {
-        if (DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' || DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr') {
-            setModalIsOpen(true);
-        }
-    };
-    function closeModal() {
-        getCovidData();
-        setModalIsOpen(false);
-    }
+    // const handleUpdateCovidText = () => {
+    //     if (DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' || DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr') {
+    //         setModalIsOpen(true);
+    //     }
+    // };
+    // function closeModal() {
+    //     getCovidData();
+    //     setModalIsOpen(false);
+    // }
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
@@ -280,7 +261,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                 <Navigation menuStatus={menuStatus} setHambergerOpen={(e: React.MouseEvent<HTMLElement>) => _menuToggle(e)} />
             </div>
 
-            <div>
+            {/* <div>
                 <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
                     <div style={{ marginTop: '50px' }}></div>
                     <CloseModalButtonMainDivBox>
@@ -292,7 +273,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                         </div>
                     </div>
                 </Modal>
-            </div>
+            </div> */}
         </div>
     );
 };

@@ -18,10 +18,14 @@ const TeamLeaderMonthOtPrinterMainDivBox = styled.div`
             height: 40px;
             text-align: start;
         }
+        .MonthOT_TableDivBoxs,
+        .MonthOT_TableDivBoxs_division {
+            display: contents;
+        }
     }
 
     th {
-        font-size: 0.8em;
+        font-size: 1em;
     }
 
     th,
@@ -47,9 +51,32 @@ const TeamLeaderMonthOtPrinterMainDivBox = styled.div`
             height: 297mm;
             margin: 10px; /* margin: auto auto; 로 자동 여백 설정도 가능 */
         }
-
+        h3 {
+            font-size: 20px !important;
+        }
         table {
-            padding: 0px;
+            page-break-after: auto;
+        }
+        div {
+            page-break-inside: avoid;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        td {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        thead {
+            display: table-header-group;
+        }
+        tfoot {
+            display: table-footer-group;
+        }
+        .MonthOT_TableDivBoxs_division {
+            page-break-after: always !important;
+            page-break-before: always !important;
         }
         .CanlenderPagePrinter {
             page-break-after: always;
@@ -136,7 +163,8 @@ const TeamLeaderMonthOtPrinter = () => {
                 {Loading ? (
                     <div>
                         <table>
-                            <thead>
+                            {/* <thead> */}
+                            <tbody>
                                 <tr>
                                     <th
                                         colSpan={
@@ -149,7 +177,7 @@ const TeamLeaderMonthOtPrinter = () => {
                                         }
                                         rowSpan={2}
                                     >
-                                        <h3>
+                                        <h3 style={{ fontSize: '2em' }}>
                                             {team.toUpperCase()}
                                             <br />
                                             연장(휴일) 근무 실시보고서
@@ -164,8 +192,8 @@ const TeamLeaderMonthOtPrinter = () => {
                                     <td style={{ height: '50px', background: 'white' }}></td>
                                     <td style={{ height: '50px', background: 'white' }}></td>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                {/* </thead> */}
+
                                 <tr>
                                     <td
                                         colSpan={
@@ -221,7 +249,7 @@ const TeamLeaderMonthOtPrinter = () => {
                                         i: number
                                     ) => {
                                         return (
-                                            <>
+                                            <div className={(i + 1) % 20 === 0 ? 'MonthOT_TableDivBoxs_division' : 'MonthOT_TableDivBoxs'}>
                                                 <tr>
                                                     <td rowSpan={2}>{i + 1}</td>
                                                     <td rowSpan={2}>{list.name}</td>
@@ -258,7 +286,7 @@ const TeamLeaderMonthOtPrinter = () => {
                                                         <></>
                                                     )}
                                                 </tr>
-                                            </>
+                                            </div>
                                         );
                                     }
                                 )}

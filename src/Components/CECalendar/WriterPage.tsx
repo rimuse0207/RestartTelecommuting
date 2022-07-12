@@ -6,22 +6,25 @@ import './WriteData.css';
 
 type dataInsertOnProps = {
     dataInsertOn: () => void;
+    closeModal: () => void;
 };
 
-const WriterPage = ({ dataInsertOn }: dataInsertOnProps) => {
+const WriterPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
     const [stateData, setStateData] = useState('Close');
     const [gradeData, setGradeData] = useState('SDC');
     const [CSMNumberData, setCSMNumberData] = useState('');
     const [ModelNumberData, setModelNumberData] = useState('');
     const [BindsData, setBindsData] = useState('');
     const [customData, setCustomData] = useState('');
+    const [issue_date, setissue_date] = useState('');
 
     const handleClicks = async (e: any) => {
         e.preventDefault();
         if (stateData && gradeData && CSMNumberData && ModelNumberData && BindsData && customData) {
-            const DataAddCeCalendar = await axios.post(`http://localhost:3001/CE_Calendar_app_server/DataSaved`, {
+            const DataAddCeCalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataSaved`, {
                 stateData,
                 gradeData,
+                issue_date,
                 CSMNumberData,
                 ModelNumberData,
                 BindsData,
@@ -29,6 +32,10 @@ const WriterPage = ({ dataInsertOn }: dataInsertOnProps) => {
             });
             if (DataAddCeCalendar.data.dataSuccess) {
                 dataInsertOn();
+                closeModal();
+                window.location.reload();
+            } else {
+                alert('에러 발생');
             }
         } else {
             alert('공란을 전부 입력 해주세요.');
@@ -64,6 +71,19 @@ const WriterPage = ({ dataInsertOn }: dataInsertOnProps) => {
                                 className="CElogs_WriteData_FORM_InputBox"
                                 value={gradeData}
                                 onChange={e => setGradeData(e.target.value)}
+                                placeholder="등급"
+                            ></input>
+                        </div>
+                        <div className="CElogs_WriteData_FORM_div_box">
+                            <div className="CElogs_WriteData_FORM_Text_label">발행일</div>
+                            <div className="CElogs_WriteData_FORM_emoticon_div">
+                                <BsFillPencilFill></BsFillPencilFill>
+                            </div>
+                            <input
+                                type="date"
+                                className="CElogs_WriteData_FORM_InputBox"
+                                value={issue_date}
+                                onChange={e => setissue_date(e.target.value)}
                                 placeholder="등급"
                             ></input>
                         </div>
