@@ -4,6 +4,7 @@ import { RootState } from '../../models/index';
 import { useSelector } from 'react-redux';
 import MonthTeleExcelDownload from './MonthTeleExcelDownload';
 import SelectClickModalMainPage from '../SelectClickModal/SelectClickModalMainPage';
+import { OneParamsPost } from '../API/POSTApi/PostApi';
 
 type MonthTeleCommutingTableBoxProps = {
     selectedYear: string;
@@ -40,16 +41,10 @@ const MonthTeleCommutingTableBox = ({
     };
 
     const MonthTeleData = async () => {
+        const paramsData = { selectDate: `${selectedYear}-${selectedMonth}`, team: SelectTeam, id: IDS };
         try {
-            const MonthTeleDataServer = await axios.post(
-                `${process.env.REACT_APP_DB_HOST}/Tele_app_server/Data_get_TeamLeader_Telecommuting_Month_data`,
-                {
-                    selectDate: `${selectedYear}-${selectedMonth}`,
-                    team: SelectTeam,
-                    id: IDS,
-                }
-            );
-
+            const MonthTeleDataServer = await OneParamsPost(`/Tele_app_server/Data_get_TeamLeader_Telecommuting_Month_data`, paramsData);
+            setMonthTeleDatas([]);
             if (MonthTeleDataServer.data.dataSuccess) {
                 setMonthTeleDatas(MonthTeleDataServer.data.data);
             }

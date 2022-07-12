@@ -703,16 +703,6 @@ const Telecommuting = () => {
     return (
         <div>
             <div className="Telecommuting_date_show_div">
-                {/* <div className="Telecommuting_apply_div_box">
-                    <button
-                        onClick={() => {
-                            setClicksData(null);
-                            setOnClickedSet(!onClicked);
-                        }}
-                    >
-                        작성하기
-                    </button>
-                </div> */}
                 <div className="control">
                     <button
                         onClick={() => {
@@ -737,7 +727,6 @@ const Telecommuting = () => {
                                 if (telecommutingApply_check) {
                                     dispatch(TelecommutingDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(TelecommutingDataShowCheckedTrue());
                                     dispatch(getTelecommutingThunk(getMoment, InfomationState));
                                 }
                                 settelecommutingApply_check(!telecommutingApply_check);
@@ -751,8 +740,6 @@ const Telecommuting = () => {
                                 if (BeforeOtApply_check) {
                                     dispatch(BeforeOTDataShowCheckedFalse());
                                 } else {
-                                    // dispatch(BeforeOTShowCheckedTrue());
-
                                     dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
                                 }
                                 setBeforeOtApply_check(!BeforeOtApply_check);
@@ -765,8 +752,6 @@ const Telecommuting = () => {
                                 if (AfterOtApply_check) {
                                     dispatch(AfterOTDataShowCheckedFalse());
                                 } else {
-                                    // dispatch(AfterOTShowCheckedTrue());
-
                                     dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
                                 }
                                 setAfterOtApply_check(!AfterOtApply_check);
@@ -779,7 +764,6 @@ const Telecommuting = () => {
                                 if (foodApply_check) {
                                     dispatch(FoodDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(FoodDataShowCheckedTrue());
                                     dispatch(getFoodDataThunk(getMoment, InfomationState));
                                 }
                                 setfoodApply_check(!foodApply_check);
@@ -792,7 +776,6 @@ const Telecommuting = () => {
                                 if (usbApply_check) {
                                     dispatch(USBCDDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(USBCDDataShowCheckedTrue());
                                     dispatch(getUSBCDThunk(getMoment, InfomationState));
                                 }
                                 setusbApply_check(!usbApply_check);
@@ -805,7 +788,6 @@ const Telecommuting = () => {
                                 if (Parts_check) {
                                     dispatch(PartsDataShowCheckedFalse());
                                 } else {
-                                    //dispatch(USBCDDataShowCheckedTrue());
                                     dispatch(getPartsdataThunk(getMoment, InfomationState));
                                 }
                                 setParts_check(!Parts_check);
