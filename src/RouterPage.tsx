@@ -36,6 +36,7 @@ import socketio from 'socket.io-client';
 import { getSocket } from './models/Socket';
 import { getChatting_members } from './models/ChattingMeber';
 import { DecryptKey } from './config';
+import AccessInfoMainPage from './Components/AdminAcees/AdminAccess/AccessInfoMainPage';
 
 const RouterPageMainDivBox = styled.div`
     @media print {
@@ -148,6 +149,7 @@ const RouterPage = () => {
                                     path="/BusinessShowMonthPrinter/:id/:name/:team/:year/:month"
                                     component={BusinessTripPrinterContent}
                                 ></Route>
+                                <Route path="/Amdin/IT_Admin_Access" component={AccessInfoMainPage}></Route>
                             </div>
 
                             {/* <Redirect path="*" to="/ErrorPage" /> */}

@@ -5,56 +5,73 @@ import { DecryptKey } from '../../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import TeamSelectOTTable from './TeamSelectOTTable';
+import { OneParamsGet } from '../../API/GETApi/GetApi';
+type TeamDataProps = {
+    show_teams: string;
+};
 const TeamSelectOTSpace = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const NavAccessTokenState = useSelector((state: RootState) => state.Nav_AccessTokens);
     const [selectYear, setSelectYear] = useState(moment().format('YYYY'));
     const [selectMonth, setSelectMonth] = useState(moment().format('MM'));
     const [selectTeam, setSelectTeam] = useState('');
-    const [showTeam, setShowTeam] = useState(['권한없음.']);
+    const [showTeam, setShowTeam] = useState<TeamDataProps[]>([]);
 
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
 
     useEffect(() => {
-        const id = DecryptKey(InfomationState.id);
-
-        if (
-            id === 'sjyoo@dhk.co.kr' ||
-            id === 'sjkim@dhk.co.kr' ||
-            id === 'jycha@dhk.co.kr' ||
-            id === 'jhlee1@dhk.co.kr' ||
-            id === 'htchoi@dhk.co.kr' ||
-            id === 'jmlee@dhk.co.kr'
-        ) {
-            setShowTeam(['', '부품소재', '장비영업', '영업기술', '경영지원', '아산CE', 'Dicer', 'Grinder', 'Laser', 'OEM']);
-        } else if (id === 'sjpark@dhk.co.kr') {
-            setShowTeam(['경영지원']);
-            setSelectTeam('경영지원');
-        } else if (id === 'jhgoo@dhk.co.kr') {
-            setShowTeam(['', '아산CE', 'Dicer', 'Laser', 'Grinder']);
-        } else if (id === 'kcahn@dhk.co.kr') {
-            setShowTeam(['', '장비영업', '부품소재', '영업기술', 'OEM']);
-        } else if (id === 'ychong@dhk.co.kr') {
-            setShowTeam(['', '아산CE', 'A_Dicer', 'A_Laser', 'A_Grinder']);
-        } else if (id === 'hjlee@dhk.co.kr') {
-            setShowTeam(['Dicer']);
-            setSelectTeam('dicer');
-        } else if (id === 'wbjung@dhk.co.kr') {
-            setShowTeam(['Laser']);
-            setSelectTeam('laser');
-        } else if (id === 'jhshin@dhk.co.kr') {
-            setShowTeam(['Grinder']);
-            setSelectTeam('grinder');
-        } else if (id === 'cwjun@dhk.co.kr') {
-            setShowTeam(['장비영업']);
-            setSelectTeam('장비영업');
-        } else if (id === 'ikkim@dhk.co.kr') {
-            setShowTeam(['OEM']);
-            setSelectTeam('OEM');
-        } else if (id === 'siyi@dhk.co.kr') {
-            setShowTeam(['부품소재']);
-            setSelectTeam('부품소재');
-        }
+        // const id = DecryptKey(InfomationState.id);
+        // if (
+        //     id === 'sjyoo@dhk.co.kr' ||
+        //     id === 'sjkim@dhk.co.kr' ||
+        //     id === 'jycha@dhk.co.kr' ||
+        //     id === 'jhlee1@dhk.co.kr' ||
+        //     id === 'htchoi@dhk.co.kr' ||
+        //     id === 'jmlee@dhk.co.kr' ||
+        //     id === 'dikim@dhk.co.kr'
+        // ) {
+        //     setShowTeam(['', '부품소재', '장비영업', '영업기술', '경영지원', '아산CE', 'Dicer', 'Grinder', 'Laser', 'OEM']);
+        // } else if (id === 'sjpark@dhk.co.kr') {
+        //     setShowTeam(['경영지원']);
+        //     setSelectTeam('경영지원');
+        // } else if (id === 'jhgoo@dhk.co.kr') {
+        //     setShowTeam(['', '아산CE', 'Dicer', 'Laser', 'Grinder']);
+        // } else if (id === 'kcahn@dhk.co.kr') {
+        //     setShowTeam(['', '장비영업', '부품소재', '영업기술', 'OEM']);
+        // } else if (id === 'ychong@dhk.co.kr') {
+        //     setShowTeam(['', '아산CE', 'A_Dicer', 'A_Laser', 'A_Grinder']);
+        // } else if (id === 'hjlee@dhk.co.kr') {
+        //     setShowTeam(['Dicer']);
+        //     setSelectTeam('dicer');
+        // } else if (id === 'wbjung@dhk.co.kr') {
+        //     setShowTeam(['Laser']);
+        //     setSelectTeam('laser');
+        // } else if (id === 'jhshin@dhk.co.kr') {
+        //     setShowTeam(['Grinder']);
+        //     setSelectTeam('grinder');
+        // } else if (id === 'cwjun@dhk.co.kr') {
+        //     setShowTeam(['장비영업']);
+        //     setSelectTeam('장비영업');
+        // } else if (id === 'ikkim@dhk.co.kr') {
+        //     setShowTeam(['OEM']);
+        //     setSelectTeam('OEM');
+        // } else if (id === 'siyi@dhk.co.kr') {
+        //     setShowTeam(['부품소재']);
+        //     setSelectTeam('부품소재');
+        // }
+        getTeamsDataFromServer();
     }, []);
+    const getTeamsDataFromServer = async () => {
+        try {
+            const getTeamData = await OneParamsGet(`/Tele_app_server/TeamSelectGet`, { id: NavAccessTokenState.id });
+            if (getTeamData.data.dataSuccess) {
+                setShowTeam(getTeamData.data.teamData);
+            } else {
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
         if (selectTeam === '') {
             setTeamBelongInfo([]);
@@ -65,6 +82,9 @@ const TeamSelectOTSpace = () => {
     }, [selectYear, selectMonth, selectTeam]);
 
     const getDataSelectTeam = async () => {
+        if (selectTeam === '') {
+            return;
+        }
         try {
             const getDataShowTeam = await axios.post(`${process.env.REACT_APP_DB_HOST}/TeamSelectOT_app_server/getTeamShow`, {
                 selectYear,
@@ -100,10 +120,11 @@ const TeamSelectOTSpace = () => {
                         <option value="12">12월</option>
                     </select>
                     <select value={selectTeam} onChange={e => setSelectTeam(e.target.value)}>
+                        <option value="">팀 선택</option>
                         {showTeam.map((list, i) => {
                             return (
-                                <option value={list} key={list}>
-                                    {list}
+                                <option value={list.show_teams} key={list.show_teams}>
+                                    {list.show_teams}
                                 </option>
                             );
                         })}

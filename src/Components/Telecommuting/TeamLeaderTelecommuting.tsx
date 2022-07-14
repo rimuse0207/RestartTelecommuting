@@ -42,6 +42,7 @@ const TeamLeaderTelecommuting = () => {
     );
     const AfterOTData = useSelector((state: RootState) => state.TeamLeaderAfterOTData.TeamLeader_AfterOTDatas);
     const BeforeOTData = useSelector((state: RootState) => state.TeamLeaderBeforeOTData.TeamLeader_BeforeOTDatas);
+    const NavAccessTokenState = useSelector((state: RootState) => state.Nav_AccessTokens);
 
     const [getMoment, setMoment] = useState(moment());
     const [onClicked, setOnClickedSet] = useState(false);
@@ -56,90 +57,47 @@ const TeamLeaderTelecommuting = () => {
     const [belongsName, setBelongsName] = useState([]);
 
     useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (IDS === 'sjyoo@dhk.co.kr' || IDS === 'sjkim@dhk.co.kr' || IDS === 'htchoi@dhk.co.kr' || IDS === 'jmlee@dhk.co.kr') {
+        if (NavAccessTokenState.FoodLeaderAccess === 1) {
             if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
     }, [foodApply_check, getMoment]);
     useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr' ||
-            IDS === 'wbjung@dhk.co.kr' ||
-            IDS === 'hjlee@dhk.co.kr' ||
-            IDS === 'jhshin@dhk.co.kr' ||
-            IDS === 'cwjun@dhk.co.kr' ||
-            IDS === 'kcahn@dhk.co.kr' ||
-            IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr' ||
-            IDS === 'siyi@dhk.co.kr' ||
-            IDS === 'ikkim@dhk.co.kr'
-        ) {
+        if (NavAccessTokenState.USBApplyLeaderAccess === 1) {
             if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
         }
     }, [usbApply_check, getMoment]);
     useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr' ||
-            IDS === 'wbjung@dhk.co.kr' ||
-            IDS === 'hjlee@dhk.co.kr' ||
-            IDS === 'jhshin@dhk.co.kr' ||
-            IDS === 'cwjun@dhk.co.kr' ||
-            IDS === 'kcahn@dhk.co.kr' ||
-            IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr' ||
-            IDS === 'siyi@dhk.co.kr' ||
-            IDS === 'ikkim@dhk.co.kr'
-        ) {
-            if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-        } else if (
-            IDS === 'jhlee1@dhk.co.kr' ||
-            IDS === 'jycha@dhk.co.kr' ||
-            IDS === 'htchoi@dhk.co.kr' ||
-            IDS === 'jmlee@dhk.co.kr' ||
-            IDS === 'sjpark@dhk.co.kr'
-        ) {
+        if (NavAccessTokenState.AfterOTLeaderAccess === 1) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
         }
+        // else if (
+        //     IDS === 'jhlee1@dhk.co.kr' ||
+        //     IDS === 'jycha@dhk.co.kr' ||
+        //     IDS === 'htchoi@dhk.co.kr' ||
+        //     IDS === 'jmlee@dhk.co.kr' ||
+        //     IDS === 'sjpark@dhk.co.kr' ||
+        //     IDS === 'dikim@dhk.co.kr'
+        // ) {
+        //     if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
+        // }
     }, [AfterOtApply_check, getMoment]);
     useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr' ||
-            IDS === 'wbjung@dhk.co.kr' ||
-            IDS === 'hjlee@dhk.co.kr' ||
-            IDS === 'jhshin@dhk.co.kr' ||
-            IDS === 'cwjun@dhk.co.kr' ||
-            IDS === 'kcahn@dhk.co.kr' ||
-            IDS === 'jhgoo@dhk.co.kr' ||
-            IDS === 'ychong@dhk.co.kr' ||
-            IDS === 'siyi@dhk.co.kr' ||
-            IDS === 'ikkim@dhk.co.kr'
-        ) {
-            if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-        } else if (
-            IDS === 'jhlee1@dhk.co.kr' ||
-            IDS === 'jycha@dhk.co.kr' ||
-            IDS === 'htchoi@dhk.co.kr' ||
-            IDS === 'jmlee@dhk.co.kr' ||
-            IDS === 'sjpark@dhk.co.kr'
-        ) {
+        if (NavAccessTokenState.BeforeOTLeaderAccess === 1) {
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
         }
+        // else if (
+        //     IDS === 'jhlee1@dhk.co.kr' ||
+        //     IDS === 'jycha@dhk.co.kr' ||
+        //     IDS === 'htchoi@dhk.co.kr' ||
+        //     IDS === 'jmlee@dhk.co.kr' ||
+        //     IDS === 'sjpark@dhk.co.kr' ||
+        //     IDS === 'dikim@dhk.co.kr'
+        // ) {
+        //     if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
+        // }
     }, [BeforeOtApply_check, getMoment]);
     useEffect(() => {
-        const IDS = DecryptKey(InfomationState.id);
-        if (
-            InfomationState.position === '팀장' ||
-            InfomationState.team === '임원' ||
-            IDS === 'sjyoo@dhk.co.kr' ||
-            IDS === 'sjkim@dhk.co.kr' ||
-            IDS === 'jychoi@dhk.co.kr'
-        ) {
+        if (NavAccessTokenState.TeleLeaderAccess === 1) {
             if (telecommutingApply_check) dispatch(TeamLeader_getTelecommutingThunk(getMoment, InfomationState));
         }
     }, [telecommutingApply_check, getMoment]);
@@ -162,11 +120,6 @@ const TeamLeaderTelecommuting = () => {
 
     const getSomeNamesData = async () => {
         try {
-            // const getSomeNamesDataServer = await axios.get(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
-            //     headers: {
-            //         Authorization: sessionStorage.getItem('DHKS_TOKEN'),
-            //     },
-            // });
             const getSomeNamesDataServer = await NothingGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`);
 
             if (getSomeNamesDataServer.data.dataSuccess) {

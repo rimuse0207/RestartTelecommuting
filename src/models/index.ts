@@ -16,6 +16,7 @@ import TeamLeaderAfterOTData from './TeamLeader_Thunk_models/TeamLeaderAfterOTDa
 import numberingTest from './ReduxTestFile';
 import Access_Control from './Access_Redux/Access_Redux';
 import CSMFiltering from './CSMFilteringRedux/CSMFilteringRedux';
+import Nav_AccessTokens from './Nav_Access_Redux/Nav_Access_Redux';
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     numberingTest,
     Access_Control,
     CSMFiltering,
+    Nav_AccessTokens,
 });
 
 export default rootReducer;
