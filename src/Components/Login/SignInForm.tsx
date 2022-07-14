@@ -11,6 +11,7 @@ import { RootState } from '../../models/index';
 import Modal from 'react-modal';
 import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
 import { GetAccessData } from '../../models/Access_Redux/Access_Redux';
+import { NavDataGetting } from '../../models/Nav_Access_Redux/Nav_Access_Redux';
 
 type SignInFormProps = {
     setLoginCheck: (data: boolean) => void;
@@ -69,6 +70,7 @@ const SignInForm = ({ setLoginCheck }: SignInFormProps) => {
                     };
                     dispatch(getPersionalInfo(loginCheck.data.data));
                     dispatch(GetAccessData(BusinessAccessDatas));
+                    dispatch(NavDataGetting(loginCheck.data.Nav_Access[0]));
                     // const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
                     // await dispatch(getSocket(soscketData));
 

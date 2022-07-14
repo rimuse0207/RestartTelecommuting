@@ -216,6 +216,7 @@ const TeamLeaderBusinessTripContent = ({
                 <div>
                     <h2>
                         {selectYear}년 {selectMonth}월 {selectTeam.toUpperCase()}
+                        {'   '}
                         {selectName}
                     </h2>
                     <table className="Telecommuting_Table">

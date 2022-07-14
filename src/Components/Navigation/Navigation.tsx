@@ -9,6 +9,7 @@ import { getSessionLOGOUT } from '../../models/Socket';
 import PasswordChangeModalMainPage from '../Modal/PasswordChangeModal/PasswordChangeModalMainPage';
 import { getAccessDataError } from '../../models/Access_Redux/Access_Redux';
 import Modal from 'react-modal';
+import { NavResetGetting } from '../../models/Nav_Access_Redux/Nav_Access_Redux';
 type Navigation = {
     menuStatus: string;
     setHambergerOpen: any;
@@ -34,7 +35,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const BusinessAdminAcessState = useSelector((state: RootState) => state.Access_Control.BusinessAdminAccess);
     const BusinessAccess = useSelector((state: RootState) => state.Access_Control.BusinessAccess);
-
+    const NavAccessTokenState = useSelector((state: RootState) => state.Nav_AccessTokens);
     const [TeleMenuClicks, setTeleMenuClicks] = useState(true);
     const [OTMenuClicks, setOTMenuClicks] = useState(true);
     const [FoodMenuClicks, setFoodMenuClicks] = useState(true);
@@ -50,6 +51,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
         dispatch(getAccessDataError());
         dispatch(getSessionLOGOUT());
         dispatch(getPersionalLOGOUT());
+        dispatch(NavResetGetting());
         history.push('/');
     };
     const dispatch = useDispatch();
@@ -75,14 +77,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/">
                                         <li>종합 업무 현황</li>
                                     </Link>
-                                    {InfomationState.position === '이사' ||
-                                    InfomationState.position === '팀장' ||
-                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                    {NavAccessTokenState.Nav_TeamLeaderCalendarAccess === 1 ? (
                                         <Link to="/TeamLeaderTelecommutingMainpage">
                                             <li>팀원 종합 업무 현황</li>
                                         </Link>
@@ -93,11 +88,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/Telecommuting_workspace">
                                         <li>재택근무</li>
                                     </Link>
-                                    {InfomationState.position === '이사' ||
-                                    InfomationState.position === '팀장' ||
-                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                    {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
                                         <Link to="/MonthTelecommuting">
                                             <li>월별 재택 조회</li>
                                         </Link>
@@ -128,13 +119,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/AfterOTTest">
                                         <li>OT 신청</li>
                                     </Link>
-                                    {InfomationState.position === '이사' ||
-                                    InfomationState.position === '팀장' ||
-                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                    {NavAccessTokenState.Nav_TeamLeaderOTAccess === 1 ? (
                                         <>
                                             <Link to="/TeamLeaderPageMainPage">
                                                 <li>팀원 OT 승인</li>
@@ -168,13 +153,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         </>
                                     )}
 
-                                    {InfomationState.position === '이사' ||
-                                    InfomationState.position === '팀장' ||
-                                    DecryptKey(InfomationState.id) === 'jhlee1@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                    {NavAccessTokenState.Nav_TeamLeaderMonthOTAccess === 1 ? (
                                         <>
                                             <Link to="/TeamSelectOTWorkSpace">
                                                 <li>근무 실시보고서</li>
@@ -185,10 +164,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     )}
                                     {BusinessAdminAcessState ? (
                                         <>
-                                            {DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ||
-                                            DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                                            DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                                            DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ? (
+                                            {NavAccessTokenState.Nav_TeamLeaderBusinessExcelAccess === 1 ? (
                                                 <Link to="/BusinessExcelUploader">
                                                     <li>ERP 파일 업로드</li>
                                                 </Link>
@@ -219,10 +195,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/meal_settlement">
                                         <li>식대 정산 신청</li>
                                     </Link>
-                                    {DecryptKey(InfomationState.id) === 'jmlee@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'htchoi@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjkim@dhk.co.kr' ||
-                                    DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr' ? (
+                                    {NavAccessTokenState.Nav_TeamLeaderFoodAccess === 1 ? (
                                         <Link to="/Admin_meal_Select">
                                             <li>식대 정산 월별 조회</li>
                                         </Link>
@@ -246,13 +219,10 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         <ul>
                             {ETCMenuClicks ? (
                                 <div className="slideDown">
-                                    {' '}
                                     <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
                                     </Link>
-                                    {/* <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
-                                        <li>시설이용</li>
-                                    </Link> */}
+
                                     <Link to="/CECalendar/1">
                                         <li>CSM</li>
                                     </Link>

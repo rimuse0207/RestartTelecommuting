@@ -30,7 +30,6 @@ const MonthTeleCommutingTableBox = ({
 
     useEffect(() => {
         MonthTeleData();
-        console.log(selectedMonth);
     }, [selectedYear, selectedMonth]);
     useEffect(() => {
         MonthTeleData();
