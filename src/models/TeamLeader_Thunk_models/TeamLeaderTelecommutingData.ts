@@ -34,7 +34,7 @@ const getUSBCDDataAsync = createAsyncAction(
     GET_TeamLeader_TelecommutingData_ERROR
 )<undefined, TeamLeader_TelecommutingDataTypes, AxiosError>();
 
-const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
+const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string; company: string }) => {
     // try {
     //     const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_TeamLeader_Telecommuting`, {
     //         id: DecryptKey(InfomationState.id),
@@ -51,6 +51,7 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
         const TeleLeaderdataget = await axios.get(`${process.env.REACT_APP_API_URL}/Tele_app_server/Data_get_TeamLeader_Telecommuting`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
+                selectCompany: InfomationState.company,
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),
@@ -82,7 +83,7 @@ type GithubState = {
 
 export function TeamLeader_getTelecommutingThunk(
     getMoment: {},
-    InfomationState: { id: string; team: string; name: string }
+    InfomationState: { id: string; team: string; name: string; company: string }
 ): ThunkAction<void, RootState, null, GithubAction> {
     return async dispatch => {
         const { request, success, failure } = getUSBCDDataAsync;

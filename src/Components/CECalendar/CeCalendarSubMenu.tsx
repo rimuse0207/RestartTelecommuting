@@ -7,6 +7,7 @@ import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import CeCalendarPublicPage from './CeCalendarPublicPage';
+import CsmNumberWorking from './CSMNumberWorking/CsmNumberWorking';
 
 const CeCalendarSubMenuMainDivBox = styled.div`
     .CeCalendarSubMenu_SubMenusUl {
@@ -15,7 +16,7 @@ const CeCalendarSubMenuMainDivBox = styled.div`
         justify-content: space-around;
 
         li {
-            width: 45%;
+            width: 25%;
             border-bottom: 3px solid #368;
             text-align: center;
             padding-bottom: 10px;
@@ -40,7 +41,10 @@ const CeCalendarSubMenu = () => {
                                 CSM 저장 테이블
                             </li>
                             <li style={SubMenuClicks === 'File' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('File')}>
-                                CSM Excel 파일 업로드
+                                CSM 기본 데이터 Excel 업로드
+                            </li>
+                            <li style={SubMenuClicks === 'Working' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Working')}>
+                                CSM번호 별 작업시간 및 인원
                             </li>
                         </ul>
                     </div>
@@ -48,7 +52,7 @@ const CeCalendarSubMenu = () => {
                     <></>
                 )}
             </div>
-            <CeCalendarSearchIcons></CeCalendarSearchIcons>
+
             {SubMenuClicks === 'Table' ? (
                 DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
                     <CeCalendarMasterPage></CeCalendarMasterPage>
@@ -59,6 +63,7 @@ const CeCalendarSubMenu = () => {
                 <></>
             )}
             {SubMenuClicks === 'File' ? <CeCalendarExcelFileUpload></CeCalendarExcelFileUpload> : <></>}
+            {SubMenuClicks === 'Working' ? <CsmNumberWorking></CsmNumberWorking> : <></>}
         </CeCalendarSubMenuMainDivBox>
     );
 };

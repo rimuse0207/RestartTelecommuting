@@ -31,7 +31,7 @@ import {
 import { DecryptKey } from '../../config';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
-import { NothingGet } from '../API/GETApi/GetApi';
+import { NothingGet, OneParamsGet } from '../API/GETApi/GetApi';
 const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
@@ -70,31 +70,11 @@ const TeamLeaderTelecommuting = () => {
         if (NavAccessTokenState.AfterOTLeaderAccess === 1) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
         }
-        // else if (
-        //     IDS === 'jhlee1@dhk.co.kr' ||
-        //     IDS === 'jycha@dhk.co.kr' ||
-        //     IDS === 'htchoi@dhk.co.kr' ||
-        //     IDS === 'jmlee@dhk.co.kr' ||
-        //     IDS === 'sjpark@dhk.co.kr' ||
-        //     IDS === 'dikim@dhk.co.kr'
-        // ) {
-        //     if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
-        // }
     }, [AfterOtApply_check, getMoment]);
     useEffect(() => {
         if (NavAccessTokenState.BeforeOTLeaderAccess === 1) {
             if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
         }
-        // else if (
-        //     IDS === 'jhlee1@dhk.co.kr' ||
-        //     IDS === 'jycha@dhk.co.kr' ||
-        //     IDS === 'htchoi@dhk.co.kr' ||
-        //     IDS === 'jmlee@dhk.co.kr' ||
-        //     IDS === 'sjpark@dhk.co.kr' ||
-        //     IDS === 'dikim@dhk.co.kr'
-        // ) {
-        //     if (BeforeOtApply_check) dispatch(getTeamLeaderBEFOREOTdataThunk(getMoment, InfomationState));
-        // }
     }, [BeforeOtApply_check, getMoment]);
     useEffect(() => {
         if (NavAccessTokenState.TeleLeaderAccess === 1) {
@@ -120,7 +100,8 @@ const TeamLeaderTelecommuting = () => {
 
     const getSomeNamesData = async () => {
         try {
-            const getSomeNamesDataServer = await NothingGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`);
+            const SelectCompany = InfomationState.company;
+            const getSomeNamesDataServer = await OneParamsGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, { SelectCompany });
 
             if (getSomeNamesDataServer.data.dataSuccess) {
                 setBelongsName(getSomeNamesDataServer.data.datas);
@@ -821,71 +802,75 @@ const TeamLeaderTelecommuting = () => {
                         {'>>>'}
                     </button>
                 </div>
-                <div className="Telecommutign_checkbox_div">
-                    <ul>
-                        <li
-                            onClick={() => {
-                                if (telecommutingApply_check) {
-                                    dispatch(TeamLeader_TelecommutingDataShowCheckedFalse());
-                                } else {
-                                    dispatch(TeamLeader_TelecommutingDataShowCheckedTrue());
-                                }
-                                settelecommutingApply_check(!telecommutingApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>
-                            재택 근무
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (BeforeOtApply_check) {
-                                    dispatch(TeamLeader_BeforeOTDataShowCheckedFalse());
-                                } else {
-                                    dispatch(TeamLeader_BeforeOTShowCheckedTrue());
-                                }
-                                setBeforeOtApply_check(!BeforeOtApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="BeforeOtApply_check" checked={BeforeOtApply_check} readOnly></input>사전 OT
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (AfterOtApply_check) {
-                                    dispatch(TeamLeaderAfterOTDataShowCheckedFalse());
-                                } else {
-                                    dispatch(TeamLeaderAfterOTShowCheckedTrue());
-                                }
-                                setAfterOtApply_check(!AfterOtApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="AfterOtApply_check" checked={AfterOtApply_check} readOnly></input>사후 OT
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (foodApply_check) {
-                                    dispatch(TeamLeader_FoodDataShowCheckedFalse());
-                                } else {
-                                    dispatch(TeamLeader_FoodDataShowCheckedTrue());
-                                }
-                                setfoodApply_check(!foodApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (usbApply_check) {
-                                    dispatch(USBCDDataShowCheckedFalse());
-                                } else {
-                                    dispatch(USBCDDataShowCheckedTrue());
-                                }
-                                setusbApply_check(!usbApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
-                        </li>
-                    </ul>
-                </div>
+                {InfomationState.company === 'DHKS' ? (
+                    <div className="Telecommutign_checkbox_div">
+                        <ul>
+                            <li
+                                onClick={() => {
+                                    if (telecommutingApply_check) {
+                                        dispatch(TeamLeader_TelecommutingDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(TeamLeader_TelecommutingDataShowCheckedTrue());
+                                    }
+                                    settelecommutingApply_check(!telecommutingApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>
+                                재택 근무
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (BeforeOtApply_check) {
+                                        dispatch(TeamLeader_BeforeOTDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(TeamLeader_BeforeOTShowCheckedTrue());
+                                    }
+                                    setBeforeOtApply_check(!BeforeOtApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="BeforeOtApply_check" checked={BeforeOtApply_check} readOnly></input>사전 OT
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (AfterOtApply_check) {
+                                        dispatch(TeamLeaderAfterOTDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(TeamLeaderAfterOTShowCheckedTrue());
+                                    }
+                                    setAfterOtApply_check(!AfterOtApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="AfterOtApply_check" checked={AfterOtApply_check} readOnly></input>사후 OT
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (foodApply_check) {
+                                        dispatch(TeamLeader_FoodDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(TeamLeader_FoodDataShowCheckedTrue());
+                                    }
+                                    setfoodApply_check(!foodApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (usbApply_check) {
+                                        dispatch(USBCDDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(USBCDDataShowCheckedTrue());
+                                    }
+                                    setusbApply_check(!usbApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
+                            </li>
+                        </ul>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </div>
             <div>
                 <table className="Telecommuting_Table">

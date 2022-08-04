@@ -68,3 +68,9 @@ pre {
 a:link {
     color: black;
 }
+.ReactModal__Overlay {
+    z-index: 100;
+}
+.ReactModal__Overlay--after-open {
+    z-index: 100;
+}

@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import { CSMFilteringAdd, CSMFilteringReset } from '../../models/CSMFilteringRedux/CSMFilteringRedux';
 import { DecryptKey } from '../../config';
+import BasicDataInsertPage from './CeCalendarModals/DataInsertModal/BasicDataInsertPage';
+import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
 
 const customStyles = {
     content: {
@@ -189,14 +191,55 @@ export const FilterSearchMainPageDivBoxDownSlide = styled.div`
     }
 `;
 type FilteringDataTypes = {
-    state: string;
-    grade: string;
-    start_issue_date: string;
-    finish_issue_date: string;
-    CSMNumber: string;
-    ModelNumber: string;
-    Binds: string;
-    custom: string;
+    csm_basic_data_binds: string;
+    csm_basic_data_csm_key: string;
+    csm_basic_data_csm_number: string;
+    csm_basic_data_custom: string;
+    csm_basic_data_division: string;
+    csm_basic_data_etc: string;
+    csm_basic_data_grade: string;
+    csm_basic_data_indexs: number;
+    csm_basic_data_issue_date: string;
+    csm_basic_data_model_number: string;
+    csm_basic_data_part_number: string;
+    csm_basic_data_state: string;
+    csm_basic_data_titles: string;
+    csm_basic_data_write_date: string;
+    csm_calendar_apply: null | string;
+    csm_calendar_apply_id: null | string;
+    csm_calendar_ce: null | string;
+    csm_calendar_ce_id: null | string;
+    csm_calendar_csm_key: string;
+    csm_calendar_custom_date: null | string;
+    csm_calendar_custom_date_id: null | string;
+    csm_calendar_entering: null | string;
+    csm_calendar_entering_id: null | string;
+    csm_calendar_finall: null | string;
+    csm_calendar_finall_id: null | string;
+    csm_calendar_hidden_on: number;
+    csm_calendar_indexs: number;
+    csm_calendar_pay: null | string;
+    csm_calendar_pay_id: null | string;
+    csm_calendar_publish: null | string;
+    csm_calendar_publish_id: null | string;
+    csm_calendar_status: number;
+    csm_calendar_write_date: string;
+    csm_user_input_data_csm_key: null | string;
+    csm_user_input_data_indexs: null | string;
+    csm_user_input_data_operation_cost: null | string;
+    csm_user_input_data_stay_days: null | string;
+    csm_user_input_data_stay_days_cost: null | string;
+    csm_user_input_data_total_cost: null | string;
+    csm_user_input_data_travel_range: null | string;
+    csm_user_input_data_travel_range_cost: null | string;
+    csm_user_input_data_travel_time: null | string;
+    csm_user_input_data_travel_time_cost: null | string;
+    csm_user_input_data_working_count: null | string;
+    csm_user_input_data_working_hours: null | string;
+    csm_user_input_data_write_date: null | string;
+    csm_user_input_data_writer_id: null | string;
+    finish_csm_basic_data_issue_date: string;
+    start_csm_basic_data_issue_date: string;
 };
 
 const CeCalendarSearchIcons = () => {
@@ -227,14 +270,55 @@ const CeCalendarSearchIcons = () => {
         try {
             await dispatch(CSMFilteringReset());
             setFilteringData({
-                state: '',
-                grade: '',
-                start_issue_date: '',
-                finish_issue_date: '',
-                CSMNumber: '',
-                ModelNumber: '',
-                Binds: '',
-                custom: '',
+                csm_basic_data_binds: '',
+                csm_basic_data_csm_key: '',
+                csm_basic_data_csm_number: '',
+                csm_basic_data_custom: '',
+                csm_basic_data_division: '',
+                csm_basic_data_etc: '',
+                csm_basic_data_grade: '',
+                csm_basic_data_indexs: 0,
+                csm_basic_data_issue_date: '',
+                csm_basic_data_model_number: '',
+                csm_basic_data_part_number: '',
+                csm_basic_data_state: '',
+                csm_basic_data_titles: '',
+                csm_basic_data_write_date: '',
+                csm_calendar_apply: null,
+                csm_calendar_apply_id: null,
+                csm_calendar_ce: null,
+                csm_calendar_ce_id: null,
+                csm_calendar_csm_key: '',
+                csm_calendar_custom_date: null,
+                csm_calendar_custom_date_id: null,
+                csm_calendar_entering: null,
+                csm_calendar_entering_id: null,
+                csm_calendar_finall: null,
+                csm_calendar_finall_id: null,
+                csm_calendar_hidden_on: 0,
+                csm_calendar_indexs: 0,
+                csm_calendar_pay: null,
+                csm_calendar_pay_id: null,
+                csm_calendar_publish: null,
+                csm_calendar_publish_id: null,
+                csm_calendar_status: 0,
+                csm_calendar_write_date: '',
+                csm_user_input_data_csm_key: null,
+                csm_user_input_data_indexs: null,
+                csm_user_input_data_operation_cost: null,
+                csm_user_input_data_stay_days: null,
+                csm_user_input_data_stay_days_cost: null,
+                csm_user_input_data_total_cost: null,
+                csm_user_input_data_travel_range: null,
+                csm_user_input_data_travel_range_cost: null,
+                csm_user_input_data_travel_time: null,
+                csm_user_input_data_travel_time_cost: null,
+                csm_user_input_data_working_count: null,
+                csm_user_input_data_working_hours: null,
+                csm_user_input_data_write_date: null,
+                csm_user_input_data_writer_id: null,
+                finish_csm_basic_data_issue_date: '',
+                start_csm_basic_data_issue_date: '',
             });
             await window.location.replace(`/CECalendar/${1}`);
         } catch (error) {
@@ -320,8 +404,10 @@ const CeCalendarSearchIcons = () => {
                                             </div>
                                             <div className="InputDivBox">
                                                 <select
-                                                    value={FilteringData.state}
-                                                    onChange={e => setFilteringData({ ...FilteringData, state: e.target.value })}
+                                                    value={FilteringData.csm_basic_data_state}
+                                                    onChange={e =>
+                                                        setFilteringData({ ...FilteringData, csm_basic_data_state: e.target.value })
+                                                    }
                                                 >
                                                     <option value="">All</option>
                                                     <option value="Open">Open</option>
@@ -345,10 +431,12 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
                                                     <input
-                                                        value={FilteringData.grade}
+                                                        value={FilteringData.csm_basic_data_grade}
                                                         type="text"
                                                         placeholder="Ex) CDC.."
-                                                        onChange={e => setFilteringData({ ...FilteringData, grade: e.target.value })}
+                                                        onChange={e =>
+                                                            setFilteringData({ ...FilteringData, csm_basic_data_grade: e.target.value })
+                                                        }
                                                     ></input>
                                                 </form>
                                             </div>
@@ -364,8 +452,13 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <input
                                                     type="date"
-                                                    value={FilteringData.start_issue_date}
-                                                    onChange={e => setFilteringData({ ...FilteringData, start_issue_date: e.target.value })}
+                                                    value={FilteringData.start_csm_basic_data_issue_date}
+                                                    onChange={e =>
+                                                        setFilteringData({
+                                                            ...FilteringData,
+                                                            start_csm_basic_data_issue_date: e.target.value,
+                                                        })
+                                                    }
                                                 ></input>
                                             </div>
                                             <div
@@ -381,9 +474,12 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <input
                                                     type="date"
-                                                    value={FilteringData.finish_issue_date}
+                                                    value={FilteringData.finish_csm_basic_data_issue_date}
                                                     onChange={e =>
-                                                        setFilteringData({ ...FilteringData, finish_issue_date: e.target.value })
+                                                        setFilteringData({
+                                                            ...FilteringData,
+                                                            finish_csm_basic_data_issue_date: e.target.value,
+                                                        })
                                                     }
                                                 ></input>
                                             </div>
@@ -405,9 +501,14 @@ const CeCalendarSearchIcons = () => {
                                                 <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
                                                     <input
                                                         type="text"
-                                                        value={FilteringData.CSMNumber}
+                                                        value={FilteringData.csm_basic_data_csm_number}
                                                         placeholder="Ex) CDC20001"
-                                                        onChange={e => setFilteringData({ ...FilteringData, CSMNumber: e.target.value })}
+                                                        onChange={e =>
+                                                            setFilteringData({
+                                                                ...FilteringData,
+                                                                csm_basic_data_csm_number: e.target.value,
+                                                            })
+                                                        }
                                                     ></input>
                                                 </form>
                                             </div>
@@ -428,10 +529,15 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
                                                     <input
-                                                        value={FilteringData.ModelNumber}
+                                                        value={FilteringData.csm_basic_data_model_number}
                                                         type="text"
                                                         placeholder="Ex) DFD**..."
-                                                        onChange={e => setFilteringData({ ...FilteringData, ModelNumber: e.target.value })}
+                                                        onChange={e =>
+                                                            setFilteringData({
+                                                                ...FilteringData,
+                                                                csm_basic_data_model_number: e.target.value,
+                                                            })
+                                                        }
                                                     ></input>
                                                 </form>
                                             </div>
@@ -452,10 +558,12 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
                                                     <input
-                                                        value={FilteringData.Binds}
+                                                        value={FilteringData.csm_basic_data_binds}
                                                         type="text"
                                                         placeholder="Ex) NLA**.."
-                                                        onChange={e => setFilteringData({ ...FilteringData, Binds: e.target.value })}
+                                                        onChange={e =>
+                                                            setFilteringData({ ...FilteringData, csm_basic_data_binds: e.target.value })
+                                                        }
                                                     ></input>
                                                 </form>
                                             </div>
@@ -476,10 +584,41 @@ const CeCalendarSearchIcons = () => {
                                             <div className="InputDivBox">
                                                 <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
                                                     <input
-                                                        value={FilteringData.custom}
+                                                        value={FilteringData.csm_basic_data_custom}
                                                         type="text"
                                                         placeholder="Ex) AMKOR.."
-                                                        onChange={e => setFilteringData({ ...FilteringData, custom: e.target.value })}
+                                                        onChange={e =>
+                                                            setFilteringData({ ...FilteringData, csm_basic_data_custom: e.target.value })
+                                                        }
+                                                    ></input>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="SearchInputContainer">
+                                    <div className="SearchInputContainerTitle">
+                                        <h4>Part NO.</h4>
+                                    </div>
+                                    <div className="SearchInputContainerSubTitle">
+                                        <div className="SearchInputContainerSubTitleFlexDivBox">
+                                            <div className="IconsDivBox">
+                                                <label>
+                                                    <BsFillPencilFill></BsFillPencilFill>
+                                                </label>
+                                            </div>
+                                            <div className="InputDivBox">
+                                                <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
+                                                    <input
+                                                        value={FilteringData.csm_basic_data_part_number}
+                                                        type="text"
+                                                        placeholder="Ex) CSM18-00102-**.."
+                                                        onChange={e =>
+                                                            setFilteringData({
+                                                                ...FilteringData,
+                                                                csm_basic_data_part_number: e.target.value,
+                                                            })
+                                                        }
                                                     ></input>
                                                 </form>
                                             </div>
@@ -512,7 +651,8 @@ const CeCalendarSearchIcons = () => {
             )}
 
             <Modal isOpen={SelectClicksModals.NewDataModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-                <WriterPage dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></WriterPage>
+                {/* <WriterPage dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></WriterPage> */}
+                <InsertModalMainPage dataGetSome={() => dataGetSome()} closeModal={() => closeModal()}></InsertModalMainPage>
             </Modal>
         </PcAssetMenuIconsMainPageDivBox>
     );

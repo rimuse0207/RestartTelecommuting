@@ -66,7 +66,12 @@ const TeamLeaderPersonClickContent = () => {
         try {
             const getTeamData = await OneParamsGet(`/Tele_app_server/TeamSelectGet`, { id: NavAccessTokenState.id });
             if (getTeamData.data.dataSuccess) {
-                setShowTeam(getTeamData.data.teamData);
+                const DeletTeams = getTeamData.data.teamData
+                    .filter((item: { show_teams: string }) => item.show_teams !== '부품소재')
+                    .filter((item: { show_teams: string }) => item.show_teams !== '장비영업')
+                    .filter((item: { show_teams: string }) => item.show_teams !== '경영지원')
+                    .filter((item: { show_teams: string }) => item.show_teams !== 'OEM');
+                setShowTeam(DeletTeams);
             } else {
             }
         } catch (error) {

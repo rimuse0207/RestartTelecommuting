@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { toast } from '../../../../ToastMessage/ToastManager';
+import { RootState } from '../../../../../models';
+import { useSelector } from 'react-redux';
 const AdminDashBoardUpdateUsersTableMainDivBox = styled.div`
     table.type09 {
         margin-top: 20px;
@@ -112,6 +114,7 @@ type AdminDashBoardUpdateUsersTableProps = {
 };
 
 const AdminDashBoardUpdateUsersTable = ({ SelectedUsersData, setSelectedUsersData }: AdminDashBoardUpdateUsersTableProps) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [UpdateUsersData, setUpdateUserData] = useState<any>(
         SelectedUsersData
             ? {
@@ -181,7 +184,11 @@ const AdminDashBoardUpdateUsersTable = ({ SelectedUsersData, setSelectedUsersDat
     const getUsersNames = async () => {
         try {
             setLoadingCheck(false);
-            const getUsersNamesFromServer = await axios.get(`${process.env.REACT_APP_DB_HOST}/AdminInsertLogin_app_server/DataGetSome`);
+            const getUsersNamesFromServer = await axios.get(`${process.env.REACT_APP_DB_HOST}/AdminInsertLogin_app_server/DataGetSome`, {
+                params: {
+                    selectCompany: InfomationState.company,
+                },
+            });
             if (getUsersNamesFromServer.data.dataSuccess) {
                 const options = [];
                 for (var i = 0; i < getUsersNamesFromServer.data.datas.length; i++) {
@@ -254,17 +261,18 @@ const AdminDashBoardUpdateUsersTable = ({ SelectedUsersData, setSelectedUsersDat
                                         <th scope="row">회사</th>
                                         <td>{SelectedUsersData.company}</td>
                                         <td>
-                                            <select
+                                            {/* <select
                                                 value={UpdateUsersData.company}
                                                 onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}
                                             >
                                                 <option value="EXICON">EXICON</option>
                                                 <option value="YIKC">YIKC</option>
-                                            </select>
-                                            {/* <input
+                                            </select> */}
+                                            <input
                                                 value={UpdateUsersData.company}
-                                                onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}
-                                            ></input> */}
+                                                disabled
+                                                // onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}
+                                            ></input>
                                         </td>
                                     </tr>
                                     <tr>

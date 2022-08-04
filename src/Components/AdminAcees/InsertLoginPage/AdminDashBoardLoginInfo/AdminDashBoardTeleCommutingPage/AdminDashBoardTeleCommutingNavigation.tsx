@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from '../../../../../models';
 const AdminProFileNavigationMainPageMainDivBox = styled.div`
     width: 100%;
     border-bottom: 2px solid lightgray;
@@ -45,34 +47,43 @@ type AdminDashBoardTeleCommutingNavigationProps = {
 };
 
 const AdminDashBoardTeleCommutingNavigation = ({ NaviSelected, setStaticsNaviButton }: AdminDashBoardTeleCommutingNavigationProps) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     return (
         <AdminProFileNavigationMainPageMainDivBox>
             <div>
                 <ul>
-                    <li onClick={() => setStaticsNaviButton('YIKC')}>
-                        {NaviSelected === 'YIKC' ? (
-                            <>
-                                <div className="LineText" style={{ color: '#2985db', fontWeight: 'bold' }}>
-                                    YIKC
-                                </div>
-                                <div className="LineActions"></div>
-                            </>
-                        ) : (
-                            <div className="LineText">YIKC</div>
-                        )}
-                    </li>
-                    <li onClick={() => setStaticsNaviButton('EXICON')}>
-                        {NaviSelected === 'EXICON' ? (
-                            <>
-                                <div className="LineText" style={{ color: '#2985db', fontWeight: 'bold' }}>
-                                    EXICON
-                                </div>
-                                <div className="LineActions"></div>
-                            </>
-                        ) : (
-                            <div className="LineText">EXICON</div>
-                        )}
-                    </li>
+                    {InfomationState.company === 'YIKC' ? (
+                        <li onClick={() => setStaticsNaviButton('YIKC')}>
+                            {NaviSelected === 'YIKC' ? (
+                                <>
+                                    <div className="LineText" style={{ color: '#2985db', fontWeight: 'bold' }}>
+                                        YIKC
+                                    </div>
+                                    <div className="LineActions"></div>
+                                </>
+                            ) : (
+                                <div className="LineText">YIKC</div>
+                            )}
+                        </li>
+                    ) : (
+                        <></>
+                    )}
+                    {InfomationState.company === 'EXICON' ? (
+                        <li onClick={() => setStaticsNaviButton('EXICON')}>
+                            {NaviSelected === 'EXICON' ? (
+                                <>
+                                    <div className="LineText" style={{ color: '#2985db', fontWeight: 'bold' }}>
+                                        EXICON
+                                    </div>
+                                    <div className="LineActions"></div>
+                                </>
+                            ) : (
+                                <div className="LineText">EXICON</div>
+                            )}
+                        </li>
+                    ) : (
+                        <></>
+                    )}
                 </ul>
             </div>
         </AdminProFileNavigationMainPageMainDivBox>
