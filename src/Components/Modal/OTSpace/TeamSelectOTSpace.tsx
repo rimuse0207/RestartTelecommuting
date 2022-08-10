@@ -124,7 +124,7 @@ const TeamSelectOTSpace = () => {
                         {showTeam.map((list, i) => {
                             return (
                                 <option value={list.show_teams} key={list.show_teams}>
-                                    {list.show_teams}
+                                    {list.show_teams.toUpperCase()}
                                 </option>
                             );
                         })}
