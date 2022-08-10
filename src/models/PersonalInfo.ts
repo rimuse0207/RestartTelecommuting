@@ -15,6 +15,7 @@ export const getPersionalInfo = (data: {
     position: string;
     loginCheck: boolean;
     id: string;
+    company: string;
 }) => ({
     type: GETPERSONALINFO,
     payload: data,
@@ -34,6 +35,7 @@ type PersonalInfoState = {
         team: string;
         position: string;
         id: string;
+        company: string;
     };
 };
 
@@ -45,6 +47,7 @@ const initialState: PersonalInfoState = {
         team: '',
         position: '',
         id: '',
+        company: '',
     },
 };
 
@@ -59,6 +62,7 @@ function PersonalInfo(state: PersonalInfoState = initialState, action: PersonalI
                     team: action.payload.team,
                     position: action.payload.position,
                     id: ciphertext(action.payload.id),
+                    company: action.payload.company,
                 },
             };
         case LOGOUTSESSIONOFF:

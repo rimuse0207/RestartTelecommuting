@@ -439,6 +439,7 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
         setSunDateData({ ...sunDateData, clickDate: startDate.clone().format('YYYY-MM-DD') });
     }, [startDate]);
     useEffect(() => {
+        const sumBasicData = moment.duration(moment(monDateData.basicEndTime).diff(moment(monDateData.basicStartTime))).asHours() - 1;
         let startPlusEnd = moment.duration(moment(monDateData.OTEndTime).diff(moment(monDateData.OTStartTime))).asHours();
         const restPlusTime = moment
             .duration(
@@ -475,14 +476,14 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     ...monDateData,
                     OTSumTime: startPlusEnd,
                     OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                    basicSumTime: moment.duration(moment(monDateData.basicEndTime).diff(moment(monDateData.basicStartTime))).asHours() - 1,
+                    basicSumTime: sumBasicData > 0 ? sumBasicData : 24 - sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             } else {
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(moment(monDateData.basicEndTime).diff(moment(monDateData.basicStartTime))).asHours() - 1,
+                    basicSumTime: sumBasicData > 0 ? sumBasicData : 24 - sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             }
@@ -498,14 +499,14 @@ const WeekAfterOTWorkSpace = ({ startDate, endDate, setStartDate, setEndDate }: 
                     ...monDateData,
                     OTSumTime: startPlusEnd,
                     OTRestTime: new Date(moment(`${moment(startDate).format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm')),
-                    basicSumTime: moment.duration(moment(monDateData.basicEndTime).diff(moment(monDateData.basicStartTime))).asHours() - 1,
+                    basicSumTime: sumBasicData > 0 ? sumBasicData : 24 - sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             } else {
                 setMonDateData({
                     ...monDateData,
                     OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(moment(monDateData.basicEndTime).diff(moment(monDateData.basicStartTime))).asHours() - 1,
+                    basicSumTime: sumBasicData > 0 ? sumBasicData : 24 - sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             }

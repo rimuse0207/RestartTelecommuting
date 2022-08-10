@@ -6,6 +6,8 @@ import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { toast } from '../../../../ToastMessage/ToastManager';
+import { RootState } from '../../../../../models';
+import { useSelector } from 'react-redux';
 const AdminDashBoardShowUsersTableMainDivBox = styled.div`
     table.type09 {
         border: none !important;
@@ -67,6 +69,7 @@ const AdminDashBoardShowUsersTable = ({ setStaticsNaviButton, setSelectedUsersDa
     const [SearchCompanys, setSearchCompanys] = useState('');
     const [SearchEmail, setSearchEmail] = useState('');
     const [LoadingCheck, setLoadingCheck] = useState(true);
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     useEffect(() => {
         getLoginInfoDataAxios();
     }, []);
@@ -74,7 +77,11 @@ const AdminDashBoardShowUsersTable = ({ setStaticsNaviButton, setSelectedUsersDa
     const getLoginInfoDataAxios = async () => {
         try {
             setLoadingCheck(false);
-            const GetLoginInfoDataFromServer = await axios.get(`${process.env.REACT_APP_DB_HOST}/AdminInsertLogin_app_server/DataGetSome`);
+            const GetLoginInfoDataFromServer = await axios.get(`${process.env.REACT_APP_DB_HOST}/AdminInsertLogin_app_server/DataGetSome`, {
+                params: {
+                    selectCompany: InfomationState.company,
+                },
+            });
             if (GetLoginInfoDataFromServer.data.dataSuccess) {
                 setGetLoginInfoData(GetLoginInfoDataFromServer.data.datas);
                 setTimeout(() => {
@@ -121,7 +128,6 @@ const AdminDashBoardShowUsersTable = ({ setStaticsNaviButton, setSelectedUsersDa
     };
 
     const handleDeleteData = async (data: { name: string; company: string; team: string; position: string; id: string }) => {
-        console.log(data);
         try {
             const ConfrimCheck = window.confirm(`${data.name}님의 데이터를 삭제 하시겠습니까?`);
             if (!ConfrimCheck) return;

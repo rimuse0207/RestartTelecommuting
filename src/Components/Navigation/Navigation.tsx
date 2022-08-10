@@ -222,10 +222,9 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
                                     </Link>
-
-                                    <Link to="/CECalendar/1">
+                                    {/* <Link to="/CECalendar/1/ALL">
                                         <li>CSM</li>
-                                    </Link>
+                                    </Link> */}
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
                                         <li>ERP</li>
                                     </Link>
@@ -279,6 +278,13 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/">
                                         <li>종합 업무 현황</li>
                                     </Link>
+                                    {NavAccessTokenState.Nav_TeamLeaderCalendarAccess === 1 ? (
+                                        <Link to="/TeamLeaderTelecommutingMainpage">
+                                            <li>팀원 종합 업무 현황</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
                                     <Link to="/Telecommuting_workspace">
                                         <li>재택근무</li>
                                     </Link>
@@ -308,6 +314,13 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>
+                                    {NavAccessTokenState.Nav_TeamLeaderCalendarAccess === 1 && InfomationState.company === 'YIKC' ? (
+                                        <Link to="#" onClick={() => window.open('/NewAdminInsertData/LoginInfo')}>
+                                            <li>임직원 추가 및 조회</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             ) : (
                                 <></>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from '../../../../../models';
 import { toast } from '../../../../ToastMessage/ToastManager';
 const AdminDashBoardInsertUsersTableMainDivBox = styled.div`
     min-height: 500px;
@@ -98,9 +100,10 @@ const AdminDashBoardInsertUsersTableMainDivBox = styled.div`
 `;
 
 const AdminDashBoardInsertUsersTable = () => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [UpdateUsersData, setUpdateUserData] = useState({
         name: '',
-        company: 'EXICON',
+        company: InfomationState.company,
         team: '',
         position: '',
         id: '',
@@ -188,15 +191,16 @@ const AdminDashBoardInsertUsersTable = () => {
                             <th scope="row">회사</th>
 
                             <td>
-                                <select onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}>
+                                {/* <select onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}>
                                     <option value="EXICON">EXICON</option>
                                     <option value="YIKC">YIKC</option>
-                                </select>
-                                {/* <input
+                                </select> */}
+                                <input
                                     value={UpdateUsersData.company}
-                                    placeholder="DHK, YIKC ...."
-                                    onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}
-                                ></input> */}
+                                    // placeholder="DHK, YIKC ...."
+                                    // onChange={e => setUpdateUserData({ ...UpdateUsersData, company: e.target.value })}
+                                    disabled
+                                ></input>
                             </td>
                         </tr>
                         <tr>

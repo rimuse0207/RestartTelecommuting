@@ -37,6 +37,7 @@ import { getSocket } from './models/Socket';
 import { getChatting_members } from './models/ChattingMeber';
 import { DecryptKey } from './config';
 import AccessInfoMainPage from './Components/AdminAcees/AdminAccess/AccessInfoMainPage';
+import CeContactMainPage from './Components/CECalendar/CEContact/CeContactMainPage';
 
 const RouterPageMainDivBox = styled.div`
     @media print {
@@ -124,7 +125,7 @@ const RouterPage = () => {
                                     {/* 상대방 호출 */}
                                     <Route path="/ConnectedNow" component={ConnectedMainPage}></Route>
                                     {/* CSM */}
-                                    <Route path="/CECalendar/:pagenumber" component={CeCalendarMainPage}></Route>
+                                    <Route path="/CECalendar/:pagenumber/:type" component={CeCalendarMainPage}></Route>
                                     {/* 비밀번호 변경 */}
                                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                                     {/* Exicon, YIKC 사용자 등록 */}
@@ -149,6 +150,7 @@ const RouterPage = () => {
                                     path="/BusinessShowMonthPrinter/:id/:name/:team/:year/:month"
                                     component={BusinessTripPrinterContent}
                                 ></Route>
+                                <Route path="/CeCantactPage" component={CeContactMainPage}></Route>
                                 <Route path="/Amdin/IT_Admin_Access" component={AccessInfoMainPage}></Route>
                             </div>
 
@@ -156,6 +158,7 @@ const RouterPage = () => {
                         </>
                     ) : (
                         <>
+                            <Route exact path="/NewDataInsert" component={NewAdminInsert}></Route>
                             <Route path="*" component={SignInForm}></Route>
                         </>
                     )}

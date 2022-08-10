@@ -31,7 +31,7 @@
     font-size: larger;
     font-weight: bolder;
 }
-
+/* 
 .react-datepicker__input-container > input {
     width: 80%;
     border: none;
@@ -48,7 +48,7 @@
 .react-datepicker__input-container > input:hover {
     cursor: pointer;
     background-color: white;
-}
+} */
 
 .reasontable {
     border: none;

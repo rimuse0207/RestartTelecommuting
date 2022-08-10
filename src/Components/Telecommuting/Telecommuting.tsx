@@ -720,70 +720,71 @@ const Telecommuting = () => {
                         {'>>>'}
                     </button>
                 </div>
-                <div className="Telecommutign_checkbox_div">
-                    <ul>
-                        <li
-                            onClick={() => {
-                                if (telecommutingApply_check) {
-                                    dispatch(TelecommutingDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getTelecommutingThunk(getMoment, InfomationState));
-                                }
-                                settelecommutingApply_check(!telecommutingApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>재택
-                            근무
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (BeforeOtApply_check) {
-                                    dispatch(BeforeOTDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
-                                }
-                                setBeforeOtApply_check(!BeforeOtApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="BeforeOtApply_check" checked={BeforeOtApply_check} readOnly></input>사전 OT
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (AfterOtApply_check) {
-                                    dispatch(AfterOTDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
-                                }
-                                setAfterOtApply_check(!AfterOtApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="AfterOtApply_check" checked={AfterOtApply_check} readOnly></input>사후 OT
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (foodApply_check) {
-                                    dispatch(FoodDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getFoodDataThunk(getMoment, InfomationState));
-                                }
-                                setfoodApply_check(!foodApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
-                        </li>
-                        <li
-                            onClick={() => {
-                                if (usbApply_check) {
-                                    dispatch(USBCDDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getUSBCDThunk(getMoment, InfomationState));
-                                }
-                                setusbApply_check(!usbApply_check);
-                            }}
-                        >
-                            <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
-                        </li>
-                        <li
+                {InfomationState.company === 'DHKS' ? (
+                    <div className="Telecommutign_checkbox_div">
+                        <ul>
+                            <li
+                                onClick={() => {
+                                    if (telecommutingApply_check) {
+                                        dispatch(TelecommutingDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(getTelecommutingThunk(getMoment, InfomationState));
+                                    }
+                                    settelecommutingApply_check(!telecommutingApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="telecommutingApply_check" checked={telecommutingApply_check} readOnly></input>
+                                재택 근무
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (BeforeOtApply_check) {
+                                        dispatch(BeforeOTDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
+                                    }
+                                    setBeforeOtApply_check(!BeforeOtApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="BeforeOtApply_check" checked={BeforeOtApply_check} readOnly></input>사전 OT
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (AfterOtApply_check) {
+                                        dispatch(AfterOTDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
+                                    }
+                                    setAfterOtApply_check(!AfterOtApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="AfterOtApply_check" checked={AfterOtApply_check} readOnly></input>사후 OT
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (foodApply_check) {
+                                        dispatch(FoodDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(getFoodDataThunk(getMoment, InfomationState));
+                                    }
+                                    setfoodApply_check(!foodApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
+                            </li>
+                            <li
+                                onClick={() => {
+                                    if (usbApply_check) {
+                                        dispatch(USBCDDataShowCheckedFalse());
+                                    } else {
+                                        dispatch(getUSBCDThunk(getMoment, InfomationState));
+                                    }
+                                    setusbApply_check(!usbApply_check);
+                                }}
+                            >
+                                <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
+                            </li>
+                            {/* <li
                             onClick={() => {
                                 if (Parts_check) {
                                     dispatch(PartsDataShowCheckedFalse());
@@ -794,9 +795,12 @@ const Telecommuting = () => {
                             }}
                         >
                             <input type="checkbox" name="usbParts" checked={Parts_check} readOnly></input> 업무요청
-                        </li>
-                    </ul>
-                </div>
+                        </li> */}
+                        </ul>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </div>
             <div>
                 <table className="Telecommuting_Table">
