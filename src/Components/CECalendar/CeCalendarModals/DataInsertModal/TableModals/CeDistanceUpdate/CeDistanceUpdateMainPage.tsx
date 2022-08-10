@@ -9,6 +9,11 @@ import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import { NothingGet, OneParamsGet } from '../../../../../API/GETApi/GetApi';
+import { MdOutlineCancel } from 'react-icons/md';
+import { OneParamsPost } from '../../../../../API/POSTApi/PostApi';
+import { RootState } from '../../../../../../models';
+import { useSelector } from 'react-redux';
+import { DecryptKey } from '../../../../../../config';
 
 registerLocale('ko', ko);
 const CeDistanceUpdateMainPageMainDivBox = styled.div`
@@ -55,17 +60,179 @@ const CeDistanceUpdateMainPageMainDivBox = styled.div`
                     height: 100%;
                 }
             }
+            .InputBox_Main_Input_Values_Stay_Date_Button {
+                display: flex;
+                border: 1px solid lightgray;
+                width: 350px;
+                height: 45px;
+                justify-content: space-between;
+                align-items: center;
+                .StayFont {
+                    font-size: 1.3em;
+                    font-weight: bolder;
+                }
+                button {
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    width: 50px;
+                    font-size: 1.3em;
+                    font-weight: bolder;
+                }
+            }
         }
     }
-    .Binds_Container {
-        border: 1px dashed black;
-        padding: 10px;
-        ul {
-            display: flex;
-            flex-wrap: wrap;
-            li {
-                width: 100px;
-                margin: 10px;
+
+    .User_Input_Float_Main {
+        ::after {
+            clear: both;
+            content: '';
+            display: block;
+        }
+        .User_Input_Float_Left {
+            float: left;
+            width: 47%;
+        }
+        .User_Input_Float_Right {
+            float: right;
+            width: 47%;
+            .Binds_Container {
+                border: 1px dashed black;
+                padding: 10px;
+                height: 400px;
+                overflow-y: auto;
+                border-radius: 5px;
+                position: relative;
+
+                .InputBox_Flex {
+                    display: flex;
+                }
+                h3 {
+                    position: sticky;
+                    background-color: #fff;
+                    top: -11px;
+                    left: 10px;
+                    z-index: 1;
+                }
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    li {
+                        width: 100px;
+                        margin: 10px;
+                        :hover {
+                            cursor: pointer;
+                            color: blue;
+                        }
+                        label {
+                            :hover {
+                                cursor: pointer;
+                                color: blue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .Selected_distance_binds_Data_Container {
+        margin-top: 30px;
+
+        table {
+            font-size: 0.7em;
+            position: relative;
+            width: 100%;
+        }
+
+        table.type09 {
+            border-collapse: collapse;
+            text-align: left;
+            line-height: 1.5;
+        }
+        tr {
+            :hover {
+                background-color: #efefef;
+            }
+        }
+        table.type09 > thead > tr > th {
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #369;
+            border: none;
+            border-bottom: 3px solid #036;
+            background: #f3f6f7 !important;
+            font-size: 0.7em;
+            table-layout: fixed;
+            width: 100px;
+        }
+        table.type09 tbody th {
+            padding: 5px;
+            font-weight: bold;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+            background: #f3f6f7;
+            width: 100px;
+            table-layout: fixed;
+        }
+        table.type09 td {
+            /* width: 300px; */
+            padding: 2px;
+            vertical-align: center;
+            border-bottom: 1px solid #ccc;
+            font-size: 1.3em;
+            text-align: center;
+            width: 100px;
+            table-layout: fixed;
+        }
+        .Delete_Binds_Cancel_Icons {
+            font-size: 1.3em;
+            :hover {
+                cursor: pointer;
+                color: red;
+            }
+        }
+
+        /* display: flex;
+        flex-wrap: wrap;
+        min-height: 300px;
+        li {
+            border: 1px dashed gray;
+            margin: 5px;
+            padding: 5px;
+            .handleClicksContainer {
+                display: flex;
+
+                justify-content: space-between;
+                align-items: center;
+            }
+        } */
+    }
+
+    .btns {
+        text-align: end;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        .btn {
+            display: inline-block;
+            margin-right: 2px;
+            padding: 10px 20px;
+            background: none;
+            border: 1px solid #c0c0c0;
+            border-radius: 2px;
+            color: #666;
+            font-size: 1em;
+            outline: none;
+            transition: all 100ms ease-out;
+            &:hover,
+            &:focus {
+                transform: translateY(-3px);
+                cursor: pointer;
+            }
+            &-confirm {
+                border: 1px solid #2962ff;
+                background: #2962ff;
+                color: #fff;
             }
         }
     }
@@ -78,13 +245,37 @@ type csm_distance_lists_Types = {
 
 type csm_Binds_lists_Types = {
     select: boolean;
+    nowSelected: boolean;
+    csm_number_respond_working_indexs: number;
     csm_number_respond_working_binds: string;
-    csm_number_respond_working_indexs: string;
+    csm_number_respond_working_csm_number: string;
+    csm_number_respond_working_model: string;
+    csm_number_respond_working_working_hours: number;
+    csm_number_respond_working_working_count: number;
 };
 
-const CeDistanceUpdateMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteData, hadleUpdateData }: CeCalendarUpdateModalsProps) => {
-    const [CeDistanceState, setCeDistanceState] = useState({
+type CeDistanceState_Types = {
+    distance_date: Date;
+    distance_company: csm_distance_lists_Types;
+    distance_csmNumber: csm_distance_lists_Types;
+    distance_equitModel: csm_distance_lists_Types;
+    distance_binds: csm_Binds_lists_Types[];
+    Select_team: string;
+    Select_Id: string;
+    start_location: string;
+    stay_chek: boolean;
+    stay_day: number;
+};
+
+type CeDistanceUpdateMainPagePropsType = {
+    closeModal: () => void;
+};
+
+const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsType) => {
+    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const [CeDistanceState, setCeDistanceState] = useState<CeDistanceState_Types>({
         distance_date: new Date(),
+        start_location: '판교',
         distance_company: {
             value: '',
             label: '',
@@ -97,33 +288,22 @@ const CeDistanceUpdateMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteD
             value: '',
             label: '',
         },
+        distance_binds: [],
+        // Select_team: InfomationState.team,
+        Select_team: 'grinder',
+        Select_Id: DecryptKey(InfomationState.id),
+        stay_chek: false,
+        stay_day: 0,
     });
     const [csm_distance_lists, setCsm_distance_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_csmNumber_lists, setCsm_csmNumber_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_equitModel_lists, setCsm_equitModel_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_Binds_lists, setCsm_Binds_lists] = useState<csm_Binds_lists_Types[]>([]);
+
+    //초기 렌더링 ( 고객사명 및 CSM번호 불러오기 )
     useEffect(() => {
         Csm_Distance_Info_Data();
     }, []);
-
-    useEffect(() => {
-        if (CeDistanceState.distance_csmNumber.value) {
-            setCeDistanceState({
-                ...CeDistanceState,
-                distance_equitModel: {
-                    value: '',
-                    label: '',
-                },
-            });
-            Csm_Distance_Info_Data_EquitMentModel();
-        }
-    }, [CeDistanceState.distance_csmNumber]);
-
-    useEffect(() => {
-        if (CeDistanceState.distance_equitModel.value) {
-            Csm_Distance_Info_Data_Binds();
-        }
-    }, [CeDistanceState.distance_equitModel]);
 
     const Csm_Distance_Info_Data = async () => {
         try {
@@ -137,6 +317,21 @@ const CeDistanceUpdateMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteD
             console.log(error);
         }
     };
+
+    //장비모델 렌더링 ( CSM번호 변경시 장비모델 불러오기 )
+
+    useEffect(() => {
+        if (CeDistanceState.distance_csmNumber) {
+            setCeDistanceState({
+                ...CeDistanceState,
+                distance_equitModel: {
+                    value: '',
+                    label: '',
+                },
+            });
+            Csm_Distance_Info_Data_EquitMentModel();
+        }
+    }, [CeDistanceState.distance_csmNumber]);
 
     const Csm_Distance_Info_Data_EquitMentModel = async () => {
         try {
@@ -152,16 +347,106 @@ const CeDistanceUpdateMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteD
         }
     };
 
+    //제번 렌더링 ( 장비모델 변경시 제번 불러오기 )
+
+    useEffect(() => {
+        if (CeDistanceState.distance_equitModel) {
+            Csm_Distance_Info_Data_Binds();
+        }
+    }, [CeDistanceState.distance_equitModel]);
+
     const Csm_Distance_Info_Data_Binds = async () => {
         try {
             const getWriterDatas_Binds = await OneParamsGet(`/CE_Calendar_app_server/Csm_Distance_Info_Data_Binds`, {
                 csm_number: CeDistanceState.distance_csmNumber.value,
                 csm_models: CeDistanceState.distance_equitModel.value,
             });
-
+            const SelectedDatas_Binds = [];
             if (getWriterDatas_Binds.data.dataSuccess) {
-                console.log(getWriterDatas_Binds);
-                setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
+                const A_data = getWriterDatas_Binds.data.setCsm_Binds_lists_data;
+                const B_data = CeDistanceState.distance_binds;
+
+                for (var i = 0; i < A_data.length; i++) {
+                    let dataCheck = false;
+                    for (var j = 0; j < B_data.length; j++) {
+                        if (A_data[i].csm_number_respond_working_indexs === B_data[j].csm_number_respond_working_indexs) {
+                            SelectedDatas_Binds.push({ ...A_data[i], select: true });
+                            dataCheck = true;
+                            break;
+                        }
+                    }
+                    if (!dataCheck) {
+                        SelectedDatas_Binds.push(A_data[i]);
+                    }
+                }
+
+                // setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
+                setCsm_Binds_lists(SelectedDatas_Binds);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // 제번 클릭 시 데이터 추가 및 삭제
+    const handleClicksBinds = (item: csm_Binds_lists_Types) => {
+        //선택 되어 있을 시,
+        if (item.select) {
+            const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
+                list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: false }
+            );
+            setCsm_Binds_lists(ChangeCsm_Binds_lists);
+
+            const Change_Scelect_Binds = CeDistanceState.distance_binds.filter(binds =>
+                binds.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? binds : ''
+            );
+            setCeDistanceState({ ...CeDistanceState, distance_binds: Change_Scelect_Binds });
+        }
+        // 선택 되어 있지 않을 시,
+        else {
+            const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
+                list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: true }
+            );
+            setCsm_Binds_lists(ChangeCsm_Binds_lists);
+            setCeDistanceState({ ...CeDistanceState, distance_binds: CeDistanceState.distance_binds.concat(item) });
+        }
+    };
+
+    // 선택 된 제번 데이터 추가 및 삭제
+    const handleDeleteData = (item: csm_Binds_lists_Types) => {
+        // console.log(item);
+        const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
+            list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: false }
+        );
+        setCsm_Binds_lists(ChangeCsm_Binds_lists);
+
+        const Change_Scelect_Binds = CeDistanceState.distance_binds.filter(binds =>
+            binds.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? binds : ''
+        );
+        setCeDistanceState({ ...CeDistanceState, distance_binds: Change_Scelect_Binds });
+    };
+
+    // 데이터 저장 취소
+    const CloseHandleClicks = () => {
+        if (window.confirm('정말 나가시겠습니까?')) {
+            closeModal();
+        }
+    };
+
+    const handleClickStoreFromServer = async () => {
+        console.log(CeDistanceState);
+
+        try {
+            const binds_data_send_from_server = await OneParamsPost('/CE_Calendar_app_server/binds_data_send', CeDistanceState);
+
+            if (binds_data_send_from_server.data.dataSuccess) {
+                console.log(binds_data_send_from_server);
+                if (binds_data_send_from_server.data.UpdateSuccess) {
+                    alert('데이터 등록 완료.');
+                } else {
+                    alert('아직 기본 CSM 정보가 없습니다. 이광민프로에게 정보 추가 이후에 다시 시도해 주세요.');
+                }
+            } else {
             }
         } catch (error) {
             console.log(error);
@@ -170,149 +455,275 @@ const CeDistanceUpdateMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteD
 
     return (
         <CeDistanceUpdateMainPageMainDivBox>
+            <div className="User_Input_Float_Main">
+                <div className="User_Input_Float_Left">
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>일자.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <GiClick></GiClick>
+                            </div>
+                            <div className="InputBox_Main_Input_Values">
+                                <DatePicker
+                                    selected={CeDistanceState.distance_date}
+                                    onChange={(date: any) => setCeDistanceState({ ...CeDistanceState, distance_date: date })}
+                                    // withPortal
+                                    locale={ko}
+                                    dateFormat="yyy-MM-dd"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>숙박일수.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <GiClick></GiClick>
+                            </div>
+                            <div className="InputBox_Main_Input_Values_Stay_Date_Button">
+                                <button
+                                    onClick={() => {
+                                        if (CeDistanceState.stay_day - 1 < 0) {
+                                            alert('0보다 작을 수 없습니다.');
+                                        } else {
+                                            setCeDistanceState({ ...CeDistanceState, stay_day: CeDistanceState.stay_day - 1 });
+                                        }
+                                    }}
+                                >
+                                    -
+                                </button>
+                                <div className="StayFont">{CeDistanceState.stay_day} 일</div>
+                                <button onClick={() => setCeDistanceState({ ...CeDistanceState, stay_day: CeDistanceState.stay_day + 1 })}>
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>출발지.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <HiSelector></HiSelector>
+                            </div>
+                            <div className="InputBox_Main_Input_Values">
+                                <select
+                                    value={CeDistanceState.start_location}
+                                    onChange={e => setCeDistanceState({ ...CeDistanceState, start_location: e.target.value })}
+                                >
+                                    <option value="판교">판교</option>
+                                    <option value="아산">아산</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>고객사명.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <BsPencilSquare></BsPencilSquare>
+                            </div>
+                            <div className="InputBox_Main_Input_Values">
+                                <Select
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    value={CeDistanceState.distance_company}
+                                    onChange={(value: any) => {
+                                        setCeDistanceState({ ...CeDistanceState, distance_company: value });
+                                    }}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    options={csm_distance_lists}
+                                    placeholder="고객사 명을 선택 또는 검색 해 주세요."
+                                ></Select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>CSM번호.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <HiSelector></HiSelector>
+                            </div>
+                            <div className="InputBox_Main_Input_Values">
+                                <Select
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    value={CeDistanceState.distance_csmNumber}
+                                    onChange={(value: any) => {
+                                        setCeDistanceState({ ...CeDistanceState, distance_csmNumber: value });
+                                    }}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    options={csm_csmNumber_lists}
+                                    placeholder="CSM번호를 선택 또는 검색 해 주세요."
+                                ></Select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="InputBox_Main_Container">
+                        <div className="InputBox_Main_Text">
+                            <h3>장비모델.</h3>
+                        </div>
+                        <div className="InputBox_Main_Input">
+                            <div className="InputBox_Main_Input_Icons">
+                                <HiSelector></HiSelector>
+                            </div>
+                            <div className="InputBox_Main_Input_Values">
+                                <Select
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    value={CeDistanceState.distance_equitModel}
+                                    onChange={(value: any) => {
+                                        setCeDistanceState({ ...CeDistanceState, distance_equitModel: value });
+                                    }}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    options={csm_equitModel_lists}
+                                    placeholder="장비모델을 선택 또는 검색 해 주세요."
+                                ></Select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="User_Input_Float_Right">
+                    <div className="Binds_Container">
+                        <h3>제번 목록</h3>
+                        <ul>
+                            {csm_Binds_lists.map((list: csm_Binds_lists_Types, i) => {
+                                return list.nowSelected ? (
+                                    <li
+                                        key={list.csm_number_respond_working_indexs}
+                                        style={{ textDecorationLine: 'line-through', opacity: '0.5' }}
+                                    >
+                                        <div className="InputBox_Flex">
+                                            <div>
+                                                <input
+                                                    id={`${list.csm_number_respond_working_indexs}`}
+                                                    type="checkbox"
+                                                    checked={false}
+                                                    readOnly
+                                                ></input>
+                                            </div>
+                                            <div>
+                                                <label htmlFor={`${list.csm_number_respond_working_indexs}`}>
+                                                    {list.csm_number_respond_working_binds}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ) : (
+                                    <li onChange={() => handleClicksBinds(list)} key={list.csm_number_respond_working_indexs}>
+                                        <div className="InputBox_Flex">
+                                            <div>
+                                                <input
+                                                    id={`${list.csm_number_respond_working_indexs}`}
+                                                    type="checkbox"
+                                                    checked={list.select}
+                                                    readOnly
+                                                ></input>
+                                            </div>
+                                            <div>
+                                                <label htmlFor={`${list.csm_number_respond_working_indexs}`}>
+                                                    {list.csm_number_respond_working_binds}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div>
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>일자.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <GiClick></GiClick>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <DatePicker
-                                selected={CeDistanceState.distance_date}
-                                onChange={(date: any) => setCeDistanceState({ ...CeDistanceState, distance_date: date })}
-                                // withPortal
-                                locale={ko}
-                                dateFormat="yyy-MM-dd"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>숙박유무.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <HiSelector></HiSelector>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <select>
-                                <option>판교</option>
-                                <option>아산</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>출발지.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <HiSelector></HiSelector>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <select>
-                                <option>판교</option>
-                                <option>아산</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>고객사명.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <BsPencilSquare></BsPencilSquare>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <Select
-                                className="basic-single"
-                                classNamePrefix="select"
-                                value={CeDistanceState.distance_company}
-                                onChange={(value: any) => {
-                                    setCeDistanceState({ ...CeDistanceState, distance_company: value });
-                                }}
-                                isClearable={true}
-                                isSearchable={true}
-                                options={csm_distance_lists}
-                                placeholder="고객사 명을 선택 또는 검색 해 주세요."
-                            ></Select>
-                        </div>
-                    </div>
-                </div>
+                <div className="Selected_distance_binds_Data_Container">
+                    <h3>등록 데이터</h3>
+                    <table className="type09">
+                        <thead>
+                            <tr>
+                                <th>인덱스</th>
+                                <th>CSM 번호</th>
+                                <th>장비 모델</th>
+                                <th>제번</th>
+                                <th>작업 시간</th>
+                                <th>작업 인원</th>
+                                <th>삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {CeDistanceState.distance_binds.map((list, j) => {
+                                return (
+                                    <tr key={list.csm_number_respond_working_indexs}>
+                                        <td>{j + 1}</td>
+                                        <td>{list.csm_number_respond_working_csm_number}</td>
+                                        <td>{list.csm_number_respond_working_model}</td>
+                                        <td>{list.csm_number_respond_working_binds}</td>
+                                        {j === 0 ? (
+                                            <td rowSpan={CeDistanceState.distance_binds.length}>
+                                                {list.csm_number_respond_working_working_hours} 시간
+                                            </td>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {j === 0 ? (
+                                            <td rowSpan={CeDistanceState.distance_binds.length}>
+                                                {list.csm_number_respond_working_working_count} 명
+                                            </td>
+                                        ) : (
+                                            ''
+                                        )}
 
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>CSM번호.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <HiSelector></HiSelector>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <Select
-                                className="basic-single"
-                                classNamePrefix="select"
-                                value={CeDistanceState.distance_csmNumber}
-                                onChange={(value: any) => {
-                                    setCeDistanceState({ ...CeDistanceState, distance_csmNumber: value });
-                                }}
-                                isClearable={true}
-                                isSearchable={true}
-                                options={csm_csmNumber_lists}
-                                placeholder="CSM번호를 선택 또는 검색 해 주세요."
-                            ></Select>
-                        </div>
-                    </div>
+                                        <td>
+                                            <MdOutlineCancel
+                                                onClick={() => handleDeleteData(list)}
+                                                className="Delete_Binds_Cancel_Icons"
+                                            ></MdOutlineCancel>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
-
-                <div className="InputBox_Main_Container">
-                    <div className="InputBox_Main_Text">
-                        <h3>장비모델.</h3>
-                    </div>
-                    <div className="InputBox_Main_Input">
-                        <div className="InputBox_Main_Input_Icons">
-                            <HiSelector></HiSelector>
-                        </div>
-                        <div className="InputBox_Main_Input_Values">
-                            <Select
-                                className="basic-single"
-                                classNamePrefix="select"
-                                value={CeDistanceState.distance_equitModel}
-                                onChange={(value: any) => {
-                                    setCeDistanceState({ ...CeDistanceState, distance_equitModel: value });
-                                }}
-                                isClearable={true}
-                                isSearchable={true}
-                                options={csm_equitModel_lists}
-                                placeholder="장비모델을 선택 또는 검색 해 주세요."
-                            ></Select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="Binds_Container">
-                    <ul>
-                        {csm_Binds_lists.map((list, i) => {
-                            return (
-                                <li>
+                {/* <ul className="Selected_distance_binds_Data_Container">
+                    {CeDistanceState.distance_binds.map(list => {
+                        return (
+                            <li>
+                                <div
+                                    className="handleClicksContainer"
+                                    onChange={() => handleClicksBinds(list)}
+                                    key={list.csm_number_respond_working_indexs}
+                                >
+                                    <div>{list.csm_number_respond_working_binds}</div>
                                     <div>
-                                        <span>
-                                            <input type="checkbox" checked={list.select}></input>
-                                        </span>
-                                        <span>{list.csm_number_respond_working_binds}</span>
+                                        <MdOutlineCancel></MdOutlineCancel>
                                     </div>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul> */}
+            </div>
+
+            <div className="btns">
+                <button className="btn btn-cancel" onClick={CloseHandleClicks}>
+                    <span>취소</span>
+                </button>
+                <button className="btn btn-confirm" onClick={handleClickStoreFromServer}>
+                    <span>저장</span>
+                </button>
             </div>
         </CeDistanceUpdateMainPageMainDivBox>
     );

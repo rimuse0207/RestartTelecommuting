@@ -386,7 +386,7 @@ const TeamLeaderAfterSelectClickModal = ({ clicksTitle, clicksData, modalClose }
                             </td>
 
                             <td rowSpan={3}>{checkedOTdata.start_time_wed}</td>
-                            <td rowSpan={3}>{checkedOTdata.end_time_tue}</td>
+                            <td rowSpan={3}>{checkedOTdata.end_time_wed}</td>
                             <td rowSpan={3}>
                                 <span className="sum_time" id="sum_time_wed">
                                     {checkedOTdata.wed_time}

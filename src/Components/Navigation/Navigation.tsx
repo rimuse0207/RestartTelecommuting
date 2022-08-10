@@ -222,10 +222,9 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
                                     </Link>
-
-                                    <Link to="/CECalendar/1/ALL">
+                                    {/* <Link to="/CECalendar/1/ALL">
                                         <li>CSM</li>
-                                    </Link>
+                                    </Link> */}
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
                                         <li>ERP</li>
                                     </Link>

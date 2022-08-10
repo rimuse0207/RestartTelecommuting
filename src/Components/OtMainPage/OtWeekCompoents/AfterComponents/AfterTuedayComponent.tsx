@@ -16,6 +16,8 @@ const AfterTuedayComponent = ({ tueDateData, setTueDateData, startDate, Business
         const OTBasicStartTimes = moment(`2022-01-01 ${tueDateData.basicStartTime}`);
         const OTBasicEndTimes = moment(`2022-01-01 ${tueDateData.basicEndTime}`);
 
+        const sumBasicData = moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1;
+
         let startPlusEnd = moment.duration(OTendTimes.diff(OTStartTimes)).asHours();
         const restPlusTime = moment
             .duration(OTRestTimes.diff(moment(moment(`${OTRestTimes.format('YYYY-MM-DD')} 00:00`).format('YYYY-MM-DD HH:mm'))))
@@ -44,14 +46,16 @@ const AfterTuedayComponent = ({ tueDateData, setTueDateData, startDate, Business
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
                     OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    // basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    basicSumTime: sumBasicData >= 0 ? sumBasicData : 24 + sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             } else {
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    // basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    basicSumTime: sumBasicData >= 0 ? sumBasicData : 24 + sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             }
@@ -67,14 +71,16 @@ const AfterTuedayComponent = ({ tueDateData, setTueDateData, startDate, Business
                     ...tueDateData,
                     OTSumTime: startPlusEnd,
                     OTRestTime: '00:00',
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    // basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    basicSumTime: sumBasicData >= 0 ? sumBasicData : 24 + sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             } else {
                 setTueDateData({
                     ...tueDateData,
                     OTSumTime: startPlusEnd - restPlusTime,
-                    basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    // basicSumTime: moment.duration(OTBasicEndTimes.diff(OTBasicStartTimes)).asHours() - 1,
+                    basicSumTime: sumBasicData >= 0 ? sumBasicData : 24 + sumBasicData,
                     OTnightSum: nightTimeCal,
                 });
             }

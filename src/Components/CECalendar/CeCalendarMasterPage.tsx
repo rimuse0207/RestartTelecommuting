@@ -868,13 +868,7 @@ const CeCalendarMasterPage = () => {
                                 <th className="Table_Tenth">Part NO.</th>
                                 <th>제목</th>
                                 <th>비고</th>
-                                <th>발행</th>
-                                <th>신청</th>
-                                <th>입고</th>
-                                <th>CE</th>
-                                <th>고객</th>
-                                <th>PAY</th>
-                                <th>완료</th>
+                                <th>사용자 이름</th>
                                 <th>작업시간</th>
                                 <th>작업인원</th>
                                 <th>이동거리</th>
@@ -885,6 +879,15 @@ const CeCalendarMasterPage = () => {
                                 <th>숙박비용</th>
                                 <th>작업비용</th>
                                 <th>총비용</th>
+
+                                <th>발행</th>
+                                <th>신청</th>
+                                <th>입고</th>
+                                <th>CE</th>
+                                <th>고객</th>
+                                <th>PAY</th>
+                                <th>완료</th>
+
                                 <th>자세히</th>
                             </tr>
                         </thead>
@@ -952,6 +955,38 @@ const CeCalendarMasterPage = () => {
                                             <td className="Table_Tenth">{list.csm_basic_data_part_number}</td>
                                             <td>{list.csm_basic_data_titles}</td>
                                             <td>{list.csm_basic_data_etc}</td>
+
+                                            <td>{list.name}</td>
+
+                                            <td>
+                                                {list.csm_user_input_data_working_hours
+                                                    ? `${list.csm_user_input_data_working_hours} 시간`
+                                                    : ''}
+                                            </td>
+                                            <td>
+                                                {list.csm_user_input_data_working_count
+                                                    ? `${list.csm_user_input_data_working_count} 명`
+                                                    : ''}
+                                            </td>
+                                            <td>{list.csm_user_input_data_travel_range ? list.csm_user_input_data_travel_range : ''}</td>
+                                            <td>{list.csm_user_input_data_travel_time ? list.csm_user_input_data_travel_time : ''}</td>
+                                            <td>{list.csm_user_input_data_stay_days ? list.csm_user_input_data_stay_days : ''}</td>
+                                            <td>
+                                                {list.csm_user_input_data_travel_range_cost
+                                                    ? list.csm_user_input_data_travel_range_cost
+                                                    : ''}
+                                            </td>
+                                            <td>
+                                                {list.csm_user_input_data_travel_time_cost ? list.csm_user_input_data_travel_time_cost : ''}
+                                            </td>
+                                            <td>
+                                                {list.csm_user_input_data_stay_days_cost ? list.csm_user_input_data_stay_days_cost : ''}
+                                            </td>
+                                            <td>
+                                                {list.csm_user_input_data_operation_cost ? list.csm_user_input_data_operation_cost : ''}
+                                            </td>
+                                            <td>{list.csm_user_input_data_total_cost ? list.csm_user_input_data_total_cost : ''}</td>
+
                                             <td
                                                 className={classnamesAUTO}
                                                 style={list.csm_calendar_publish ? {} : { backgroundColor: 'white' }}
@@ -1091,34 +1126,6 @@ const CeCalendarMasterPage = () => {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td>
-                                                {list.csm_user_input_data_working_hours
-                                                    ? `${list.csm_user_input_data_working_hours} 시간`
-                                                    : ''}
-                                            </td>
-                                            <td>
-                                                {list.csm_user_input_data_working_count
-                                                    ? `${list.csm_user_input_data_working_count} 명`
-                                                    : ''}
-                                            </td>
-                                            <td>{list.csm_user_input_data_travel_range ? list.csm_user_input_data_travel_range : ''}</td>
-                                            <td>{list.csm_user_input_data_travel_time ? list.csm_user_input_data_travel_time : ''}</td>
-                                            <td>{list.csm_user_input_data_stay_days ? list.csm_user_input_data_stay_days : ''}</td>
-                                            <td>
-                                                {list.csm_user_input_data_travel_range_cost
-                                                    ? list.csm_user_input_data_travel_range_cost
-                                                    : ''}
-                                            </td>
-                                            <td>
-                                                {list.csm_user_input_data_travel_time_cost ? list.csm_user_input_data_travel_time_cost : ''}
-                                            </td>
-                                            <td>
-                                                {list.csm_user_input_data_stay_days_cost ? list.csm_user_input_data_stay_days_cost : ''}
-                                            </td>
-                                            <td>
-                                                {list.csm_user_input_data_operation_cost ? list.csm_user_input_data_operation_cost : ''}
-                                            </td>
-                                            <td>{list.csm_user_input_data_total_cost ? list.csm_user_input_data_total_cost : ''}</td>
 
                                             <td onClick={() => handleSubUpdateData(list)}>
                                                 <FcInfo></FcInfo>

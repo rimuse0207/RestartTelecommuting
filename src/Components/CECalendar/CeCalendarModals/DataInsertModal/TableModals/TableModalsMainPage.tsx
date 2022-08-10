@@ -58,16 +58,7 @@ const TableModalsMainPage = ({ closeModal, getCeCalendarDatas, hadleDeleteData, 
                 ) : (
                     <></>
                 )}
-                {ModelMenus === 'Distance' ? (
-                    <CeDistanceUpdateMainPage
-                        closeModal={closeModal}
-                        getCeCalendarDatas={getCeCalendarDatas}
-                        hadleDeleteData={hadleDeleteData}
-                        hadleUpdateData={updatedata => hadleUpdateData(updatedata)}
-                    ></CeDistanceUpdateMainPage>
-                ) : (
-                    <></>
-                )}
+                {ModelMenus === 'Distance' ? <CeDistanceUpdateMainPage closeModal={closeModal}></CeDistanceUpdateMainPage> : <></>}
             </div>
         </TableModalsMainPageMainDivBox>
     );

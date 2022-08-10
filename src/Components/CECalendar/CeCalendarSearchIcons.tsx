@@ -14,6 +14,10 @@ import { CSMFilteringAdd, CSMFilteringReset } from '../../models/CSMFilteringRed
 import { DecryptKey } from '../../config';
 import BasicDataInsertPage from './CeCalendarModals/DataInsertModal/BasicDataInsertPage';
 import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
+import { AiFillDatabase } from 'react-icons/ai';
+import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
+import { paramasTypes } from './CeCalendarMasterPage';
+import { useParams } from 'react-router-dom';
 
 const customStyles = {
     content: {
@@ -23,8 +27,8 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '80%',
-        height: '70%',
+        width: '90%',
+        height: '90%',
     },
 };
 Modal.setAppElement('#ModalSet');
@@ -52,6 +56,16 @@ const PcAssetMenuIconsMainPageDivBox = styled.div`
         width: 100px;
         font-size: 2em;
         color: #b23c46;
+        text-align: center;
+        :hover {
+            cursor: pointer;
+            opacity: 0.5;
+        }
+    }
+    .BindesIcons {
+        width: 100px;
+        font-size: 2em;
+        color: #375b31;
         text-align: center;
         :hover {
             cursor: pointer;
@@ -244,18 +258,21 @@ type FilteringDataTypes = {
 
 const CeCalendarSearchIcons = () => {
     const dispatch = useDispatch();
+    const { pagenumber, type } = useParams<paramasTypes>();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const [SelectClicksModals, setSelectClicksModals] = useState({
         FilterSearch: false,
         NewDataModal: false,
+        BindsDataModal: false,
     });
     const [FilteringData, setFilteringData] = useState<FilteringDataTypes>(GetCSMFilteringData);
 
     function closeModal() {
         setSelectClicksModals({
             ...SelectClicksModals,
-            NewDataModal: !SelectClicksModals.NewDataModal,
+            NewDataModal: false,
+            BindsDataModal: false,
         });
     }
 
@@ -320,7 +337,7 @@ const CeCalendarSearchIcons = () => {
                 finish_csm_basic_data_issue_date: '',
                 start_csm_basic_data_issue_date: '',
             });
-            await window.location.replace(`/CECalendar/${1}`);
+            await window.location.replace(`/CECalendar/${1}/${type}`);
         } catch (error) {
             console.log(error);
         }
@@ -329,7 +346,7 @@ const CeCalendarSearchIcons = () => {
     const handleClickFilterData = async () => {
         try {
             await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            await window.location.replace(`/CECalendar/${1}`);
+            await window.location.replace(`/CECalendar/${1}/${type}`);
         } catch (error) {
             console.log(error);
         }
@@ -339,7 +356,7 @@ const CeCalendarSearchIcons = () => {
         try {
             e.preventDefault();
             await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            await window.location.replace(`/CECalendar/${1}`);
+            await window.location.replace(`/CECalendar/${1}/${type}`);
         } catch (error) {
             console.log(error);
         }
@@ -363,6 +380,23 @@ const CeCalendarSearchIcons = () => {
                     </div>
                     <div className="IconText">필터 검색</div>
                 </div>
+                <div>
+                    <div
+                        className="BindesIcons"
+                        onClick={() =>
+                            setSelectClicksModals({
+                                ...SelectClicksModals,
+                                BindsDataModal: !SelectClicksModals.BindsDataModal,
+                            })
+                        }
+                    >
+                        <AiFillDatabase></AiFillDatabase>
+                    </div>
+                    <div className="IconText">
+                        이동거리 <br />및 시간 입력
+                    </div>
+                </div>
+
                 {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
                     <div>
                         <div
@@ -653,6 +687,11 @@ const CeCalendarSearchIcons = () => {
             <Modal isOpen={SelectClicksModals.NewDataModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
                 {/* <WriterPage dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></WriterPage> */}
                 <InsertModalMainPage dataGetSome={() => dataGetSome()} closeModal={() => closeModal()}></InsertModalMainPage>
+            </Modal>
+            <Modal isOpen={SelectClicksModals.BindsDataModal} style={customStyles}>
+                <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>이동 거리 및 시간 입력</h2>
+                <div style={{ marginBottom: '30px' }}></div>
+                <CeDistanceUpdateMainPage closeModal={() => closeModal()}></CeDistanceUpdateMainPage>
             </Modal>
         </PcAssetMenuIconsMainPageDivBox>
     );
