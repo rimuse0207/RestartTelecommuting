@@ -17,6 +17,7 @@ import numberingTest from './ReduxTestFile';
 import Access_Control from './Access_Redux/Access_Redux';
 import CSMFiltering from './CSMFilteringRedux/CSMFilteringRedux';
 import Nav_AccessTokens from './Nav_Access_Redux/Nav_Access_Redux';
+import CSMDataGetting from './Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 const rootReducer = combineReducers({
     Socket,
     ChattingMember,
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
     Access_Control,
     CSMFiltering,
     Nav_AccessTokens,
+    CSMDataGetting,
 });
 
 export default rootReducer;

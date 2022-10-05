@@ -12,8 +12,11 @@ import { NothingGet, OneParamsGet } from '../../../../../API/GETApi/GetApi';
 import { MdOutlineCancel } from 'react-icons/md';
 import { OneParamsPost } from '../../../../../API/POSTApi/PostApi';
 import { RootState } from '../../../../../../models';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DecryptKey } from '../../../../../../config';
+import { get_CSM_DataThunk } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { paramasTypes } from '../../../../CeCalendarMasterPage';
+import { useParams } from 'react-router-dom';
 
 registerLocale('ko', ko);
 const CeDistanceUpdateMainPageMainDivBox = styled.div`
@@ -272,7 +275,9 @@ type CeDistanceUpdateMainPagePropsType = {
 };
 
 const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsType) => {
+    const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const [CeDistanceState, setCeDistanceState] = useState<CeDistanceState_Types>({
         distance_date: new Date(),
         start_location: '판교',
@@ -295,6 +300,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         stay_chek: false,
         stay_day: 0,
     });
+    const { pagenumber, type } = useParams<paramasTypes>();
     const [csm_distance_lists, setCsm_distance_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_csmNumber_lists, setCsm_csmNumber_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_equitModel_lists, setCsm_equitModel_lists] = useState<csm_distance_lists_Types[]>([]);
@@ -442,7 +448,9 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
             if (binds_data_send_from_server.data.dataSuccess) {
                 console.log(binds_data_send_from_server);
                 if (binds_data_send_from_server.data.UpdateSuccess) {
+                    await dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
                     alert('데이터 등록 완료.');
+                    closeModal();
                 } else {
                     alert('아직 기본 CSM 정보가 없습니다. 이광민프로에게 정보 추가 이후에 다시 시도해 주세요.');
                 }
@@ -450,6 +458,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
             }
         } catch (error) {
             console.log(error);
+            alert('Error');
         }
     };
 

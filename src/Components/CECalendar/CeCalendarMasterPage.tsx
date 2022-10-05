@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import { RootState } from '../../models';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { DecryptKey } from '../../config';
 import { toast } from '../ToastMessage/ToastManager';
 import styled from 'styled-components';
@@ -13,6 +13,7 @@ import CeCalendarUpdateModals from './CeCalendarModals/DataInsertModal/TableModa
 import CeCalendarSearchIcons from './CeCalendarSearchIcons';
 import TableModalsMainPage from './CeCalendarModals/DataInsertModal/TableModals/TableModalsMainPage';
 import { FcInfo } from 'react-icons/fc';
+import { get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 
 const customStyles = {
     content: {
@@ -330,12 +331,15 @@ export type paramasTypes = {
     type: string;
 };
 const CeCalendarMasterPage = () => {
+    const dispatch = useDispatch();
     const REACT_APP_PAGE_NUMBER = 100;
     const { pagenumber, type } = useParams<paramasTypes>();
     const [hiddenChecked, setHiddenChecked] = useState(false);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const [PageNumbers, setPageNumbers] = useState(0);
+    const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
+    const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
+    // const [PageNumbers, setPageNumbers] = useState(0);
 
     const [data, setData] = useState<CeCalendarTableProps[]>([
         {
@@ -450,28 +454,29 @@ const CeCalendarMasterPage = () => {
     }, [GetCSMFilteringData, type]);
 
     const dataGetSome = async () => {
-        try {
-            const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
-                GetCSMFilteringData,
-                pagenumber,
-                SelectTeam: type,
-            });
+        await dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+        // try {
+        //     const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
+        //         GetCSMFilteringData,
+        //         pagenumber,
+        //         SelectTeam: type,
+        //     });
 
-            if (DataGetSomeCECalendar.data.dataSuccess) {
-                setData(DataGetSomeCECalendar.data.datas);
-                setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
-            } else {
-                alert('에러');
-            }
-        } catch (error) {
-            console.log(error);
-            toast.show({
-                title: 'ERROR!',
-                content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
-                duration: 6000,
-                DataSuccess: false,
-            });
-        }
+        //     if (DataGetSomeCECalendar.data.dataSuccess) {
+        //         setData(DataGetSomeCECalendar.data.datas);
+        //         setPageNumbers(DataGetSomeCECalendar.data.Count[0] ? DataGetSomeCECalendar.data.Count[0].counts : 0);
+        //     } else {
+        //         alert('에러');
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        //     toast.show({
+        //         title: 'ERROR!',
+        //         content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+        //         duration: 6000,
+        //         DataSuccess: false,
+        //     });
+        // }
     };
 
     const handleChangeClickHidden = async (e: any, datas: any) => {
@@ -827,11 +832,11 @@ const CeCalendarMasterPage = () => {
                         </Link>
                     </ul>
                 </div>
-                <div>
+                {/* <div>
                     <button onClick={() => window.open(`/CeCantactPage`, 'CeCantactPage', 'width=980, height=700')}>
                         고객사 부서장 연락처
                     </button>
-                </div>
+                </div> */}
                 <div>
                     <select value={ShowProcess} onChange={e => setShowProcess(e.target.value)}>
                         <option value="">All</option>
@@ -860,7 +865,7 @@ const CeCalendarMasterPage = () => {
                                 <th className="Table_Second">인덱스</th>
                                 <th className="Table_Third">상태</th>
                                 <th className="Table_Fourth">등급</th>
-                                <th className="Table_Fifth">발행일</th>
+                                {/* <th className="Table_Fifth">발행일</th> */}
                                 <th className="Table_Sixth">CSM</th>
                                 <th className="Table_Seventh">MODEL</th>
                                 <th className="Table_Eighth">제번</th>
@@ -879,7 +884,6 @@ const CeCalendarMasterPage = () => {
                                 <th>숙박비용</th>
                                 <th>작업비용</th>
                                 <th>총비용</th>
-
                                 <th>발행</th>
                                 <th>신청</th>
                                 <th>입고</th>
@@ -887,12 +891,11 @@ const CeCalendarMasterPage = () => {
                                 <th>고객</th>
                                 <th>PAY</th>
                                 <th>완료</th>
-
                                 <th>자세히</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data
+                            {CSM_Datas.data
                                 .filter(item => {
                                     if (!hiddenChecked) {
                                         return item.csm_calendar_hidden_on === 0 ? item : '';
@@ -1140,7 +1143,7 @@ const CeCalendarMasterPage = () => {
                     <ul>
                         {Number(pagenumber) > 3 ? (
                             <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${1}`)}>1</li>
+                                <li onClick={() => window.location.replace(`/CECalendar/${1}/${type}`)}>1</li>
                                 <li>...</li>
                             </>
                         ) : (
@@ -1148,7 +1151,7 @@ const CeCalendarMasterPage = () => {
                         )}
                         {Number(pagenumber) - 2 > 0 ? (
                             <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}`)}>
+                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}/${type}`)}>
                                     {Number(pagenumber) - 2}
                                 </li>
                             </>
@@ -1157,7 +1160,7 @@ const CeCalendarMasterPage = () => {
                         )}
                         {Number(pagenumber) - 1 > 0 ? (
                             <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}`)}>
+                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}/${type}`)}>
                                     {Number(pagenumber) - 1}
                                 </li>
                             </>
@@ -1169,7 +1172,7 @@ const CeCalendarMasterPage = () => {
 
                         {Number(pagenumber) + 1 < Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) ? (
                             <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}`)}>
+                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}/${type}`)}>
                                     {Number(pagenumber) + 1}
                                 </li>
                             </>
@@ -1179,7 +1182,7 @@ const CeCalendarMasterPage = () => {
 
                         {Number(pagenumber) + 2 < Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) ? (
                             <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}`)}>
+                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}/${type}`)}>
                                     {Number(pagenumber) + 2}
                                 </li>
                             </>
@@ -1193,7 +1196,7 @@ const CeCalendarMasterPage = () => {
                                 <li>...</li>
                                 <li
                                     onClick={() =>
-                                        window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 1}`)
+                                        window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 1}/${type}`)
                                     }
                                 >
                                     {Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 1}
