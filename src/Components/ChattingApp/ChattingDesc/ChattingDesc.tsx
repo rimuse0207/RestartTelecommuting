@@ -17,7 +17,7 @@ type ChattingDescProps = {
 
 const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: ChattingDescProps) => {
     const [roomnothing, setRoomNothing] = useState('');
-    const socket = useSelector((state: RootState) => state.Socket.socket);
+    // const socket = useSelector((state: RootState) => state.Socket.socket);
     const infomation = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [messages, setMessages] = useState('');
     const [allDesc, setAllDesc] = useState([]);
@@ -31,61 +31,61 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
     useEffect(() => {
         scrollToBottom();
     }, [allDesc]);
-    const messageSend = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (messages === '') {
-            return;
-        }
-        if (roomId === 'nothing') {
-            if (roomnothing === '') {
-                const a = NotThingRoom(infomation.id, name);
-                setRoomNothing(a);
+    // const messageSend = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     if (messages === '') {
+    //         return;
+    //     }
+    //     if (roomId === 'nothing') {
+    //         if (roomnothing === '') {
+    //             const a = NotThingRoom(infomation.id, name);
+    //             setRoomNothing(a);
 
-                socket.emit('messageSendServerNothings', {
-                    messages,
-                    To_Name: name,
-                    TO_Name_id: id,
-                    From_Name: DecryptKey(infomation.id),
-                    RoomId: a,
-                });
-            } else {
-                socket.emit('messageSendServer', {
-                    messages,
-                    To_Name: name,
-                    TO_Name_id: id,
-                    From_Name: DecryptKey(infomation.id),
-                    RoomId: roomnothing,
-                });
-            }
-        } else {
-            socket.emit('messageSendServer', {
-                messages,
-                To_Name: name,
-                TO_Name_id: id,
-                From_Name: DecryptKey(infomation.id),
-                RoomId: roomId,
-            });
-        }
+    //             socket.emit('messageSendServerNothings', {
+    //                 messages,
+    //                 To_Name: name,
+    //                 TO_Name_id: id,
+    //                 From_Name: DecryptKey(infomation.id),
+    //                 RoomId: a,
+    //             });
+    //         } else {
+    //             socket.emit('messageSendServer', {
+    //                 messages,
+    //                 To_Name: name,
+    //                 TO_Name_id: id,
+    //                 From_Name: DecryptKey(infomation.id),
+    //                 RoomId: roomnothing,
+    //             });
+    //         }
+    //     } else {
+    //         socket.emit('messageSendServer', {
+    //             messages,
+    //             To_Name: name,
+    //             TO_Name_id: id,
+    //             From_Name: DecryptKey(infomation.id),
+    //             RoomId: roomId,
+    //         });
+    //     }
 
-        setMessages('');
-    };
+    //     setMessages('');
+    // };
 
-    useEffect(() => {
-        textInput.current.focus();
-        if (!socket) return;
-        if (roomId !== 'nothing') {
-            socket.emit('getChattingDESC', {
-                id: DecryptKey(infomation.id),
-                roomId,
-            });
-        }
-        socket.on('successChatingDESC', (datas: { data: [] }) => {
-            setAllDesc(datas.data);
-        });
-        socket.on('sendMessageCome', (data: { roomID: [] }) => {
-            console.log(data.roomID);
-        });
-    }, []);
+    // useEffect(() => {
+    //     textInput.current.focus();
+    //     if (!socket) return;
+    //     if (roomId !== 'nothing') {
+    //         socket.emit('getChattingDESC', {
+    //             id: DecryptKey(infomation.id),
+    //             roomId,
+    //         });
+    //     }
+    //     socket.on('successChatingDESC', (datas: { data: [] }) => {
+    //         setAllDesc(datas.data);
+    //     });
+    //     socket.on('sendMessageCome', (data: { roomID: [] }) => {
+    //         console.log(data.roomID);
+    //     });
+    // }, []);
     return (
         <div className="Chatting_app_DESC_BigBox_div" style={{ width: '100%', height: '90%' }}>
             <button onClick={handleClickChattingDescReturn}>뒤로 가기 </button>
@@ -126,10 +126,10 @@ const ChattingDesc = ({ roomId, name, id, handleClickChattingDescReturn }: Chatt
                 <div>
                     <div className="Chatting_app_inputText_MessageSend">
                         <span>+</span>
-                        <form style={{ display: 'inline' }} onSubmit={(e: React.FormEvent<HTMLFormElement>) => messageSend(e)}>
+                        {/* <form style={{ display: 'inline' }} onSubmit={(e: React.FormEvent<HTMLFormElement>) => messageSend(e)}>
                             <input ref={textInput} type="text" value={messages} onChange={e => setMessages(e.target.value)}></input>
                             <button type="submit">전송</button>
-                        </form>
+                        </form> */}
                     </div>
                 </div>
             </div>

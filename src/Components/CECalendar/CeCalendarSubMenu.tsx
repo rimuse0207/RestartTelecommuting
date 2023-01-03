@@ -38,13 +38,13 @@ const CeCalendarSubMenu = () => {
                     <div>
                         <ul className="CeCalendarSubMenu_SubMenusUl">
                             <li style={SubMenuClicks === 'Table' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Table')}>
-                                CSM 저장 테이블
+                                CSM
                             </li>
                             <li style={SubMenuClicks === 'File' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('File')}>
-                                CSM 기본 데이터 Excel 업로드
+                                CSM정보 Excel 업로드
                             </li>
                             <li style={SubMenuClicks === 'Working' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Working')}>
-                                CSM번호 별 작업시간 및 인원
+                                작업시간 및 인원 Excel 업로드
                             </li>
                         </ul>
                     </div>

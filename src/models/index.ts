@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import Socket from './Socket';
+// import Socket from './Socket';
 import ChattingMember from './ChattingMeber';
 import PersonalInfo from './PersonalInfo';
 import FoodDataGetting from './Thunk_models/FoodData';
@@ -18,8 +18,9 @@ import Access_Control from './Access_Redux/Access_Redux';
 import CSMFiltering from './CSMFilteringRedux/CSMFilteringRedux';
 import Nav_AccessTokens from './Nav_Access_Redux/Nav_Access_Redux';
 import CSMDataGetting from './Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import CSM_User_Used_DataGetting from './Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
 const rootReducer = combineReducers({
-    Socket,
+    // Socket,
     ChattingMember,
     PersonalInfo,
     FoodDataGetting,
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
     CSMFiltering,
     Nav_AccessTokens,
     CSMDataGetting,
+    CSM_User_Used_DataGetting,
 });
 
 export default rootReducer;

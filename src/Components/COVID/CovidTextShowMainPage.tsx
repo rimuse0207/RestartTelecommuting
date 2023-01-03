@@ -7,7 +7,7 @@ import SliderPage from '../SliderPage';
 import CovidTextShowWrite from './CovidTextShowWrite';
 import CovidResertMainPage from './CovidResertMainPage';
 const CovidTextShowMainPage = () => {
-    const socket = useSelector((state: RootState) => state.Socket.socket);
+    // const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
 
     const [loginCheck, setLoginCheck] = useState(false);
@@ -19,7 +19,7 @@ const CovidTextShowMainPage = () => {
                     <div style={{ position: 'relative' }}>
                         <CovidResertMainPage></CovidResertMainPage>
                     </div>
-                    <SliderPage width={window.innerWidth} socket={socket}></SliderPage>
+                    {/* <SliderPage width={window.innerWidth} socket={socket}></SliderPage> */}
                 </div>
             ) : (
                 <SignInForm setLoginCheck={(data: boolean) => setLoginCheck(data)}></SignInForm>

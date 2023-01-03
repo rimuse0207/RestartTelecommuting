@@ -44,8 +44,9 @@ const MealMonthMainPage = () => {
             <div style={{ width: '90%', margin: '0 auto' }}>
                 <div>
                     <select value={selectedYear} onChange={e => setSelectedYear(e.target.value)}>
-                        <option value="2021">2021</option>
+                        <option value="2023">2023</option>
                         <option value="2022">2022</option>
+                        <option value="2021">2021</option>
                     </select>
                     <select value={selectedMonth} onChange={e => setSelectedMonth(e.target.value)}>
                         <option value="01">1월</option>

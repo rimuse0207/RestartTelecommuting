@@ -38,6 +38,8 @@ import { getChatting_members } from './models/ChattingMeber';
 import { DecryptKey } from './config';
 import AccessInfoMainPage from './Components/AdminAcees/AdminAccess/AccessInfoMainPage';
 import CeContactMainPage from './Components/CECalendar/CEContact/CeContactMainPage';
+import ReNewalCSMMainPage from './Components/CECalendar/CSMNumberWorking/ReNewalCSM/ReNewalCSMMainPage';
+import RenewalCSMMainPage from './Components/RenewalCSM/RenewalCSMMainPage';
 
 const RouterPageMainDivBox = styled.div`
     @media print {
@@ -48,30 +50,31 @@ const RouterPageMainDivBox = styled.div`
 `;
 
 const RouterPage = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
-    useEffect(() => {
-        if (loginChecked) socketconnect();
-    }, [loginChecked]);
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    // const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
 
-    const socketconnect = async () => {
-        const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
-        await dispatch(getSocket(soscketData));
-        soscketData.emit('hi', {
-            name: DecryptKey(InfomationState.name),
-            id: DecryptKey(InfomationState.id),
-        });
-        soscketData.on('users_come_in', (data: { message: [] }) => {
-            dispatch(getChatting_members(data.message));
-        });
-        soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
-            handleVisibilityChange(data);
-        });
-    };
-    const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
-        window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
-    };
+    // const socketconnect = async () => {
+    //     const soscketData = await socketio(`${process.env.REACT_APP_API_URL}`);
+    //     await dispatch(getSocket(soscketData));
+    //     soscketData.emit('hi', {
+    //         name: DecryptKey(InfomationState.name),
+    //         id: DecryptKey(InfomationState.id),
+    //     });
+    //     soscketData.on('users_come_in', (data: { message: [] }) => {
+    //         dispatch(getChatting_members(data.message));
+    //     });
+    //     soscketData.on('recieveCall', (data: { message: { senderId: string; senderName: string } }) => {
+    //         handleVisibilityChange(data);
+    //     });
+    // };
+    // const handleVisibilityChange = (data: { message: { senderId: string; senderName: string } }) => {
+    //     window.open(`http://192.168.2.241:5555/VideoFocusOn/${data.message.senderId}/${data.message.senderName}`, 'width=800,height=800');
+    // };
+
+    // useEffect(() => {
+    //     if (loginChecked) socketconnect();
+    // }, [loginChecked]);
 
     return (
         <RouterPageMainDivBox>
@@ -123,20 +126,22 @@ const RouterPage = () => {
                                 {/* 기타메뉴 */}
                                 <div>
                                     {/* 상대방 호출 */}
-                                    <Route path="/ConnectedNow" component={ConnectedMainPage}></Route>
+                                    {/* <Route path="/ConnectedNow" component={ConnectedMainPage}></Route> */}
                                     {/* CSM */}
                                     <Route path="/CECalendar/:pagenumber/:type" component={CeCalendarMainPage}></Route>
+                                    <Route path="/CECalendar/Renewal" component={ReNewalCSMMainPage}></Route>
+                                    <Route path="/RenewalCSM" component={RenewalCSMMainPage}></Route>
                                     {/* 비밀번호 변경 */}
                                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                                     {/* Exicon, YIKC 사용자 등록 */}
                                     <Route path="/NewDataInsert" component={NewAdminInsert}></Route>
                                     {/* 코로나19 */}
-                                    <Route path="/CovidTextShow" component={CovidTextShowMainPage}></Route>
+                                    {/* <Route path="/CovidTextShow" component={CovidTextShowMainPage}></Route> */}
                                 </div>
 
-                                <Route path="/PlayGround" component={PlayGround}></Route>
+                                {/* <Route path="/PlayGround" component={PlayGround}></Route> */}
 
-                                <Route path="/PrinterButton" component={OtPrinterButton}></Route>
+                                {/* <Route path="/PrinterButton" component={OtPrinterButton}></Route> */}
 
                                 {/* <Route exact path="*" component={ErrorPage} /> */}
                             </div>

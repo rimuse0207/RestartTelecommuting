@@ -1,22 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Navigation.css';
 import Navigation from './Navigation';
-import { CgProfile } from 'react-icons/cg';
+
 import { DecryptKey } from '../../config';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../models/index';
-import socketio from 'socket.io-client';
-import { getSocket } from '../../models/Socket';
-import { getChatting_members } from '../../models/ChattingMeber';
+
 import styled from 'styled-components';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
-import CovidVirusMainPage from '../COVID/CovidVirusMainPage';
-import CovidTextShowMainPage from '../COVID/CovidTextShowMainPage';
+
 import Modal from 'react-modal';
-import CovidTextShowWrite from '../COVID/CovidTextShowWrite';
-import axios from 'axios';
+
 const HomeMenuClicksDivBox = styled.div`
     width: 50px;
     height: 50px;
@@ -145,7 +141,7 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
     const dispatch = useDispatch();
     const myMenuRef = useRef<any>('null');
     const [hambergerOpen, setHambergerOpen] = useState(false);
-    const socket = useSelector((state: RootState) => state.Socket.socket);
+    // const socket = useSelector((state: RootState) => state.Socket.socket);
     const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [menuStatus, setMenuStatus] = useState('');

@@ -101,7 +101,10 @@ const TeamLeaderTelecommuting = () => {
     const getSomeNamesData = async () => {
         try {
             const SelectCompany = InfomationState.company;
-            const getSomeNamesDataServer = await OneParamsGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, { SelectCompany });
+            const getSomeNamesDataServer = await OneParamsGet(`${process.env.REACT_APP_API_URL}/GetSomesNamesData`, {
+                SelectCompany,
+                id: InfomationState.id,
+            });
 
             if (getSomeNamesDataServer.data.dataSuccess) {
                 setBelongsName(getSomeNamesDataServer.data.datas);

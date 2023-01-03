@@ -53,28 +53,31 @@ export interface CeCalendarTableProps {
     csm_user_input_data_working_hours: null | string;
     csm_user_input_data_write_date: null | string;
     csm_user_input_data_writer_id: null | string;
-    name: string | null;
+    name: null | string;
+    csm_user_input_data_apply_code: null | string;
 }
 
-const GET_CSM_Data_GET = 'CSM_Data/GET_CSM_Data_GET';
-const GET_CSM_Data_SUCCESS = 'CSM_Data/GET_CSM_Data_SUCCESS';
-const GET_CSM_Data_ERROR = 'CSM_Data/GET_CSM_Data_ERROR';
+interface User_Used_Data_Type {
+    FirstData: CeCalendarTableProps[];
+    SecondData: CeCalendarTableProps[];
+}
 
-const get_CSM_DataAsync = createAsyncAction(GET_CSM_Data_GET, GET_CSM_Data_SUCCESS, GET_CSM_Data_ERROR)<
-    undefined,
-    CeCalendarTableProps,
-    AxiosError
->();
+const GET_CSM_User_Used_Data_GET = 'CSM_User_Used_Data/GET_CSM_User_Used_Data_GET';
+const GET_CSM_User_Used_Data_SUCCESS = 'CSM_User_Used_Data/GET_CSM_User_Used_Data_SUCCESS';
+const GET_CSM_User_Used_Data_ERROR = 'CSM_User_Used_Data/GET_CSM_User_Used_Data_ERROR';
 
-const get_CSM_Data = async (GetCSMFilteringData: any, pagenumber: string, SelectTeam: string) => {
+const get_CSM_User_Used_DataAsync = createAsyncAction(
+    GET_CSM_User_Used_Data_GET,
+    GET_CSM_User_Used_Data_SUCCESS,
+    GET_CSM_User_Used_Data_ERROR
+)<undefined, CeCalendarTableProps, AxiosError>();
+
+const get_User_Used_CSM_Data = async () => {
     try {
-        const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
-            GetCSMFilteringData,
-            pagenumber,
-            SelectTeam,
-        });
-        if (DataGetSomeCECalendar.data.dataSuccess) {
-            return DataGetSomeCECalendar.data;
+        const DataGetUserUsed = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/User_Selected_Data_DataGetSome`);
+        console.log('Redux에서 발생', DataGetUserUsed);
+        if (DataGetUserUsed.data.dataSuccess) {
+            return DataGetUserUsed.data.Datas;
         } else {
             return false;
         }
@@ -83,35 +86,29 @@ const get_CSM_Data = async (GetCSMFilteringData: any, pagenumber: string, Select
         return error;
     }
 };
-const actions = { GET_CSM_Data_GET, GET_CSM_Data_SUCCESS, GET_CSM_Data_ERROR };
+const actions = { GET_CSM_User_Used_Data_GET, GET_CSM_User_Used_Data_SUCCESS, GET_CSM_User_Used_Data_ERROR };
 
-type CSM_DATA_Action = ActionType<typeof actions> | ActionType<any>;
+type CSM_User_Used_DATA_Action = ActionType<typeof actions> | ActionType<any>;
 
-export type CSM_DATA_State = {
-    CSM_Data: {
-        loading: boolean;
-        error: Error | null;
-        data: CeCalendarTableProps[];
-        dataChecked: boolean;
-        pagenumber: number;
-    };
+export type CSM_User_Used_DATA_State = {
+    Datas: User_Used_Data_Type[];
+    loading: boolean;
+    error: Error | null;
+    dataChecked: boolean;
+    pagenumber: number;
 };
 
-export function get_CSM_DataThunk(
-    GetCSMFilteringData: any,
-    pagenumber: string,
-    SelectTeam: string
-): ThunkAction<void, RootState, null, CSM_DATA_Action> {
+export function get_CSM_User_Used_DataThunk(): ThunkAction<void, RootState, null, CSM_User_Used_DATA_Action> {
     return async dispatch => {
-        const { request, success, failure } = get_CSM_DataAsync;
+        const { request, success, failure } = get_CSM_User_Used_DataAsync;
         dispatch(request());
 
         try {
-            const gettings_CSM_DATA = await get_CSM_Data(GetCSMFilteringData, pagenumber, SelectTeam);
-            if (gettings_CSM_DATA) {
-                dispatch(success(gettings_CSM_DATA));
+            const gettings_CSM_User_Used_DATA = await get_User_Used_CSM_Data();
+            if (gettings_CSM_User_Used_DATA) {
+                dispatch(success(gettings_CSM_User_Used_DATA));
             } else {
-                dispatch(failure(gettings_CSM_DATA));
+                dispatch(failure(gettings_CSM_User_Used_DATA));
             }
         } catch (e: any) {
             dispatch(failure(e));
@@ -119,47 +116,39 @@ export function get_CSM_DataThunk(
     };
 }
 
-const initialState: CSM_DATA_State = {
-    CSM_Data: {
-        loading: false,
-        error: null,
-        data: [],
-        dataChecked: false,
-        pagenumber: 0,
-    },
+const initialState: CSM_User_Used_DATA_State = {
+    Datas: [],
+    loading: false,
+    error: null,
+    dataChecked: false,
+    pagenumber: 0,
 };
 
-const CSMDataGetting = createReducer<CSM_DATA_State, CSM_DATA_Action>(initialState, {
-    [GET_CSM_Data_GET]: state => ({
+const CSM_User_Used_DataGetting = createReducer<CSM_User_Used_DATA_State, CSM_User_Used_DATA_Action>(initialState, {
+    [GET_CSM_User_Used_Data_GET]: state => ({
         ...state,
-        CSM_Data: {
-            loading: true,
-            error: null,
-            data: [],
-            dataChecked: false,
-            pagenumber: 0,
-        },
+        Datas: [],
+        loading: false,
+        error: null,
+        dataChecked: false,
+        pagenumber: 0,
     }),
-    [GET_CSM_Data_SUCCESS]: (state, action) => ({
+    [GET_CSM_User_Used_Data_SUCCESS]: (state, action) => ({
         ...state,
-        CSM_Data: {
-            loading: false,
-            error: null,
-            data: action.payload.datas,
-            dataChecked: true,
-            pagenumber: action.payload.Count[0] ? action.payload.Count[0].counts : 0,
-        },
+        Datas: action.payload,
+        loading: false,
+        error: null,
+        dataChecked: true,
+        pagenumber: 0,
     }),
-    [GET_CSM_Data_ERROR]: (state, action) => ({
+    [GET_CSM_User_Used_Data_ERROR]: (state, action) => ({
         ...state,
-        CSM_Data: {
-            loading: false,
-            error: action.payload.datas,
-            data: [],
-            dataChecked: false,
-            pagenumber: action.payload.Count[0] ? action.payload.Count[0].counts : 0,
-        },
+        Datas: [],
+        loading: false,
+        error: action.payload,
+        dataChecked: false,
+        pagenumber: 0,
     }),
 });
 
-export default CSMDataGetting;
+export default CSM_User_Used_DataGetting;

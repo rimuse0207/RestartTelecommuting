@@ -255,11 +255,11 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                 friDateData.OTSumTime +
                 satDateData.OTSumTime +
                 sunDateData.OTSumTime >
-            10
+            12.5
         ) {
             toast.show({
                 title: '연장근무 신청 불가. (연장시간 초기화)',
-                content: `(주 연장근무 총시간이 10시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
+                content: `(주 연장근무 총시간이 12시간을 초과 할수 없습니다.) 팀장님에게 문의 바랍니다.`,
                 duration: 6000,
                 DataSuccess: false,
             });
@@ -345,89 +345,6 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
             });
         }
     };
-
-    // const handlePrinterClicks = () => {
-    //     const data = {
-    //         date_mon: startDate.clone().format('YYYY-MM-DD'),
-    //         date_tue: startDate.clone().add(1, 'day').format('YYYY-MM-DD'),
-    //         date_wed: startDate.clone().add(2, 'day').format('YYYY-MM-DD'),
-    //         date_thu: startDate.clone().add(3, 'day').format('YYYY-MM-DD'),
-    //         date_fri: startDate.clone().add(4, 'day').format('YYYY-MM-DD'),
-    //         date_sat: startDate.clone().add(5, 'day').format('YYYY-MM-DD'),
-    //         date_sun: startDate.clone().add(6, 'day').format('YYYY-MM-DD'),
-
-    //         end_time_mon: monDateData.OTEndTime,
-    //         end_time_tue: tueDateData.OTEndTime,
-    //         end_time_wed: wedDateData.OTEndTime,
-    //         end_time_thu: thuDateData.OTEndTime,
-    //         end_time_fri: friDateData.OTEndTime,
-    //         end_time_sat: satDateData.OTEndTime,
-    //         end_time_sun: sunDateData.OTEndTime,
-
-    //         start_time_mon: monDateData.OTStartTime,
-    //         start_time_tue: tueDateData.OTStartTime,
-    //         start_time_wed: wedDateData.OTStartTime,
-    //         start_time_thu: thuDateData.OTStartTime,
-    //         start_time_fri: friDateData.OTStartTime,
-    //         start_time_sat: satDateData.OTStartTime,
-    //         start_time_sun: sunDateData.OTStartTime,
-
-    //         mon_rest: monDateData.OTRestTime,
-    //         tue_rest: tueDateData.OTRestTime,
-    //         wed_rest: wedDateData.OTRestTime,
-    //         thu_rest: thuDateData.OTRestTime,
-    //         fri_rest: friDateData.OTRestTime,
-    //         sat_rest: satDateData.OTRestTime,
-    //         sun_rest: sunDateData.OTRestTime,
-
-    //         mon_time: monDateData.OTSumTime,
-    //         tue_time: tueDateData.OTSumTime,
-    //         wed_time: wedDateData.OTSumTime,
-    //         thu_time: thuDateData.OTSumTime,
-    //         fri_time: friDateData.OTSumTime,
-    //         sat_time: satDateData.OTSumTime,
-    //         sun_time: sunDateData.OTSumTime,
-
-    //         mon_night: monDateData.OTnightSum,
-    //         tue_night: tueDateData.OTnightSum,
-    //         wed_night: wedDateData.OTnightSum,
-    //         thu_night: thuDateData.OTnightSum,
-    //         fri_night: friDateData.OTnightSum,
-    //         sat_night: satDateData.OTnightSum,
-    //         sun_night: sunDateData.OTnightSum,
-
-    //         mon_reason: monDateData.OTreason1,
-    //         mon_reason1: monDateData.OTreason2,
-    //         mon_reason2: monDateData.OTreason3,
-    //         tue_reason: tueDateData.OTreason1,
-    //         tue_reason1: tueDateData.OTreason2,
-    //         tue_reason2: tueDateData.OTreason3,
-    //         wed_reason: wedDateData.OTreason1,
-    //         wed_reason1: wedDateData.OTreason2,
-    //         wed_reason2: wedDateData.OTreason3,
-    //         thu_reason: thuDateData.OTreason1,
-    //         thu_reason1: thuDateData.OTreason2,
-    //         thu_reason2: thuDateData.OTreason3,
-    //         fri_reason: friDateData.OTreason1,
-    //         fri_reason1: friDateData.OTreason2,
-    //         fri_reason2: friDateData.OTreason3,
-    //         sat_reason: satDateData.OTreason1,
-    //         sat_reason1: satDateData.OTreason2,
-    //         sat_reason2: satDateData.OTreason3,
-    //         sun_reason: sunDateData.OTreason1,
-    //         sun_reason1: sunDateData.OTreason2,
-    //         sun_reason2: sunDateData.OTreason3,
-    //         sum_time: 0,
-    //         number: 0,
-    //         leadercheck: 1,
-    //         id: DecryptKey(InfomationState.id),
-    //         name: DecryptKey(InfomationState.name),
-    //         position: InfomationState.position,
-    //         team: InfomationState.team,
-    //     };
-    //     setClicksData(data);
-    //     setPrinterClicked(true);
-    // };
 
     return (
         <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
@@ -632,17 +549,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                     </div>
                 </>
             )}
-            {/* <div className="fasfdasfas">
-                {printerClicked ? (
-                    <PrinterAfterSelectClickModal
-                        printerClicked={printerClicked}
-                        clicksData={clicksData}
-                        setPrinterClicked={data => setPrinterClicked(data)}
-                    ></PrinterAfterSelectClickModal>
-                ) : (
-                    <div></div>
-                )}
-            </div> */}
+      
         </div>
     );
 };

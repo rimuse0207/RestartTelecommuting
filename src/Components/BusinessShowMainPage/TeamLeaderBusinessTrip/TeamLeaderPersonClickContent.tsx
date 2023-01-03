@@ -27,38 +27,6 @@ const TeamLeaderPersonClickContent = () => {
     const [selectId, setSelectId] = useState('');
 
     useEffect(() => {
-        // getDataSelectTeam();
-        // const id = DecryptKey(InfomationState.id);
-        // if (
-        //     id === 'sjyoo@dhk.co.kr' ||
-        //     id === 'sjkim@dhk.co.kr' ||
-        //     id === 'jycha@dhk.co.kr' ||
-        //     id === 'jhlee1@dhk.co.kr' ||
-        //     id === 'htchoi@dhk.co.kr' ||
-        //     id === 'jmlee@dhk.co.kr' ||
-        //     id === 'dikim@dhk.co.kr'
-        // ) {
-        //     setShowTeam(['dicer', 'laser', 'grinder', '아산CE', '영업기술']);
-        //     setSelectTeam('dicer');
-        // } else if (id === 'jhgoo@dhk.co.kr') {
-        //     setShowTeam(['dicer', 'laser', 'grinder', '아산CE']);
-        //     setSelectTeam('dicer');
-        // } else if (id === 'ychong@dhk.co.kr') {
-        //     setShowTeam(['A_dicer', 'A_laser', 'A_grinder', '아산CE']);
-        //     setSelectTeam('A_dicer');
-        // } else if (id === 'hjlee@dhk.co.kr') {
-        //     setShowTeam(['dicer']);
-        //     setSelectTeam('dicer');
-        // } else if (id === 'wbjung@dhk.co.kr') {
-        //     setShowTeam(['laser']);
-        //     setSelectTeam('laser');
-        // } else if (id === 'jhshin@dhk.co.kr') {
-        //     setShowTeam(['grinder']);
-        //     setSelectTeam('grinder');
-        // } else if (id === 'kcahn@dhk.co.kr') {
-        //     setShowTeam(['영업기술']);
-        //     setSelectTeam('영업기술');
-        // }
         getTeamsDataFromServer();
     }, []);
 
@@ -78,12 +46,6 @@ const TeamLeaderPersonClickContent = () => {
             console.log(error);
         }
     };
-
-    // useEffect(() => {
-    //     if (showTeam[0] !== '권한없음') {
-    //         getDataSelectTeam();
-    //     }
-    // }, [selectTeam]);
 
     useEffect(() => {
         if (showTeam.length !== 0 || selectTeam !== '') {
@@ -125,8 +87,9 @@ const TeamLeaderPersonClickContent = () => {
                     onChange={e => setSelectYear(e.target.value)}
                     className="TeamLeader_Telecommuting_SearchedNames"
                 >
-                    <option value="2021">2021년</option>
+                    <option value="2023">2023년</option>
                     <option value="2022">2022년</option>
+                    <option value="2021">2021년</option>
                 </select>
                 <select
                     value={selectMonth}

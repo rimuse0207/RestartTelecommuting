@@ -69,10 +69,6 @@ type CsmNumberWorkingTypes = {
 const CsmNumberWorking = () => {
     const [CsmNumberData, setCsmNumberData] = useState<CsmNumberWorkingTypes[]>([]);
 
-    useEffect(() => {
-        getCsmWorkingData();
-    }, []);
-
     const getCsmWorkingData = async () => {
         try {
             const CsmWorking = await NothingGet(`/CE_Calendar_app_server/Csm_Number_Working`);
@@ -83,6 +79,10 @@ const CsmNumberWorking = () => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        getCsmWorkingData();
+    }, []);
 
     return (
         <CsmNumberWorkingMainPage>

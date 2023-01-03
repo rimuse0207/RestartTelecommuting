@@ -15,61 +15,61 @@ type socketProps = {
 const ConnectedPeopleShow = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const checkedCheck = useRef<any>('null');
-    const socket = useSelector((state: RootState) => state.Socket.socket);
-    const [connectNow, setConnectNow] = useState([]);
+    // const socket = useSelector((state: RootState) => state.Socket.socket);
+    // const [connectNow, setConnectNow] = useState([]);
     const [checkBoxBelong, setCheckBoxBelong] = useState<any>([]);
 
-    function isEmptyObj(obj: {}) {
-        if (obj.constructor === Object && Object.keys(obj).length === 0) {
-            return true;
-        }
+    // function isEmptyObj(obj: {}) {
+    //     if (obj.constructor === Object && Object.keys(obj).length === 0) {
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    useEffect(() => {
-        if (!isEmptyObj(socket)) {
-            socket.emit('getConnectedPeople', {});
-            socket.on('getConnectedPeople', (data: any) => {
-                setConnectNow(data.data);
-                console.log(data);
-            });
-            socket.on('disconnected', (data: any) => {
-                setConnectNow(data.data);
-                console.log(data);
-            });
-            socket.on('users_come_in', (data: any) => {
-                setConnectNow(data.data);
-                console.log(data);
-            });
-        }
-    }, [socket]);
+    // useEffect(() => {
+    //     if (!isEmptyObj(socket)) {
+    //         socket.emit('getConnectedPeople', {});
+    //         socket.on('getConnectedPeople', (data: any) => {
+    //             setConnectNow(data.data);
+    //             console.log(data);
+    //         });
+    //         socket.on('disconnected', (data: any) => {
+    //             setConnectNow(data.data);
+    //             console.log(data);
+    //         });
+    //         socket.on('users_come_in', (data: any) => {
+    //             setConnectNow(data.data);
+    //             console.log(data);
+    //         });
+    //     }
+    // }, [socket]);
 
-    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>, data: socketProps) => {
-        if (e.target.checked) {
-            const checked = [{ name: data.name, socketsID: data.socket_id, id: data.id }];
-            setCheckBoxBelong(checkBoxBelong.concat(checked));
-        } else {
-            setCheckBoxBelong(checkBoxBelong.filter((user: { id: string }) => user.id !== data.id));
-        }
-    };
+    // const handleChanges = (e: React.ChangeEvent<HTMLInputElement>, data: socketProps) => {
+    //     if (e.target.checked) {
+    //         const checked = [{ name: data.name, socketsID: data.socket_id, id: data.id }];
+    //         setCheckBoxBelong(checkBoxBelong.concat(checked));
+    //     } else {
+    //         setCheckBoxBelong(checkBoxBelong.filter((user: { id: string }) => user.id !== data.id));
+    //     }
+    // };
 
-    const handleClicks = () => {
-        socket.emit('VideoTeleCall', {
-            checkBoxBelong,
-            senderId: DecryptKey(InfomationState.id),
-            senderName: DecryptKey(InfomationState.name),
-        });
-        if (DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr') {
-            window.open(`https://ecomet11.disco.co.jp/${DecryptKey(InfomationState.id).split('@')[0]}`);
-        } else {
-            window.open(`https://meet.jit.si/${DecryptKey(InfomationState.id).split('@')[0]}`);
-        }
-    };
+    // const handleClicks = () => {
+    //     socket.emit('VideoTeleCall', {
+    //         checkBoxBelong,
+    //         senderId: DecryptKey(InfomationState.id),
+    //         senderName: DecryptKey(InfomationState.name),
+    //     });
+    //     if (DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr') {
+    //         window.open(`https://ecomet11.disco.co.jp/${DecryptKey(InfomationState.id).split('@')[0]}`);
+    //     } else {
+    //         window.open(`https://meet.jit.si/${DecryptKey(InfomationState.id).split('@')[0]}`);
+    //     }
+    // };
 
     return (
         <div style={{ width: '80%', margin: '0 auto', height: '100%' }}>
-            <div>
+            {/* <div>
                 <div>
                     <div>
                         <h2>DHKS</h2>
@@ -194,7 +194,7 @@ const ConnectedPeopleShow = () => {
                         호출
                     </button>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

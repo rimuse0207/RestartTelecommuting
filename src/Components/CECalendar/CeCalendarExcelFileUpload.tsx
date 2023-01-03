@@ -1,16 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FileDrop } from 'react-file-drop';
-import { UploadedFileDataUlBox, TableContainerDivMainPage } from '../BusniessExcelUploader/BusinessExcelUploderContent';
+import { UploadedFileDataUlBox } from '../BusniessExcelUploader/BusinessExcelUploderContent';
 import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
 import LoaderMainPage from '../Loader/LoaderMainPage';
+import CSMFileUploadListMainPage from './CSMNumberWorking/CSMFileUploadList/CSMFileUploadListMainPage';
 const CeCalendarExcelFileUploadMainDivBox = styled.div`
     width: 90%;
     margin: 0 auto;
     margin-top: 20px;
+    .InserData_Main_Container {
+        display: flex;
+    }
 `;
+
+const TableContainerDivMainPage = styled.div`
+    margin-top: 30px;
+    width: 50%;
+    overflow: auto;
+    height: 40vh;
+    border: 1px dashed lightgray;
+    padding: 10px;
+    thead {
+        font-size: 0.8em;
+    }
+    .blueone {
+        border-collapse: collapse;
+    }
+    .blueone th {
+        padding: 10px;
+        color: #168;
+        border: none;
+        background-color: #fff;
+        border-bottom: 3px solid #168;
+        text-align: left;
+    }
+    .blueone td {
+        color: #669;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .blueone tr:hover td {
+        color: #004;
+    }
+`;
+
 type FileuploadDatasType = {
     state: string;
     grade: string;
@@ -22,7 +58,9 @@ type FileuploadDatasType = {
 };
 
 const CeCalendarExcelFileUpload = () => {
+    const fileUploadDelete = useRef<any>(null);
     const [InsertedData, setInsertedData] = useState<FileuploadDatasType[]>([]);
+    const [DupleData, setDupleData] = useState<FileuploadDatasType[]>([]);
     const [file, setFile] = useState<any>([]);
     const handle = (files: any) => {
         let arr = Object.values(files);
@@ -63,6 +101,7 @@ const CeCalendarExcelFileUpload = () => {
             if (SendFileDataFromServer.data.dataSuccess) {
                 setFile([]);
                 setInsertedData(SendFileDataFromServer.data.DB_Insert_logs);
+                setDupleData(SendFileDataFromServer.data.DB_Deny_Insert_logs);
                 toast.show({
                     title: '업로드 완료.',
                     content: 'CSM 파일 데이터 DB에 저장 완료.',
@@ -70,6 +109,9 @@ const CeCalendarExcelFileUpload = () => {
                     DataSuccess: true,
                 });
                 setLoading(false);
+                if (fileUploadDelete.current) {
+                    fileUploadDelete.current.value = null;
+                }
             } else {
                 toast.show({
                     title: '업로드 실패.',
@@ -92,14 +134,18 @@ const CeCalendarExcelFileUpload = () => {
     };
     return (
         <CeCalendarExcelFileUploadMainDivBox>
-            <h3>CSM 정보 업로드</h3>
+            <div>
+                <h3>파일 업로드 리스트</h3>
+                <CSMFileUploadListMainPage></CSMFileUploadListMainPage>
+            </div>
 
+            <h3>CSM 정보 업로드</h3>
             <div className="upload-file-wrapper">
                 <FileDrop onDrop={(files, event) => handle(files)}>
                     <p>업로드 하실 파일을 드래그 또는 클릭 하여 추가 </p>
                     <label htmlFor="same" className="browse-btn">
                         클릭
-                        <input id="same" type="file" multiple onChange={e => handle(e.target.files)}></input>
+                        <input ref={fileUploadDelete} id="same" type="file" multiple onChange={e => handle(e.target.files)}></input>
                     </label>
                 </FileDrop>
             </div>
@@ -124,37 +170,71 @@ const CeCalendarExcelFileUpload = () => {
                 <div>{file.length > 0 ? <button onClick={() => SaveDataFromFile()}>저장</button> : <></>}</div>
             </div>
 
-            <TableContainerDivMainPage>
-                <h3>추가된 데이터</h3>
-                <table className="blueone">
-                    <thead>
-                        <tr>
-                            <th>상태</th>
-                            <th>등급</th>
-                            <th>발행일</th>
-                            <th>CSM번호</th>
-                            <th>장비Model</th>
-                            <th>제번</th>
-                            <th>고객사</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {InsertedData.map((list, j) => {
-                            return (
-                                <tr>
-                                    <td>{j + 1}</td>
-                                    <td>{list.state}</td>
-                                    <td>{list.grade}</td>
-                                    <td>{list.CSMNumber}</td>
-                                    <td>{list.ModelNumber}</td>
-                                    <td>{list.Binds}</td>
-                                    <td>{list.custom}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </TableContainerDivMainPage>
+            <div className="InserData_Main_Container">
+                <TableContainerDivMainPage>
+                    <h3>추가된 데이터</h3>
+                    <table className="blueone">
+                        <thead>
+                            <tr>
+                                <th>상태</th>
+                                <th>등급</th>
+                                <th>발행일</th>
+                                <th>CSM번호</th>
+                                <th>장비Model</th>
+                                <th>제번</th>
+                                <th>고객사</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {InsertedData.map((list, j) => {
+                                return (
+                                    <tr>
+                                        <td>{j + 1}</td>
+                                        <td>{list.state}</td>
+                                        <td>{list.grade}</td>
+                                        <td>{list.CSMNumber}</td>
+                                        <td>{list.ModelNumber}</td>
+                                        <td>{list.Binds}</td>
+                                        <td>{list.custom}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </TableContainerDivMainPage>
+                <TableContainerDivMainPage>
+                    <h3>중복된 데이터</h3>
+                    <table className="blueone">
+                        <thead>
+                            <tr>
+                                <th>상태</th>
+                                <th>등급</th>
+                                <th>발행일</th>
+                                <th>CSM번호</th>
+                                <th>장비Model</th>
+                                <th>제번</th>
+                                <th>고객사</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {DupleData.map((list, j) => {
+                                return (
+                                    <tr>
+                                        <td>{j + 1}</td>
+                                        <td>{list.state}</td>
+                                        <td>{list.grade}</td>
+                                        <td>{list.CSMNumber}</td>
+                                        <td>{list.ModelNumber}</td>
+                                        <td>{list.Binds}</td>
+                                        <td>{list.custom}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </TableContainerDivMainPage>
+            </div>
+            <div style={{ marginBottom: '50px' }}></div>
             <LoaderMainPage loading={loading}></LoaderMainPage>
         </CeCalendarExcelFileUploadMainDivBox>
     );

@@ -17,6 +17,7 @@ import { DecryptKey } from '../../../../../../config';
 import { get_CSM_DataThunk } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { paramasTypes } from '../../../../CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
+import { toast } from '../../../../../ToastMessage/ToastManager';
 
 registerLocale('ko', ko);
 const CeDistanceUpdateMainPageMainDivBox = styled.div`
@@ -242,8 +243,8 @@ const CeDistanceUpdateMainPageMainDivBox = styled.div`
 `;
 
 type csm_distance_lists_Types = {
-    value: string;
-    label: string;
+    value: string | null;
+    label: string | null;
 };
 
 type csm_Binds_lists_Types = {
@@ -255,6 +256,7 @@ type csm_Binds_lists_Types = {
     csm_number_respond_working_model: string;
     csm_number_respond_working_working_hours: number;
     csm_number_respond_working_working_count: number;
+    csm_basic_data_custom: string;
 };
 
 type CeDistanceState_Types = {
@@ -282,21 +284,22 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         distance_date: new Date(),
         start_location: '판교',
         distance_company: {
-            value: '',
-            label: '',
+            value: null,
+            label: null,
         },
         distance_csmNumber: {
-            value: '',
-            label: '',
+            value: null,
+            label: null,
         },
         distance_equitModel: {
-            value: '',
-            label: '',
+            value: null,
+            label: null,
         },
         distance_binds: [],
         // Select_team: InfomationState.team,
         Select_team: 'grinder',
         Select_Id: DecryptKey(InfomationState.id),
+
         stay_chek: false,
         stay_day: 0,
     });
@@ -331,8 +334,8 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
             setCeDistanceState({
                 ...CeDistanceState,
                 distance_equitModel: {
-                    value: '',
-                    label: '',
+                    value: null,
+                    label: null,
                 },
             });
             Csm_Distance_Info_Data_EquitMentModel();
@@ -387,6 +390,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                 }
 
                 // setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
+                console.log(SelectedDatas_Binds);
                 setCsm_Binds_lists(SelectedDatas_Binds);
             }
         } catch (error) {
@@ -410,6 +414,21 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         }
         // 선택 되어 있지 않을 시,
         else {
+            /// 고객사가 같지 않을 경우
+            for (var i = 0; i < CeDistanceState.distance_binds.length; i++) {
+                if (CeDistanceState.distance_binds[i].csm_basic_data_custom !== item.csm_basic_data_custom) {
+                    toast.show({
+                        title: '고객사 일치 실패',
+                        content: `${item.csm_basic_data_custom}의 고객사가 일치 하지 않아 등록 되지 않습니다.`,
+                        duration: 4000,
+                        DataSuccess: false,
+                    });
+                    return;
+                }
+            }
+
+            //고객사 일치 등록 완료
+
             const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
                 list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: true }
             );
@@ -666,6 +685,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                 <th>CSM 번호</th>
                                 <th>장비 모델</th>
                                 <th>제번</th>
+                                <th>고객사</th>
                                 <th>작업 시간</th>
                                 <th>작업 인원</th>
                                 <th>삭제</th>
@@ -679,6 +699,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                         <td>{list.csm_number_respond_working_csm_number}</td>
                                         <td>{list.csm_number_respond_working_model}</td>
                                         <td>{list.csm_number_respond_working_binds}</td>
+                                        <td>{list.csm_basic_data_custom}</td>
                                         {j === 0 ? (
                                             <td rowSpan={CeDistanceState.distance_binds.length}>
                                                 {list.csm_number_respond_working_working_hours} 시간

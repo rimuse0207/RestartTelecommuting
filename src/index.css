@@ -13,11 +13,15 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
 }
+
 @font-face {
     font-family: 'GowunBatang-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');

@@ -20,45 +20,6 @@ const TeamSelectOTSpace = () => {
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
 
     useEffect(() => {
-        // const id = DecryptKey(InfomationState.id);
-        // if (
-        //     id === 'sjyoo@dhk.co.kr' ||
-        //     id === 'sjkim@dhk.co.kr' ||
-        //     id === 'jycha@dhk.co.kr' ||
-        //     id === 'jhlee1@dhk.co.kr' ||
-        //     id === 'htchoi@dhk.co.kr' ||
-        //     id === 'jmlee@dhk.co.kr' ||
-        //     id === 'dikim@dhk.co.kr'
-        // ) {
-        //     setShowTeam(['', '부품소재', '장비영업', '영업기술', '경영지원', '아산CE', 'Dicer', 'Grinder', 'Laser', 'OEM']);
-        // } else if (id === 'sjpark@dhk.co.kr') {
-        //     setShowTeam(['경영지원']);
-        //     setSelectTeam('경영지원');
-        // } else if (id === 'jhgoo@dhk.co.kr') {
-        //     setShowTeam(['', '아산CE', 'Dicer', 'Laser', 'Grinder']);
-        // } else if (id === 'kcahn@dhk.co.kr') {
-        //     setShowTeam(['', '장비영업', '부품소재', '영업기술', 'OEM']);
-        // } else if (id === 'ychong@dhk.co.kr') {
-        //     setShowTeam(['', '아산CE', 'A_Dicer', 'A_Laser', 'A_Grinder']);
-        // } else if (id === 'hjlee@dhk.co.kr') {
-        //     setShowTeam(['Dicer']);
-        //     setSelectTeam('dicer');
-        // } else if (id === 'wbjung@dhk.co.kr') {
-        //     setShowTeam(['Laser']);
-        //     setSelectTeam('laser');
-        // } else if (id === 'jhshin@dhk.co.kr') {
-        //     setShowTeam(['Grinder']);
-        //     setSelectTeam('grinder');
-        // } else if (id === 'cwjun@dhk.co.kr') {
-        //     setShowTeam(['장비영업']);
-        //     setSelectTeam('장비영업');
-        // } else if (id === 'ikkim@dhk.co.kr') {
-        //     setShowTeam(['OEM']);
-        //     setSelectTeam('OEM');
-        // } else if (id === 'siyi@dhk.co.kr') {
-        //     setShowTeam(['부품소재']);
-        //     setSelectTeam('부품소재');
-        // }
         getTeamsDataFromServer();
     }, []);
     const getTeamsDataFromServer = async () => {
@@ -102,8 +63,9 @@ const TeamSelectOTSpace = () => {
             <div className="TeamSelectOTSpace_main_div">
                 <div className="TeamSelectOTSpace_select_box_div">
                     <select value={selectYear} onChange={e => setSelectYear(e.target.value)}>
-                        <option value="2021">2021년</option>
+                        <option value="2023">2023년</option>
                         <option value="2022">2022년</option>
+                        <option value="2021">2021년</option>
                     </select>
                     <select value={selectMonth} onChange={e => setSelectMonth(e.target.value)}>
                         <option value="01">1월</option>

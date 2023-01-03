@@ -80,8 +80,9 @@ const TeamLeaderOTPage = () => {
                         onChange={e => setSelectYear(e.target.value)}
                         className="TeamLeader_Telecommuting_SearchedNames"
                     >
-                        <option value="2021">2021년</option>
+                        <option value="2023">2023년</option>
                         <option value="2022">2022년</option>
+                        <option value="2021">2021년</option>
                     </select>
                     <select
                         value={selectMonth}

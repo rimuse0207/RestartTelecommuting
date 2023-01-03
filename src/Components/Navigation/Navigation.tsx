@@ -31,7 +31,7 @@ Modal.setAppElement('#ModalSet');
 
 const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const history = useHistory();
-    const socket = useSelector((state: RootState) => state.Socket.socket);
+    // const socket = useSelector((state: RootState) => state.Socket.socket);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const BusinessAdminAcessState = useSelector((state: RootState) => state.Access_Control.BusinessAdminAccess);
     const BusinessAccess = useSelector((state: RootState) => state.Access_Control.BusinessAccess);
@@ -42,10 +42,10 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const [ETCMenuClicks, setETCMenuClicks] = useState(true);
     const [onClicked, setOnClickedSet] = useState(false);
     const handleLogout = () => {
-        socket.emit('LogOut', {
-            message: 'user 나감',
-            socketsId: socket.id,
-        });
+        // socket.emit('LogOut', {
+        //     message: 'user 나감',
+        //     socketsId: socket.id,
+        // });
 
         sessionStorage.clear();
         dispatch(getAccessDataError());
@@ -219,8 +219,11 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         <ul>
                             {ETCMenuClicks ? (
                                 <div className="slideDown">
-                                    <Link to="/ConnectedNow">
+                                    {/* <Link to="/ConnectedNow">
                                         <li>상대방 호출</li>
+                                    </Link> */}
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.165:3332')}>
+                                        <li>회의실 예약</li>
                                     </Link>
                                     <Link to="/CECalendar/1/ALL">
                                         <li>CSM</li>
