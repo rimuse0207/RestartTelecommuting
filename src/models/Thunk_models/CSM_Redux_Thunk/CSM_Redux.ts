@@ -54,11 +54,28 @@ export interface CeCalendarTableProps {
     csm_user_input_data_write_date: null | string;
     csm_user_input_data_writer_id: null | string;
     name: string | null;
+    select: boolean;
+    nowSelected: boolean;
+    csm_number_respond_working_indexs: number | null;
+    csm_number_respond_working_binds: string | null;
+    csm_number_respond_working_csm_number: string | null;
+    csm_number_respond_working_model: string | null;
+    csm_number_respond_working_working_hours: number | null;
+    csm_number_respond_working_working_count: number | null;
+    csm_user_input_data_apply_code: null | string;
+    id: null | string;
+    team: null | string;
+    csm_data_slect: number;
 }
 
 const GET_CSM_Data_GET = 'CSM_Data/GET_CSM_Data_GET';
 const GET_CSM_Data_SUCCESS = 'CSM_Data/GET_CSM_Data_SUCCESS';
 const GET_CSM_Data_ERROR = 'CSM_Data/GET_CSM_Data_ERROR';
+
+const GET_CSM_DATA_CHECKED = 'GET_CSM_DATA_CHECKED/GET_CSM_DATA_CHECKED';
+const GET_CSM_DATA_CHECKED_DELETE = 'GET_CSM_DATA_CHECKED_DELETE/GET_CSM_DATA_CHECKED_DELETE';
+
+const GET_CSM_CE_CALENDAR_CHECKED = 'GET_CSM_CE_CALENDAR_CHECKED/GET_CSM_CE_CALENDAR_CHECKED';
 
 const get_CSM_DataAsync = createAsyncAction(GET_CSM_Data_GET, GET_CSM_Data_SUCCESS, GET_CSM_Data_ERROR)<
     undefined,
@@ -73,6 +90,9 @@ const get_CSM_Data = async (GetCSMFilteringData: any, pagenumber: string, Select
             pagenumber,
             SelectTeam,
         });
+
+        console.log(DataGetSomeCECalendar);
+
         if (DataGetSomeCECalendar.data.dataSuccess) {
             return DataGetSomeCECalendar.data;
         } else {
@@ -119,6 +139,21 @@ export function get_CSM_DataThunk(
     };
 }
 
+export const CSM_Data_Checked_Func = (data: CeCalendarTableProps[]) => ({
+    type: GET_CSM_DATA_CHECKED,
+    payload: data,
+});
+
+export const CSM_Data_Checked_Delete_Func = (data: CeCalendarTableProps[]) => ({
+    type: GET_CSM_DATA_CHECKED_DELETE,
+    payload: data,
+});
+
+export const CSM_CE_CALENDAR_CHECKED_Func = (data: CeCalendarTableProps[]) => ({
+    type: GET_CSM_CE_CALENDAR_CHECKED,
+    payload: data,
+});
+
 const initialState: CSM_DATA_State = {
     CSM_Data: {
         loading: false,
@@ -158,6 +193,27 @@ const CSMDataGetting = createReducer<CSM_DATA_State, CSM_DATA_Action>(initialSta
             data: [],
             dataChecked: false,
             pagenumber: action.payload.Count[0] ? action.payload.Count[0].counts : 0,
+        },
+    }),
+    [GET_CSM_DATA_CHECKED]: (state, action) => ({
+        ...state,
+        CSM_Data: {
+            ...state.CSM_Data,
+            data: action.payload,
+        },
+    }),
+    [GET_CSM_DATA_CHECKED_DELETE]: (state, action) => ({
+        ...state,
+        CSM_Data: {
+            ...state.CSM_Data,
+            data: action.payload,
+        },
+    }),
+    [GET_CSM_CE_CALENDAR_CHECKED]: (state, action) => ({
+        ...state,
+        CSM_Data: {
+            ...state.CSM_Data,
+            data: action.payload,
         },
     }),
 });

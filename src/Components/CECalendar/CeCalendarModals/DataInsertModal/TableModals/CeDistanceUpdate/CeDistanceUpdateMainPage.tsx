@@ -14,10 +14,15 @@ import { OneParamsPost } from '../../../../../API/POSTApi/PostApi';
 import { RootState } from '../../../../../../models';
 import { useDispatch, useSelector } from 'react-redux';
 import { DecryptKey } from '../../../../../../config';
-import { get_CSM_DataThunk } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { get_CSM_DataThunk, CeCalendarTableProps } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { paramasTypes } from '../../../../CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
 import { toast } from '../../../../../ToastMessage/ToastManager';
+import { CSM_User_Used_Data_Register_Func } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
+import {
+    CSM_Selected_Data_List_Reset_Func,
+    CSM_Selected_Data_List_Func,
+} from '../../../../../../models/CSMFilteringRedux/CSMSelectedRedux';
 
 registerLocale('ko', ko);
 const CeDistanceUpdateMainPageMainDivBox = styled.div`
@@ -247,29 +252,23 @@ type csm_distance_lists_Types = {
     label: string | null;
 };
 
-type csm_Binds_lists_Types = {
-    select: boolean;
-    nowSelected: boolean;
-    csm_number_respond_working_indexs: number;
-    csm_number_respond_working_binds: string;
-    csm_number_respond_working_csm_number: string;
-    csm_number_respond_working_model: string;
-    csm_number_respond_working_working_hours: number;
-    csm_number_respond_working_working_count: number;
-    csm_basic_data_custom: string;
-};
-
 type CeDistanceState_Types = {
     distance_date: Date;
     distance_company: csm_distance_lists_Types;
     distance_csmNumber: csm_distance_lists_Types;
     distance_equitModel: csm_distance_lists_Types;
-    distance_binds: csm_Binds_lists_Types[];
+    distance_binds: CeCalendarTableProps[];
     Select_team: string;
     Select_Id: string;
     start_location: string;
     stay_chek: boolean;
     stay_day: number;
+};
+
+type csm_Binds_lists_Types = {
+    csm_Binds_Lists_Data: CeCalendarTableProps;
+    select: boolean;
+    nowSelected: boolean;
 };
 
 type CeDistanceUpdateMainPagePropsType = {
@@ -279,7 +278,7 @@ type CeDistanceUpdateMainPagePropsType = {
 const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsType) => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
+    const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
     const [CeDistanceState, setCeDistanceState] = useState<CeDistanceState_Types>({
         distance_date: new Date(),
         start_location: '판교',
@@ -296,8 +295,8 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
             label: null,
         },
         distance_binds: [],
-        // Select_team: InfomationState.team,
-        Select_team: 'grinder',
+        Select_team: InfomationState.team,
+        // Select_team: 'grinder',
         Select_Id: DecryptKey(InfomationState.id),
 
         stay_chek: false,
@@ -330,7 +329,9 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
     //장비모델 렌더링 ( CSM번호 변경시 장비모델 불러오기 )
 
     useEffect(() => {
-        if (CeDistanceState.distance_csmNumber) {
+        if (setCsm_csmNumber_lists.length === 0) {
+            return;
+        } else if (CeDistanceState.distance_csmNumber) {
             setCeDistanceState({
                 ...CeDistanceState,
                 distance_equitModel: {
@@ -359,7 +360,9 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
     //제번 렌더링 ( 장비모델 변경시 제번 불러오기 )
 
     useEffect(() => {
-        if (CeDistanceState.distance_equitModel) {
+        if (csm_equitModel_lists.length === 0) {
+            return;
+        } else if (CeDistanceState.distance_equitModel) {
             Csm_Distance_Info_Data_Binds();
         }
     }, [CeDistanceState.distance_equitModel]);
@@ -370,28 +373,9 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                 csm_number: CeDistanceState.distance_csmNumber.value,
                 csm_models: CeDistanceState.distance_equitModel.value,
             });
-            const SelectedDatas_Binds = [];
+            console.log(getWriterDatas_Binds);
             if (getWriterDatas_Binds.data.dataSuccess) {
-                const A_data = getWriterDatas_Binds.data.setCsm_Binds_lists_data;
-                const B_data = CeDistanceState.distance_binds;
-
-                for (var i = 0; i < A_data.length; i++) {
-                    let dataCheck = false;
-                    for (var j = 0; j < B_data.length; j++) {
-                        if (A_data[i].csm_number_respond_working_indexs === B_data[j].csm_number_respond_working_indexs) {
-                            SelectedDatas_Binds.push({ ...A_data[i], select: true });
-                            dataCheck = true;
-                            break;
-                        }
-                    }
-                    if (!dataCheck) {
-                        SelectedDatas_Binds.push(A_data[i]);
-                    }
-                }
-
-                // setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
-                console.log(SelectedDatas_Binds);
-                setCsm_Binds_lists(SelectedDatas_Binds);
+                setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
             }
         } catch (error) {
             console.log(error);
@@ -400,26 +384,33 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
 
     // 제번 클릭 시 데이터 추가 및 삭제
     const handleClicksBinds = (item: csm_Binds_lists_Types) => {
+        console.log(item);
         //선택 되어 있을 시,
         if (item.select) {
             const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
-                list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: false }
+                list.csm_Binds_Lists_Data.csm_number_respond_working_indexs !== item.csm_Binds_Lists_Data.csm_number_respond_working_indexs
+                    ? list
+                    : { ...list, select: false }
             );
             setCsm_Binds_lists(ChangeCsm_Binds_lists);
-
             const Change_Scelect_Binds = CeDistanceState.distance_binds.filter(binds =>
-                binds.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? binds : ''
+                binds.csm_number_respond_working_indexs !== item.csm_Binds_Lists_Data.csm_number_respond_working_indexs ? binds : ''
             );
             setCeDistanceState({ ...CeDistanceState, distance_binds: Change_Scelect_Binds });
+            const CSM_Selected_Data_List_Delete = CSM_Selected_Data_List.filter(
+                list => list.csm_basic_data_csm_key !== item.csm_Binds_Lists_Data.csm_basic_data_csm_key
+            );
+            // 선택항목 Redux에서 제거
+            dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List_Delete));
         }
         // 선택 되어 있지 않을 시,
         else {
             /// 고객사가 같지 않을 경우
-            for (var i = 0; i < CeDistanceState.distance_binds.length; i++) {
-                if (CeDistanceState.distance_binds[i].csm_basic_data_custom !== item.csm_basic_data_custom) {
+            for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                if (CSM_Selected_Data_List[i].csm_basic_data_custom !== item.csm_Binds_Lists_Data.csm_basic_data_custom) {
                     toast.show({
                         title: '고객사 일치 실패',
-                        content: `${item.csm_basic_data_custom}의 고객사가 일치 하지 않아 등록 되지 않습니다.`,
+                        content: `${item.csm_Binds_Lists_Data.csm_basic_data_custom}의 고객사가 일치 하지 않아 등록 되지 않습니다.`,
                         duration: 4000,
                         DataSuccess: false,
                     });
@@ -430,48 +421,67 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
             //고객사 일치 등록 완료
 
             const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
-                list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: true }
+                list.csm_Binds_Lists_Data.csm_number_respond_working_indexs !== item.csm_Binds_Lists_Data.csm_number_respond_working_indexs
+                    ? list
+                    : { ...list, select: true }
             );
             setCsm_Binds_lists(ChangeCsm_Binds_lists);
-            setCeDistanceState({ ...CeDistanceState, distance_binds: CeDistanceState.distance_binds.concat(item) });
+            dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(item.csm_Binds_Lists_Data)));
+            // setCeDistanceState({ ...CeDistanceState, distance_binds: CeDistanceState.distance_binds.concat(item) });
         }
     };
 
     // 선택 된 제번 데이터 추가 및 삭제
-    const handleDeleteData = (item: csm_Binds_lists_Types) => {
+    const handleDeleteData = (item: CeCalendarTableProps) => {
         // console.log(item);
         const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
-            list.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? list : { ...list, select: false }
+            list.csm_Binds_Lists_Data.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs
+                ? list
+                : { ...list, select: false }
         );
         setCsm_Binds_lists(ChangeCsm_Binds_lists);
-
         const Change_Scelect_Binds = CeDistanceState.distance_binds.filter(binds =>
             binds.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs ? binds : ''
         );
         setCeDistanceState({ ...CeDistanceState, distance_binds: Change_Scelect_Binds });
+
+        const CSM_Selected_Data_List_Delete = CSM_Selected_Data_List.filter(
+            list => list.csm_basic_data_csm_key !== item.csm_basic_data_csm_key
+        );
+        // 선택항목 Redux에서 제거
+        dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List_Delete));
     };
 
     // 데이터 저장 취소
     const CloseHandleClicks = () => {
         if (window.confirm('정말 나가시겠습니까?')) {
+            dispatch(CSM_Selected_Data_List_Reset_Func());
             closeModal();
         }
     };
 
     const handleClickStoreFromServer = async () => {
-        console.log(CeDistanceState);
-
         try {
-            const binds_data_send_from_server = await OneParamsPost('/CE_Calendar_app_server/binds_data_send', CeDistanceState);
+            if (!CeDistanceState.distance_company.value) {
+                alert('고객사명을 선택 해주세요.');
+                return;
+            }
+            console.log(CSM_Selected_Data_List);
+            dispatch(CSM_User_Used_Data_Register_Func(CSM_Selected_Data_List));
+            const binds_data_send_from_server = await OneParamsPost('/CE_Calendar_app_server/binds_data_send', {
+                CeDistanceState,
+                CSM_Selected_Data_List,
+            });
 
             if (binds_data_send_from_server.data.dataSuccess) {
                 console.log(binds_data_send_from_server);
                 if (binds_data_send_from_server.data.UpdateSuccess) {
-                    await dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+                    // dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+
                     alert('데이터 등록 완료.');
                     closeModal();
                 } else {
-                    alert('아직 기본 CSM 정보가 없습니다. 이광민프로에게 정보 추가 이후에 다시 시도해 주세요.');
+                    alert('아직 이동거리 시간에 대한 CSM 정보가 없습니다.\n 이광민프로에게 정보 추가 이후에 다시 시도해 주세요.');
                 }
             } else {
             }
@@ -629,42 +639,45 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                     <div className="Binds_Container">
                         <h3>제번 목록</h3>
                         <ul>
-                            {csm_Binds_lists.map((list: csm_Binds_lists_Types, i) => {
+                            {csm_Binds_lists.map(list => {
                                 return list.nowSelected ? (
                                     <li
-                                        key={list.csm_number_respond_working_indexs}
+                                        key={list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}
                                         style={{ textDecorationLine: 'line-through', opacity: '0.5' }}
                                     >
                                         <div className="InputBox_Flex">
                                             <div>
                                                 <input
-                                                    id={`${list.csm_number_respond_working_indexs}`}
+                                                    id={`${list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}`}
                                                     type="checkbox"
                                                     checked={false}
                                                     readOnly
                                                 ></input>
                                             </div>
                                             <div>
-                                                <label htmlFor={`${list.csm_number_respond_working_indexs}`}>
-                                                    {list.csm_number_respond_working_binds}
+                                                <label htmlFor={`${list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}`}>
+                                                    {list.csm_Binds_Lists_Data.csm_number_respond_working_binds}
                                                 </label>
                                             </div>
                                         </div>
                                     </li>
                                 ) : (
-                                    <li onChange={() => handleClicksBinds(list)} key={list.csm_number_respond_working_indexs}>
+                                    <li
+                                        onChange={() => handleClicksBinds(list)}
+                                        key={list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}
+                                    >
                                         <div className="InputBox_Flex">
                                             <div>
                                                 <input
-                                                    id={`${list.csm_number_respond_working_indexs}`}
+                                                    id={`${list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}`}
                                                     type="checkbox"
                                                     checked={list.select}
                                                     readOnly
                                                 ></input>
                                             </div>
                                             <div>
-                                                <label htmlFor={`${list.csm_number_respond_working_indexs}`}>
-                                                    {list.csm_number_respond_working_binds}
+                                                <label htmlFor={`${list.csm_Binds_Lists_Data.csm_number_respond_working_indexs}`}>
+                                                    {list.csm_Binds_Lists_Data.csm_number_respond_working_binds}
                                                 </label>
                                             </div>
                                         </div>
@@ -676,7 +689,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                 </div>
             </div>
             <div>
-                <div className="Selected_distance_binds_Data_Container">
+                {/* <div className="Selected_distance_binds_Data_Container">
                     <h3>등록 데이터</h3>
                     <table className="type09">
                         <thead>
@@ -726,7 +739,60 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                             })}
                         </tbody>
                     </table>
+                </div> */}
+
+                <div className="Selected_distance_binds_Data_Container">
+                    <h3>등록 데이터</h3>
+                    <table className="type09">
+                        <thead>
+                            <tr>
+                                <th>인덱스</th>
+                                <th>CSM 번호</th>
+                                <th>장비 모델</th>
+                                <th>제번</th>
+                                <th>고객사</th>
+                                <th>작업 시간</th>
+                                <th>작업 인원</th>
+                                <th>삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {CSM_Selected_Data_List.map((list, j) => {
+                                return (
+                                    <tr key={list.csm_number_respond_working_indexs}>
+                                        <td>{j + 1}</td>
+                                        <td>{list.csm_number_respond_working_csm_number}</td>
+                                        <td>{list.csm_number_respond_working_model}</td>
+                                        <td>{list.csm_number_respond_working_binds}</td>
+                                        <td>{list.csm_basic_data_custom}</td>
+                                        {j === 0 ? (
+                                            <td rowSpan={CSM_Selected_Data_List.length}>
+                                                {list.csm_number_respond_working_working_hours} 시간
+                                            </td>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {j === 0 ? (
+                                            <td rowSpan={CSM_Selected_Data_List.length}>
+                                                {list.csm_number_respond_working_working_count} 명
+                                            </td>
+                                        ) : (
+                                            ''
+                                        )}
+
+                                        <td>
+                                            <MdOutlineCancel
+                                                onClick={() => handleDeleteData(list)}
+                                                className="Delete_Binds_Cancel_Icons"
+                                            ></MdOutlineCancel>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
+
                 {/* <ul className="Selected_distance_binds_Data_Container">
                     {CeDistanceState.distance_binds.map(list => {
                         return (

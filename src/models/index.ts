@@ -19,6 +19,7 @@ import CSMFiltering from './CSMFilteringRedux/CSMFilteringRedux';
 import Nav_AccessTokens from './Nav_Access_Redux/Nav_Access_Redux';
 import CSMDataGetting from './Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import CSM_User_Used_DataGetting from './Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
+import CSM_Selected_Data_List from './CSMFilteringRedux/CSMSelectedRedux';
 const rootReducer = combineReducers({
     // Socket,
     ChattingMember,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
     Nav_AccessTokens,
     CSMDataGetting,
     CSM_User_Used_DataGetting,
+    CSM_Selected_Data_List,
 });
 
 export default rootReducer;
