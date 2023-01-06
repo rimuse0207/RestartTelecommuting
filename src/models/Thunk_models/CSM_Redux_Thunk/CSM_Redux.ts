@@ -76,6 +76,7 @@ const GET_CSM_DATA_CHECKED = 'GET_CSM_DATA_CHECKED/GET_CSM_DATA_CHECKED';
 const GET_CSM_DATA_CHECKED_DELETE = 'GET_CSM_DATA_CHECKED_DELETE/GET_CSM_DATA_CHECKED_DELETE';
 
 const GET_CSM_CE_CALENDAR_CHECKED = 'GET_CSM_CE_CALENDAR_CHECKED/GET_CSM_CE_CALENDAR_CHECKED';
+const CSM_DDATA_RESISTER_FINISHED_DELETE = 'CSM_DDATA_RESISTER_FINISHED_DELETE/CSM_DDATA_RESISTER_FINISHED_DELETE';
 
 const get_CSM_DataAsync = createAsyncAction(GET_CSM_Data_GET, GET_CSM_Data_SUCCESS, GET_CSM_Data_ERROR)<
     undefined,
@@ -90,9 +91,6 @@ const get_CSM_Data = async (GetCSMFilteringData: any, pagenumber: string, Select
             pagenumber,
             SelectTeam,
         });
-
-        console.log(DataGetSomeCECalendar);
-
         if (DataGetSomeCECalendar.data.dataSuccess) {
             return DataGetSomeCECalendar.data;
         } else {
@@ -154,6 +152,11 @@ export const CSM_CE_CALENDAR_CHECKED_Func = (data: CeCalendarTableProps[]) => ({
     payload: data,
 });
 
+export const CSM_Data_Resister_Finished_Delete_Func = (data: CeCalendarTableProps[]) => ({
+    type: CSM_DDATA_RESISTER_FINISHED_DELETE,
+    payload: data,
+});
+
 const initialState: CSM_DATA_State = {
     CSM_Data: {
         loading: false,
@@ -210,6 +213,13 @@ const CSMDataGetting = createReducer<CSM_DATA_State, CSM_DATA_Action>(initialSta
         },
     }),
     [GET_CSM_CE_CALENDAR_CHECKED]: (state, action) => ({
+        ...state,
+        CSM_Data: {
+            ...state.CSM_Data,
+            data: action.payload,
+        },
+    }),
+    [CSM_DDATA_RESISTER_FINISHED_DELETE]: (state, action) => ({
         ...state,
         CSM_Data: {
             ...state.CSM_Data,

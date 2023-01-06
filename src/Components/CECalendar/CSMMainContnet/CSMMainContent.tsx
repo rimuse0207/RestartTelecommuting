@@ -9,10 +9,14 @@ const CSMMainContentMainDivBox = styled.div`
     border: 1px solid black;
 `;
 
-const CSMMainContent = () => {
+export type CSMMainContentProps_Types = {
+    hiddenChecked: boolean;
+};
+
+const CSMMainContent = ({ hiddenChecked }: CSMMainContentProps_Types) => {
     return (
         <CSMMainContentMainDivBox>
-            <CSMNothingUserContent></CSMNothingUserContent>
+            <CSMNothingUserContent hiddenChecked={hiddenChecked}></CSMNothingUserContent>
             <CSMUsedUserContent></CSMUsedUserContent>
         </CSMMainContentMainDivBox>
     );

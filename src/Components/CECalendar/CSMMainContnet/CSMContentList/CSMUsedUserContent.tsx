@@ -8,7 +8,10 @@ import { toast } from '../../../ToastMessage/ToastManager';
 import { CeCalendarTableProps } from '../../CeCalendarMasterPage';
 import { FcInfo } from 'react-icons/fc';
 import moment from 'moment';
-import { get_CSM_User_Used_DataThunk } from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
+import {
+    CSM_User_Used_CE_CALENDAR_CHECKED_Func,
+    get_CSM_User_Used_DataThunk,
+} from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
 
 const CSMUsedUserContentMainDivBox = styled.div`
     border: 1px solid black;
@@ -195,13 +198,27 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_publish: '', csm_calendar_publish_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_publish: '',
+                                      csm_calendar_publish_id: '',
+                                  }
+                                : list;
+                        })
                     );
+
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === '신청') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -210,13 +227,27 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_apply: '', csm_calendar_apply_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_apply: '',
+                                      csm_calendar_apply_id: '',
+                                  }
+                                : list;
+                        })
                     );
+
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === '입고') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -225,13 +256,27 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_entering: '', csm_calendar_entering_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_entering: '',
+                                      csm_calendar_entering_id: '',
+                                  }
+                                : list;
+                        })
                     );
+
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === 'CE') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -240,13 +285,26 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_ce: '', csm_calendar_ce_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_ce: '',
+                                      csm_calendar_ce_id: '',
+                                  }
+                                : list;
+                        })
                     );
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === '고객') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -255,13 +313,26 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_custom_date: '', csm_calendar_custom_date_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_custom_date: '',
+                                      csm_calendar_custom_date_id: '',
+                                  }
+                                : list;
+                        })
                     );
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === 'PAY') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -270,13 +341,26 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_pay: '', csm_calendar_pay_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_pay: '',
+                                      csm_calendar_pay_id: '',
+                                  }
+                                : list;
+                        })
                     );
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             } else if (text === 'finished') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -285,13 +369,25 @@ const CSMUsedUserContent = () => {
                     names: DecryptKey(InfomationState.name),
                 });
                 if (DataUpdateCECalendar.data.dataSuccess) {
-                    setData(
-                        data.map(item =>
-                            item.csm_calendar_csm_key === datas.csm_calendar_csm_key
-                                ? { ...item, csm_calendar_finall: '', csm_calendar_finall_id: '' }
-                                : item
-                        )
+                    const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                        item.SecondData.map((list, j) => {
+                            return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                                ? {
+                                      ...list,
+                                      csm_calendar_finall: '',
+                                      csm_calendar_finall_id: '',
+                                  }
+                                : list;
+                        })
                     );
+                    const FinallData = [];
+                    for (var i = 0; i < Second_Change_Datas.length; i++) {
+                        FinallData.push({
+                            FirstData: Second_Change_Datas[i][0],
+                            SecondData: Second_Change_Datas[i],
+                        });
+                    }
+                    dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
                 }
             }
         } catch (error) {
@@ -299,25 +395,36 @@ const CSMUsedUserContent = () => {
         }
     };
 
-    const handleClicks = async (datas: any, text: string) => {
+    const handleClicks = async (datas: CeCalendarTableProps, text: string) => {
         if (text === '발행') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
                 selectEnter: '발행',
                 datas,
                 names: DecryptKey(InfomationState.name),
             });
+
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_publish: moment().format('YYYY-MM-DD'),
                                   csm_calendar_publish_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === '신청') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -326,17 +433,27 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_apply: moment().format('YYYY-MM-DD'),
                                   csm_calendar_apply_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === '입고') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -345,17 +462,27 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_entering: moment().format('YYYY-MM-DD'),
                                   csm_calendar_entering_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === 'CE') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -364,17 +491,26 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_ce: moment().format('YYYY-MM-DD'),
                                   csm_calendar_ce_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === '고객') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -383,17 +519,26 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_custom_date: moment().format('YYYY-MM-DD'),
                                   csm_calendar_custom_date_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === 'PAY') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -402,17 +547,26 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_pay: moment().format('YYYY-MM-DD'),
                                   csm_calendar_pay_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         } else if (text === 'finished') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
@@ -421,17 +575,25 @@ const CSMUsedUserContent = () => {
                 names: DecryptKey(InfomationState.name),
             });
             if (DataUpdateCECalendar.data.dataSuccess) {
-                setData(
-                    data.map(item =>
-                        item.csm_calendar_csm_key === datas.csm_calendar_csm_key
+                const Second_Change_Datas = CSM_User_Used_Datas.map(item =>
+                    item.SecondData.map((list, j) => {
+                        return list.csm_calendar_csm_key === datas.csm_calendar_csm_key
                             ? {
-                                  ...item,
+                                  ...list,
                                   csm_calendar_finall: moment().format('YYYY-MM-DD'),
                                   csm_calendar_finall_id: DecryptKey(InfomationState.name),
                               }
-                            : item
-                    )
+                            : list;
+                    })
                 );
+                const FinallData = [];
+                for (var i = 0; i < Second_Change_Datas.length; i++) {
+                    FinallData.push({
+                        FirstData: Second_Change_Datas[i][0],
+                        SecondData: Second_Change_Datas[i],
+                    });
+                }
+                dispatch(CSM_User_Used_CE_CALENDAR_CHECKED_Func(FinallData));
             }
         }
     };
@@ -452,7 +614,6 @@ const CSMUsedUserContent = () => {
             );
 
             if (HandleDataGetting_data_Server_axios.data.dataSuccess) {
-                console.log(HandleDataGetting_data_Server_axios);
                 setCSM_Datas(HandleDataGetting_data_Server_axios.data.Datas);
             }
         } catch (error) {
@@ -467,6 +628,7 @@ const CSMUsedUserContent = () => {
 
     return (
         <CSMUsedUserContentMainDivBox>
+            <h2>사용자 등록 완료</h2>
             <div className="Table_container">
                 <table className="type09" id="CeCalendarTables">
                     <thead>
@@ -703,7 +865,7 @@ const CSMUsedUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_pay ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_orange' ? (
-                                                DecryptKey(InfomationState.name) === '이지원' ||
+                                                DecryptKey(InfomationState.name) === '유성재' ||
                                                 DecryptKey(InfomationState.name) === '이광민' ? (
                                                     <div>
                                                         <div>
@@ -725,7 +887,7 @@ const CSMUsedUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_finall ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_finish' ? (
-                                                DecryptKey(InfomationState.name) === '이지원' ||
+                                                DecryptKey(InfomationState.name) === '유성재' ||
                                                 DecryptKey(InfomationState.name) === '이광민' ? (
                                                     <div>
                                                         <div>

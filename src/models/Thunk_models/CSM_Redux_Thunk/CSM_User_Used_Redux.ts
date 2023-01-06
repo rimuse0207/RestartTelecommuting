@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { RootState } from '../../../models/index';
-import { createAsyncAction, createReducer } from 'typesafe-actions';
+import { action, createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 import { CeCalendarTableProps } from './CSM_Redux';
@@ -76,6 +76,8 @@ const GET_CSM_User_Used_Data_SUCCESS = 'CSM_User_Used_Data/GET_CSM_User_Used_Dat
 const GET_CSM_User_Used_Data_ERROR = 'CSM_User_Used_Data/GET_CSM_User_Used_Data_ERROR';
 const GET_CSM_User_Used_Data_Register = 'GET_CSM_User_Used_Data_Register/GET_CSM_User_Used_Data_Register';
 
+const GET_CSM_User_Used_CE_CALENDAR_CHECKED = 'GET_CSM_User_Used_CE_CALENDAR_CHECKED/GET_CSM_User_Used_CE_CALENDAR_CHECKED';
+
 const get_CSM_User_Used_DataAsync = createAsyncAction(
     GET_CSM_User_Used_Data_GET,
     GET_CSM_User_Used_Data_SUCCESS,
@@ -85,7 +87,6 @@ const get_CSM_User_Used_DataAsync = createAsyncAction(
 const get_User_Used_CSM_Data = async () => {
     try {
         const DataGetUserUsed = await axios.get(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/User_Selected_Data_DataGetSome`);
-        console.log('Redux에서 발생', DataGetUserUsed);
         if (DataGetUserUsed.data.dataSuccess) {
             return DataGetUserUsed.data.Datas;
         } else {
@@ -98,7 +99,11 @@ const get_User_Used_CSM_Data = async () => {
 };
 const actions = { GET_CSM_User_Used_Data_GET, GET_CSM_User_Used_Data_SUCCESS, GET_CSM_User_Used_Data_ERROR };
 
-type CSM_User_Used_DATA_Action = ActionType<typeof actions> | ActionType<any>;
+type CSM_User_Used_DATA_Action =
+    | ActionType<typeof actions>
+    | ActionType<any>
+    | ActionType<typeof CSM_User_Used_CE_CALENDAR_CHECKED_Func>
+    | ActionType<typeof CSM_User_Used_Data_Register_Func>;
 
 export type CSM_User_Used_DATA_State = {
     Datas: User_Used_Data_Type[];
@@ -132,6 +137,11 @@ export const CSM_User_Used_Data_Register_Func = (data: CeCalendarTableProps[]) =
         FirstData: data[0],
         SecondData: data,
     },
+});
+
+export const CSM_User_Used_CE_CALENDAR_CHECKED_Func = (data: User_Used_Data_Type[] | any) => ({
+    type: GET_CSM_User_Used_CE_CALENDAR_CHECKED,
+    payload: data,
 });
 
 const initialState: CSM_User_Used_DATA_State = {
@@ -170,6 +180,10 @@ const CSM_User_Used_DataGetting = createReducer<CSM_User_Used_DATA_State, CSM_Us
     [GET_CSM_User_Used_Data_Register]: (state, action) => ({
         ...state,
         Datas: state.Datas.concat(action.payload),
+    }),
+    [GET_CSM_User_Used_CE_CALENDAR_CHECKED]: (state, action) => ({
+        ...state,
+        Datas: action.payload,
     }),
 });
 

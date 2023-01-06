@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { BsFileEarmarkBarGraphFill } from 'react-icons/bs';
+import { BsFileEarmarkBarGraphFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { BsFillBagPlusFill } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
 import { BsFillPencilFill } from 'react-icons/bs';
@@ -18,6 +18,9 @@ import { AiFillDatabase } from 'react-icons/ai';
 import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
 import { paramasTypes } from './CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
+import { CSM_Data_Checked_Delete_Func } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
+import axios from 'axios';
 
 const customStyles = {
     content: {
@@ -85,6 +88,16 @@ const PcAssetMenuIconsMainPageDivBox = styled.div`
     .IconText {
         text-align: center;
         font-weight: bold;
+    }
+    .HiddenIcons {
+        width: 100px;
+        font-size: 2em;
+        color: gray;
+        text-align: center;
+        :hover {
+            cursor: pointer;
+            opacity: 0.5;
+        }
     }
 `;
 
@@ -261,6 +274,9 @@ const CeCalendarSearchIcons = () => {
     const { pagenumber, type } = useParams<paramasTypes>();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
+    const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
+    const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
+
     const [SelectClicksModals, setSelectClicksModals] = useState({
         FilterSearch: false,
         NewDataModal: false,
@@ -285,7 +301,7 @@ const CeCalendarSearchIcons = () => {
 
     const ResetHandleClicks = async () => {
         try {
-            await dispatch(CSMFilteringReset());
+            dispatch(CSMFilteringReset());
             setFilteringData({
                 csm_basic_data_binds: '',
                 csm_basic_data_csm_key: '',
@@ -337,7 +353,6 @@ const CeCalendarSearchIcons = () => {
                 finish_csm_basic_data_issue_date: '',
                 start_csm_basic_data_issue_date: '',
             });
-            await window.location.replace(`/CECalendar/${1}/${type}`);
         } catch (error) {
             console.log(error);
         }
@@ -345,8 +360,7 @@ const CeCalendarSearchIcons = () => {
 
     const handleClickFilterData = async () => {
         try {
-            await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            await window.location.replace(`/CECalendar/${1}/${type}`);
+            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
         } catch (error) {
             console.log(error);
         }
@@ -355,8 +369,45 @@ const CeCalendarSearchIcons = () => {
     const handleEnterClicks = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            await dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            await window.location.replace(`/CECalendar/${1}/${type}`);
+
+            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleClicksForHidden = async () => {
+        try {
+            const Change_Hiiden_Data_From_Server = await axios.post(
+                `${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server//UpdateHidden`,
+                { CSM_Selected_Data_List }
+            );
+
+            if (Change_Hiiden_Data_From_Server.data.dataSuccess) {
+                let Change_Datas = CSM_Datas.data;
+
+                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                    Change_Datas = Change_Datas.map(item =>
+                        item.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
+                            ? item.csm_calendar_hidden_on === 1
+                                ? { ...item, csm_calendar_hidden_on: 0 }
+                                : { ...item, csm_calendar_hidden_on: 1 }
+                            : item
+                    );
+                }
+
+                // 체크항목에서 Redux에서 제거
+                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                    Change_Datas = Change_Datas.map(list =>
+                        list.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
+                            ? { ...list, csm_data_slect: 0 }
+                            : list
+                    );
+                }
+
+                dispatch(CSM_Data_Checked_Delete_Func(Change_Datas));
+                dispatch(CSM_Selected_Data_List_Reset_Func());
+            }
         } catch (error) {
             console.log(error);
         }
@@ -411,6 +462,17 @@ const CeCalendarSearchIcons = () => {
                             <BsFillBagPlusFill></BsFillBagPlusFill>
                         </div>
                         <div className="IconText">데이터 추가</div>
+                    </div>
+                ) : (
+                    <></>
+                )}
+
+                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
+                    <div onClick={() => handleClicksForHidden()}>
+                        <div className="HiddenIcons">
+                            <BsFillEyeSlashFill></BsFillEyeSlashFill>
+                        </div>
+                        <div className="IconText">숨김 처리</div>
                     </div>
                 ) : (
                     <></>

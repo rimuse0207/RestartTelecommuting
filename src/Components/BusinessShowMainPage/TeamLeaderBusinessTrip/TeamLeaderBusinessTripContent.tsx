@@ -167,10 +167,12 @@ const TeamLeaderBusinessTripContent = ({
                                     >
                                         <div className="Telecommuting_Table_dayNumber">
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
+
                                             <div className="Text">
                                                 {ErpDatas.map((list: any) => {
-                                                    const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
-                                                    const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
+                                                    let FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
+                                                    let SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
+
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
                                                         <div
                                                             style={{

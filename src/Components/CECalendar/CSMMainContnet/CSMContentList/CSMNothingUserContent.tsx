@@ -14,19 +14,21 @@ import {
     CSM_Data_Checked_Func,
 } from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { CSM_Selected_Data_List_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
+import { CSMMainContentProps_Types } from '../CSMMainContent';
 
 const CSMNothingUserContentMainDivBox = styled.div`
     border: 1px solid black;
+    .Hidden_Data_ON {
+        opacity: 0.5;
+    }
 `;
 
-const CSMNothingUserContent = () => {
+const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => {
     const dispatch = useDispatch();
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
-
-    const [hiddenChecked, setHiddenChecked] = useState(false);
-    const [ShowProcess, setShowProcess] = useState('');
+    // const [hiddenChecked, setHiddenChecked] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
 
     const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>({
@@ -81,59 +83,6 @@ const CSMNothingUserContent = () => {
         csm_user_input_data_apply_code: null,
     });
 
-    const [data, setData] = useState<CeCalendarTableProps[]>([
-        {
-            csm_basic_data_binds: '',
-            csm_basic_data_csm_key: '',
-            csm_basic_data_csm_number: '',
-            csm_basic_data_custom: '',
-            csm_basic_data_division: '',
-            csm_basic_data_etc: '',
-            csm_basic_data_grade: '',
-            csm_basic_data_indexs: 0,
-            csm_basic_data_issue_date: '',
-            csm_basic_data_model_number: '',
-            csm_basic_data_part_number: '',
-            csm_basic_data_state: '',
-            csm_basic_data_titles: '',
-            csm_basic_data_write_date: '',
-            csm_calendar_apply: null,
-            csm_calendar_apply_id: null,
-            csm_calendar_ce: null,
-            csm_calendar_ce_id: null,
-            csm_calendar_csm_key: '',
-            csm_calendar_custom_date: null,
-            csm_calendar_custom_date_id: null,
-            csm_calendar_entering: null,
-            csm_calendar_entering_id: null,
-            csm_calendar_finall: null,
-            csm_calendar_finall_id: null,
-            csm_calendar_hidden_on: 0,
-            csm_calendar_indexs: 0,
-            csm_calendar_pay: null,
-            csm_calendar_pay_id: null,
-            csm_calendar_publish: null,
-            csm_calendar_publish_id: null,
-            csm_calendar_status: 0,
-            csm_calendar_write_date: '',
-            csm_user_input_data_csm_key: null,
-            csm_user_input_data_indexs: null,
-            csm_user_input_data_operation_cost: null,
-            csm_user_input_data_stay_days: null,
-            csm_user_input_data_stay_days_cost: null,
-            csm_user_input_data_total_cost: null,
-            csm_user_input_data_travel_range: null,
-            csm_user_input_data_travel_range_cost: null,
-            csm_user_input_data_travel_time: null,
-            csm_user_input_data_travel_time_cost: null,
-            csm_user_input_data_working_count: null,
-            csm_user_input_data_working_hours: null,
-            csm_user_input_data_write_date: null,
-            csm_user_input_data_writer_id: null,
-            name: null,
-            csm_user_input_data_apply_code: null,
-        },
-    ]);
     const handleChangeClickHidden = async (e: any, datas: any) => {
         try {
             if (datas.csm_data_slect === 1) {
@@ -444,6 +393,7 @@ const CSMNothingUserContent = () => {
 
     return (
         <CSMNothingUserContentMainDivBox>
+            <h2>사용자 미등록</h2>
             <div className="Table_container">
                 <table className="type09" id="CeCalendarTables">
                     <thead>
@@ -462,14 +412,6 @@ const CSMNothingUserContent = () => {
                             <th>사용자 이름</th>
                             <th>작업시간</th>
                             <th>작업인원</th>
-                            <th>이동거리</th>
-                            <th>이동시간</th>
-                            <th>숙박일수</th>
-                            <th>이동거리 비용</th>
-                            <th>이동시간 비용</th>
-                            <th>숙박비용</th>
-                            <th>작업비용</th>
-                            <th>총비용</th>
                             <th>발행</th>
                             <th>신청</th>
                             <th>입고</th>
@@ -485,27 +427,10 @@ const CSMNothingUserContent = () => {
                             .filter(item => {
                                 if (!hiddenChecked) {
                                     return item.csm_calendar_hidden_on === 0 ? item : '';
+                                } else {
+                                    return item;
                                 }
                             })
-                            // .filter(item => {
-                            //     if (ShowProcess === '') {
-                            //         return item;
-                            //     } else if (ShowProcess === 'csm_calendar_publish') {
-                            //         return !item.csm_calendar_apply ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_apply') {
-                            //         return !item.csm_calendar_entering ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_entering') {
-                            //         return !item.csm_calendar_ce ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_ce') {
-                            //         return !item.csm_calendar_custom_date ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_custom_date') {
-                            //         return !item.csm_calendar_pay ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_pay') {
-                            //         return !item.csm_calendar_finall ? item : '';
-                            //     } else if (ShowProcess === 'csm_calendar_finall') {
-                            //         return item.csm_calendar_finall ? item : '';
-                            //     }
-                            // })
                             .map((list: any, i) => {
                                 var classnamesAUTO = 'basic';
 
@@ -525,7 +450,11 @@ const CSMNothingUserContent = () => {
                                     classnamesAUTO = 'basic_finish';
                                 }
                                 return (
-                                    <tr key={list.csm_calendar_indexs} className="Table_hover_check">
+                                    <tr
+                                        key={list.csm_calendar_indexs}
+                                        className={`Table_hover_check ${list.csm_calendar_hidden_on !== 0 ? 'Hidden_Data_ON' : ''}`}
+                                        onClick={e => handleChangeClickHidden(e, list)}
+                                    >
                                         <td className="Table_First">
                                             <input
                                                 type="checkbox"
@@ -536,7 +465,6 @@ const CSMNothingUserContent = () => {
                                         <td className="Table_Second">{i + 1}</td>
                                         <td className="Table_Third">{list.csm_basic_data_state}</td>
                                         <td className="Table_Fourth">{list.csm_basic_data_grade}</td>
-                                        {/* <td className="Table_Fifth">{list.csm_basic_data_issue_date}</td> */}
                                         <td className="Table_Sixth">{list.csm_basic_data_csm_number}</td>
                                         <td className="Table_Seventh">{list.csm_basic_data_model_number}</td>
                                         <td className="Table_Eighth">{list.csm_basic_data_binds}</td>
@@ -553,37 +481,6 @@ const CSMNothingUserContent = () => {
                                         <td>
                                             {list.csm_user_input_data_working_count ? `${list.csm_user_input_data_working_count} 명` : ''}
                                         </td>
-                                        <td>{list.csm_user_input_data_travel_range ? list.csm_user_input_data_travel_range : ''}</td>
-                                        <td>{list.csm_user_input_data_travel_time ? list.csm_user_input_data_travel_time : ''}</td>
-                                        <td>{list.csm_user_input_data_stay_days ? list.csm_user_input_data_stay_days : ''}</td>
-                                        <td>
-                                            {list.csm_user_input_data_travel_range_cost
-                                                ? list.csm_user_input_data_travel_range_cost
-                                                      .toString()
-                                                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                : ''}
-                                        </td>
-                                        <td>
-                                            {list.csm_user_input_data_travel_time_cost
-                                                ? list.csm_user_input_data_travel_time_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                : ''}
-                                        </td>
-                                        <td>
-                                            {list.csm_user_input_data_stay_days_cost
-                                                ? list.csm_user_input_data_stay_days_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                : ''}
-                                        </td>
-                                        <td>
-                                            {list.csm_user_input_data_operation_cost
-                                                ? list.csm_user_input_data_operation_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                : ''}
-                                        </td>
-                                        <td>
-                                            {list.csm_user_input_data_total_cost
-                                                ? list.csm_user_input_data_total_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                                : ''}
-                                        </td>
-
                                         <td
                                             className={classnamesAUTO}
                                             style={list.csm_calendar_publish ? {} : { backgroundColor: 'white' }}
@@ -672,7 +569,7 @@ const CSMNothingUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_pay ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_orange' ? (
-                                                DecryptKey(InfomationState.name) === '이지원' ||
+                                                DecryptKey(InfomationState.name) === '유성재' ||
                                                 DecryptKey(InfomationState.name) === '이광민' ? (
                                                     <div>
                                                         <div>
@@ -694,7 +591,7 @@ const CSMNothingUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_finall ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_finish' ? (
-                                                DecryptKey(InfomationState.name) === '이지원' ||
+                                                DecryptKey(InfomationState.name) === '유성재' ||
                                                 DecryptKey(InfomationState.name) === '이광민' ? (
                                                     <div>
                                                         <div>

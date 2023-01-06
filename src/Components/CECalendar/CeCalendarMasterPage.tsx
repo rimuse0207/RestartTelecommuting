@@ -457,7 +457,7 @@ const CeCalendarMasterPage = () => {
     }, [GetCSMFilteringData, type]);
 
     const dataGetSome = async () => {
-        await dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+        dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
     };
 
     const hadleDeleteData = async () => {
@@ -505,18 +505,6 @@ const CeCalendarMasterPage = () => {
                     </ul>
                 </div>
 
-                {/* <div>
-                    <select value={ShowProcess} onChange={e => setShowProcess(e.target.value)}>
-                        <option value="">All</option>
-                        <option value="csm_calendar_publish">발행</option>
-                        <option value="csm_calendar_apply">신청</option>
-                        <option value="csm_calendar_entering">입고</option>
-                        <option value="csm_calendar_ce">CE</option>
-                        <option value="csm_calendar_custom_date">고객</option>
-                        <option value="csm_calendar_pay">PAY</option>
-                        <option value="csm_calendar_finall">완료</option>
-                    </select>
-                </div> */}
                 <div style={{ display: 'inline-block' }}>
                     <div>
                         <div onClick={() => setHiddenChecked(!hiddenChecked)} className="ThirdTest_list_hidden_box">
@@ -525,75 +513,7 @@ const CeCalendarMasterPage = () => {
                         </div>
                     </div>
                 </div>
-                <CSMMainContent></CSMMainContent>
-                {/* <div className="CeCalendar_paginations">
-                    <ul>
-                        {Number(pagenumber) > 3 ? (
-                            <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${1}/${type}`)}>1</li>
-                                <li>...</li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {Number(pagenumber) - 2 > 0 ? (
-                            <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 2}/${type}`)}>
-                                    {Number(pagenumber) - 2}
-                                </li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {Number(pagenumber) - 1 > 0 ? (
-                            <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) - 1}/${type}`)}>
-                                    {Number(pagenumber) - 1}
-                                </li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-
-                        <li style={{ color: '#0031f7' }}>{pagenumber}</li>
-
-                        {Number(pagenumber) + 1 < Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) ? (
-                            <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 1}/${type}`)}>
-                                    {Number(pagenumber) + 1}
-                                </li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-
-                        {Number(pagenumber) + 2 < Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) ? (
-                            <>
-                                <li onClick={() => window.location.replace(`/CECalendar/${Number(pagenumber) + 2}/${type}`)}>
-                                    {Number(pagenumber) + 2}
-                                </li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-
-                        {Number(pagenumber) < Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 3 ? (
-                            <>
-                                {' '}
-                                <li>...</li>
-                                <li
-                                    onClick={() =>
-                                        window.location.replace(`/CECalendar/${Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 1}/${type}`)
-                                    }
-                                >
-                                    {Math.ceil(PageNumbers / REACT_APP_PAGE_NUMBER) - 1}
-                                </li>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                    </ul>
-                </div> */}
+                <CSMMainContent hiddenChecked={hiddenChecked}></CSMMainContent>
 
                 <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
                     <TableModalsMainPage

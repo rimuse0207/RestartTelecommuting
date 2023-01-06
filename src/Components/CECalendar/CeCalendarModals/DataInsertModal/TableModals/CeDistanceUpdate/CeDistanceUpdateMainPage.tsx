@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { HiSelector } from 'react-icons/hi';
 import { GiClick } from 'react-icons/gi';
 import { BsPencilSquare } from 'react-icons/bs';
-import { CeCalendarUpdateModalsProps } from '../CeCalendarUpdate/CeCalendarUpdateModals';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import Select from 'react-select';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -14,7 +13,13 @@ import { OneParamsPost } from '../../../../../API/POSTApi/PostApi';
 import { RootState } from '../../../../../../models';
 import { useDispatch, useSelector } from 'react-redux';
 import { DecryptKey } from '../../../../../../config';
-import { get_CSM_DataThunk, CeCalendarTableProps } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import {
+    get_CSM_DataThunk,
+    CSM_Data_Resister_Finished_Delete_Func,
+    CSM_CE_CALENDAR_CHECKED_Func,
+    CeCalendarTableProps,
+    CSM_Data_Checked_Delete_Func,
+} from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { paramasTypes } from '../../../../CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
 import { toast } from '../../../../../ToastMessage/ToastManager';
@@ -279,6 +284,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
+    const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
     const [CeDistanceState, setCeDistanceState] = useState<CeDistanceState_Types>({
         distance_date: new Date(),
         start_location: '판교',
@@ -373,7 +379,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                 csm_number: CeDistanceState.distance_csmNumber.value,
                 csm_models: CeDistanceState.distance_equitModel.value,
             });
-            console.log(getWriterDatas_Binds);
             if (getWriterDatas_Binds.data.dataSuccess) {
                 setCsm_Binds_lists(getWriterDatas_Binds.data.setCsm_Binds_lists_data);
             }
@@ -384,7 +389,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
 
     // 제번 클릭 시 데이터 추가 및 삭제
     const handleClicksBinds = (item: csm_Binds_lists_Types) => {
-        console.log(item);
         //선택 되어 있을 시,
         if (item.select) {
             const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
@@ -433,7 +437,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
 
     // 선택 된 제번 데이터 추가 및 삭제
     const handleDeleteData = (item: CeCalendarTableProps) => {
-        // console.log(item);
         const ChangeCsm_Binds_lists = csm_Binds_lists.map(list =>
             list.csm_Binds_Lists_Data.csm_number_respond_working_indexs !== item.csm_number_respond_working_indexs
                 ? list
@@ -448,8 +451,16 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         const CSM_Selected_Data_List_Delete = CSM_Selected_Data_List.filter(
             list => list.csm_basic_data_csm_key !== item.csm_basic_data_csm_key
         );
+
         // 선택항목 Redux에서 제거
         dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List_Delete));
+
+        // 체크항목에서 Redux에서 제거
+        const Changes_Data_CSM = CSM_Datas.data.map(list =>
+            list.csm_basic_data_csm_key === item.csm_basic_data_csm_key ? { ...list, csm_data_slect: 0 } : list
+        );
+
+        dispatch(CSM_Data_Checked_Delete_Func(Changes_Data_CSM));
     };
 
     // 데이터 저장 취소
@@ -460,24 +471,46 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         }
     };
 
+    //데이터 서버에 저장
     const handleClickStoreFromServer = async () => {
         try {
             if (!CeDistanceState.distance_company.value) {
                 alert('고객사명을 선택 해주세요.');
                 return;
+            } else if (CSM_Selected_Data_List.length === 0) {
+                alert('데이터를 선택 해주세요.');
+            } else if (CSM_Selected_Data_List.length > 2) {
+                for (var i = 1; i < CSM_Selected_Data_List.length; i++) {
+                    if (CSM_Selected_Data_List[0].csm_basic_data_custom !== CSM_Selected_Data_List[i].csm_basic_data_custom) {
+                        alert('고객사 명이 상이하여 등록이 불가합니다.');
+                        return;
+                    }
+                }
             }
-            console.log(CSM_Selected_Data_List);
-            dispatch(CSM_User_Used_Data_Register_Func(CSM_Selected_Data_List));
+
             const binds_data_send_from_server = await OneParamsPost('/CE_Calendar_app_server/binds_data_send', {
                 CeDistanceState,
                 CSM_Selected_Data_List,
             });
 
             if (binds_data_send_from_server.data.dataSuccess) {
-                console.log(binds_data_send_from_server);
                 if (binds_data_send_from_server.data.UpdateSuccess) {
-                    // dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+                    // CSM Redux 사용자 데이터에 추가
+                    dispatch(CSM_User_Used_Data_Register_Func(binds_data_send_from_server.data.User_Datas_Rows));
 
+                    let ChangeData = CSM_Datas.data;
+                    for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                        ChangeData = ChangeData.filter(
+                            item => item.csm_basic_data_csm_key !== CSM_Selected_Data_List[i].csm_basic_data_csm_key
+                        );
+                    }
+                    ChangeData = ChangeData.map(item => (item.csm_data_slect !== 0 ? { ...item, csm_data_slect: 0 } : item));
+
+                    // CSM Redux 기본 데이터에서 삭제
+                    dispatch(CSM_Data_Resister_Finished_Delete_Func(ChangeData));
+
+                    // 선택 CSM 초기화
+                    dispatch(CSM_Selected_Data_List_Reset_Func());
                     alert('데이터 등록 완료.');
                     closeModal();
                 } else {
@@ -507,7 +540,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                 <DatePicker
                                     selected={CeDistanceState.distance_date}
                                     onChange={(date: any) => setCeDistanceState({ ...CeDistanceState, distance_date: date })}
-                                    // withPortal
                                     locale={ko}
                                     dateFormat="yyy-MM-dd"
                                 />
@@ -689,58 +721,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                 </div>
             </div>
             <div>
-                {/* <div className="Selected_distance_binds_Data_Container">
-                    <h3>등록 데이터</h3>
-                    <table className="type09">
-                        <thead>
-                            <tr>
-                                <th>인덱스</th>
-                                <th>CSM 번호</th>
-                                <th>장비 모델</th>
-                                <th>제번</th>
-                                <th>고객사</th>
-                                <th>작업 시간</th>
-                                <th>작업 인원</th>
-                                <th>삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {CeDistanceState.distance_binds.map((list, j) => {
-                                return (
-                                    <tr key={list.csm_number_respond_working_indexs}>
-                                        <td>{j + 1}</td>
-                                        <td>{list.csm_number_respond_working_csm_number}</td>
-                                        <td>{list.csm_number_respond_working_model}</td>
-                                        <td>{list.csm_number_respond_working_binds}</td>
-                                        <td>{list.csm_basic_data_custom}</td>
-                                        {j === 0 ? (
-                                            <td rowSpan={CeDistanceState.distance_binds.length}>
-                                                {list.csm_number_respond_working_working_hours} 시간
-                                            </td>
-                                        ) : (
-                                            ''
-                                        )}
-                                        {j === 0 ? (
-                                            <td rowSpan={CeDistanceState.distance_binds.length}>
-                                                {list.csm_number_respond_working_working_count} 명
-                                            </td>
-                                        ) : (
-                                            ''
-                                        )}
-
-                                        <td>
-                                            <MdOutlineCancel
-                                                onClick={() => handleDeleteData(list)}
-                                                className="Delete_Binds_Cancel_Icons"
-                                            ></MdOutlineCancel>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div> */}
-
                 <div className="Selected_distance_binds_Data_Container">
                     <h3>등록 데이터</h3>
                     <table className="type09">
@@ -792,25 +772,6 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                         </tbody>
                     </table>
                 </div>
-
-                {/* <ul className="Selected_distance_binds_Data_Container">
-                    {CeDistanceState.distance_binds.map(list => {
-                        return (
-                            <li>
-                                <div
-                                    className="handleClicksContainer"
-                                    onChange={() => handleClicksBinds(list)}
-                                    key={list.csm_number_respond_working_indexs}
-                                >
-                                    <div>{list.csm_number_respond_working_binds}</div>
-                                    <div>
-                                        <MdOutlineCancel></MdOutlineCancel>
-                                    </div>
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul> */}
             </div>
 
             <div className="btns">
