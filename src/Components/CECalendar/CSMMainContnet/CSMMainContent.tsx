@@ -5,9 +5,7 @@ import { RootState } from '../../../models';
 import CSMNothingUserContent from './CSMContentList/CSMNothingUserContent';
 import CSMUsedUserContent from './CSMContentList/CSMUsedUserContent';
 
-const CSMMainContentMainDivBox = styled.div`
-    border: 1px solid black;
-`;
+const CSMMainContentMainDivBox = styled.div``;
 
 export type CSMMainContentProps_Types = {
     hiddenChecked: boolean;

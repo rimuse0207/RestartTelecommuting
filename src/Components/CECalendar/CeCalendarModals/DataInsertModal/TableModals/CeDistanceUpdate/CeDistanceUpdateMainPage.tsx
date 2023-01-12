@@ -430,6 +430,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                     : { ...list, select: true }
             );
             setCsm_Binds_lists(ChangeCsm_Binds_lists);
+
             dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(item.csm_Binds_Lists_Data)));
             // setCeDistanceState({ ...CeDistanceState, distance_binds: CeDistanceState.distance_binds.concat(item) });
         }
@@ -466,7 +467,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
     // 데이터 저장 취소
     const CloseHandleClicks = () => {
         if (window.confirm('정말 나가시겠습니까?')) {
-            dispatch(CSM_Selected_Data_List_Reset_Func());
+            // dispatch(CSM_Selected_Data_List_Reset_Func());
             closeModal();
         }
     };

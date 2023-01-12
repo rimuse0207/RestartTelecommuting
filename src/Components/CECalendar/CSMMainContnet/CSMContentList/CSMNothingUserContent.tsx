@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import { DecryptKey } from '../../../../config';
 import { RootState } from '../../../../models';
 import { toast } from '../../../ToastMessage/ToastManager';
-import { CeCalendarTableProps } from '../../CeCalendarMasterPage';
+// import { CeCalendarTableProps } from '../../CeCalendarMasterPage';
 import { FcInfo } from 'react-icons/fc';
 import moment from 'moment';
 import {
+    CeCalendarTableProps,
     CSM_CE_CALENDAR_CHECKED_Func,
     CSM_Data_Checked_Delete_Func,
     CSM_Data_Checked_Func,
@@ -16,12 +17,33 @@ import {
 import { CSM_Selected_Data_List_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
 import { CSMMainContentProps_Types } from '../CSMMainContent';
 
+import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
+
 const CSMNothingUserContentMainDivBox = styled.div`
-    border: 1px solid black;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     .Hidden_Data_ON {
         opacity: 0.5;
     }
+    .clickHover {
+        :hover {
+            cursor: pointer;
+            background-color: lightgray !important;
+            /* background-color: lightgray; */
+        }
+    }
 `;
+
+type arrangeStateType = {
+    value: string;
+    state_value: string;
+    up_arrange_value: boolean;
+    down_arrange_value: boolean;
+    now_checked_value: boolean;
+    classNames: string;
+};
 
 const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => {
     const dispatch = useDispatch();
@@ -29,91 +51,125 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     // const [hiddenChecked, setHiddenChecked] = useState(false);
+    const [AllChecking, setAllChecking] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
+    const [FirstClickData, setFirstClickData] = useState<CeCalendarTableProps | any>();
+    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>();
 
-    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>({
-        csm_basic_data_binds: '',
-        csm_basic_data_csm_key: '',
-        csm_basic_data_csm_number: '',
-        csm_basic_data_custom: '',
-        csm_basic_data_division: '',
-        csm_basic_data_etc: '',
-        csm_basic_data_grade: '',
-        csm_basic_data_indexs: 0,
-        csm_basic_data_issue_date: '',
-        csm_basic_data_model_number: '',
-        csm_basic_data_part_number: '',
-        csm_basic_data_state: '',
-        csm_basic_data_titles: '',
-        csm_basic_data_write_date: '',
-        csm_calendar_apply: null,
-        csm_calendar_apply_id: null,
-        csm_calendar_ce: null,
-        csm_calendar_ce_id: null,
-        csm_calendar_csm_key: '',
-        csm_calendar_custom_date: null,
-        csm_calendar_custom_date_id: null,
-        csm_calendar_entering: null,
-        csm_calendar_entering_id: null,
-        csm_calendar_finall: null,
-        csm_calendar_finall_id: null,
-        csm_calendar_hidden_on: 0,
-        csm_calendar_indexs: 0,
-        csm_calendar_pay: null,
-        csm_calendar_pay_id: null,
-        csm_calendar_publish: null,
-        csm_calendar_publish_id: null,
-        csm_calendar_status: 0,
-        csm_calendar_write_date: '',
-        csm_user_input_data_csm_key: null,
-        csm_user_input_data_indexs: null,
-        csm_user_input_data_operation_cost: null,
-        csm_user_input_data_stay_days: null,
-        csm_user_input_data_stay_days_cost: null,
-        csm_user_input_data_total_cost: null,
-        csm_user_input_data_travel_range: null,
-        csm_user_input_data_travel_range_cost: null,
-        csm_user_input_data_travel_time: null,
-        csm_user_input_data_travel_time_cost: null,
-        csm_user_input_data_working_count: null,
-        csm_user_input_data_working_hours: null,
-        csm_user_input_data_write_date: null,
-        csm_user_input_data_writer_id: null,
-        name: null,
-        csm_user_input_data_apply_code: null,
-    });
+    const [arrangeState, setArrangeState] = useState<arrangeStateType[]>([
+        {
+            value: 'CSM',
+            state_value: 'csm_basic_data_csm_number',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: 'Table_Sixth',
+        },
+        {
+            value: 'MODEL',
+            state_value: 'csm_basic_data_model_number',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: 'Table_Seventh',
+        },
+        {
+            value: '제번',
+            state_value: 'csm_basic_data_binds',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: 'Table_Eighth',
+        },
+        {
+            value: '고객사',
+            state_value: 'csm_basic_data_custom',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: 'Table_Ninth',
+        },
+        {
+            value: 'Part NO.',
+            state_value: 'csm_basic_data_part_number',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: 'Table_Tenth',
+        },
+        {
+            value: '제목',
+            state_value: 'csm_basic_data_titles',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: '',
+        },
+        {
+            value: '비고',
+            state_value: 'csm_basic_data_etc',
+            up_arrange_value: false,
+            down_arrange_value: false,
+            now_checked_value: false,
+            classNames: '',
+        },
+    ]);
 
     const handleChangeClickHidden = async (e: any, datas: any) => {
-        try {
-            if (datas.csm_data_slect === 1) {
-                const CSM_Datas_Selected = CSM_Datas.data.map(list => {
-                    return list.csm_basic_data_csm_key === datas.csm_basic_data_csm_key ? { ...list, csm_data_slect: 0 } : list;
-                });
-
-                const CSM_Selected_Data_List_Delete = CSM_Selected_Data_List.filter(
-                    list => list.csm_basic_data_csm_key !== datas.csm_basic_data_csm_key
-                );
-                // 선택항목 Redux에서 제거
-                dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List_Delete));
-                // 선택항목 Redux에서 체크 해제
-                dispatch(CSM_Data_Checked_Delete_Func(CSM_Datas_Selected));
-            } else {
-                const CSM_Datas_Selected = CSM_Datas.data.map(list => {
-                    return list.csm_basic_data_csm_key === datas.csm_basic_data_csm_key ? { ...list, csm_data_slect: 1 } : list;
-                });
-                // 선택항목 Redux에서 추가
-                dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(datas)));
-                // 선택항목 Redux에서 체크 등록
-                dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
-            }
-        } catch (error) {
-            console.log(error);
-            toast.show({
-                title: 'ERROR!',
-                content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
-                duration: 6000,
-                DataSuccess: false,
+        if (e.shiftKey) {
+            const CSM_Datas_Selected = CSM_Datas.data.map(list => {
+                return list.csm_basic_data_indexs <= datas.csm_basic_data_indexs &&
+                    list.csm_basic_data_indexs >= FirstClickData?.csm_basic_data_indexs
+                    ? { ...list, csm_data_slect: 1 }
+                    : list;
             });
+
+            const CSM_Datas_Selected_Belong_Datas = CSM_Datas.data.filter(list => {
+                return (
+                    list.csm_basic_data_indexs <= datas.csm_basic_data_indexs &&
+                    list.csm_basic_data_indexs > FirstClickData?.csm_basic_data_indexs
+                );
+            });
+
+            // 선택항목 Redux에서 추가
+            dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(CSM_Datas_Selected_Belong_Datas)));
+            // 선택항목 Redux에서 체크 등록
+            dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+            setFirstClickData(null);
+        } else {
+            setFirstClickData(datas);
+            try {
+                if (datas.csm_data_slect === 1) {
+                    const CSM_Datas_Selected = CSM_Datas.data.map(list => {
+                        return list.csm_basic_data_csm_key === datas.csm_basic_data_csm_key ? { ...list, csm_data_slect: 0 } : list;
+                    });
+
+                    const CSM_Selected_Data_List_Delete = CSM_Selected_Data_List.filter(
+                        list => list.csm_basic_data_csm_key !== datas.csm_basic_data_csm_key
+                    );
+                    // 선택항목 Redux에서 제거
+                    dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List_Delete));
+                    // 선택항목 Redux에서 체크 해제
+                    dispatch(CSM_Data_Checked_Delete_Func(CSM_Datas_Selected));
+                    setFirstClickData(null);
+                } else {
+                    const CSM_Datas_Selected = CSM_Datas.data.map(list => {
+                        return list.csm_basic_data_csm_key === datas.csm_basic_data_csm_key ? { ...list, csm_data_slect: 1 } : list;
+                    });
+                    // 선택항목 Redux에서 추가
+                    dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(datas)));
+                    // 선택항목 Redux에서 체크 등록
+                    dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+                }
+            } catch (error) {
+                console.log(error);
+                toast.show({
+                    title: 'ERROR!',
+                    content: `ERROR! 서버와의 통신이 끊어졌습니다. `,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
+            }
         }
     };
 
@@ -391,6 +447,314 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
         }
     };
 
+    const handleChecking = () => {
+        if (AllChecking) {
+            const CSM_Datas_Selected = CSM_Datas.data.map(list => {
+                return { ...list, csm_data_slect: 0 };
+            });
+            const Duple_Delete_Data = CSM_Selected_Data_List.filter((item, i) => {
+                return (
+                    CSM_Datas_Selected.findIndex((item2, j) => {
+                        return item.csm_basic_data_csm_key !== item2.csm_basic_data_csm_key;
+                    }) === i
+                );
+            });
+            // 선택항목 Redux에서 추가
+            dispatch(CSM_Selected_Data_List_Func(Duple_Delete_Data));
+            // 선택항목 Redux에서 체크 등록
+            dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+
+            setAllChecking(false);
+        } else {
+            const CSM_Datas_Selected = CSM_Datas.data.map(list => {
+                return { ...list, csm_data_slect: 1 };
+            });
+
+            const Duple_Delete_Data = CSM_Datas_Selected.filter((item, i) => {
+                return (
+                    CSM_Datas_Selected.findIndex((item2, j) => {
+                        return item.csm_basic_data_csm_key === item2.csm_basic_data_csm_key;
+                    }) === i
+                );
+            });
+
+            // 선택항목 Redux에서 추가
+            dispatch(CSM_Selected_Data_List_Func(Duple_Delete_Data));
+            // 선택항목 Redux에서 체크 등록
+            dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+            setAllChecking(true);
+        }
+    };
+
+    const handleArrenge = (ClickMenu: arrangeStateType) => {
+        ///CSM 정렬
+        if (ClickMenu.state_value === 'csm_basic_data_csm_number') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_csm_number.toLowerCase() < b.csm_basic_data_csm_number.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_csm_number.toLowerCase() < b.csm_basic_data_csm_number.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        ///MODEL 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_model_number') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_model_number.toLowerCase() < b.csm_basic_data_model_number.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_model_number.toLowerCase() < b.csm_basic_data_model_number.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        ///제번 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_binds') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_binds.toLowerCase() < b.csm_basic_data_binds.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_binds.toLowerCase() < b.csm_basic_data_binds.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        //고객사 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_custom') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_custom.toLowerCase() < b.csm_basic_data_custom.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_custom.toLowerCase() < b.csm_basic_data_custom.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        ///Part NO 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_part_number') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_part_number.toLowerCase() < b.csm_basic_data_part_number.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_part_number.toLowerCase() < b.csm_basic_data_part_number.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        ///제목 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_titles') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_titles.toLowerCase() < b.csm_basic_data_titles.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_titles.toLowerCase() < b.csm_basic_data_titles.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+        ///비고 정렬
+        else if (ClickMenu.state_value === 'csm_basic_data_etc') {
+            if (ClickMenu.up_arrange_value) {
+                // DESC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: true, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_etc.toLowerCase() < b.csm_basic_data_etc.toLowerCase() ? 1 : -1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            } else if (ClickMenu.down_arrange_value) {
+                // ASC 정렬 상태
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: false }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) => (a.csm_basic_data_indexs < b.csm_basic_data_indexs ? -1 : 1));
+                dispatch(CSM_Data_Checked_Func(result));
+            } else {
+                // 둘다 정렬 상태가 아닐때
+                const AllCheckedDelete = arrangeState.map(list => {
+                    return list.state_value === ClickMenu.state_value
+                        ? { ...list, down_arrange_value: false, up_arrange_value: true }
+                        : { ...list, down_arrange_value: false, up_arrange_value: false };
+                });
+                setArrangeState(AllCheckedDelete);
+                const result = CSM_Datas.data.sort((a, b) =>
+                    a.csm_basic_data_etc.toLowerCase() < b.csm_basic_data_etc.toLowerCase() ? -1 : 1
+                );
+                dispatch(CSM_Data_Checked_Func(result));
+            }
+        }
+    };
+
     return (
         <CSMNothingUserContentMainDivBox>
             <h2>사용자 미등록</h2>
@@ -398,17 +762,55 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                 <table className="type09" id="CeCalendarTables">
                     <thead>
                         <tr className="Table_Tr_position">
-                            <th className="Table_First">선택</th>
+                            <th className="Table_First" style={{ textAlign: 'center' }}>
+                                선택
+                                <div>
+                                    <input type="checkbox" checked={AllChecking} onChange={handleChecking} readOnly></input>
+                                </div>
+                            </th>
                             <th className="Table_Second">인덱스</th>
                             <th className="Table_Third">상태</th>
                             <th className="Table_Fourth">등급</th>
-                            <th className="Table_Sixth">CSM</th>
+                            {arrangeState.map((list, j) => {
+                                return (
+                                    <th className={`${list.classNames} clickHover`} onClick={() => handleArrenge(list)}>
+                                        <div>
+                                            <span>{list.value}</span>
+                                            {list.up_arrange_value ? (
+                                                <span>
+                                                    <IoMdArrowDropup></IoMdArrowDropup>
+                                                </span>
+                                            ) : (
+                                                ''
+                                            )}
+                                            {list.down_arrange_value ? (
+                                                <span>
+                                                    <IoMdArrowDropdown></IoMdArrowDropdown>
+                                                </span>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </div>
+                                    </th>
+                                );
+                            })}
+                            {/* <th className="Table_Sixth">CSM</th>
                             <th className="Table_Seventh">MODEL</th>
                             <th className="Table_Eighth">제번</th>
-                            <th className="Table_Ninth">고객사</th>
+                            <th className="Table_Ninth" onClick={() => handleArrenge('csm_basic_data_custom')}>
+                                <div>
+                                    <span>고객사</span>
+                                    <span>
+                                        <IoMdArrowDropup></IoMdArrowDropup>
+                                    </span>
+                                    <span>
+                                        <IoMdArrowDropdown></IoMdArrowDropdown>
+                                    </span>
+                                </div>
+                            </th>
                             <th className="Table_Tenth">Part NO.</th>
                             <th>제목</th>
-                            <th>비고</th>
+                            <th>비고</th> */}
                             <th>사용자 이름</th>
                             <th>작업시간</th>
                             <th>작업인원</th>
@@ -454,6 +856,11 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                                         key={list.csm_calendar_indexs}
                                         className={`Table_hover_check ${list.csm_calendar_hidden_on !== 0 ? 'Hidden_Data_ON' : ''}`}
                                         onClick={e => handleChangeClickHidden(e, list)}
+                                        style={
+                                            FirstClickData?.csm_basic_data_csm_key === list.csm_basic_data_csm_key
+                                                ? { background: 'lightgray' }
+                                                : {}
+                                        }
                                     >
                                         <td className="Table_First">
                                             <input

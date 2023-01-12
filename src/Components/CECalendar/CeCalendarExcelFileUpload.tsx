@@ -6,7 +6,9 @@ import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
 import { toast } from '../ToastMessage/ToastManager';
 import LoaderMainPage from '../Loader/LoaderMainPage';
-import CSMFileUploadListMainPage from './CSMNumberWorking/CSMFileUploadList/CSMFileUploadListMainPage';
+import CSMFileUploadListMainPage, { FileListsTypes } from './CSMNumberWorking/CSMFileUploadList/CSMFileUploadListMainPage';
+import moment from 'moment';
+
 const CeCalendarExcelFileUploadMainDivBox = styled.div`
     width: 90%;
     margin: 0 auto;
@@ -68,12 +70,15 @@ const CeCalendarExcelFileUpload = () => {
         setFile(dd);
     };
     const [loading, setLoading] = useState(false);
+    const [FileUploadSuccess, setFileUploadSuccess] = useState<FileListsTypes | null>(null);
+
     const handleDeleteFromFiles = (xData: any) => {
         const deleteFileData = file.filter((item: { name: string }) => {
             return item.name === xData.name ? '' : item;
         });
         setFile(deleteFileData);
     };
+
     const SaveDataFromFile = async () => {
         try {
             if (file.length === 0) {
@@ -111,6 +116,19 @@ const CeCalendarExcelFileUpload = () => {
                 setLoading(false);
                 if (fileUploadDelete.current) {
                     fileUploadDelete.current.value = null;
+                    setFileUploadSuccess({
+                        csm_excel_file_upload_indexs: Math.random() * 10,
+                        csm_excel_file_upload_id: 'kmlee@dhk.co.kr',
+                        csm_excel_file_upload_original_filename: SendFileDataFromServer.data.UploadedFileName,
+                        csm_excel_file_upload_change_filename: SendFileDataFromServer.data.UploadedFileName,
+                        csm_excel_file_upload_path: SendFileDataFromServer.data.UploadedFileResult,
+                        csm_excel_file_upload_date: moment().format('YYYY--MM-DD HH:mm'),
+                    });
+                }
+                if (SendFileDataFromServer.data.ExcelDataDownloadUrl) {
+                    window.open(
+                        `${process.env.REACT_APP_DB_HOST}/public/CSM/${SendFileDataFromServer.data.ExcelDataDownloadUrl}_result.xlsx`
+                    );
                 }
             } else {
                 toast.show({
@@ -136,7 +154,10 @@ const CeCalendarExcelFileUpload = () => {
         <CeCalendarExcelFileUploadMainDivBox>
             <div>
                 <h3>파일 업로드 리스트</h3>
-                <CSMFileUploadListMainPage></CSMFileUploadListMainPage>
+                <CSMFileUploadListMainPage
+                    setFileUploadSuccess={data => setFileUploadSuccess(data)}
+                    FileUploadSuccess={FileUploadSuccess}
+                ></CSMFileUploadListMainPage>
             </div>
 
             <h3>CSM 정보 업로드</h3>
@@ -172,7 +193,7 @@ const CeCalendarExcelFileUpload = () => {
 
             <div className="InserData_Main_Container">
                 <TableContainerDivMainPage>
-                    <h3>추가된 데이터</h3>
+                    <h3>등록 데이터</h3>
                     <table className="blueone">
                         <thead>
                             <tr>
@@ -203,7 +224,7 @@ const CeCalendarExcelFileUpload = () => {
                     </table>
                 </TableContainerDivMainPage>
                 <TableContainerDivMainPage>
-                    <h3>중복된 데이터</h3>
+                    <h3>미등록 데이터</h3>
                     <table className="blueone">
                         <thead>
                             <tr>

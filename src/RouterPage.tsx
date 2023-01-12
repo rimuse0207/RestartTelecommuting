@@ -40,6 +40,7 @@ import AccessInfoMainPage from './Components/AdminAcees/AdminAccess/AccessInfoMa
 import CeContactMainPage from './Components/CECalendar/CEContact/CeContactMainPage';
 import ReNewalCSMMainPage from './Components/CECalendar/CSMNumberWorking/ReNewalCSM/ReNewalCSMMainPage';
 import RenewalCSMMainPage from './Components/RenewalCSM/RenewalCSMMainPage';
+import CeCalendarSearchIcons from './Components/CECalendar/CeCalendarSearchIcons';
 
 const RouterPageMainDivBox = styled.div`
     @media print {
@@ -130,7 +131,7 @@ const RouterPage = () => {
                                     {/* CSM */}
                                     <Route path="/CECalendar/:pagenumber/:type" component={CeCalendarMainPage}></Route>
                                     <Route path="/CECalendar/Renewal" component={ReNewalCSMMainPage}></Route>
-                                    <Route path="/RenewalCSM" component={RenewalCSMMainPage}></Route>
+                                    <Route path="/RenewalCSM" component={CeCalendarSearchIcons}></Route>
                                     {/* 비밀번호 변경 */}
                                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                                     {/* Exicon, YIKC 사용자 등록 */}

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { SiMicrosoftexcel } from 'react-icons/si';
 import { NothingGet } from '../../../API/GETApi/GetApi';
 import moment from 'moment';
+import { FaArrowRight } from 'react-icons/fa';
+import { BsFileEarmarkCheck } from 'react-icons/bs';
 
 const CSMFileUploadListMainPageMainDivBox = styled.div`
     border: 1px dashed black;
@@ -10,18 +12,24 @@ const CSMFileUploadListMainPageMainDivBox = styled.div`
     overflow: auto;
     padding: 30px;
     margin-bottom: 20px;
-    width: 650px;
+    width: 80%;
     ul {
         li {
-            border: 1px solid black;
-            display: block;
+            /* border: 1px solid black; */
+            display: flex;
             margin-bottom: 10px;
-            :hover {
-                color: lightgray;
-                cursor: pointer;
-                .FileUploadLists_icons {
-                    color: lightgray;
-                    cursor: pointer;
+            justify-content: space-around;
+
+            .FileUploadListsContainer {
+                :hover {
+                    .FileUploadLists_Title {
+                        color: lightgray;
+                        cursor: pointer;
+                        .FileUploadLists_icons {
+                            color: lightgray;
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }
@@ -30,7 +38,9 @@ const CSMFileUploadListMainPageMainDivBox = styled.div`
     .FileUploadListsContainer {
         display: flex;
         align-items: center;
-
+        border: 1px solid black;
+        width: 40%;
+        padding-left: 30px;
         .FileUploadLists_icons {
             font-size: 2em;
             color: green;
@@ -43,7 +53,7 @@ const CSMFileUploadListMainPageMainDivBox = styled.div`
     }
 `;
 
-type FileListsTypes = {
+export type FileListsTypes = {
     csm_excel_file_upload_indexs: number;
     csm_excel_file_upload_id: string;
     csm_excel_file_upload_original_filename: string;
@@ -52,7 +62,12 @@ type FileListsTypes = {
     csm_excel_file_upload_date: string;
 };
 
-const CSMFileUploadListMainPage = () => {
+type CSMFileUploadListMainPagePropsTypes = {
+    FileUploadSuccess: FileListsTypes | null;
+    setFileUploadSuccess: (data: null) => void;
+};
+
+const CSMFileUploadListMainPage = ({ FileUploadSuccess, setFileUploadSuccess }: CSMFileUploadListMainPagePropsTypes) => {
     const [FileLists, setFileLists] = useState<FileListsTypes[]>([]);
 
     const CSMFileDataGetting = async () => {
@@ -70,30 +85,30 @@ const CSMFileUploadListMainPage = () => {
         window.open(`${process.env.REACT_APP_DB_HOST}/CSM/${data.csm_excel_file_upload_change_filename}`);
     };
 
+    const handleResultClicksFile = (data: FileListsTypes) => {
+        window.open(`${process.env.REACT_APP_DB_HOST}/CSM/${data.csm_excel_file_upload_path}`);
+    };
+
     useEffect(() => {
         CSMFileDataGetting();
-    }, []);
+    }, [FileUploadSuccess]);
 
     return (
         <CSMFileUploadListMainPageMainDivBox>
             <ul>
-                {/* <li>
-                    <div className="FileUploadListsContainer">
-                        <h3>1.</h3>
-                        <div className="FileUploadLists_icons">
-                            <SiMicrosoftexcel></SiMicrosoftexcel>
-                        </div>
-                        <div className="FileUploadLists_Title">
-                            <div>20221228_Upload구분</div>
-                            <div>2022-12-28</div>
-                        </div>
+                <li>
+                    <div className="FileUploadListsContainer" style={{ border: 'none' }}>
+                        <h3>업로드 파일</h3>
                     </div>
-                </li> */}
-
+                    <div></div>
+                    <div className="FileUploadListsContainer" style={{ border: 'none' }}>
+                        <h3>결과 파일</h3>
+                    </div>
+                </li>
                 {FileLists.map((list, i) => {
                     return (
-                        <li onClick={() => handleClicksFile(list)}>
-                            <div className="FileUploadListsContainer">
+                        <li>
+                            <div className="FileUploadListsContainer" onClick={() => handleClicksFile(list)}>
                                 <h3>{i + 1}. </h3>
                                 <div className="FileUploadLists_icons">
                                     <SiMicrosoftexcel></SiMicrosoftexcel>
@@ -103,6 +118,29 @@ const CSMFileUploadListMainPage = () => {
                                     <div>{moment(list.csm_excel_file_upload_date).format('YYYY-MM-DD HH:mm')}</div>
                                 </div>
                             </div>
+                            <div style={{ paddingTop: '10px', fontSize: '1em' }}>
+                                <FaArrowRight></FaArrowRight>
+                            </div>
+                            {list.csm_excel_file_upload_path ? (
+                                <div className="FileUploadListsContainer" onClick={() => handleResultClicksFile(list)}>
+                                    <h3>{i + 1}. </h3>
+                                    <div className="FileUploadLists_icons">
+                                        <SiMicrosoftexcel></SiMicrosoftexcel>
+                                    </div>
+                                    <div className="FileUploadLists_Title">
+                                        <div>{list.csm_excel_file_upload_path}</div>
+                                        <div>{moment(list.csm_excel_file_upload_date).format('YYYY-MM-DD HH:mm')}</div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="FileUploadListsContainer">
+                                    <h3>{i + 1}. </h3>
+                                    <div className="FileUploadLists_icons">
+                                        <BsFileEarmarkCheck></BsFileEarmarkCheck>
+                                    </div>
+                                    <div className="FileUploadLists_Title">결과 파일 없음</div>
+                                </div>
+                            )}
                         </li>
                     );
                 })}

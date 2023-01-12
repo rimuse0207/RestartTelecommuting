@@ -18,9 +18,10 @@ import { AiFillDatabase } from 'react-icons/ai';
 import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
 import { paramasTypes } from './CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
-import { CSM_Data_Checked_Delete_Func } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { CSM_Data_Checked_Delete_Func, get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
 import axios from 'axios';
+import { toast } from '../ToastMessage/ToastManager';
 
 const customStyles = {
     content: {
@@ -44,6 +45,7 @@ const PcAssetMenuIconsMainPageDivBox = styled.div`
         display: flex;
         flex-wrap: wrap;
         justify-content: end;
+        width: 95%;
     }
     .DownLoadIcons {
         width: 100px;
@@ -278,7 +280,7 @@ const CeCalendarSearchIcons = () => {
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
 
     const [SelectClicksModals, setSelectClicksModals] = useState({
-        FilterSearch: false,
+        FilterSearch: true,
         NewDataModal: false,
         BindsDataModal: false,
     });
@@ -361,6 +363,7 @@ const CeCalendarSearchIcons = () => {
     const handleClickFilterData = async () => {
         try {
             dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            dispatch(get_CSM_DataThunk(FilteringData, '0', type));
         } catch (error) {
             console.log(error);
         }
@@ -371,6 +374,7 @@ const CeCalendarSearchIcons = () => {
             e.preventDefault();
 
             dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
+            dispatch(get_CSM_DataThunk(FilteringData, '0', type));
         } catch (error) {
             console.log(error);
         }
@@ -407,6 +411,13 @@ const CeCalendarSearchIcons = () => {
 
                 dispatch(CSM_Data_Checked_Delete_Func(Change_Datas));
                 dispatch(CSM_Selected_Data_List_Reset_Func());
+
+                toast.show({
+                    title: '숨김처리 완료!',
+                    content: `${CSM_Selected_Data_List.length}개의 데이터를 숨김처리 하였습니다.`,
+                    duration: 6000,
+                    DataSuccess: false,
+                });
             }
         } catch (error) {
             console.log(error);
@@ -421,10 +432,13 @@ const CeCalendarSearchIcons = () => {
                     <div
                         className="FiterIcons"
                         onClick={() =>
-                            setSelectClicksModals({
-                                ...SelectClicksModals,
-                                FilterSearch: !SelectClicksModals.FilterSearch,
-                            })
+                            // setSelectClicksModals({
+                            //     ...SelectClicksModals,
+                            //     FilterSearch: !SelectClicksModals.FilterSearch,
+                            // })
+                            {
+                                window.open('/RenewalCSM', 'Search', 'height=400px, width=1000px');
+                            }
                         }
                     >
                         <FaFilter></FaFilter>

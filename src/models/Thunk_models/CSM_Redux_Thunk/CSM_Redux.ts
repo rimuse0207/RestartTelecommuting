@@ -4,6 +4,7 @@ import { RootState } from '../../../models/index';
 import { createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
+import { CSMFilteringData, CSMFilteringState } from '../../CSMFilteringRedux/CSMFilteringRedux';
 
 export interface CeCalendarTableProps {
     csm_basic_data_binds: string;
@@ -66,6 +67,8 @@ export interface CeCalendarTableProps {
     id: null | string;
     team: null | string;
     csm_data_slect: number;
+    csm_number_respond_working_csm_key: string;
+    csm_number_respond_working_write_date: string;
 }
 
 const GET_CSM_Data_GET = 'CSM_Data/GET_CSM_Data_GET';
@@ -84,7 +87,7 @@ const get_CSM_DataAsync = createAsyncAction(GET_CSM_Data_GET, GET_CSM_Data_SUCCE
     AxiosError
 >();
 
-const get_CSM_Data = async (GetCSMFilteringData: any, pagenumber: string, SelectTeam: string) => {
+const get_CSM_Data = async (GetCSMFilteringData: CSMFilteringData, pagenumber: string, SelectTeam: string) => {
     try {
         const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
             GetCSMFilteringData,
@@ -116,14 +119,14 @@ export type CSM_DATA_State = {
 };
 
 export function get_CSM_DataThunk(
-    GetCSMFilteringData: any,
+    GetCSMFilteringData: CSMFilteringData,
     pagenumber: string,
     SelectTeam: string
 ): ThunkAction<void, RootState, null, CSM_DATA_Action> {
     return async dispatch => {
         const { request, success, failure } = get_CSM_DataAsync;
         dispatch(request());
-
+        console.log(GetCSMFilteringData);
         try {
             const gettings_CSM_DATA = await get_CSM_Data(GetCSMFilteringData, pagenumber, SelectTeam);
             if (gettings_CSM_DATA) {

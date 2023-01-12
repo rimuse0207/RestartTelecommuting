@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NothingGet } from '../../API/GETApi/GetApi';
+import { CeCalendarTableProps } from '../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 
 const CsmNumberWorkingMainPage = styled.div`
     .Table_Container {
@@ -22,6 +23,10 @@ const CsmNumberWorkingMainPage = styled.div`
         text-align: left;
         line-height: 1.5;
         width: 100%;
+
+        .UserUsedChecking {
+            opacity: 0.7;
+        }
     }
     table.type09 > thead > tr > th {
         padding: 10px;
@@ -67,12 +72,13 @@ type CsmNumberWorkingTypes = {
 };
 
 const CsmNumberWorking = () => {
-    const [CsmNumberData, setCsmNumberData] = useState<CsmNumberWorkingTypes[]>([]);
+    const [CsmNumberData, setCsmNumberData] = useState<CeCalendarTableProps[]>([]);
 
     const getCsmWorkingData = async () => {
         try {
             const CsmWorking = await NothingGet(`/CE_Calendar_app_server/Csm_Number_Working`);
             if (CsmWorking.data.dataSuccess) {
+                console.log(CsmWorking);
                 setCsmNumberData(CsmWorking.data.data);
             }
         } catch (error) {
@@ -104,7 +110,11 @@ const CsmNumberWorking = () => {
                         <tbody>
                             {CsmNumberData.map((list, i) => {
                                 return (
-                                    <tr key={list.csm_number_respond_working_indexs}>
+                                    <tr
+                                        key={list.csm_number_respond_working_csm_key}
+                                        style={list.csm_user_input_data_writer_id ? { opacity: 0.5 } : {}}
+                                        className={list.csm_user_input_data_writer_id ? 'UserUsedChecking' : ''}
+                                    >
                                         <td>{i + 1}</td>
                                         <td>{list.csm_number_respond_working_csm_number}</td>
                                         <td>{list.csm_number_respond_working_model}</td>

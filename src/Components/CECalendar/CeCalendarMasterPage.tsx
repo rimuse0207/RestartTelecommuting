@@ -201,7 +201,7 @@ export const AssetTableMainDivBox = styled.div`
     }
     .Table_container {
         width: 96vw;
-        max-height: 70vh;
+        max-height: 85vh;
         padding-right: 10px;
         overflow: auto;
         ::-webkit-scrollbar {
@@ -337,8 +337,8 @@ const CeCalendarMasterPage = () => {
     const dispatch = useDispatch();
     // const REACT_APP_PAGE_NUMBER = 100;
     const { pagenumber, type } = useParams<paramasTypes>();
-    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
-    const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering);
+    // const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
 
     const [data, setData] = useState<CeCalendarTableProps[]>([
         {
@@ -446,18 +446,13 @@ const CeCalendarMasterPage = () => {
         csm_user_input_data_apply_code: null,
     });
     const [hiddenChecked, setHiddenChecked] = useState(false);
-    const [ShowProcess, setShowProcess] = useState('');
 
     function closeModal() {
         setModalOpen(false);
     }
 
-    useEffect(() => {
-        dataGetSome();
-    }, [GetCSMFilteringData, type]);
-
     const dataGetSome = async () => {
-        dispatch(get_CSM_DataThunk(GetCSMFilteringData, pagenumber, type));
+        dispatch(get_CSM_DataThunk(GetCSMFilteringData.CSMFilteringData, pagenumber, type));
     };
 
     const hadleDeleteData = async () => {
@@ -483,6 +478,10 @@ const CeCalendarMasterPage = () => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        dataGetSome();
+    }, [GetCSMFilteringData, type]);
 
     return (
         <div>
