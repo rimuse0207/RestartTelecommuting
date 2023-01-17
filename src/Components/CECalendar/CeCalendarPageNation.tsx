@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import CeCalendarPageNationItems from './CeCalnedarPageNationItems';
-import { CeCalendarTableProps } from './CeCalendarMasterPage';
+
 import styled from 'styled-components';
 
 const CeCalendarPageNationMainDivBox = styled.div`

@@ -4,7 +4,7 @@ import { RootState } from '../../../models/index';
 import { createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
-import { CSMFilteringData, CSMFilteringState } from '../../CSMFilteringRedux/CSMFilteringRedux';
+import { CSMFilteringData } from '../../CSMFilteringRedux/CSMFilteringRedux';
 
 export interface CeCalendarTableProps {
     csm_basic_data_binds: string;
@@ -87,12 +87,20 @@ const get_CSM_DataAsync = createAsyncAction(GET_CSM_Data_GET, GET_CSM_Data_SUCCE
     AxiosError
 >();
 
-const get_CSM_Data = async (GetCSMFilteringData: CSMFilteringData, pagenumber: string, SelectTeam: string) => {
+const get_CSM_Data = async (
+    GetCSMFilteringData: CSMFilteringData,
+    pagenumber: string,
+    SelectTeam: string,
+    hiddenChecked: boolean,
+    CSM_Selected_Data_List: CeCalendarTableProps[]
+) => {
     try {
         const DataGetSomeCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DataGetSome`, {
             GetCSMFilteringData,
             pagenumber,
             SelectTeam,
+            hiddenChecked,
+            CSM_Selected_Data_List,
         });
         if (DataGetSomeCECalendar.data.dataSuccess) {
             return DataGetSomeCECalendar.data;
@@ -101,7 +109,7 @@ const get_CSM_Data = async (GetCSMFilteringData: CSMFilteringData, pagenumber: s
         }
     } catch (error) {
         console.log(error);
-        return error;
+        return false;
     }
 };
 const actions = { GET_CSM_Data_GET, GET_CSM_Data_SUCCESS, GET_CSM_Data_ERROR };
@@ -111,7 +119,7 @@ type CSM_DATA_Action = ActionType<typeof actions> | ActionType<any>;
 export type CSM_DATA_State = {
     CSM_Data: {
         loading: boolean;
-        error: Error | null;
+        error: Error | null | boolean;
         data: CeCalendarTableProps[];
         dataChecked: boolean;
         pagenumber: number;
@@ -121,14 +129,21 @@ export type CSM_DATA_State = {
 export function get_CSM_DataThunk(
     GetCSMFilteringData: CSMFilteringData,
     pagenumber: string,
-    SelectTeam: string
+    SelectTeam: string,
+    hiddenChecked: boolean,
+    CSM_Selected_Data_List: CeCalendarTableProps[]
 ): ThunkAction<void, RootState, null, CSM_DATA_Action> {
     return async dispatch => {
         const { request, success, failure } = get_CSM_DataAsync;
         dispatch(request());
-        console.log(GetCSMFilteringData);
         try {
-            const gettings_CSM_DATA = await get_CSM_Data(GetCSMFilteringData, pagenumber, SelectTeam);
+            const gettings_CSM_DATA = await get_CSM_Data(
+                GetCSMFilteringData,
+                pagenumber,
+                SelectTeam,
+                hiddenChecked,
+                CSM_Selected_Data_List
+            );
             if (gettings_CSM_DATA) {
                 dispatch(success(gettings_CSM_DATA));
             } else {
@@ -188,17 +203,17 @@ const CSMDataGetting = createReducer<CSM_DATA_State, CSM_DATA_Action>(initialSta
             error: null,
             data: action.payload.datas,
             dataChecked: true,
-            pagenumber: action.payload.Count[0] ? action.payload.Count[0].counts : 0,
+            pagenumber: 0,
         },
     }),
     [GET_CSM_Data_ERROR]: (state, action) => ({
         ...state,
         CSM_Data: {
             loading: false,
-            error: action.payload.datas,
+            error: true,
             data: [],
             dataChecked: false,
-            pagenumber: action.payload.Count[0] ? action.payload.Count[0].counts : 0,
+            pagenumber: 0,
         },
     }),
     [GET_CSM_DATA_CHECKED]: (state, action) => ({

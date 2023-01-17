@@ -2,15 +2,15 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import { CeCalendarTableProps } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import { toast } from '../../../../../ToastMessage/ToastManager';
-import { CeCalendarTableProps } from '../../../../CeCalendarMasterPage';
 
 Modal.setAppElement('#ModalSet');
 export type CeCalendarUpdateModalsProps = {
     closeModal: () => void;
-    getCeCalendarDatas: CeCalendarTableProps;
+    getCeCalendarDatas: CeCalendarTableProps | null;
     hadleDeleteData: () => void;
-    hadleUpdateData: (data: CeCalendarTableProps) => void;
+    hadleUpdateData: (data: CeCalendarTableProps | null) => void;
 };
 
 const CeCalendarUpdateModalsMainDivBox = styled.div`
@@ -92,7 +92,7 @@ const CeCalendarUpdateModalsMainDivBox = styled.div`
 `;
 
 const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteData, hadleUpdateData }: CeCalendarUpdateModalsProps) => {
-    const [UpdateCalendarData, setUpdateCalendarData] = useState<CeCalendarTableProps>(getCeCalendarDatas);
+    const [UpdateCalendarData, setUpdateCalendarData] = useState<CeCalendarTableProps | null>(getCeCalendarDatas);
     const handleDeleteData = async () => {
         if (!window.confirm('정말 삭제 하시겠습니까?')) {
             // 취소(아니오) 버튼 클릭 시 이벤트
@@ -107,7 +107,7 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                 closeModal();
                 toast.show({
                     title: 'CSM 데이터 삭제',
-                    content: `model: ${getCeCalendarDatas.csm_basic_data_model_number} , 제번: ${getCeCalendarDatas.csm_basic_data_binds}의 데이터 삭제 완료.`,
+                    content: `model: ${getCeCalendarDatas?.csm_basic_data_model_number} , 제번: ${getCeCalendarDatas?.csm_basic_data_binds}의 데이터 삭제 완료.`,
                     duration: 6000,
                     DataSuccess: true,
                 });
@@ -140,7 +140,7 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                 closeModal();
                 toast.show({
                     title: 'CSM 데이터 수정',
-                    content: `model: ${getCeCalendarDatas.csm_basic_data_model_number} , 제번: ${getCeCalendarDatas.csm_basic_data_binds}의 데이터 수정 완료.`,
+                    content: `model: ${getCeCalendarDatas?.csm_basic_data_model_number} , 제번: ${getCeCalendarDatas?.csm_basic_data_binds}의 데이터 수정 완료.`,
                     duration: 6000,
                     DataSuccess: true,
                 });
@@ -171,45 +171,45 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                     <table className="type03">
                         <tr>
                             <th scope="row">CSM</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_csm_number}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_csm_number}</td>
                         </tr>
                         <tr>
                             <th scope="row">제번</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_binds}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_binds}</td>
                         </tr>
                         <tr>
                             <th scope="row">상태</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_state}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_state}</td>
                         </tr>
                         <tr>
                             <th scope="row">등급</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_grade}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_grade}</td>
                         </tr>
                         <tr>
                             <th scope="row">발행일</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_issue_date}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_issue_date}</td>
                         </tr>
 
                         <tr>
                             <th scope="row">MODEL</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_model_number}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_model_number}</td>
                         </tr>
 
                         <tr>
                             <th scope="row">고객사</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_custom}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_custom}</td>
                         </tr>
                         <tr>
                             <th scope="row">Part.NO</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_part_number}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_part_number}</td>
                         </tr>
                         <tr>
                             <th scope="row">제목</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_titles}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_titles}</td>
                         </tr>
                         <tr>
                             <th scope="row">비고</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_etc}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_etc}</td>
                         </tr>
                     </table>
                 </div>
@@ -218,18 +218,25 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                     <table className="type03">
                         <tr>
                             <th scope="row">CSM</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_csm_number}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_csm_number}</td>
                         </tr>
                         <tr>
                             <th scope="row">제번</th>
-                            <td>{getCeCalendarDatas.csm_basic_data_binds}</td>
+                            <td>{getCeCalendarDatas?.csm_basic_data_binds}</td>
                         </tr>
                         <tr>
                             <th scope="row">상태</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_state}
-                                    onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_state: e.target.value })}
+                                    value={UpdateCalendarData?.csm_basic_data_state}
+                                    onChange={e =>
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_state: e.target.value,
+                                              })
+                                            : ''
+                                    }
                                 ></input>
                             </td>
                         </tr>
@@ -237,8 +244,15 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">등급</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_grade}
-                                    onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_grade: e.target.value })}
+                                    value={UpdateCalendarData?.csm_basic_data_grade}
+                                    onChange={e =>
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_grade: e.target.value,
+                                              })
+                                            : ''
+                                    }
                                 ></input>
                             </td>
                         </tr>
@@ -247,9 +261,14 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <td>
                                 <input
                                     type="date"
-                                    value={UpdateCalendarData.csm_basic_data_issue_date}
+                                    value={UpdateCalendarData?.csm_basic_data_issue_date}
                                     onChange={e =>
-                                        setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_issue_date: e.target.value })
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_issue_date: e.target.value,
+                                              })
+                                            : ''
                                     }
                                 ></input>
                             </td>
@@ -259,9 +278,14 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">MODEL</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_model_number}
+                                    value={UpdateCalendarData?.csm_basic_data_model_number}
                                     onChange={e =>
-                                        setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_model_number: e.target.value })
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_model_number: e.target.value,
+                                              })
+                                            : ''
                                     }
                                 ></input>
                             </td>
@@ -271,8 +295,15 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">고객사</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_custom}
-                                    onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_custom: e.target.value })}
+                                    value={UpdateCalendarData?.csm_basic_data_custom}
+                                    onChange={e =>
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_custom: e.target.value,
+                                              })
+                                            : ''
+                                    }
                                 ></input>
                             </td>
                         </tr>
@@ -280,9 +311,14 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">Part.NO</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_part_number}
+                                    value={UpdateCalendarData?.csm_basic_data_part_number}
                                     onChange={e =>
-                                        setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_part_number: e.target.value })
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_part_number: e.target.value,
+                                              })
+                                            : ''
                                     }
                                 ></input>
                             </td>
@@ -291,8 +327,15 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">제목</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_titles}
-                                    onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_titles: e.target.value })}
+                                    value={UpdateCalendarData?.csm_basic_data_titles}
+                                    onChange={e =>
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_titles: e.target.value,
+                                              })
+                                            : ''
+                                    }
                                 ></input>
                             </td>
                         </tr>
@@ -300,8 +343,15 @@ const CeCalendarUpdateModals = ({ closeModal, getCeCalendarDatas, hadleDeleteDat
                             <th scope="row">비고</th>
                             <td>
                                 <input
-                                    value={UpdateCalendarData.csm_basic_data_etc}
-                                    onChange={e => setUpdateCalendarData({ ...UpdateCalendarData, csm_basic_data_etc: e.target.value })}
+                                    value={UpdateCalendarData?.csm_basic_data_etc}
+                                    onChange={e =>
+                                        UpdateCalendarData
+                                            ? setUpdateCalendarData({
+                                                  ...UpdateCalendarData,
+                                                  csm_basic_data_etc: e.target.value,
+                                              })
+                                            : ''
+                                    }
                                 ></input>
                             </td>
                         </tr>

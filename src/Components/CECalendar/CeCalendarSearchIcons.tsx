@@ -1,41 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import styled from 'styled-components';
-import { BsFileEarmarkBarGraphFill, BsFillEyeSlashFill } from 'react-icons/bs';
-import { BsFillBagPlusFill } from 'react-icons/bs';
-import { FaFilter } from 'react-icons/fa';
+// import { BsFileEarmarkBarGraphFill, BsFillEyeSlashFill } from 'react-icons/bs';
+// import { BsFillBagPlusFill } from 'react-icons/bs';
+// import { FaFilter } from 'react-icons/fa';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { GrPowerReset } from 'react-icons/gr';
 import { GoSearch } from 'react-icons/go';
-import Modal from 'react-modal';
-import WriterPage from './WriterPage';
+// import WriterPage from './WriterPage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../models';
-import { CSMFilteringAdd, CSMFilteringReset } from '../../models/CSMFilteringRedux/CSMFilteringRedux';
-import { DecryptKey } from '../../config';
-import BasicDataInsertPage from './CeCalendarModals/DataInsertModal/BasicDataInsertPage';
-import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
-import { AiFillDatabase } from 'react-icons/ai';
-import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
+import { CSMFilteringAdd, CSMFilteringData, CSMFilteringReset } from '../../models/CSMFilteringRedux/CSMFilteringRedux';
+// import { DecryptKey } from '../../config';
+// import BasicDataInsertPage from './CeCalendarModals/DataInsertModal/BasicDataInsertPage';
+// import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
+// import { AiFillDatabase } from 'react-icons/ai';
+// import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
 import { paramasTypes } from './CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
 import { CSM_Data_Checked_Delete_Func, get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
-import axios from 'axios';
-import { toast } from '../ToastMessage/ToastManager';
+import { BsFillCalendar2DateFill } from 'react-icons/bs';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        width: '90%',
-        height: '90%',
-    },
-};
-Modal.setAppElement('#ModalSet');
+// import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
+// import axios from 'axios';
+// import { toast } from '../ToastMessage/ToastManager';
 
 const PcAssetMenuIconsMainPageDivBox = styled.div`
     width: 100%;
@@ -104,32 +95,20 @@ const PcAssetMenuIconsMainPageDivBox = styled.div`
 `;
 
 export const FilterSearchMainPageDivBox = styled.div`
-    height: 400px;
     padding: 10px;
     margin-right: 30px;
     padding-right: 40px;
     margin-top: 20px;
     background-color: #fff;
     border-radius: 10px;
-    animation-name: SlideUpDown;
-    animation-duration: 0.5s;
-    @keyframes SlideUpDown {
-        from {
-            height: 0vh;
-            opacity: 0;
-        }
 
-        to {
-            height: 400px;
-            opacity: 1;
-        }
-    }
     .FilteringContainer {
         margin-top: 10px;
         max-height: 30vh;
         display: flex;
         flex-flow: wrap;
         justify-content: space-between;
+        font-size: 0.5em;
         .SearchInputContainer {
             display: flex;
             width: 45%;
@@ -167,6 +146,7 @@ export const FilterSearchMainPageDivBox = styled.div`
                             height: 100%;
                             border: 1px solid lightgray;
                             padding-left: 10px;
+                            font-size: 0.5em;
                             :focus {
                                 outline: none;
                                 border: none;
@@ -180,7 +160,8 @@ export const FilterSearchMainPageDivBox = styled.div`
     }
     .btns {
         text-align: end;
-        margin-top: 25px;
+
+        font-size: 0.5em;
         .btn {
             display: inline-block;
             margin-right: 2px;
@@ -206,19 +187,7 @@ export const FilterSearchMainPageDivBox = styled.div`
     }
 `;
 
-export const FilterSearchMainPageDivBoxDownSlide = styled.div`
-    animation-name: SlideUp;
-    animation-duration: 0.5s;
-    @keyframes SlideUp {
-        from {
-            height: 400px;
-        }
-
-        to {
-            height: 0vh;
-        }
-    }
-`;
+export const FilterSearchMainPageDivBoxDownSlide = styled.div``;
 type FilteringDataTypes = {
     csm_basic_data_binds: string;
     csm_basic_data_csm_key: string;
@@ -271,8 +240,18 @@ type FilteringDataTypes = {
     start_csm_basic_data_issue_date: string;
 };
 
-const CeCalendarSearchIcons = () => {
+type CeCalendarSearchIconsPropsType = {
+    SubMenuClicks: string;
+};
+
+export type NowTimesTypes = {
+    startTime: Date;
+    endTime: Date;
+};
+
+const CeCalendarSearchIcons = ({ SubMenuClicks }: CeCalendarSearchIconsPropsType) => {
     const dispatch = useDispatch();
+    const date = new Date();
     const { pagenumber, type } = useParams<paramasTypes>();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
@@ -284,7 +263,31 @@ const CeCalendarSearchIcons = () => {
         NewDataModal: false,
         BindsDataModal: false,
     });
-    const [FilteringData, setFilteringData] = useState<FilteringDataTypes>(GetCSMFilteringData);
+    const [FilteringData, setFilteringData] = useState<CSMFilteringData>(GetCSMFilteringData);
+    const [NowTimes, setNowTimes] = useState<NowTimesTypes>({
+        startTime: new Date(date.getFullYear(), date.getMonth(), 1),
+        endTime: new Date(date.getFullYear(), date.getMonth() + 1, 0),
+    });
+
+    ///date-picker 버튼 컴포넌트
+    const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
+        <button className="example-custom-input" onClick={onClick} ref={ref}>
+            {value}
+        </button>
+    ));
+
+    ///date-picker 토요일 일요일 색깔 표시
+    const getDayName = (date: any) => {
+        return date
+            .toLocaleDateString('ko-KR', {
+                weekday: 'long',
+            })
+            .substr(0, 1);
+    };
+
+    const createDate = (date: any) => {
+        return new Date(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
+    };
 
     function closeModal() {
         setSelectClicksModals({
@@ -354,6 +357,7 @@ const CeCalendarSearchIcons = () => {
                 csm_user_input_data_writer_id: null,
                 finish_csm_basic_data_issue_date: '',
                 start_csm_basic_data_issue_date: '',
+                name: '',
             });
         } catch (error) {
             console.log(error);
@@ -362,8 +366,7 @@ const CeCalendarSearchIcons = () => {
 
     const handleClickFilterData = async () => {
         try {
-            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            dispatch(get_CSM_DataThunk(FilteringData, '0', type));
+            dispatch(CSMFilteringAdd(FilteringData));
         } catch (error) {
             console.log(error);
         }
@@ -373,52 +376,7 @@ const CeCalendarSearchIcons = () => {
         try {
             e.preventDefault();
 
-            dispatch(CSMFilteringAdd({ CSMFilteringData: FilteringData }));
-            dispatch(get_CSM_DataThunk(FilteringData, '0', type));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleClicksForHidden = async () => {
-        try {
-            const Change_Hiiden_Data_From_Server = await axios.post(
-                `${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server//UpdateHidden`,
-                { CSM_Selected_Data_List }
-            );
-
-            if (Change_Hiiden_Data_From_Server.data.dataSuccess) {
-                let Change_Datas = CSM_Datas.data;
-
-                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
-                    Change_Datas = Change_Datas.map(item =>
-                        item.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
-                            ? item.csm_calendar_hidden_on === 1
-                                ? { ...item, csm_calendar_hidden_on: 0 }
-                                : { ...item, csm_calendar_hidden_on: 1 }
-                            : item
-                    );
-                }
-
-                // 체크항목에서 Redux에서 제거
-                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
-                    Change_Datas = Change_Datas.map(list =>
-                        list.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
-                            ? { ...list, csm_data_slect: 0 }
-                            : list
-                    );
-                }
-
-                dispatch(CSM_Data_Checked_Delete_Func(Change_Datas));
-                dispatch(CSM_Selected_Data_List_Reset_Func());
-
-                toast.show({
-                    title: '숨김처리 완료!',
-                    content: `${CSM_Selected_Data_List.length}개의 데이터를 숨김처리 하였습니다.`,
-                    duration: 6000,
-                    DataSuccess: false,
-                });
-            }
+            dispatch(CSMFilteringAdd(FilteringData));
         } catch (error) {
             console.log(error);
         }
@@ -427,71 +385,6 @@ const CeCalendarSearchIcons = () => {
     return (
         <PcAssetMenuIconsMainPageDivBox>
             <div></div>
-            <div className="IconsClickMenu">
-                <div>
-                    <div
-                        className="FiterIcons"
-                        onClick={() =>
-                            // setSelectClicksModals({
-                            //     ...SelectClicksModals,
-                            //     FilterSearch: !SelectClicksModals.FilterSearch,
-                            // })
-                            {
-                                window.open('/RenewalCSM', 'Search', 'height=400px, width=1000px');
-                            }
-                        }
-                    >
-                        <FaFilter></FaFilter>
-                    </div>
-                    <div className="IconText">필터 검색</div>
-                </div>
-                <div>
-                    <div
-                        className="BindesIcons"
-                        onClick={() =>
-                            setSelectClicksModals({
-                                ...SelectClicksModals,
-                                BindsDataModal: !SelectClicksModals.BindsDataModal,
-                            })
-                        }
-                    >
-                        <AiFillDatabase></AiFillDatabase>
-                    </div>
-                    <div className="IconText">
-                        이동거리 <br />및 시간 입력
-                    </div>
-                </div>
-
-                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
-                    <div>
-                        <div
-                            className="NewDataIcons"
-                            onClick={() =>
-                                setSelectClicksModals({
-                                    ...SelectClicksModals,
-                                    NewDataModal: !SelectClicksModals.NewDataModal,
-                                })
-                            }
-                        >
-                            <BsFillBagPlusFill></BsFillBagPlusFill>
-                        </div>
-                        <div className="IconText">데이터 추가</div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-
-                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
-                    <div onClick={() => handleClicksForHidden()}>
-                        <div className="HiddenIcons">
-                            <BsFillEyeSlashFill></BsFillEyeSlashFill>
-                        </div>
-                        <div className="IconText">숨김 처리</div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-            </div>
 
             {SelectClicksModals.FilterSearch ? (
                 <FilterSearchMainPageDivBox>
@@ -549,49 +442,6 @@ const CeCalendarSearchIcons = () => {
                                                         }
                                                     ></input>
                                                 </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="SearchInputContainer">
-                                    <div className="SearchInputContainerTitle">
-                                        <h4>발행일.</h4>
-                                    </div>
-                                    <div className="SearchInputContainerSubTitle">
-                                        <div className="SearchInputContainerSubTitleFlexDivBox">
-                                            <div className="InputDivBox">
-                                                <input
-                                                    type="date"
-                                                    value={FilteringData.start_csm_basic_data_issue_date}
-                                                    onChange={e =>
-                                                        setFilteringData({
-                                                            ...FilteringData,
-                                                            start_csm_basic_data_issue_date: e.target.value,
-                                                        })
-                                                    }
-                                                ></input>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    lineHeight: '40px',
-                                                    marginRight: '10px',
-                                                    marginLeft: '10px',
-                                                    fontSize: '1.5em',
-                                                }}
-                                            >
-                                                ~
-                                            </div>
-                                            <div className="InputDivBox">
-                                                <input
-                                                    type="date"
-                                                    value={FilteringData.finish_csm_basic_data_issue_date}
-                                                    onChange={e =>
-                                                        setFilteringData({
-                                                            ...FilteringData,
-                                                            finish_csm_basic_data_issue_date: e.target.value,
-                                                        })
-                                                    }
-                                                ></input>
                                             </div>
                                         </div>
                                     </div>
@@ -735,8 +585,135 @@ const CeCalendarSearchIcons = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {SubMenuClicks === 'Table_User_Used' ? (
+                                    <div className="SearchInputContainer">
+                                        <div className="SearchInputContainerTitle">
+                                            <h4>사용자.</h4>
+                                        </div>
+                                        <div className="SearchInputContainerSubTitle">
+                                            <div className="SearchInputContainerSubTitleFlexDivBox">
+                                                <div className="IconsDivBox">
+                                                    <label>
+                                                        <BsFillPencilFill></BsFillPencilFill>
+                                                    </label>
+                                                </div>
+                                                <div className="InputDivBox">
+                                                    <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleEnterClicks(e)}>
+                                                        <input
+                                                            value={FilteringData.name}
+                                                            type="text"
+                                                            placeholder="EX) 유성재..."
+                                                            onChange={e =>
+                                                                setFilteringData({
+                                                                    ...FilteringData,
+                                                                    name: e.target.value,
+                                                                })
+                                                            }
+                                                        ></input>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
                             </div>
                         </div>
+                        {SubMenuClicks === 'Table_User_Used' ? (
+                            <div className="SearchInputContainerSubTitle">
+                                <div className="SearchInputContainerSubTitleFlexDivBox">
+                                    <div className="InputDivBox">
+                                        <h4>
+                                            <span style={{ marginRight: '10px' }}>
+                                                <BsFillCalendar2DateFill></BsFillCalendar2DateFill>
+                                            </span>
+                                            <span style={{ marginLeft: '10px' }}>시작일.</span>
+                                        </h4>
+                                        <DatePicker
+                                            locale={ko}
+                                            selected={NowTimes.startTime}
+                                            onChange={(date: any) =>
+                                                setNowTimes({
+                                                    ...NowTimes,
+                                                    startTime: date,
+                                                })
+                                            }
+                                            dateFormat="yyyy-MM-dd"
+                                            highlightDates={[new Date()]}
+                                            popperModifiers={[
+                                                {
+                                                    name: 'preventOverflow',
+                                                    options: {
+                                                        rootBoundary: 'viewport',
+                                                        tether: false,
+                                                        altAxis: true,
+                                                    },
+                                                },
+                                            ]}
+                                            dayClassName={date =>
+                                                getDayName(createDate(date)) === '토'
+                                                    ? 'saturday'
+                                                    : getDayName(createDate(date)) === '일'
+                                                    ? 'sunday'
+                                                    : ''
+                                            }
+                                            customInput={<ExampleCustomInput />}
+                                        />
+                                    </div>
+                                    <div
+                                        style={{
+                                            lineHeight: '40px',
+                                            marginRight: '30px',
+                                            marginLeft: '30px',
+                                            fontSize: '2em',
+                                        }}
+                                    >
+                                        ~
+                                    </div>
+                                    <div className="InputDivBox">
+                                        <h4>
+                                            <span style={{ marginRight: '10px' }}>
+                                                <BsFillCalendar2DateFill></BsFillCalendar2DateFill>
+                                            </span>
+                                            <span style={{ marginLeft: '10px' }}>종료일.</span>
+                                        </h4>
+                                        <DatePicker
+                                            locale={ko}
+                                            selected={NowTimes.endTime}
+                                            onChange={(date: any) =>
+                                                setNowTimes({
+                                                    ...NowTimes,
+                                                    endTime: date,
+                                                })
+                                            }
+                                            dateFormat="yyyy-MM-dd"
+                                            highlightDates={[new Date()]}
+                                            popperModifiers={[
+                                                {
+                                                    name: 'preventOverflow',
+                                                    options: {
+                                                        rootBoundary: 'viewport',
+                                                        tether: false,
+                                                        altAxis: true,
+                                                    },
+                                                },
+                                            ]}
+                                            dayClassName={date =>
+                                                getDayName(createDate(date)) === '토'
+                                                    ? 'saturday'
+                                                    : getDayName(createDate(date)) === '일'
+                                                    ? 'sunday'
+                                                    : ''
+                                            }
+                                            customInput={<ExampleCustomInput />}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
 
                     <div className="btns">
@@ -759,16 +736,6 @@ const CeCalendarSearchIcons = () => {
             ) : (
                 <FilterSearchMainPageDivBoxDownSlide></FilterSearchMainPageDivBoxDownSlide>
             )}
-
-            <Modal isOpen={SelectClicksModals.NewDataModal} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-                {/* <WriterPage dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></WriterPage> */}
-                <InsertModalMainPage dataGetSome={() => dataGetSome()} closeModal={() => closeModal()}></InsertModalMainPage>
-            </Modal>
-            <Modal isOpen={SelectClicksModals.BindsDataModal} style={customStyles}>
-                <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>이동 거리 및 시간 입력</h2>
-                <div style={{ marginBottom: '30px' }}></div>
-                <CeDistanceUpdateMainPage closeModal={() => closeModal()}></CeDistanceUpdateMainPage>
-            </Modal>
         </PcAssetMenuIconsMainPageDivBox>
     );
 };

@@ -55,9 +55,10 @@ export type CSMFilteringData = {
     csm_user_input_data_writer_id: null | string;
     finish_csm_basic_data_issue_date: string;
     start_csm_basic_data_issue_date: string;
+    name: string;
 };
 
-export const CSMFilteringAdd = (diff: CSMFilteringState) => ({
+export const CSMFilteringAdd = (diff: CSMFilteringData) => ({
     type: CSMFilteringRedux_GET,
     payload: diff,
 });
@@ -118,13 +119,14 @@ const initialState: CSMFilteringState = {
         csm_user_input_data_writer_id: null,
         finish_csm_basic_data_issue_date: '',
         start_csm_basic_data_issue_date: '',
+        name: '',
     },
 };
 
 function CSMFiltering(state: CSMFilteringState = initialState, action: CSMFilteringAction): CSMFilteringState {
     switch (action.type) {
         case CSMFilteringRedux_GET:
-            return { CSMFilteringData: action.payload.CSMFilteringData };
+            return { CSMFilteringData: action.payload };
         case CSMFilterResetRedux:
             return { CSMFilteringData: initialState.CSMFilteringData };
         default:

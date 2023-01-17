@@ -1,23 +1,24 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { DecryptKey } from '../../../../config';
 import { RootState } from '../../../../models';
 import { toast } from '../../../ToastMessage/ToastManager';
-// import { CeCalendarTableProps } from '../../CeCalendarMasterPage';
-import { FcInfo } from 'react-icons/fc';
 import moment from 'moment';
 import {
     CeCalendarTableProps,
     CSM_CE_CALENDAR_CHECKED_Func,
     CSM_Data_Checked_Delete_Func,
     CSM_Data_Checked_Func,
+    get_CSM_DataThunk,
 } from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import { CSM_Selected_Data_List_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
+import { CSM_Selected_Data_List_Func, CSM_Selected_Data_List_Reset_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
 import { CSMMainContentProps_Types } from '../CSMMainContent';
-
 import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
+import { paramasTypes } from '../../CeCalendarMasterPage';
+import { useParams } from 'react-router-dom';
+import LoaderMainPage from '../../../Loader/LoaderMainPage';
 
 const CSMNothingUserContentMainDivBox = styled.div`
     -webkit-user-select: none;
@@ -45,17 +46,20 @@ type arrangeStateType = {
     classNames: string;
 };
 
-const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => {
+const CSMNothingUserContent = () => {
     const dispatch = useDispatch();
+    const { pagenumber, type } = useParams<paramasTypes>();
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering);
     // const [hiddenChecked, setHiddenChecked] = useState(false);
     const [AllChecking, setAllChecking] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
     const [FirstClickData, setFirstClickData] = useState<CeCalendarTableProps | any>();
+    const [FirstClickIndexNumber, setFirstClickIndexNumber] = useState(0);
     const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>();
-
+    const [hiddenChecked, setHiddenChecked] = useState(false);
     const [arrangeState, setArrangeState] = useState<arrangeStateType[]>([
         {
             value: 'CSM',
@@ -115,29 +119,42 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
         },
     ]);
 
-    const handleChangeClickHidden = async (e: any, datas: any) => {
+    const handleChangeClickHidden = async (e: any, datas: any, numbers: number) => {
         if (e.shiftKey) {
-            const CSM_Datas_Selected = CSM_Datas.data.map(list => {
-                return list.csm_basic_data_indexs <= datas.csm_basic_data_indexs &&
-                    list.csm_basic_data_indexs >= FirstClickData?.csm_basic_data_indexs
-                    ? { ...list, csm_data_slect: 1 }
-                    : list;
-            });
+            if (numbers > FirstClickIndexNumber) {
+                const CSM_Datas_Selected = CSM_Datas.data.map((list, j) => {
+                    return j <= numbers && j > FirstClickIndexNumber ? { ...list, csm_data_slect: 1 } : list;
+                });
 
-            const CSM_Datas_Selected_Belong_Datas = CSM_Datas.data.filter(list => {
-                return (
-                    list.csm_basic_data_indexs <= datas.csm_basic_data_indexs &&
-                    list.csm_basic_data_indexs > FirstClickData?.csm_basic_data_indexs
-                );
-            });
+                const CSM_Datas_Selected_Belong_Datas = CSM_Datas.data.filter((list, j) => {
+                    return j <= numbers && j > FirstClickIndexNumber;
+                });
 
-            // 선택항목 Redux에서 추가
-            dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(CSM_Datas_Selected_Belong_Datas)));
-            // 선택항목 Redux에서 체크 등록
-            dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
-            setFirstClickData(null);
+                // 선택항목 Redux에서 추가
+                dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(CSM_Datas_Selected_Belong_Datas)));
+                // 선택항목 Redux에서 체크 등록
+                dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+                setFirstClickData(null);
+                setFirstClickIndexNumber(0);
+            } else {
+                const CSM_Datas_Selected = CSM_Datas.data.map((list, j) => {
+                    return j < FirstClickIndexNumber && j >= numbers ? { ...list, csm_data_slect: 1 } : list;
+                });
+
+                const CSM_Datas_Selected_Belong_Datas = CSM_Datas.data.filter((list, j) => {
+                    return j < FirstClickIndexNumber && j >= numbers;
+                });
+
+                // 선택항목 Redux에서 추가
+                dispatch(CSM_Selected_Data_List_Func(CSM_Selected_Data_List.concat(CSM_Datas_Selected_Belong_Datas)));
+                // 선택항목 Redux에서 체크 등록
+                dispatch(CSM_Data_Checked_Func(CSM_Datas_Selected));
+                setFirstClickData(null);
+                setFirstClickIndexNumber(0);
+            }
         } else {
             setFirstClickData(datas);
+            setFirstClickIndexNumber(numbers);
             try {
                 if (datas.csm_data_slect === 1) {
                     const CSM_Datas_Selected = CSM_Datas.data.map(list => {
@@ -152,6 +169,7 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                     // 선택항목 Redux에서 체크 해제
                     dispatch(CSM_Data_Checked_Delete_Func(CSM_Datas_Selected));
                     setFirstClickData(null);
+                    setFirstClickIndexNumber(0);
                 } else {
                     const CSM_Datas_Selected = CSM_Datas.data.map(list => {
                         return list.csm_basic_data_csm_key === datas.csm_basic_data_csm_key ? { ...list, csm_data_slect: 1 } : list;
@@ -755,15 +773,47 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
         }
     };
 
+    const dataGetSome = async () => {
+        dispatch(get_CSM_DataThunk(GetCSMFilteringData.CSMFilteringData, pagenumber, type, hiddenChecked, CSM_Selected_Data_List));
+    };
+
+    useEffect(() => {
+        if (CSM_Selected_Data_List.length > 0) {
+            dispatch(CSM_Selected_Data_List_Reset_Func());
+            toast.show({
+                title: '선택항목 초기화',
+                content: `데이터가 갱신되어 선택항목이 초기화 됩니다.`,
+                duration: 4000,
+                DataSuccess: true,
+            });
+        }
+    }, [type]);
+
+    useEffect(() => {
+        dataGetSome();
+    }, [GetCSMFilteringData, type]);
+
     return (
         <CSMNothingUserContentMainDivBox>
-            <h2>사용자 미등록</h2>
+            <div style={{ display: 'inline-block' }}>
+                <div>
+                    <div
+                        onClick={() => setHiddenChecked(!hiddenChecked)}
+                        className="ThirdTest_list_hidden_box"
+                        style={{ fontSize: '0.7em' }}
+                    >
+                        <input type="checkbox" checked={hiddenChecked}></input>
+                        {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
+                    </div>
+                </div>
+            </div>
+            <h4>사용자 미등록({CSM_Datas.data ? CSM_Datas.data.length : 0})</h4>
             <div className="Table_container">
                 <table className="type09" id="CeCalendarTables">
                     <thead>
                         <tr className="Table_Tr_position">
                             <th className="Table_First" style={{ textAlign: 'center' }}>
-                                선택
+                                선택({CSM_Selected_Data_List.length})
                                 <div>
                                     <input type="checkbox" checked={AllChecking} onChange={handleChecking} readOnly></input>
                                 </div>
@@ -794,23 +844,6 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                                     </th>
                                 );
                             })}
-                            {/* <th className="Table_Sixth">CSM</th>
-                            <th className="Table_Seventh">MODEL</th>
-                            <th className="Table_Eighth">제번</th>
-                            <th className="Table_Ninth" onClick={() => handleArrenge('csm_basic_data_custom')}>
-                                <div>
-                                    <span>고객사</span>
-                                    <span>
-                                        <IoMdArrowDropup></IoMdArrowDropup>
-                                    </span>
-                                    <span>
-                                        <IoMdArrowDropdown></IoMdArrowDropdown>
-                                    </span>
-                                </div>
-                            </th>
-                            <th className="Table_Tenth">Part NO.</th>
-                            <th>제목</th>
-                            <th>비고</th> */}
                             <th>사용자 이름</th>
                             <th>작업시간</th>
                             <th>작업인원</th>
@@ -821,19 +854,11 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                             <th>고객</th>
                             <th>PAY</th>
                             <th>완료</th>
-                            <th>자세히</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {CSM_Datas.data
-                            .filter(item => {
-                                if (!hiddenChecked) {
-                                    return item.csm_calendar_hidden_on === 0 ? item : '';
-                                } else {
-                                    return item;
-                                }
-                            })
-                            .map((list: any, i) => {
+                        {!CSM_Datas.error ? (
+                            CSM_Datas.data?.map((list, i) => {
                                 var classnamesAUTO = 'basic';
 
                                 if (!list.csm_calendar_publish) {
@@ -855,7 +880,7 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                                     <tr
                                         key={list.csm_calendar_indexs}
                                         className={`Table_hover_check ${list.csm_calendar_hidden_on !== 0 ? 'Hidden_Data_ON' : ''}`}
-                                        onClick={e => handleChangeClickHidden(e, list)}
+                                        onClick={e => handleChangeClickHidden(e, list, i)}
                                         style={
                                             FirstClickData?.csm_basic_data_csm_key === list.csm_basic_data_csm_key
                                                 ? { background: 'lightgray' }
@@ -866,7 +891,7 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                                             <input
                                                 type="checkbox"
                                                 checked={list.csm_data_slect === 1 ? true : false}
-                                                onChange={e => handleChangeClickHidden(e, list)}
+                                                onChange={e => handleChangeClickHidden(e, list, i)}
                                             ></input>
                                         </td>
                                         <td className="Table_Second">{i + 1}</td>
@@ -1019,15 +1044,21 @@ const CSMNothingUserContent = ({ hiddenChecked }: CSMMainContentProps_Types) => 
                                             )}
                                         </td>
 
-                                        <td onClick={() => handleSubUpdateData(list)}>
+                                        {/* <td onClick={() => handleSubUpdateData(list)}>
                                             <FcInfo></FcInfo>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 );
-                            })}
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan={2}>ERROR 발생.</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
+            <LoaderMainPage loading={CSM_Datas.loading}></LoaderMainPage>
         </CSMNothingUserContentMainDivBox>
     );
 };

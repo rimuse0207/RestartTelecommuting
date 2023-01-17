@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
 import { RootState } from '../../models';
 import { useSelector, useDispatch } from 'react-redux';
-import { DecryptKey } from '../../config';
-import { toast } from '../ToastMessage/ToastManager';
 import styled from 'styled-components';
-import CeCalendarPageNation from './CeCalendarPageNation';
 import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
-import CeCalendarUpdateModals from './CeCalendarModals/DataInsertModal/TableModals/CeCalendarUpdate/CeCalendarUpdateModals';
 import CeCalendarSearchIcons from './CeCalendarSearchIcons';
 import TableModalsMainPage from './CeCalendarModals/DataInsertModal/TableModals/TableModalsMainPage';
-import { FcInfo } from 'react-icons/fc';
-import { get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { CeCalendarTableProps, CSM_Data_Checked_Delete_Func, get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 import CSMMainContent from './CSMMainContnet/CSMMainContent';
+import { FloatingMenu, MainButton, ChildButton } from 'react-floating-button-menu';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { AiFillDatabase } from 'react-icons/ai';
+import { BsFillBagPlusFill, BsFillPencilFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import { FaFilter } from 'react-icons/fa';
+import { ImCancelCircle } from 'react-icons/im';
+import axios from 'axios';
+import { toast } from '../ToastMessage/ToastManager';
+import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
+import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
+import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
+import Draggable from 'react-draggable';
 
 const customStyles = {
     content: {
@@ -92,7 +97,7 @@ export const AssetTableMainDivBox = styled.div`
             background-color: #fff;
         }
         .Table_First {
-            width: 50px !important;
+            width: 70px !important;
         }
         .Table_Second {
             width: 50px !important;
@@ -140,7 +145,7 @@ export const AssetTableMainDivBox = styled.div`
         border: none;
         border-bottom: 3px solid #036;
         background: #f3f6f7 !important;
-        font-size: 0.7em;
+        font-size: 0.1em;
         table-layout: fixed;
         width: 100px;
     }
@@ -158,7 +163,7 @@ export const AssetTableMainDivBox = styled.div`
         padding: 2px;
         vertical-align: center;
         border-bottom: 1px solid #ccc;
-        font-size: 1em;
+        font-size: 0.1em;
         text-align: center;
         width: 100px;
         table-layout: fixed;
@@ -244,6 +249,7 @@ export const AssetTableMainDivBox = styled.div`
         position: absolute;
         top: -42px;
         left: 10px;
+        font-size: 0.5em;
 
         ul {
             display: flex;
@@ -258,7 +264,7 @@ export const AssetTableMainDivBox = styled.div`
                 line-height: 40px;
                 text-align: center;
                 margin-right: 20px;
-                background-color: #ffffff;
+                background-color: #eee;
                 font-weight: bolder;
                 border-radius: 5px 5px 0px 0px;
                 box-shadow: rgba(0, 0, 0, 0.15) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.05) 0px 0.125em 0.5em,
@@ -275,198 +281,73 @@ export const AssetTableMainDivBox = styled.div`
             }
         }
     }
+
+    .FloatingMenu_Container {
+        position: fixed;
+        bottom: 50px;
+        right: 100px;
+        z-index: 99;
+        cursor: move !important;
+    }
 `;
-
-export type CeCalendarTableProps = {
-    csm_basic_data_binds: string;
-    csm_basic_data_csm_key: string;
-    csm_basic_data_csm_number: string;
-    csm_basic_data_custom: string;
-    csm_basic_data_division: string;
-    csm_basic_data_etc: string;
-    csm_basic_data_grade: string;
-    csm_basic_data_indexs: number;
-    csm_basic_data_issue_date: string;
-    csm_basic_data_model_number: string;
-    csm_basic_data_part_number: string;
-    csm_basic_data_state: string;
-    csm_basic_data_titles: string;
-    csm_basic_data_write_date: string;
-    csm_calendar_apply: null | string;
-    csm_calendar_apply_id: null | string;
-    csm_calendar_ce: null | string;
-    csm_calendar_ce_id: null | string;
-    csm_calendar_csm_key: string;
-    csm_calendar_custom_date: null | string;
-    csm_calendar_custom_date_id: null | string;
-    csm_calendar_entering: null | string;
-    csm_calendar_entering_id: null | string;
-    csm_calendar_finall: null | string;
-    csm_calendar_finall_id: null | string;
-    csm_calendar_hidden_on: number;
-    csm_calendar_indexs: number;
-    csm_calendar_pay: null | string;
-    csm_calendar_pay_id: null | string;
-    csm_calendar_publish: null | string;
-    csm_calendar_publish_id: null | string;
-    csm_calendar_status: number;
-    csm_calendar_write_date: string;
-    csm_user_input_data_csm_key: null | string;
-    csm_user_input_data_indexs: null | string;
-    csm_user_input_data_operation_cost: null | string;
-    csm_user_input_data_stay_days: null | string;
-    csm_user_input_data_stay_days_cost: null | string;
-    csm_user_input_data_total_cost: null | string;
-    csm_user_input_data_travel_range: null | string;
-    csm_user_input_data_travel_range_cost: null | string;
-    csm_user_input_data_travel_time: null | string;
-    csm_user_input_data_travel_time_cost: null | string;
-    csm_user_input_data_working_count: null | string;
-    csm_user_input_data_working_hours: null | string;
-    csm_user_input_data_write_date: null | string;
-    csm_user_input_data_writer_id: null | string;
-    name: null | string;
-    csm_user_input_data_apply_code: null | string;
-};
-
 export type paramasTypes = {
     pagenumber: string;
     type: string;
 };
-const CeCalendarMasterPage = () => {
-    const dispatch = useDispatch();
-    // const REACT_APP_PAGE_NUMBER = 100;
-    const { pagenumber, type } = useParams<paramasTypes>();
-    const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering);
-    // const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
 
-    const [data, setData] = useState<CeCalendarTableProps[]>([
-        {
-            csm_basic_data_binds: '',
-            csm_basic_data_csm_key: '',
-            csm_basic_data_csm_number: '',
-            csm_basic_data_custom: '',
-            csm_basic_data_division: '',
-            csm_basic_data_etc: '',
-            csm_basic_data_grade: '',
-            csm_basic_data_indexs: 0,
-            csm_basic_data_issue_date: '',
-            csm_basic_data_model_number: '',
-            csm_basic_data_part_number: '',
-            csm_basic_data_state: '',
-            csm_basic_data_titles: '',
-            csm_basic_data_write_date: '',
-            csm_calendar_apply: null,
-            csm_calendar_apply_id: null,
-            csm_calendar_ce: null,
-            csm_calendar_ce_id: null,
-            csm_calendar_csm_key: '',
-            csm_calendar_custom_date: null,
-            csm_calendar_custom_date_id: null,
-            csm_calendar_entering: null,
-            csm_calendar_entering_id: null,
-            csm_calendar_finall: null,
-            csm_calendar_finall_id: null,
-            csm_calendar_hidden_on: 0,
-            csm_calendar_indexs: 0,
-            csm_calendar_pay: null,
-            csm_calendar_pay_id: null,
-            csm_calendar_publish: null,
-            csm_calendar_publish_id: null,
-            csm_calendar_status: 0,
-            csm_calendar_write_date: '',
-            csm_user_input_data_csm_key: null,
-            csm_user_input_data_indexs: null,
-            csm_user_input_data_operation_cost: null,
-            csm_user_input_data_stay_days: null,
-            csm_user_input_data_stay_days_cost: null,
-            csm_user_input_data_total_cost: null,
-            csm_user_input_data_travel_range: null,
-            csm_user_input_data_travel_range_cost: null,
-            csm_user_input_data_travel_time: null,
-            csm_user_input_data_travel_time_cost: null,
-            csm_user_input_data_working_count: null,
-            csm_user_input_data_working_hours: null,
-            csm_user_input_data_write_date: null,
-            csm_user_input_data_writer_id: null,
-            name: null,
-            csm_user_input_data_apply_code: null,
-        },
-    ]);
+export type CeCalendarMasterPagePropsTypes = {
+    SubMenuClicks: string;
+};
+
+const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes) => {
+    const nodeRef = useRef(null);
+    const dispatch = useDispatch();
+    const HandleScrollUp = useRef<any>(null);
+    const { pagenumber, type } = useParams<paramasTypes>();
+    // const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
+    const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
+    const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
+
+    const [data, setData] = useState<CeCalendarTableProps[]>([]);
     const [ModalOpen, setModalOpen] = useState(false);
-    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps>({
-        csm_basic_data_binds: '',
-        csm_basic_data_csm_key: '',
-        csm_basic_data_csm_number: '',
-        csm_basic_data_custom: '',
-        csm_basic_data_division: '',
-        csm_basic_data_etc: '',
-        csm_basic_data_grade: '',
-        csm_basic_data_indexs: 0,
-        csm_basic_data_issue_date: '',
-        csm_basic_data_model_number: '',
-        csm_basic_data_part_number: '',
-        csm_basic_data_state: '',
-        csm_basic_data_titles: '',
-        csm_basic_data_write_date: '',
-        csm_calendar_apply: null,
-        csm_calendar_apply_id: null,
-        csm_calendar_ce: null,
-        csm_calendar_ce_id: null,
-        csm_calendar_csm_key: '',
-        csm_calendar_custom_date: null,
-        csm_calendar_custom_date_id: null,
-        csm_calendar_entering: null,
-        csm_calendar_entering_id: null,
-        csm_calendar_finall: null,
-        csm_calendar_finall_id: null,
-        csm_calendar_hidden_on: 0,
-        csm_calendar_indexs: 0,
-        csm_calendar_pay: null,
-        csm_calendar_pay_id: null,
-        csm_calendar_publish: null,
-        csm_calendar_publish_id: null,
-        csm_calendar_status: 0,
-        csm_calendar_write_date: '',
-        csm_user_input_data_csm_key: null,
-        csm_user_input_data_indexs: null,
-        csm_user_input_data_operation_cost: null,
-        csm_user_input_data_stay_days: null,
-        csm_user_input_data_stay_days_cost: null,
-        csm_user_input_data_total_cost: null,
-        csm_user_input_data_travel_range: null,
-        csm_user_input_data_travel_range_cost: null,
-        csm_user_input_data_travel_time: null,
-        csm_user_input_data_travel_time_cost: null,
-        csm_user_input_data_working_count: null,
-        csm_user_input_data_working_hours: null,
-        csm_user_input_data_write_date: null,
-        csm_user_input_data_writer_id: null,
-        name: null,
-        csm_user_input_data_apply_code: null,
+    const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps | null>(null);
+
+    const [FloatingMenuChecking, setFloatingMenuChecking] = useState(true);
+
+    const [SelectClicksModals, setSelectClicksModals] = useState({
+        FilterSearch: true,
+        NewDataModal: false,
+        BindsDataModal: false,
     });
-    const [hiddenChecked, setHiddenChecked] = useState(false);
+
+    const [Opacity, setOpacity] = useState(false);
+    const handleStart = () => {
+        setOpacity(true);
+    };
+    const handleEnd = () => {
+        setOpacity(false);
+    };
 
     function closeModal() {
-        setModalOpen(false);
+        setSelectClicksModals({
+            ...SelectClicksModals,
+            NewDataModal: false,
+            BindsDataModal: false,
+        });
     }
-
-    const dataGetSome = async () => {
-        dispatch(get_CSM_DataThunk(GetCSMFilteringData.CSMFilteringData, pagenumber, type));
-    };
 
     const hadleDeleteData = async () => {
         try {
-            const delete_Before_data = data.filter(item => item.csm_calendar_csm_key !== getCeCalendarDatas.csm_calendar_csm_key);
+            const delete_Before_data = data.filter(item => item.csm_calendar_csm_key !== getCeCalendarDatas?.csm_calendar_csm_key);
             setData(delete_Before_data);
         } catch (error) {
             console.log(error);
         }
     };
-    const hadleUpdateData = async (UpdateData: CeCalendarTableProps) => {
+    const hadleUpdateData = async (UpdateData: CeCalendarTableProps | null) => {
         try {
             const update_Before_data = data.map(item => {
-                if (item.csm_calendar_csm_key === UpdateData.csm_calendar_csm_key) {
+                if (item.csm_calendar_csm_key === UpdateData?.csm_calendar_csm_key) {
                     return UpdateData;
                 } else {
                     return item;
@@ -479,13 +360,79 @@ const CeCalendarMasterPage = () => {
         }
     };
 
-    useEffect(() => {
-        dataGetSome();
-    }, [GetCSMFilteringData, type]);
+    //숨김처리
+    const handleClicksForHidden = async () => {
+        if (CSM_Selected_Data_List.length === 0) {
+            toast.show({
+                title: '숨김처리 할 데이터가 없습니다.',
+                content: `데이터를 선택한 이후에 다시 시도 해주세요.`,
+                duration: 4000,
+                DataSuccess: false,
+            });
+
+            return;
+        }
+
+        try {
+            const Change_Hiiden_Data_From_Server = await axios.post(
+                `${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server//UpdateHidden`,
+                { CSM_Selected_Data_List }
+            );
+
+            if (Change_Hiiden_Data_From_Server.data.dataSuccess) {
+                let Change_Datas = CSM_Datas.data;
+
+                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                    Change_Datas = Change_Datas.map(item =>
+                        item.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
+                            ? item.csm_calendar_hidden_on === 1
+                                ? { ...item, csm_calendar_hidden_on: 0 }
+                                : { ...item, csm_calendar_hidden_on: 1 }
+                            : item
+                    );
+                }
+
+                // 체크항목에서 Redux에서 제거
+                for (var i = 0; i < CSM_Selected_Data_List.length; i++) {
+                    Change_Datas = Change_Datas.map(list =>
+                        list.csm_basic_data_csm_key === CSM_Selected_Data_List[i].csm_basic_data_csm_key
+                            ? { ...list, csm_data_slect: 0 }
+                            : list
+                    );
+                }
+
+                dispatch(CSM_Data_Checked_Delete_Func(Change_Datas));
+                dispatch(CSM_Selected_Data_List_Reset_Func());
+
+                toast.show({
+                    title: '숨김처리 완료!',
+                    content: `${CSM_Selected_Data_List.length}개의 데이터를 숨김처리 하였습니다.`,
+                    duration: 6000,
+                    DataSuccess: true,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const ScrollUpping = () => {
+        if (HandleScrollUp.current) {
+            HandleScrollUp.current.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        }
+    };
 
     return (
         <div>
-            <CeCalendarSearchIcons></CeCalendarSearchIcons>
+            <div ref={HandleScrollUp}></div>
+            <CeCalendarSearchIcons SubMenuClicks={SubMenuClicks}></CeCalendarSearchIcons>
             <AssetTableMainDivBox>
                 <div className="Asset_Type_MenuBar">
                     <ul>
@@ -503,16 +450,58 @@ const CeCalendarMasterPage = () => {
                         </Link>
                     </ul>
                 </div>
-
-                <div style={{ display: 'inline-block' }}>
-                    <div>
-                        <div onClick={() => setHiddenChecked(!hiddenChecked)} className="ThirdTest_list_hidden_box">
-                            <input type="checkbox" checked={hiddenChecked}></input>
-                            {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
-                        </div>
+                <CSMMainContent SubMenuClicks={SubMenuClicks}></CSMMainContent>
+                {/* Floating 메뉴 시작 */}
+                <Draggable nodeRef={nodeRef} onStart={handleStart} onStop={handleEnd}>
+                    <div className="FloatingMenu_Container" ref={nodeRef} style={{ opacity: Opacity ? '0.6' : '1' }}>
+                        <FloatingMenu slideSpeed={500} direction="up" spacing={8} isOpen={FloatingMenuChecking}>
+                            <MainButton
+                                iconActive={<ImCancelCircle style={{ fontSize: 20, backgroundColor: 'white', color: 'black' }} />}
+                                iconResting={<AiOutlineMenu style={{ fontSize: 20, backgroundColor: 'white', color: 'black' }} />}
+                                size={56}
+                                isOpen={true}
+                                background={'white'}
+                                onClick={() => setFloatingMenuChecking(!FloatingMenuChecking)}
+                            ></MainButton>
+                            <ChildButton
+                                icon={<FaFilter style={{ fontSize: 20, backgroundColor: 'white', color: '#b23c46' }} />}
+                                // backgroundColor="white"
+                                background={'white'}
+                                size={40}
+                                onClick={() => ScrollUpping()}
+                            />
+                            <ChildButton
+                                icon={<BsFillBagPlusFill style={{ fontSize: 20, backgroundColor: 'white', color: '#368' }} />}
+                                background={'white'}
+                                size={40}
+                                onClick={() =>
+                                    setSelectClicksModals({
+                                        ...SelectClicksModals,
+                                        NewDataModal: !SelectClicksModals.NewDataModal,
+                                    })
+                                }
+                            />
+                            <ChildButton
+                                icon={<BsFillEyeSlashFill style={{ fontSize: 20, backgroundColor: 'white', color: 'gray' }} />}
+                                background={'white'}
+                                size={40}
+                                onClick={() => handleClicksForHidden()}
+                            />
+                            <ChildButton
+                                icon={<AiFillDatabase style={{ fontSize: 20, backgroundColor: 'white', color: '#375b31' }} />}
+                                background={'white'}
+                                size={40}
+                                onClick={() =>
+                                    setSelectClicksModals({
+                                        ...SelectClicksModals,
+                                        BindsDataModal: !SelectClicksModals.BindsDataModal,
+                                    })
+                                }
+                            />
+                        </FloatingMenu>
                     </div>
-                </div>
-                <CSMMainContent hiddenChecked={hiddenChecked}></CSMMainContent>
+                </Draggable>
+                {/* Floating 메뉴 종료 */}
 
                 <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
                     <TableModalsMainPage
@@ -521,6 +510,20 @@ const CeCalendarMasterPage = () => {
                         hadleDeleteData={hadleDeleteData}
                         hadleUpdateData={updatedata => hadleUpdateData(updatedata)}
                     ></TableModalsMainPage>
+                </Modal>
+
+                {/* <Modal
+                    isOpen={SelectClicksModals.NewDataModal}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    <InsertModalMainPage dataGetSome={() => dataGetSome()} closeModal={() => closeModal()}></InsertModalMainPage>
+                </Modal> */}
+                <Modal isOpen={SelectClicksModals.BindsDataModal} style={customStyles}>
+                    <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>이동 거리 및 시간 입력</h2>
+                    <div style={{ marginBottom: '30px' }}></div>
+                    <CeDistanceUpdateMainPage closeModal={() => closeModal()}></CeDistanceUpdateMainPage>
                 </Modal>
             </AssetTableMainDivBox>
         </div>
