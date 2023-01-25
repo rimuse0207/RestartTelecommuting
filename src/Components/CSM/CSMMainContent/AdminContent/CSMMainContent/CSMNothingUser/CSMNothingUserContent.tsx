@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { DecryptKey } from '../../../../config';
-import { RootState } from '../../../../models';
-import { toast } from '../../../ToastMessage/ToastManager';
+import { DecryptKey } from '../../../../../../config';
+import { RootState } from '../../../../../../models';
+import { toast } from '../../../../../ToastMessage/ToastManager';
 import moment from 'moment';
 import {
     CeCalendarTableProps,
@@ -12,13 +12,17 @@ import {
     CSM_Data_Checked_Delete_Func,
     CSM_Data_Checked_Func,
     get_CSM_DataThunk,
-} from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import { CSM_Selected_Data_List_Func, CSM_Selected_Data_List_Reset_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
+} from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import {
+    CSM_Selected_Data_List_Func,
+    CSM_Selected_Data_List_Reset_Func,
+} from '../../../../../../models/CSMFilteringRedux/CSMSelectedRedux';
 import { CSMMainContentProps_Types } from '../CSMMainContent';
 import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
-import { paramasTypes } from '../../CeCalendarMasterPage';
+import { paramasTypes, SelectTeamsMenuTypes } from '../../CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
-import LoaderMainPage from '../../../Loader/LoaderMainPage';
+import LoaderMainPage from '../../../../../Loader/LoaderMainPage';
+import CSMSelectShowContent from '../CSMSelectShowContent/CSMSelectShowContent';
 
 const CSMNothingUserContentMainDivBox = styled.div`
     -webkit-user-select: none;
@@ -46,13 +50,18 @@ type arrangeStateType = {
     classNames: string;
 };
 
-const CSMNothingUserContent = () => {
+type CSMNothingUserContentPropsType = {
+    SelectTeamsMenu: SelectTeamsMenuTypes[];
+};
+
+const CSMNothingUserContent = ({ SelectTeamsMenu }: CSMNothingUserContentPropsType) => {
     const dispatch = useDispatch();
     const { pagenumber, type } = useParams<paramasTypes>();
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering);
+    const Nav_AccessTokens = useSelector((state: RootState) => state.Nav_AccessTokens);
     // const [hiddenChecked, setHiddenChecked] = useState(false);
     const [AllChecking, setAllChecking] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
@@ -119,7 +128,8 @@ const CSMNothingUserContent = () => {
         },
     ]);
 
-    const handleChangeClickHidden = async (e: any, datas: any, numbers: number) => {
+    const handleChangeClickHidden = async (e: any, datas: CeCalendarTableProps, numbers: number) => {
+        e.stopPropagation();
         if (e.shiftKey) {
             if (numbers > FirstClickIndexNumber) {
                 const CSM_Datas_Selected = CSM_Datas.data.map((list, j) => {
@@ -191,7 +201,13 @@ const CSMNothingUserContent = () => {
         }
     };
 
-    const handleClicksDeleteData = async (datas: any, text: string) => {
+    const handleClicksDeleteData = async (e: React.MouseEvent<HTMLDivElement>, datas: CeCalendarTableProps, text: string) => {
+        e.stopPropagation();
+
+        if (Nav_AccessTokens.CSM_Master_Access !== 1) {
+            return;
+        }
+
         try {
             if (text === '발행') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -325,7 +341,8 @@ const CSMNothingUserContent = () => {
         }
     };
 
-    const handleClicks = async (datas: any, text: string) => {
+    const handleClicks = async (e: React.MouseEvent<HTMLButtonElement>, datas: CeCalendarTableProps, text: string) => {
+        e.stopPropagation();
         if (text === '발행') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
                 selectEnter: '발행',
@@ -453,15 +470,6 @@ const CSMNothingUserContent = () => {
                 );
                 dispatch(CSM_CE_CALENDAR_CHECKED_Func(CalendarChange_Data));
             }
-        }
-    };
-
-    const handleSubUpdateData = async (list: CeCalendarTableProps) => {
-        try {
-            setGetCeCalendarDatas(list);
-            setModalOpen(true);
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -774,7 +782,13 @@ const CSMNothingUserContent = () => {
     };
 
     const dataGetSome = async () => {
-        dispatch(get_CSM_DataThunk(GetCSMFilteringData.CSMFilteringData, pagenumber, type, hiddenChecked, CSM_Selected_Data_List));
+        SelectTeamsMenu.map((list, j) => {
+            if (list.selected) {
+                dispatch(
+                    get_CSM_DataThunk(GetCSMFilteringData.CSMFilteringData, pagenumber, list.name, hiddenChecked, CSM_Selected_Data_List)
+                );
+            }
+        });
     };
 
     useEffect(() => {
@@ -787,24 +801,28 @@ const CSMNothingUserContent = () => {
                 DataSuccess: true,
             });
         }
-    }, [type]);
+    }, [SelectTeamsMenu, hiddenChecked]);
 
     useEffect(() => {
         dataGetSome();
-    }, [GetCSMFilteringData, type]);
+    }, [GetCSMFilteringData, hiddenChecked, SelectTeamsMenu]);
 
     return (
         <CSMNothingUserContentMainDivBox>
             <div style={{ display: 'inline-block' }}>
                 <div>
-                    <div
-                        onClick={() => setHiddenChecked(!hiddenChecked)}
-                        className="ThirdTest_list_hidden_box"
-                        style={{ fontSize: '0.7em' }}
-                    >
-                        <input type="checkbox" checked={hiddenChecked}></input>
-                        {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
-                    </div>
+                    {Nav_AccessTokens.CSM_Master_Access === 1 ? (
+                        <div
+                            onClick={() => setHiddenChecked(!hiddenChecked)}
+                            className="ThirdTest_list_hidden_box"
+                            style={{ fontSize: '0.7em' }}
+                        >
+                            <input type="checkbox" checked={hiddenChecked}></input>
+                            {hiddenChecked ? <span>숨김 목록 숨기기</span> : <span>숨김 목록 보기</span>}
+                        </div>
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
             </div>
             <h4>사용자 미등록({CSM_Datas.data ? CSM_Datas.data.length : 0})</h4>
@@ -815,7 +833,7 @@ const CSMNothingUserContent = () => {
                             <th className="Table_First" style={{ textAlign: 'center' }}>
                                 선택({CSM_Selected_Data_List.length})
                                 <div>
-                                    <input type="checkbox" checked={AllChecking} onChange={handleChecking} readOnly></input>
+                                    <input type="checkbox" checked={AllChecking} onChange={handleChecking} defaultChecked={false}></input>
                                 </div>
                             </th>
                             <th className="Table_Second">인덱스</th>
@@ -823,7 +841,11 @@ const CSMNothingUserContent = () => {
                             <th className="Table_Fourth">등급</th>
                             {arrangeState.map((list, j) => {
                                 return (
-                                    <th className={`${list.classNames} clickHover`} onClick={() => handleArrenge(list)}>
+                                    <th
+                                        key={list.state_value}
+                                        className={`${list.classNames} clickHover`}
+                                        onClick={() => handleArrenge(list)}
+                                    >
                                         <div>
                                             <span>{list.value}</span>
                                             {list.up_arrange_value ? (
@@ -844,7 +866,7 @@ const CSMNothingUserContent = () => {
                                     </th>
                                 );
                             })}
-                            <th>사용자 이름</th>
+                            {/* <th>사용자 이름</th> */}
                             <th>작업시간</th>
                             <th>작업인원</th>
                             <th>발행</th>
@@ -891,6 +913,7 @@ const CSMNothingUserContent = () => {
                                             <input
                                                 type="checkbox"
                                                 checked={list.csm_data_slect === 1 ? true : false}
+                                                defaultChecked={false}
                                                 onChange={e => handleChangeClickHidden(e, list, i)}
                                             ></input>
                                         </td>
@@ -905,7 +928,7 @@ const CSMNothingUserContent = () => {
                                         <td>{list.csm_basic_data_titles}</td>
                                         <td>{list.csm_basic_data_etc}</td>
 
-                                        <td>{list.name}</td>
+                                        {/* <td>{list.name}</td> */}
 
                                         <td>
                                             {list.csm_user_input_data_working_hours ? `${list.csm_user_input_data_working_hours} 시간` : ''}
@@ -920,12 +943,12 @@ const CSMNothingUserContent = () => {
                                             <div className="Insert_dates">
                                                 {classnamesAUTO === 'basic_yellow' ? (
                                                     <div>
-                                                        <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                                        <button onClick={e => handleClicks(e, list, '발행')}>확인</button>
                                                     </div>
                                                 ) : (
                                                     <div
                                                         className="ThirdTest_Delete_for_div_box"
-                                                        onDoubleClick={() => handleClicksDeleteData(list, '발행')}
+                                                        onDoubleClick={e => handleClicksDeleteData(e, list, '발행')}
                                                     >
                                                         <div>{list.csm_calendar_publish}</div>
                                                         <div>{list.csm_calendar_publish ? list.csm_calendar_publish_id : ''}</div>
@@ -936,12 +959,12 @@ const CSMNothingUserContent = () => {
                                         <td className={classnamesAUTO} style={list.csm_calendar_apply ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_lime' ? (
                                                 <div>
-                                                    <button onClick={() => handleClicks(list, '신청')}>확인</button>
+                                                    <button onClick={e => handleClicks(e, list, '신청')}>확인</button>
                                                 </div>
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, '신청')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, '신청')}
                                                 >
                                                     <div>{list.csm_calendar_apply}</div>
                                                     <div>{list.csm_calendar_apply ? list.csm_calendar_apply_id : ''}</div>
@@ -954,12 +977,12 @@ const CSMNothingUserContent = () => {
                                         >
                                             {classnamesAUTO === 'basic_blue' ? (
                                                 <div>
-                                                    <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                                    <button onClick={e => handleClicks(e, list, '입고')}>확인</button>
                                                 </div>
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, '입고')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, '입고')}
                                                 >
                                                     <div>{list.csm_calendar_entering}</div>
                                                     <div>{list.csm_calendar_entering ? list.csm_calendar_entering_id : ''}</div>
@@ -969,12 +992,12 @@ const CSMNothingUserContent = () => {
                                         <td className={classnamesAUTO} style={list.csm_calendar_ce ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_purple' ? (
                                                 <div>
-                                                    <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                                    <button onClick={e => handleClicks(e, list, 'CE')}>확인</button>
                                                 </div>
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, 'CE')}
                                                 >
                                                     <div>{list.csm_calendar_ce}</div>
                                                     <div>{list.csm_calendar_ce ? list.csm_calendar_ce_id : ''}</div>
@@ -987,12 +1010,12 @@ const CSMNothingUserContent = () => {
                                         >
                                             {classnamesAUTO === 'basic_skyblue' ? (
                                                 <div>
-                                                    <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                                    <button onClick={e => handleClicks(e, list, '고객')}>확인</button>
                                                 </div>
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, '고객')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, '고객')}
                                                 >
                                                     <div>{list.csm_calendar_custom_date}</div>
                                                     <div>{list.csm_calendar_custom_date ? list.csm_calendar_custom_date_id : ''}</div>
@@ -1001,11 +1024,10 @@ const CSMNothingUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_pay ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_orange' ? (
-                                                DecryptKey(InfomationState.name) === '유성재' ||
-                                                DecryptKey(InfomationState.name) === '이광민' ? (
+                                                Nav_AccessTokens.CSM_Master_Access === 1 ? (
                                                     <div>
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, 'PAY')}>확인</button>
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -1014,7 +1036,7 @@ const CSMNothingUserContent = () => {
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, 'PAY')}
                                                 >
                                                     <div>{list.csm_calendar_pay}</div>
                                                     <div>{list.csm_calendar_pay ? list.csm_calendar_pay_id : ''}</div>
@@ -1023,11 +1045,10 @@ const CSMNothingUserContent = () => {
                                         </td>
                                         <td className={classnamesAUTO} style={list.csm_calendar_finall ? {} : { backgroundColor: 'white' }}>
                                             {classnamesAUTO === 'basic_finish' ? (
-                                                DecryptKey(InfomationState.name) === '유성재' ||
-                                                DecryptKey(InfomationState.name) === '이광민' ? (
+                                                Nav_AccessTokens.CSM_Master_Access === 1 ? (
                                                     <div>
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, 'finished')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, 'finished')}>확인</button>
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -1036,17 +1057,13 @@ const CSMNothingUserContent = () => {
                                             ) : (
                                                 <div
                                                     className="ThirdTest_Delete_for_div_box"
-                                                    onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                                    onDoubleClick={e => handleClicksDeleteData(e, list, 'finished')}
                                                 >
                                                     <div>{list.csm_calendar_finall}</div>
                                                     <div>{list.csm_calendar_finall_id}</div>
                                                 </div>
                                             )}
                                         </td>
-
-                                        {/* <td onClick={() => handleSubUpdateData(list)}>
-                                            <FcInfo></FcInfo>
-                                        </td> */}
                                     </tr>
                                 );
                             })
@@ -1058,6 +1075,7 @@ const CSMNothingUserContent = () => {
                     </tbody>
                 </table>
             </div>
+            <CSMSelectShowContent></CSMSelectShowContent>
             <LoaderMainPage loading={CSM_Datas.loading}></LoaderMainPage>
         </CSMNothingUserContentMainDivBox>
     );

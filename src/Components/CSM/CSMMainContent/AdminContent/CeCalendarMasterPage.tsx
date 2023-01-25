@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RootState } from '../../models';
+import { RootState } from '../../../../models';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
-import CeCalendarSearchIcons from './CeCalendarSearchIcons';
-import TableModalsMainPage from './CeCalendarModals/DataInsertModal/TableModals/TableModalsMainPage';
-import { CeCalendarTableProps, CSM_Data_Checked_Delete_Func, get_CSM_DataThunk } from '../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import CSMMainContent from './CSMMainContnet/CSMMainContent';
+import CeCalendarSearchIcons from '../CSMFiltering/CeCalendarSearchIcons';
+import TableModalsMainPage from '../../../CECalendar/CeCalendarModals/DataInsertModal/TableModals/TableModalsMainPage';
+import {
+    CeCalendarTableProps,
+    CSM_Data_Checked_Delete_Func,
+    get_CSM_DataThunk,
+} from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import CSMMainContent from './CSMMainContent/CSMMainContent';
 import { FloatingMenu, MainButton, ChildButton } from 'react-floating-button-menu';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiFillDatabase } from 'react-icons/ai';
@@ -15,11 +19,11 @@ import { BsFillBagPlusFill, BsFillPencilFill, BsFillEyeSlashFill } from 'react-i
 import { FaFilter } from 'react-icons/fa';
 import { ImCancelCircle } from 'react-icons/im';
 import axios from 'axios';
-import { toast } from '../ToastMessage/ToastManager';
-import { CSM_Selected_Data_List_Reset_Func } from '../../models/CSMFilteringRedux/CSMSelectedRedux';
-import InsertModalMainPage from './CeCalendarModals/InsertModalMainPage';
-import CeDistanceUpdateMainPage from './CeCalendarModals/DataInsertModal/TableModals/CeDistanceUpdate/CeDistanceUpdateMainPage';
+import { toast } from '../../../ToastMessage/ToastManager';
+import { CSM_Selected_Data_List_Reset_Func } from '../../../../models/CSMFilteringRedux/CSMSelectedRedux';
+import InsertModalMainPage from './CSMModals/CSMInsertModal/InsertModalMainPage';
 import Draggable from 'react-draggable';
+import CeDistanceUpdateMainPage from './CSMModals/CSMDistanceModal/CeDistanceUpdateMainPage';
 
 const customStyles = {
     content: {
@@ -37,8 +41,6 @@ const customStyles = {
 Modal.setAppElement('#ModalSet');
 
 export const AssetTableMainDivBox = styled.div`
-    /* max-height: 120vh; */
-    /* overflow: auto; */
     background-color: #fff;
     margin: 0 auto;
     border-radius: 10px;
@@ -51,7 +53,7 @@ export const AssetTableMainDivBox = styled.div`
     scrollbar-color: #d4aa70 #e4e4e4;
     scrollbar-width: thin;
     width: 98%;
-    padding-bottom: 50px;
+    padding-bottom: 300px;
     position: relative;
     margin-top: 40px;
     ::-webkit-scrollbar {
@@ -159,7 +161,6 @@ export const AssetTableMainDivBox = styled.div`
         table-layout: fixed;
     }
     table.type09 td {
-        /* width: 300px; */
         padding: 2px;
         vertical-align: center;
         border-bottom: 1px solid #ccc;
@@ -289,6 +290,30 @@ export const AssetTableMainDivBox = styled.div`
         z-index: 99;
         cursor: move !important;
     }
+
+    .Floating1 {
+        .distance {
+            display: none;
+        }
+        position: relative;
+        :hover {
+            .distance {
+                width: 200px;
+                height: 40px;
+                line-height: 35px;
+                display: block;
+                position: absolute;
+                top: -20px;
+                left: -200px;
+                background-color: #fff;
+                border: 1px solid gray;
+                border-radius: 10px;
+                font-size: 1.5em;
+                text-align: center;
+                z-index: 999;
+            }
+        }
+    }
 `;
 export type paramasTypes = {
     pagenumber: string;
@@ -299,26 +324,73 @@ export type CeCalendarMasterPagePropsTypes = {
     SubMenuClicks: string;
 };
 
+export type SelectTeamsMenuTypes = {
+    name: string;
+    values: string;
+    selected: boolean;
+    access: boolean;
+};
+
 const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes) => {
     const nodeRef = useRef(null);
     const dispatch = useDispatch();
     const HandleScrollUp = useRef<any>(null);
     const { pagenumber, type } = useParams<paramasTypes>();
-    // const PageNumbers = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data.pagenumber);
     const CSM_Selected_Data_List = useSelector((state: RootState) => state.CSM_Selected_Data_List.Csm_Selected_Data);
+    const Nav_AccessTokens = useSelector((state: RootState) => state.Nav_AccessTokens);
+    const PersonalInfo = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
-
     const [data, setData] = useState<CeCalendarTableProps[]>([]);
     const [ModalOpen, setModalOpen] = useState(false);
     const [getCeCalendarDatas, setGetCeCalendarDatas] = useState<CeCalendarTableProps | null>(null);
-
     const [FloatingMenuChecking, setFloatingMenuChecking] = useState(true);
-
     const [SelectClicksModals, setSelectClicksModals] = useState({
         FilterSearch: true,
         NewDataModal: false,
         BindsDataModal: false,
     });
+
+    const [SelectTeamsMenu, setSelectTeamsMenu] = useState<SelectTeamsMenuTypes[]>([
+        {
+            name: 'ALL',
+            values: 'ALL',
+            selected: Nav_AccessTokens.CSM_Master_Access === 1 ? true : false,
+            access: Nav_AccessTokens.CSM_Master_Access === 1 ? true : false,
+        },
+        {
+            name: 'GRINDER',
+            values: 'grinder',
+            selected: PersonalInfo.team === 'grinder' || PersonalInfo.team === 'A_grinder' ? true : false,
+            access:
+                Nav_AccessTokens.CSM_Master_Access === 1
+                    ? true
+                    : PersonalInfo.team === 'grinder' || PersonalInfo.team === 'A_grinder'
+                    ? true
+                    : false,
+        },
+        {
+            name: 'DICER',
+            values: 'dicer',
+            selected: PersonalInfo.team === 'dicer' || PersonalInfo.team === 'A_dicer' ? true : false,
+            access:
+                Nav_AccessTokens.CSM_Master_Access === 1
+                    ? true
+                    : PersonalInfo.team === 'dicer' || PersonalInfo.team === 'A_dicer'
+                    ? true
+                    : false,
+        },
+        {
+            name: 'LASER',
+            values: 'laser',
+            selected: PersonalInfo.team === 'laser' || PersonalInfo.team === 'A_laser' ? true : false,
+            access:
+                Nav_AccessTokens.CSM_Master_Access === 1
+                    ? true
+                    : PersonalInfo.team === 'laser' || PersonalInfo.team === 'A_laser'
+                    ? true
+                    : false,
+        },
+    ]);
 
     const [Opacity, setOpacity] = useState(false);
     const handleStart = () => {
@@ -428,6 +500,16 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
             });
         }
     };
+    const handleClicksSelectMenu = (data: SelectTeamsMenuTypes) => {
+        const DfaultFalse = SelectTeamsMenu.map(list => {
+            return list.selected ? { ...list, selected: false } : list;
+        });
+        setSelectTeamsMenu(
+            DfaultFalse.map(list => {
+                return list.values === data.values ? { ...list, selected: true } : list;
+            })
+        );
+    };
 
     return (
         <div>
@@ -436,21 +518,18 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
             <AssetTableMainDivBox>
                 <div className="Asset_Type_MenuBar">
                     <ul>
-                        <Link to={`/CECalendar/${pagenumber}/ALL`}>
-                            <li className={type === 'ALL' ? 'Select_Menus' : ''}>ALL</li>
-                        </Link>
-                        <Link to={`/CECalendar/${pagenumber}/GRINDER`}>
-                            <li className={type === 'GRINDER' ? 'Select_Menus' : ''}>GRINDER</li>
-                        </Link>
-                        <Link to={`/CECalendar/${pagenumber}/LASER`}>
-                            <li className={type === 'LASER' ? 'Select_Menus' : ''}>LASER</li>
-                        </Link>
-                        <Link to={`/CECalendar/${pagenumber}/DICER`}>
-                            <li className={type === 'DICER' ? 'Select_Menus' : ''}>DICER</li>
-                        </Link>
+                        {SelectTeamsMenu.map(list => {
+                            return list.access ? (
+                                <Link to={`/CECalendar/${pagenumber}/DICER`} key={list.values} onClick={() => handleClicksSelectMenu(list)}>
+                                    <li className={list.selected ? 'Select_Menus' : ''}>{list.name}</li>
+                                </Link>
+                            ) : (
+                                <></>
+                            );
+                        })}
                     </ul>
                 </div>
-                <CSMMainContent SubMenuClicks={SubMenuClicks}></CSMMainContent>
+                <CSMMainContent SubMenuClicks={SubMenuClicks} SelectTeamsMenu={SelectTeamsMenu}></CSMMainContent>
                 {/* Floating 메뉴 시작 */}
                 <Draggable nodeRef={nodeRef} onStart={handleStart} onStop={handleEnd}>
                     <div className="FloatingMenu_Container" ref={nodeRef} style={{ opacity: Opacity ? '0.6' : '1' }}>
@@ -461,34 +540,68 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                                 size={56}
                                 isOpen={true}
                                 background={'white'}
-                                onClick={() => setFloatingMenuChecking(!FloatingMenuChecking)}
+                                onClick={(e: any) => {
+                                    e.stopPropagation();
+                                    setFloatingMenuChecking(!FloatingMenuChecking);
+                                }}
                             ></MainButton>
                             <ChildButton
-                                icon={<FaFilter style={{ fontSize: 20, backgroundColor: 'white', color: '#b23c46' }} />}
+                                icon={
+                                    <div className="Floating1">
+                                        <div className="distance">필터 이동</div>
+                                        <FaFilter style={{ fontSize: 20, backgroundColor: 'white', color: '#b23c46' }} />
+                                    </div>
+                                }
                                 // backgroundColor="white"
                                 background={'white'}
                                 size={40}
                                 onClick={() => ScrollUpping()}
                             />
+
+                            {SubMenuClicks === 'Table_User_Nothing' && Nav_AccessTokens.CSM_Master_Access === 1 ? (
+                                <ChildButton
+                                    icon={
+                                        <div className="Floating1">
+                                            <div className="distance">CSM 데이터 추가</div>
+                                            <BsFillBagPlusFill style={{ fontSize: 20, backgroundColor: 'white', color: '#368' }} />
+                                        </div>
+                                    }
+                                    background={'white'}
+                                    size={40}
+                                    onClick={() =>
+                                        setSelectClicksModals({
+                                            ...SelectClicksModals,
+                                            NewDataModal: !SelectClicksModals.NewDataModal,
+                                        })
+                                    }
+                                />
+                            ) : (
+                                <></>
+                            )}
+
+                            {Nav_AccessTokens.CSM_Master_Access === 1 ? (
+                                <ChildButton
+                                    icon={
+                                        <div className="Floating1">
+                                            <div className="distance">숨김처리</div>
+                                            <BsFillEyeSlashFill style={{ fontSize: 20, backgroundColor: 'white', color: 'gray' }} />
+                                        </div>
+                                    }
+                                    background={'white'}
+                                    size={40}
+                                    onClick={() => handleClicksForHidden()}
+                                />
+                            ) : (
+                                <></>
+                            )}
+
                             <ChildButton
-                                icon={<BsFillBagPlusFill style={{ fontSize: 20, backgroundColor: 'white', color: '#368' }} />}
-                                background={'white'}
-                                size={40}
-                                onClick={() =>
-                                    setSelectClicksModals({
-                                        ...SelectClicksModals,
-                                        NewDataModal: !SelectClicksModals.NewDataModal,
-                                    })
+                                icon={
+                                    <div className="Floating1">
+                                        <div className="distance">이동거리 및 시간 입력</div>
+                                        <AiFillDatabase style={{ fontSize: 20, backgroundColor: 'white', color: '#375b31' }} />
+                                    </div>
                                 }
-                            />
-                            <ChildButton
-                                icon={<BsFillEyeSlashFill style={{ fontSize: 20, backgroundColor: 'white', color: 'gray' }} />}
-                                background={'white'}
-                                size={40}
-                                onClick={() => handleClicksForHidden()}
-                            />
-                            <ChildButton
-                                icon={<AiFillDatabase style={{ fontSize: 20, backgroundColor: 'white', color: '#375b31' }} />}
                                 background={'white'}
                                 size={40}
                                 onClick={() =>
@@ -512,14 +625,15 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                     ></TableModalsMainPage>
                 </Modal>
 
-                {/* <Modal
+                <Modal
                     isOpen={SelectClicksModals.NewDataModal}
                     onRequestClose={closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
                 >
-                    <InsertModalMainPage dataGetSome={() => dataGetSome()} closeModal={() => closeModal()}></InsertModalMainPage>
-                </Modal> */}
+                    <InsertModalMainPage closeModal={() => closeModal()}></InsertModalMainPage>
+                </Modal>
+
                 <Modal isOpen={SelectClicksModals.BindsDataModal} style={customStyles}>
                     <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>이동 거리 및 시간 입력</h2>
                     <div style={{ marginBottom: '30px' }}></div>

@@ -5,11 +5,10 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import './WriteData.css';
 
 type dataInsertOnProps = {
-    dataInsertOn: () => void;
     closeModal: () => void;
 };
 
-const BasicDataInsertPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) => {
+const BasicDataInsertPage = ({ closeModal }: dataInsertOnProps) => {
     const [stateData, setStateData] = useState('Close');
     const [gradeData, setGradeData] = useState('SDC');
     const [CSMNumberData, setCSMNumberData] = useState('');
@@ -31,7 +30,6 @@ const BasicDataInsertPage = ({ dataInsertOn, closeModal }: dataInsertOnProps) =>
                 customData,
             });
             if (DataAddCeCalendar.data.dataSuccess) {
-                dataInsertOn();
                 closeModal();
                 window.location.reload();
             } else {

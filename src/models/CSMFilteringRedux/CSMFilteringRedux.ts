@@ -56,6 +56,8 @@ export type CSMFilteringData = {
     finish_csm_basic_data_issue_date: string;
     start_csm_basic_data_issue_date: string;
     name: string;
+    startTime: Date;
+    endTime: Date;
 };
 
 export const CSMFilteringAdd = (diff: CSMFilteringData) => ({
@@ -120,6 +122,8 @@ const initialState: CSMFilteringState = {
         finish_csm_basic_data_issue_date: '',
         start_csm_basic_data_issue_date: '',
         name: '',
+        startTime: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+        endTime: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     },
 };
 

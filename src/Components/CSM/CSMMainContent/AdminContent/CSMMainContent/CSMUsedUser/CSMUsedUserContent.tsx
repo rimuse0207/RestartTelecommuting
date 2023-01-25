@@ -1,24 +1,19 @@
 import axios from 'axios';
-import React, { useEffect, useState, forwardRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { DecryptKey } from '../../../../config';
-import { RootState } from '../../../../models';
-import { toast } from '../../../ToastMessage/ToastManager';
+import { DecryptKey } from '../../../../../../config';
+import { RootState } from '../../../../../../models';
+import { toast } from '../../../../../ToastMessage/ToastManager';
 import { FaFileDownload } from 'react-icons/fa';
-import { BsFillCalendar2DateFill } from 'react-icons/bs';
 import moment from 'moment';
 import {
     CSM_User_Used_CE_CALENDAR_CHECKED_Func,
     get_CSM_User_Used_DataThunk,
-} from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
-import DatePicker from 'react-datepicker';
-import { ko } from 'date-fns/esm/locale';
-import 'react-datepicker/dist/react-datepicker.css';
-import { CeCalendarTableProps } from '../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import LoaderMainPage from '../../../Loader/LoaderMainPage';
-import { paramasTypes } from '../../CeCalendarMasterPage';
-import { useParams } from 'react-router-dom';
+} from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
+import { CeCalendarTableProps } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import LoaderMainPage from '../../../../../Loader/LoaderMainPage';
+import { SelectTeamsMenuTypes } from '../../CeCalendarMasterPage';
 
 const CSMUsedUserContentMainDivBox = styled.div`
     margin-top: 50px;
@@ -85,20 +80,20 @@ export type NowTimesTypes = {
     endTime: Date;
 };
 
-const CSMUsedUserContent = () => {
-    const date = new Date();
-    const { pagenumber, type } = useParams<paramasTypes>();
+type CSMUsedUserContentPropsTypes = {
+    SelectTeamsMenu: SelectTeamsMenuTypes[];
+};
+
+const CSMUsedUserContent = ({ SelectTeamsMenu }: CSMUsedUserContentPropsTypes) => {
     const dispatch = useDispatch();
     const CSM_User_Used_Datas = useSelector((state: RootState) => state.CSM_User_Used_DataGetting.Datas);
     const CSM_User_Used_ErrorChecking = useSelector((state: RootState) => state.CSM_User_Used_DataGetting);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const GetCSMFilteringData = useSelector((state: RootState) => state.CSMFiltering.CSMFilteringData);
-    const [NowTimes, setNowTimes] = useState<NowTimesTypes>({
-        startTime: new Date(date.getFullYear(), date.getMonth(), 1),
-        endTime: new Date(date.getFullYear(), date.getMonth() + 1, 0),
-    });
+    const Nav_AccessTokens = useSelector((state: RootState) => state.Nav_AccessTokens);
 
-    const handleClicksDeleteData = async (datas: CeCalendarTableProps, text: string) => {
+    const handleClicksDeleteData = async (e: React.MouseEvent<HTMLDivElement>, datas: CeCalendarTableProps, text: string) => {
+        e.stopPropagation();
         try {
             if (text === '발행') {
                 const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/DeleteData`, {
@@ -304,7 +299,8 @@ const CSMUsedUserContent = () => {
         }
     };
 
-    const handleClicks = async (datas: CeCalendarTableProps, text: string) => {
+    const handleClicks = async (e: React.MouseEvent<HTMLButtonElement>, datas: CeCalendarTableProps, text: string) => {
+        e.stopPropagation();
         if (text === '발행') {
             const DataUpdateCECalendar = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/UpdateData`, {
                 selectEnter: '발행',
@@ -508,18 +504,33 @@ const CSMUsedUserContent = () => {
     };
 
     const HandleNewDataGetting = () => {
-        dispatch(get_CSM_User_Used_DataThunk(NowTimes, GetCSMFilteringData, type));
+        SelectTeamsMenu.map(list => {
+            if (list.selected) {
+                dispatch(
+                    get_CSM_User_Used_DataThunk(
+                        GetCSMFilteringData,
+                        list.values,
+                        Nav_AccessTokens.CSM_Master_Access === 1 ? true : false,
+                        DecryptKey(InfomationState.id)
+                    )
+                );
+            }
+        });
     };
 
+    ///엑셀 다운로드
     const handleDownloadUserUsedData = async () => {
+        const aa = SelectTeamsMenu.filter(list => {
+            if (list.selected) {
+                return list.values;
+            }
+        });
         try {
-            const DownloadData_User_Used_Data_From_Server = await axios.get(
+            const DownloadData_User_Used_Data_From_Server = await axios.post(
                 `${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/Downloaded_Data_User_Used`,
                 {
-                    params: {
-                        startTime: NowTimes.startTime,
-                        endTime: NowTimes.endTime,
-                    },
+                    GetCSMFilteringData,
+                    SelectTeam: aa,
                 }
             );
 
@@ -533,18 +544,21 @@ const CSMUsedUserContent = () => {
     };
 
     useEffect(() => {
-        // dispatch(get_CSM_User_Used_DataThunk(NowTimes));
         HandleNewDataGetting();
-    }, [GetCSMFilteringData, type]);
+    }, [GetCSMFilteringData, SelectTeamsMenu]);
 
     return (
         <CSMUsedUserContentMainDivBox>
             <div className="Text_Title">
                 <h2>사용자 등록 완료</h2>
-                <div className="UserUsed_Data_Download" onClick={() => handleDownloadUserUsedData()}>
-                    <FaFileDownload></FaFileDownload>
-                    <div style={{ fontSize: '0.1em' }}>Excel 다운</div>
-                </div>
+                {Nav_AccessTokens.CSM_Master_Access === 1 ? (
+                    <div className="UserUsed_Data_Download" onClick={() => handleDownloadUserUsedData()}>
+                        <FaFileDownload></FaFileDownload>
+                        <div style={{ fontSize: '0.1em' }}>Excel 다운</div>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </div>
             <div className="Table_container">
                 <table className="type09" id="CeCalendarTables">
@@ -583,7 +597,7 @@ const CSMUsedUserContent = () => {
                     </thead>
                     <tbody>
                         {!CSM_User_Used_ErrorChecking.error ? (
-                            CSM_User_Used_Datas.map((item, i) => {
+                            CSM_User_Used_Datas?.map((item, i) => {
                                 let dataSum_Cost = 0;
                                 return item.SecondData.map((list, j) => {
                                     var classnamesAUTO = 'basic';
@@ -606,16 +620,15 @@ const CSMUsedUserContent = () => {
 
                                     return (
                                         <>
-                                            <tr key={list.csm_calendar_indexs} className="Table_hover_check">
+                                            <tr key={list.csm_basic_data_csm_key} className="Table_hover_check">
                                                 {j === 0 ? (
                                                     <>
                                                         <td className="Table_Second" rowSpan={item.SecondData.length + 1}>
                                                             {i + 1}
+                                                            <div>({item.SecondData.length})</div>
                                                         </td>
                                                         <td className="Table_Second" rowSpan={item.SecondData.length + 1}>
-                                                            {moment(list.csm_user_input_data_apply_code?.split('_')[0].slice(0, 8)).format(
-                                                                'YYYY-MM-DD'
-                                                            )}
+                                                            {moment(list?.csm_user_input_data_write_date).format('YYYY-MM-DD')}
                                                         </td>
                                                     </>
                                                 ) : (
@@ -707,12 +720,12 @@ const CSMUsedUserContent = () => {
                                                     <div className="Insert_dates">
                                                         {classnamesAUTO === 'basic_yellow' ? (
                                                             <div>
-                                                                <button onClick={() => handleClicks(list, '발행')}>확인</button>
+                                                                <button onClick={e => handleClicks(e, list, '발행')}>확인</button>
                                                             </div>
                                                         ) : (
                                                             <div
                                                                 className="ThirdTest_Delete_for_div_box"
-                                                                onDoubleClick={() => handleClicksDeleteData(list, '발행')}
+                                                                onDoubleClick={e => handleClicksDeleteData(e, list, '발행')}
                                                             >
                                                                 <div>{list.csm_calendar_publish}</div>
                                                                 <div>{list.csm_calendar_publish ? list.csm_calendar_publish_id : ''}</div>
@@ -726,12 +739,12 @@ const CSMUsedUserContent = () => {
                                                 >
                                                     {classnamesAUTO === 'basic_lime' ? (
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, '신청')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, '신청')}>확인</button>
                                                         </div>
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, '신청')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, '신청')}
                                                         >
                                                             <div>{list.csm_calendar_apply}</div>
                                                             <div>{list.csm_calendar_apply ? list.csm_calendar_apply_id : ''}</div>
@@ -744,12 +757,12 @@ const CSMUsedUserContent = () => {
                                                 >
                                                     {classnamesAUTO === 'basic_blue' ? (
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, '입고')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, '입고')}>확인</button>
                                                         </div>
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, '입고')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, '입고')}
                                                         >
                                                             <div>{list.csm_calendar_entering}</div>
                                                             <div>{list.csm_calendar_entering ? list.csm_calendar_entering_id : ''}</div>
@@ -762,12 +775,12 @@ const CSMUsedUserContent = () => {
                                                 >
                                                     {classnamesAUTO === 'basic_purple' ? (
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, 'CE')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, 'CE')}>확인</button>
                                                         </div>
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, 'CE')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, 'CE')}
                                                         >
                                                             <div>{list.csm_calendar_ce}</div>
                                                             <div>{list.csm_calendar_ce ? list.csm_calendar_ce_id : ''}</div>
@@ -780,12 +793,12 @@ const CSMUsedUserContent = () => {
                                                 >
                                                     {classnamesAUTO === 'basic_skyblue' ? (
                                                         <div>
-                                                            <button onClick={() => handleClicks(list, '고객')}>확인</button>
+                                                            <button onClick={e => handleClicks(e, list, '고객')}>확인</button>
                                                         </div>
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, '고객')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, '고객')}
                                                         >
                                                             <div>{list.csm_calendar_custom_date}</div>
                                                             <div>
@@ -803,7 +816,7 @@ const CSMUsedUserContent = () => {
                                                         DecryptKey(InfomationState.name) === '이광민' ? (
                                                             <div>
                                                                 <div>
-                                                                    <button onClick={() => handleClicks(list, 'PAY')}>확인</button>
+                                                                    <button onClick={e => handleClicks(e, list, 'PAY')}>확인</button>
                                                                 </div>
                                                             </div>
                                                         ) : (
@@ -812,7 +825,7 @@ const CSMUsedUserContent = () => {
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, 'PAY')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, 'PAY')}
                                                         >
                                                             <div>{list.csm_calendar_pay}</div>
                                                             <div>{list.csm_calendar_pay ? list.csm_calendar_pay_id : ''}</div>
@@ -828,7 +841,7 @@ const CSMUsedUserContent = () => {
                                                         DecryptKey(InfomationState.name) === '이광민' ? (
                                                             <div>
                                                                 <div>
-                                                                    <button onClick={() => handleClicks(list, 'finished')}>확인</button>
+                                                                    <button onClick={e => handleClicks(e, list, 'finished')}>확인</button>
                                                                 </div>
                                                             </div>
                                                         ) : (
@@ -837,7 +850,7 @@ const CSMUsedUserContent = () => {
                                                     ) : (
                                                         <div
                                                             className="ThirdTest_Delete_for_div_box"
-                                                            onDoubleClick={() => handleClicksDeleteData(list, 'finished')}
+                                                            onDoubleClick={e => handleClicksDeleteData(e, list, 'finished')}
                                                         >
                                                             <div>{list.csm_calendar_finall}</div>
                                                             <div>{list.csm_calendar_finall_id}</div>

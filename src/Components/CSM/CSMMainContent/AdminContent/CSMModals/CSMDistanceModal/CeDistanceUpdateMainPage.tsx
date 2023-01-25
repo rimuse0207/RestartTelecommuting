@@ -20,7 +20,7 @@ import {
     CeCalendarTableProps,
     CSM_Data_Checked_Delete_Func,
 } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import { paramasTypes } from '../../../../CeCalendarMasterPage';
+import { paramasTypes } from '../../../../../CSM/CSMMainContent/AdminContent/CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
 import { toast } from '../../../../../ToastMessage/ToastManager';
 import { CSM_User_Used_Data_Register_Func } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
@@ -287,7 +287,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
     const CSM_Datas = useSelector((state: RootState) => state.CSMDataGetting.CSM_Data);
     const [CeDistanceState, setCeDistanceState] = useState<CeDistanceState_Types>({
         distance_date: new Date(),
-        start_location: '판교',
+        start_location: InfomationState.team.split('A_').length > 1 ? '아산' : '판교',
         distance_company: {
             value: null,
             label: null,
@@ -529,7 +529,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         <CeDistanceUpdateMainPageMainDivBox>
             <div className="User_Input_Float_Main">
                 <div className="User_Input_Float_Left">
-                    <div className="InputBox_Main_Container">
+                    {/* <div className="InputBox_Main_Container">
                         <div className="InputBox_Main_Text">
                             <h3>일자.</h3>
                         </div>
@@ -546,7 +546,7 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="InputBox_Main_Container">
                         <div className="InputBox_Main_Text">
                             <h3>숙박일수.</h3>
@@ -746,21 +746,8 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                         <td>{list.csm_number_respond_working_model}</td>
                                         <td>{list.csm_number_respond_working_binds}</td>
                                         <td>{list.csm_basic_data_custom}</td>
-                                        {j === 0 ? (
-                                            <td rowSpan={CSM_Selected_Data_List.length}>
-                                                {list.csm_number_respond_working_working_hours} 시간
-                                            </td>
-                                        ) : (
-                                            ''
-                                        )}
-                                        {j === 0 ? (
-                                            <td rowSpan={CSM_Selected_Data_List.length}>
-                                                {list.csm_number_respond_working_working_count} 명
-                                            </td>
-                                        ) : (
-                                            ''
-                                        )}
-
+                                        <td>{list.csm_number_respond_working_working_hours} 시간</td>
+                                        <td>{list.csm_number_respond_working_working_count} 명</td>
                                         <td>
                                             <MdOutlineCancel
                                                 onClick={() => handleDeleteData(list)}
@@ -770,6 +757,18 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
                                     </tr>
                                 );
                             })}
+                            {/* <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>총 작업시간</td>
+                                <td>
+                                    
+                                    시간
+                                </td>
+                                <td></td>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>

@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FileDrop } from 'react-file-drop';
-import { UploadedFileDataUlBox } from '../BusniessExcelUploader/BusinessExcelUploderContent';
+import { UploadedFileDataUlBox } from '../../../../BusniessExcelUploader/BusinessExcelUploderContent';
 import { TiDelete } from 'react-icons/ti';
 import axios from 'axios';
-import { toast } from '../ToastMessage/ToastManager';
-import LoaderMainPage from '../Loader/LoaderMainPage';
-import CSMFileUploadListMainPage, { FileListsTypes } from './CSMNumberWorking/CSMFileUploadList/CSMFileUploadListMainPage';
+import { toast } from '../../../../ToastMessage/ToastManager';
+import LoaderMainPage from '../../../../Loader/LoaderMainPage';
+import CSMFileUploadListMainPage, { FileListsTypes } from './CSMFileUploadList/CSMFileUploadListMainPage';
 import moment from 'moment';
 
 const CeCalendarExcelFileUploadMainDivBox = styled.div`

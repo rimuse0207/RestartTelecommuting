@@ -6,7 +6,7 @@ import axios from 'axios';
 import './CeCalendarPublicPage.css';
 import { DecryptKey } from '../../config';
 import styled from 'styled-components';
-import { AssetTableMainDivBox, paramasTypes } from './CeCalendarMasterPage';
+import { AssetTableMainDivBox, paramasTypes } from '../CSM/CSMMainContent/AdminContent/CeCalendarMasterPage';
 import { useParams } from 'react-router-dom';
 
 const CeCalendarPublicPage = () => {

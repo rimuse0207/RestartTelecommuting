@@ -14,7 +14,7 @@ import TeamLeaderTelecommutingMainpage from './Components/Telecommuting/TeamLead
 import ConnectedMainPage from './Components/ConnectedNow/ConnectedMainPage';
 import NewWindowMainPage from './Components/NewWIndow/NewWindowMainPage';
 import MonthTeleCommuting from './Components/MonthTeleCommuting/MonthTeleCommuting';
-import CeCalendarMainPage from './Components/CECalendar/CeCalendarMainPage';
+import CeCalendarMainPage from './Components/CSM/CeCalendarMainPage';
 import CovidTextShowMainPage from './Components/COVID/CovidTextShowMainPage';
 import NewAdminInsert from './Components/NewAdmin/NewAdminInsert';
 import AdminDashBoardMainPage from './Components/AdminAcees/InsertLoginPage/AdminDashBoardMainPage';
@@ -40,7 +40,7 @@ import AccessInfoMainPage from './Components/AdminAcees/AdminAccess/AccessInfoMa
 import CeContactMainPage from './Components/CECalendar/CEContact/CeContactMainPage';
 import ReNewalCSMMainPage from './Components/CECalendar/CSMNumberWorking/ReNewalCSM/ReNewalCSMMainPage';
 import RenewalCSMMainPage from './Components/RenewalCSM/RenewalCSMMainPage';
-import CeCalendarSearchIcons from './Components/CECalendar/CeCalendarSearchIcons';
+import CeCalendarSearchIcons from './Components/CSM/CSMMainContent/CSMFiltering/CeCalendarSearchIcons';
 
 const RouterPageMainDivBox = styled.div`
     @media print {

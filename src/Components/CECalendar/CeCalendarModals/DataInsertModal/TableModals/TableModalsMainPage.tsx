@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import CeCalendarUpdateModals, { CeCalendarUpdateModalsProps } from './CeCalendarUpdate/CeCalendarUpdateModals';
 import { IoCloseCircleSharp } from 'react-icons/io5';
-import CeDistanceUpdateMainPage from './CeDistanceUpdate/CeDistanceUpdateMainPage';
+import CeDistanceUpdateMainPage from '../../../../CSM/CSMMainContent/AdminContent/CSMModals/CSMDistanceModal/CeDistanceUpdateMainPage';
+
 const TableModalsMainPageMainDivBox = styled.div`
     position: relative;
     .Close_Modal {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SiMicrosoftexcel } from 'react-icons/si';
-import { NothingGet } from '../../../API/GETApi/GetApi';
+import { NothingGet } from '../../../../../API/GETApi/GetApi';
 import moment from 'moment';
 import { FaArrowRight } from 'react-icons/fa';
 import { BsFileEarmarkCheck } from 'react-icons/bs';
@@ -107,7 +107,7 @@ const CSMFileUploadListMainPage = ({ FileUploadSuccess, setFileUploadSuccess }: 
                 </li>
                 {FileLists.map((list, i) => {
                     return (
-                        <li>
+                        <li key={list.csm_excel_file_upload_change_filename}>
                             <div className="FileUploadListsContainer" onClick={() => handleClicksFile(list)}>
                                 <h3>{i + 1}. </h3>
                                 <div className="FileUploadLists_icons">

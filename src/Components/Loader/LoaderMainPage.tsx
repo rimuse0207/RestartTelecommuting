@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 const LoaderMainPageMainDivBox = styled.div`
-    ${(props: { loading: boolean }) => (props.loading ? 'position: fixed' : 'display:none')};
+    ${(props: { loading: string }) => (props.loading === 'true' ? 'position: fixed' : 'display:none')};
     width: 100vw;
     height: 100vh;
     background: ${props => (props.loading ? 'rgba(255, 255, 255, 0.5)' : 'none')};
@@ -31,7 +31,7 @@ type LoaderMainPageProps = {
 };
 const LoaderMainPage = ({ loading }: LoaderMainPageProps) => {
     return (
-        <LoaderMainPageMainDivBox loading={loading}>
+        <LoaderMainPageMainDivBox loading={loading.toString()}>
             <div className="sweet-loading">
                 <PulseLoader color={'#0a0ef3'} loading={loading} size={30} />
             </div>

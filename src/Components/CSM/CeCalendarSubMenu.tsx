@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import CeCalendarMasterPage from './CeCalendarMasterPage';
+import CeCalendarMasterPage from './CSMMainContent/AdminContent/CeCalendarMasterPage';
 import styled from 'styled-components';
-import CeCalendarExcelFileUpload from './CeCalendarExcelFileUpload';
-import CeCalendarSearchIcons from './CeCalendarSearchIcons';
+import CeCalendarExcelFileUpload from './CSMMainContent/AdminContent/CSMExcelUpload/CeCalendarExcelFileUpload';
+import CeCalendarSearchIcons from './CSMMainContent/CSMFiltering/CeCalendarSearchIcons';
 import { DecryptKey } from '../../config';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
-import CeCalendarPublicPage from './CeCalendarPublicPage';
-import CsmNumberWorking from './CSMNumberWorking/CsmNumberWorking';
+import CsmNumberWorking from './CSMMainContent/AdminContent/CSMWorkingExcel/CsmNumberWorking';
+import DistanceDataInsertPage from './CSMMainContent/AdminContent/CSMDistance/DistanceDataInsertPage';
 
 const CeCalendarSubMenuMainDivBox = styled.div`
     font-size: 0.7em;
@@ -31,11 +31,11 @@ const CeCalendarSubMenuMainDivBox = styled.div`
 
 const CeCalendarSubMenu = () => {
     const [SubMenuClicks, setSubMenuClicks] = useState('Table_User_Nothing');
-    const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
+    const Nav_AccessTokens = useSelector((state: RootState) => state.Nav_AccessTokens);
     return (
         <CeCalendarSubMenuMainDivBox>
             <div>
-                {DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
+                {Nav_AccessTokens.CSM_Master_Access === 1 ? (
                     <div>
                         <ul className="CeCalendarSubMenu_SubMenusUl">
                             <li
@@ -56,33 +56,36 @@ const CeCalendarSubMenu = () => {
                             <li style={SubMenuClicks === 'Working' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Working')}>
                                 작업시간 및 인원 Excel 업로드
                             </li>
+                            <li style={SubMenuClicks === 'Distance' ? {} : { opacity: '0.5' }} onClick={() => setSubMenuClicks('Distance')}>
+                                이동거리 별 시간
+                            </li>
                         </ul>
                     </div>
                 ) : (
-                    <></>
+                    <div>
+                        <ul className="CeCalendarSubMenu_SubMenusUl">
+                            <li
+                                style={SubMenuClicks === 'Table_User_Nothing' ? {} : { opacity: '0.5' }}
+                                onClick={() => setSubMenuClicks('Table_User_Nothing')}
+                            >
+                                CSM 사용자 미등록
+                            </li>
+                            <li
+                                style={SubMenuClicks === 'Table_User_Used' ? {} : { opacity: '0.5' }}
+                                onClick={() => setSubMenuClicks('Table_User_Used')}
+                            >
+                                CSM 사용자 등록
+                            </li>
+                        </ul>
+                    </div>
                 )}
             </div>
 
-            {SubMenuClicks === 'Table_User_Nothing' ? (
-                DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
-                    <CeCalendarMasterPage SubMenuClicks={SubMenuClicks}></CeCalendarMasterPage>
-                ) : (
-                    <CeCalendarPublicPage></CeCalendarPublicPage>
-                )
-            ) : (
-                <></>
-            )}
-            {SubMenuClicks === 'Table_User_Used' ? (
-                DecryptKey(InfomationState.name) === '이광민' || DecryptKey(InfomationState.name) === '유성재' ? (
-                    <CeCalendarMasterPage SubMenuClicks={SubMenuClicks}></CeCalendarMasterPage>
-                ) : (
-                    <CeCalendarPublicPage></CeCalendarPublicPage>
-                )
-            ) : (
-                <></>
-            )}
+            {SubMenuClicks === 'Table_User_Nothing' ? <CeCalendarMasterPage SubMenuClicks={SubMenuClicks}></CeCalendarMasterPage> : <></>}
+            {SubMenuClicks === 'Table_User_Used' ? <CeCalendarMasterPage SubMenuClicks={SubMenuClicks}></CeCalendarMasterPage> : <></>}
             {SubMenuClicks === 'File' ? <CeCalendarExcelFileUpload></CeCalendarExcelFileUpload> : <></>}
             {SubMenuClicks === 'Working' ? <CsmNumberWorking></CsmNumberWorking> : <></>}
+            {SubMenuClicks === 'Distance' ? <DistanceDataInsertPage></DistanceDataInsertPage> : <></>}
         </CeCalendarSubMenuMainDivBox>
     );
 };

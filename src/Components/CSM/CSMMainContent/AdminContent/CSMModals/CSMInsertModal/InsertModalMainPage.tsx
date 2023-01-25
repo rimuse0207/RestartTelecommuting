@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BasicDataInsertPage from './DataInsertModal/BasicDataInsertPage';
-import DistanceDataInsertPage from './DataInsertModal/DistanceDataInsertPage';
+import BasicDataInsertPage from '../../../../../CECalendar/CeCalendarModals/DataInsertModal/BasicDataInsertPage';
+import DistanceDataInsertPage from '../../CSMDistance/DistanceDataInsertPage';
 
 const InsertModalMainPageMainDivBox = styled.div`
     .CeCalendarSubMenu_SubMenusUl {
@@ -22,10 +22,9 @@ const InsertModalMainPageMainDivBox = styled.div`
     }
 `;
 type InsertModalMainPageProps = {
-    dataGetSome: () => void;
     closeModal: () => void;
 };
-const InsertModalMainPage = ({ dataGetSome, closeModal }: InsertModalMainPageProps) => {
+const InsertModalMainPage = ({ closeModal }: InsertModalMainPageProps) => {
     const [SelectDataInsertMenu, setSelectDataInsertMenu] = useState('basic');
 
     return (
@@ -44,11 +43,7 @@ const InsertModalMainPage = ({ dataGetSome, closeModal }: InsertModalMainPagePro
                 </ul>
             </div>
 
-            {SelectDataInsertMenu === 'basic' ? (
-                <BasicDataInsertPage dataInsertOn={() => dataGetSome()} closeModal={() => closeModal()}></BasicDataInsertPage>
-            ) : (
-                <></>
-            )}
+            {SelectDataInsertMenu === 'basic' ? <BasicDataInsertPage closeModal={() => closeModal()}></BasicDataInsertPage> : <></>}
             {SelectDataInsertMenu === 'distance' ? <DistanceDataInsertPage></DistanceDataInsertPage> : <></>}
         </InsertModalMainPageMainDivBox>
     );

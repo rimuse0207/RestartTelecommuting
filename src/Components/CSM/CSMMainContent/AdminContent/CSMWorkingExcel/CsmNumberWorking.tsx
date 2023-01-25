@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { NothingGet } from '../../API/GETApi/GetApi';
-import { CeCalendarTableProps } from '../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
+import { NothingGet } from '../../../../API/GETApi/GetApi';
+import { CeCalendarTableProps } from '../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
 
 const CsmNumberWorkingMainPage = styled.div`
     .Table_Container {
@@ -61,16 +61,6 @@ const CsmNumberWorkingMainPage = styled.div`
     }
 `;
 
-type CsmNumberWorkingTypes = {
-    csm_number_respond_working_indexs: number;
-    csm_number_respond_working_csm_number: string;
-    csm_number_respond_working_model: string;
-    csm_number_respond_working_binds: string;
-    csm_number_respond_working_working_hours: number;
-    csm_number_respond_working_working_count: number;
-    csm_number_respond_working_write_date: string;
-};
-
 const CsmNumberWorking = () => {
     const [CsmNumberData, setCsmNumberData] = useState<CeCalendarTableProps[]>([]);
 
@@ -78,7 +68,6 @@ const CsmNumberWorking = () => {
         try {
             const CsmWorking = await NothingGet(`/CE_Calendar_app_server/Csm_Number_Working`);
             if (CsmWorking.data.dataSuccess) {
-                console.log(CsmWorking);
                 setCsmNumberData(CsmWorking.data.data);
             }
         } catch (error) {

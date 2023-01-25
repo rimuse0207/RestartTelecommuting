@@ -11,7 +11,6 @@ export type Nav_AccessTokenTypes = {
     Nav_TeamLeaderBusinessExcelAccess: number;
     Nav_TeamLeaderMonthOTAccess: number;
     Nav_TeamLeaderFoodAccess: number;
-
     TeleLeaderAccess: number;
     BeforeOTLeaderAccess: number;
     AfterOTLeaderAccess: number;
@@ -19,6 +18,7 @@ export type Nav_AccessTokenTypes = {
     USBApplyLeaderAccess: number;
     BusinessAccess: number;
     BusinessAdminAccess: number;
+    CSM_Master_Access: number;
 };
 
 export const NavDataGetting = (data: Nav_AccessTokenTypes) => ({
@@ -42,7 +42,6 @@ const initialState: Nav_AccessTokenTypes = {
     Nav_TeamLeaderBusinessExcelAccess: 0,
     Nav_TeamLeaderMonthOTAccess: 0,
     Nav_TeamLeaderFoodAccess: 0,
-
     TeleLeaderAccess: 0,
     BeforeOTLeaderAccess: 0,
     AfterOTLeaderAccess: 0,
@@ -50,6 +49,7 @@ const initialState: Nav_AccessTokenTypes = {
     USBApplyLeaderAccess: 0,
     BusinessAccess: 0,
     BusinessAdminAccess: 0,
+    CSM_Master_Access: 0,
 };
 
 export default function Nav_AccessTokens(state: Nav_AccessTokenTypes = initialState, action: Nav_AccessTokenAction): Nav_AccessTokenTypes {

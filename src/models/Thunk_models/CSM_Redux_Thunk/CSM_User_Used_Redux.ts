@@ -5,7 +5,6 @@ import { action, createAsyncAction, createReducer } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 import { CeCalendarTableProps } from './CSM_Redux';
-import { NowTimesTypes } from '../../../Components/CECalendar/CSMMainContnet/CSMContentList/CSMUsedUserContent';
 import { CSMFilteringData } from '../../CSMFilteringRedux/CSMFilteringRedux';
 
 interface User_Used_Data_Type {
@@ -26,12 +25,13 @@ const get_CSM_User_Used_DataAsync = createAsyncAction(
     GET_CSM_User_Used_Data_ERROR
 )<undefined, CeCalendarTableProps, AxiosError>();
 
-const get_User_Used_CSM_Data = async (NowTimes: NowTimesTypes, GetCSMFilteringData: CSMFilteringData, type: string) => {
+const get_User_Used_CSM_Data = async (GetCSMFilteringData: CSMFilteringData, type: string, CSM_Access: boolean, Person_ID: string) => {
     try {
         const DataGetUserUsed = await axios.post(`${process.env.REACT_APP_DB_HOST}/CE_Calendar_app_server/User_Selected_Data_DataGetSome`, {
             GetCSMFilteringData,
-            NowTimes,
             SelectTeam: type,
+            CSM_Access: CSM_Access,
+            Person_ID: Person_ID,
         });
 
         if (DataGetUserUsed.data.dataSuccess) {
@@ -61,16 +61,17 @@ export type CSM_User_Used_DATA_State = {
 };
 
 export function get_CSM_User_Used_DataThunk(
-    NowTimes: NowTimesTypes,
     GetCSMFilteringData: CSMFilteringData,
-    type: string
+    type: string,
+    CSM_Access: boolean,
+    Person_ID: string
 ): ThunkAction<void, RootState, null, CSM_User_Used_DATA_Action> {
     return async dispatch => {
         const { request, success, failure } = get_CSM_User_Used_DataAsync;
         dispatch(request());
 
         try {
-            const gettings_CSM_User_Used_DATA = await get_User_Used_CSM_Data(NowTimes, GetCSMFilteringData, type);
+            const gettings_CSM_User_Used_DATA = await get_User_Used_CSM_Data(GetCSMFilteringData, type, CSM_Access, Person_ID);
             if (gettings_CSM_User_Used_DATA) {
                 dispatch(success(gettings_CSM_User_Used_DATA));
             } else {
