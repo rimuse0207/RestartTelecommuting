@@ -24,7 +24,7 @@ import { CSM_Selected_Data_List_Reset_Func } from '../../../../models/CSMFilteri
 import InsertModalMainPage from './CSMModals/CSMInsertModal/InsertModalMainPage';
 import Draggable from 'react-draggable';
 import CeDistanceUpdateMainPage from './CSMModals/CSMDistanceModal/CeDistanceUpdateMainPage';
-
+import { CgClose } from 'react-icons/cg';
 const customStyles = {
     content: {
         top: '50%',
@@ -315,6 +315,22 @@ export const AssetTableMainDivBox = styled.div`
         }
     }
 `;
+
+export const ModalCloseContainer = styled.div`
+    position: relative;
+    .Close_button {
+        color: red;
+        position: absolute;
+        right: 10px;
+        top: -10px;
+        font-size: 1.3em;
+        font-weight: bolder;
+        :hover {
+            cursor: pointer;
+        }
+    }
+`;
+
 export type paramasTypes = {
     pagenumber: string;
     type: string;
@@ -401,6 +417,7 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
     };
 
     function closeModal() {
+        document.body.style.overflow = 'unset';
         setSelectClicksModals({
             ...SelectClicksModals,
             NewDataModal: false,
@@ -510,6 +527,9 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
             })
         );
     };
+    const openModal = () => {
+        document.body.style.overflow = 'hidden';
+    };
 
     return (
         <div>
@@ -557,28 +577,6 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                                 size={40}
                                 onClick={() => ScrollUpping()}
                             />
-
-                            {SubMenuClicks === 'Table_User_Nothing' && Nav_AccessTokens.CSM_Master_Access === 1 ? (
-                                <ChildButton
-                                    icon={
-                                        <div className="Floating1">
-                                            <div className="distance">CSM 데이터 추가</div>
-                                            <BsFillBagPlusFill style={{ fontSize: 20, backgroundColor: 'white', color: '#368' }} />
-                                        </div>
-                                    }
-                                    background={'white'}
-                                    size={40}
-                                    onClick={() =>
-                                        setSelectClicksModals({
-                                            ...SelectClicksModals,
-                                            NewDataModal: !SelectClicksModals.NewDataModal,
-                                        })
-                                    }
-                                />
-                            ) : (
-                                <></>
-                            )}
-
                             {Nav_AccessTokens.CSM_Master_Access === 1 ? (
                                 <ChildButton
                                     icon={
@@ -595,6 +593,28 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                                 <></>
                             )}
 
+                            {SubMenuClicks === 'Table_User_Nothing' && Nav_AccessTokens.CSM_Master_Access === 1 ? (
+                                <ChildButton
+                                    icon={
+                                        <div className="Floating1">
+                                            <div className="distance">CSM 데이터 추가</div>
+                                            <BsFillBagPlusFill style={{ fontSize: 20, backgroundColor: 'white', color: '#368' }} />
+                                        </div>
+                                    }
+                                    background={'white'}
+                                    size={40}
+                                    onClick={() => {
+                                        setSelectClicksModals({
+                                            ...SelectClicksModals,
+                                            NewDataModal: !SelectClicksModals.NewDataModal,
+                                        });
+                                        openModal();
+                                    }}
+                                />
+                            ) : (
+                                <></>
+                            )}
+
                             <ChildButton
                                 icon={
                                     <div className="Floating1">
@@ -604,12 +624,13 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                                 }
                                 background={'white'}
                                 size={40}
-                                onClick={() =>
+                                onClick={() => {
                                     setSelectClicksModals({
                                         ...SelectClicksModals,
                                         BindsDataModal: !SelectClicksModals.BindsDataModal,
-                                    })
-                                }
+                                    });
+                                    openModal();
+                                }}
                             />
                         </FloatingMenu>
                     </div>
@@ -617,6 +638,11 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                 {/* Floating 메뉴 종료 */}
 
                 <Modal isOpen={ModalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+                    <ModalCloseContainer>
+                        <div className="Close_button" onClick={() => closeModal()}>
+                            <CgClose></CgClose>
+                        </div>
+                    </ModalCloseContainer>
                     <TableModalsMainPage
                         closeModal={closeModal}
                         getCeCalendarDatas={getCeCalendarDatas}
@@ -631,12 +657,24 @@ const CeCalendarMasterPage = ({ SubMenuClicks }: CeCalendarMasterPagePropsTypes)
                     style={customStyles}
                     contentLabel="Example Modal"
                 >
+                    <ModalCloseContainer>
+                        <div className="Close_button" onClick={() => closeModal()}>
+                            <CgClose></CgClose>
+                        </div>
+                    </ModalCloseContainer>
                     <InsertModalMainPage closeModal={() => closeModal()}></InsertModalMainPage>
                 </Modal>
 
                 <Modal isOpen={SelectClicksModals.BindsDataModal} style={customStyles}>
-                    <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>이동 거리 및 시간 입력</h2>
-                    <div style={{ marginBottom: '30px' }}></div>
+                    <ModalCloseContainer>
+                        <div className="Close_button" onClick={() => closeModal()}>
+                            <CgClose></CgClose>
+                        </div>
+                        <h2 style={{ marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid black' }}>
+                            이동 거리 및 시간 입력
+                        </h2>
+                        <div style={{ marginBottom: '30px' }}></div>
+                    </ModalCloseContainer>
                     <CeDistanceUpdateMainPage closeModal={() => closeModal()}></CeDistanceUpdateMainPage>
                 </Modal>
             </AssetTableMainDivBox>

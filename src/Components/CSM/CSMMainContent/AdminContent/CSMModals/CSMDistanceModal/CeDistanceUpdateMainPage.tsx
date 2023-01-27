@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { HiSelector } from 'react-icons/hi';
 import { GiClick } from 'react-icons/gi';
 import { BsPencilSquare } from 'react-icons/bs';
-import DatePicker, { registerLocale } from 'react-datepicker';
 import Select from 'react-select';
-import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from 'date-fns/esm/locale';
 import { NothingGet, OneParamsGet } from '../../../../../API/GETApi/GetApi';
 import { MdOutlineCancel } from 'react-icons/md';
 import { OneParamsPost } from '../../../../../API/POSTApi/PostApi';
@@ -14,14 +11,10 @@ import { RootState } from '../../../../../../models';
 import { useDispatch, useSelector } from 'react-redux';
 import { DecryptKey } from '../../../../../../config';
 import {
-    get_CSM_DataThunk,
     CSM_Data_Resister_Finished_Delete_Func,
-    CSM_CE_CALENDAR_CHECKED_Func,
     CeCalendarTableProps,
     CSM_Data_Checked_Delete_Func,
 } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_Redux';
-import { paramasTypes } from '../../../../../CSM/CSMMainContent/AdminContent/CeCalendarMasterPage';
-import { useParams } from 'react-router-dom';
 import { toast } from '../../../../../ToastMessage/ToastManager';
 import { CSM_User_Used_Data_Register_Func } from '../../../../../../models/Thunk_models/CSM_Redux_Thunk/CSM_User_Used_Redux';
 import {
@@ -29,7 +22,6 @@ import {
     CSM_Selected_Data_List_Func,
 } from '../../../../../../models/CSMFilteringRedux/CSMSelectedRedux';
 
-registerLocale('ko', ko);
 const CeDistanceUpdateMainPageMainDivBox = styled.div`
     .InputBox_Main_Container {
         display: flex;
@@ -302,13 +294,10 @@ const CeDistanceUpdateMainPage = ({ closeModal }: CeDistanceUpdateMainPagePropsT
         },
         distance_binds: [],
         Select_team: InfomationState.team,
-        // Select_team: 'grinder',
         Select_Id: DecryptKey(InfomationState.id),
-
         stay_chek: false,
         stay_day: 0,
     });
-    const { pagenumber, type } = useParams<paramasTypes>();
     const [csm_distance_lists, setCsm_distance_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_csmNumber_lists, setCsm_csmNumber_lists] = useState<csm_distance_lists_Types[]>([]);
     const [csm_equitModel_lists, setCsm_equitModel_lists] = useState<csm_distance_lists_Types[]>([]);

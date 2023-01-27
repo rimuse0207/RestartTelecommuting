@@ -72,7 +72,7 @@ const CeCalendarExcelFileUpload = () => {
     const [loading, setLoading] = useState(false);
     const [FileUploadSuccess, setFileUploadSuccess] = useState<FileListsTypes | null>(null);
 
-    const handleDeleteFromFiles = (xData: any) => {
+    const handleDeleteFromFiles = (xData: File) => {
         const deleteFileData = file.filter((item: { name: string }) => {
             return item.name === xData.name ? '' : item;
         });
@@ -162,7 +162,7 @@ const CeCalendarExcelFileUpload = () => {
 
             <h3>CSM 정보 업로드</h3>
             <div className="upload-file-wrapper">
-                <FileDrop onDrop={(files, event) => handle(files)}>
+                <FileDrop onDrop={files => handle(files)}>
                     <p>업로드 하실 파일을 드래그 또는 클릭 하여 추가 </p>
                     <label htmlFor="same" className="browse-btn">
                         클릭
