@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import { useParams } from 'react-router-dom';
+import { ErpDatasTypes } from './TeamLeaderBusinessTrip/TeamLeaderBusinessTripContent';
 const BusinessTripShowContentMainDivBox = styled.div`
     padding: 20px;
     .Telecommuting_Table {
@@ -73,17 +74,17 @@ type businiessTypes = {
     teamleader_check: number;
     create_date: string;
 };
-type ErpDatasTypes = {
-    indexs: number;
-    paper_code: string;
-    name: string;
-    business_location: string;
-    business_purpose: string;
-    business_trip_period: string;
-    business_tip_length: number;
-    upload_date: string;
-    erp_business_write_write_reason: string;
-};
+// type ErpDatasTypes = {
+//     indexs: number;
+//     paper_code: string;
+//     name: string;
+//     business_location: string;
+//     business_purpose: string;
+//     business_trip_period: string;
+//     business_tip_length: number;
+//     upload_date: string;
+//     erp_business_write_write_reason: string;
+// };
 
 type paramasTypes = {
     id: string;
@@ -172,8 +173,8 @@ const BusinessTripPrinterContent = () => {
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
                                             <div className="Text">
                                                 {ErpDatas.map((list: any) => {
-                                                    const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
-                                                    const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
+                                                    const FirstDate = moment(list.FmDate).subtract(1, 'days');
+                                                    const SecondDate = moment(list.ToDate).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
                                                         <div style={{ marginBottom: '5px', fontSize: '1.2em' }}>출장 일당</div>
                                                     ) : (
@@ -275,12 +276,12 @@ const BusinessTripPrinterContent = () => {
                         {ErpDatas.map((list, i) => {
                             return (
                                 <tr>
-                                    <td>{list.name}</td>
-                                    <td>{list.business_location}</td>
-                                    <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length} 일</td>
+                                    <td>{list.Name}</td>
+                                    <td>{list.TripArea}</td>
+                                    <td>{list.FmDate} ~ {list.ToDate}</td>
+                                    <td>{list.TripDay} 일</td>
                                     <td style={{ width: '300px' }}>
-                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                        {list.TripObject}
                                     </td>
                                 </tr>
                             );

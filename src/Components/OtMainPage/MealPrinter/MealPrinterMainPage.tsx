@@ -92,13 +92,14 @@ const MealPrinterMainPage = () => {
                         <table style={{ fontSize: 'medium', width: '100%', height: '100%', borderCollapse: 'collapse' }}>
                             <thead style={{ fontSize: 'medium' }}>
                                 <tr style={{ height: '50px' }}>
-                                    <th>부서</th>
+                                    <th colSpan={2}>부서</th>
                                     <th>{team}</th>
                                     <th colSpan={2}></th>
                                     <th>성명</th>
                                     <th colSpan={3}>{name}</th>
                                 </tr>
                                 <tr style={{ height: '50px' }}>
+                                    <th>No.</th>
                                     <th>일자</th>
                                     <th>구분</th>
                                     <th>지출 금액</th>
@@ -124,6 +125,7 @@ const MealPrinterMainPage = () => {
                                     ) => {
                                         return (
                                             <tr key={list.indexs} style={{ border: '0.5px solid black' }}>
+                                                <td style={{ border: '0.5px solid black', textAlign: 'center' }}>{i + 1}</td>
                                                 <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.dates}</td>
                                                 <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.division}</td>
                                                 <td style={{ border: '0.5px solid black', padding: '10px' }}>

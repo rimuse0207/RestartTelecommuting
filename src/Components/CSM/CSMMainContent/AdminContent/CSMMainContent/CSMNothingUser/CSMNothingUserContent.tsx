@@ -1075,7 +1075,7 @@ const CSMNothingUserContent = ({ SelectTeamsMenu }: CSMNothingUserContentPropsTy
                     </tbody>
                 </table>
             </div>
-            <CSMSelectShowContent></CSMSelectShowContent>
+            {/* <CSMSelectShowContent></CSMSelectShowContent> */}
             <LoaderMainPage loading={CSM_Datas.loading}></LoaderMainPage>
         </CSMNothingUserContentMainDivBox>
     );

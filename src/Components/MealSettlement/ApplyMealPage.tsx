@@ -383,13 +383,14 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                 <table style={{ fontSize: 'small' }}>
                                     <thead style={{ fontSize: 'small' }}>
                                         <tr>
-                                            <th>부서</th>
+                                            <th colSpan={2}>부서</th>
                                             <th>{InfomationState.team}</th>
                                             <th colSpan={2}></th>
                                             <th>성명</th>
                                             <th colSpan={3}>{DecryptKey(InfomationState.name)}</th>
                                         </tr>
                                         <tr>
+                                            <th>No.</th>
                                             <th>일자</th>
                                             <th>구분</th>
                                             <th>
@@ -422,6 +423,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                             ) => {
                                                 return (
                                                     <tr key={list.indexs} ref={divisionRef} className="DISCO_PC_mealSet">
+                                                        <td>{i + 1}</td>
                                                         <td>{list.dates}</td>
                                                         <td>{list.division}</td>
                                                         <td>{list.spending.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</td>
@@ -465,7 +467,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                 원
                                             </td>
-                                            <td colSpan={4}></td>
+                                            <td colSpan={5}></td>
                                         </tr>
                                     </tbody>
                                 </table>

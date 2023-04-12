@@ -114,6 +114,7 @@
     height: 100vh;
     float: right;
     filter: drop-shadow(2px 4px 6px black);
+    padding-bottom: 0px;
 }
 
 .formCenter h1 {

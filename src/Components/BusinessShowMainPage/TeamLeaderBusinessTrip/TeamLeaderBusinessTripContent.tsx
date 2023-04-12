@@ -54,16 +54,13 @@ type businiessTypes = {
     teamleader_check: number;
     create_date: string;
 };
-type ErpDatasTypes = {
-    indexs: number;
-    paper_code: string;
-    name: string;
-    business_location: string;
-    business_purpose: string;
-    business_trip_period: string;
-    business_tip_length: number;
-    upload_date: string;
-    erp_business_write_write_reason: string;
+export type ErpDatasTypes = {
+    Name: string;
+    FmDate: string;
+    ToDate: string;
+    TripDay: number;
+    TripObject: string;
+    TripArea: string;
 };
 
 type TeamLeaderBusinessTripContentTypes = {
@@ -170,8 +167,8 @@ const TeamLeaderBusinessTripContent = ({
 
                                             <div className="Text">
                                                 {ErpDatas.map((list: any) => {
-                                                    let FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
-                                                    let SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
+                                                    let FirstDate = moment(list.FmDate).subtract(1, 'days');
+                                                    let SecondDate = moment(list.ToDate).add(1, 'days');
 
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
                                                         <div
@@ -253,13 +250,13 @@ const TeamLeaderBusinessTripContent = ({
                     <tbody>
                         {ErpDatas.map((list, i) => {
                             return (
-                                <tr key={list.paper_code}>
-                                    <td>{list.name}</td>
-                                    <td>{list.business_location}</td>
-                                    <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length} 일</td>
+                                <tr key={list.FmDate+list.ToDate}>
+                                    <td>{list.Name}</td>
+                                    <td>{list.TripArea}</td>
+                                    <td>{list.FmDate} ~ { list.ToDate}</td>
+                                    <td>{list.TripDay} 일</td>
                                     <td style={{ width: '500px' }}>
-                                        {list.erp_business_write_write_reason ? list.erp_business_write_write_reason : ''}
+                                        {list.TripObject}
                                     </td>
                                 </tr>
                             );

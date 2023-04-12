@@ -34,15 +34,10 @@ const getUSBCDDataAsync = createAsyncAction(GET_USBCDData_GET, GET_USBCDData_SUC
 
 const getDataUSBCDApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
-        //     id: DecryptKey(InfomationState.id),
-        //     team: InfomationState.team,
-        //     name: DecryptKey(InfomationState.name),
-        //     selectDate: moment(getMoment).format('YYYY-MM'),
-        // });
         const USBPersondataget = await axios.get(`${process.env.REACT_APP_API_URL}/USB_app_server/Data_get_USBApply`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
+                id: DecryptKey(InfomationState.id),
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),

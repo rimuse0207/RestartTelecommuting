@@ -14,7 +14,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store: any = createStore(persistedReducer, composeEnhancers(applyMiddleware(Thunk, createLogger())));
+//개발용
+// const store: any = createStore(persistedReducer, composeEnhancers(applyMiddleware(Thunk, createLogger())));
+//배포용
+const store: any = createStore(persistedReducer, composeEnhancers(applyMiddleware(Thunk)));
 
 export const persistor = persistStore(store);
 

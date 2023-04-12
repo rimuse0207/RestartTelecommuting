@@ -7,6 +7,7 @@ import { RootState } from '../../models';
 import { DecryptKey } from '../../config';
 import { PrinterButtonContainer } from '../OtMainPage/OTTeamLeaderCheckFinish/BeforeOtTeamLeaderFinish';
 import { toast } from '../ToastMessage/ToastManager';
+import { ErpDatasTypes } from './TeamLeaderBusinessTrip/TeamLeaderBusinessTripContent';
 const BusinessTripShowContentMainDivBox = styled.div`
     .Telecommuting_Table {
         height: auto;
@@ -55,17 +56,17 @@ type businiessTypes = {
     teamleader_check: number;
     create_date: string;
 };
-type ErpDatasTypes = {
-    indexs: number;
-    paper_code: string;
-    name: string;
-    business_location: string;
-    business_purpose: string;
-    business_trip_period: string;
-    business_tip_length: number;
-    upload_date: string;
-    erp_business_write_write_reason: string;
-};
+// type ErpDatasTypes = {
+//     indexs: number;
+//     paper_code: string;
+//     name: string;
+//     business_location: string;
+//     business_purpose: string;
+//     business_trip_period: string;
+//     business_tip_length: number;
+//     upload_date: string;
+//     erp_business_write_write_reason: string;
+// };
 const BusinessTripShowContent = () => {
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [getMoment, setMoment] = useState(moment());
@@ -122,14 +123,14 @@ const BusinessTripShowContent = () => {
         }
     };
 
-    const handleChangeReason = (e: React.ChangeEvent<HTMLTextAreaElement>, data: ErpDatasTypes) => {
-        const findIndexs = ErpDatas.findIndex(item => item.paper_code === data.paper_code);
-        let copyErpDatas = [...ErpDatas];
-        if (findIndexs != -1) {
-            copyErpDatas[findIndexs] = { ...copyErpDatas[findIndexs], erp_business_write_write_reason: e.target.value };
-        }
-        setErpDatas(copyErpDatas);
-    };
+    // const handleChangeReason = (e: React.ChangeEvent<HTMLTextAreaElement>, data: ErpDatasTypes) => {
+    //     const findIndexs = ErpDatas.findIndex(item => item.paper_code === data.paper_code);
+    //     let copyErpDatas = [...ErpDatas];
+    //     if (findIndexs != -1) {
+    //         copyErpDatas[findIndexs] = { ...copyErpDatas[findIndexs], erp_business_write_write_reason: e.target.value };
+    //     }
+    //     setErpDatas(copyErpDatas);
+    // };
     const handleSaveData = async () => {
         try {
             const Erp_data_reason_send = await axios.post(
@@ -201,8 +202,8 @@ const BusinessTripShowContent = () => {
                                             <div style={{ paddingLeft: '5px' }}>{days.format('D')}</div>
                                             <div className="Text">
                                                 {ErpDatas.map((list: any) => {
-                                                    const FirstDate = moment(list.business_trip_period.split('∼')[0]).subtract(1, 'days');
-                                                    const SecondDate = moment(list.business_trip_period.split('∼')[1]).add(1, 'days');
+                                                    const FirstDate = moment(list.FmDate).subtract(1, 'days');
+                                                    const SecondDate = moment(list.ToDate).add(1, 'days');
                                                     return moment(days.format('YYYYMMDD')).isBetween(`${FirstDate}`, `${SecondDate}`) ? (
                                                         <div
                                                             style={{
@@ -301,10 +302,10 @@ const BusinessTripShowContent = () => {
                         {ErpDatas.map((list, i) => {
                             return (
                                 <tr>
-                                    <td>{list.name}</td>
-                                    <td>{list.business_location}</td>
-                                    <td>{list.business_trip_period}</td>
-                                    <td>{list.business_tip_length} 일</td>
+                                    <td>{list.Name}</td>
+                                    <td>{list.TripArea}</td>
+                                    <td>{list.FmDate} ~ {list.ToDate}</td>
+                                    <td>{list.TripDay} 일</td>
                                     <td style={{ width: '500px' }}>
                                         {/* <textarea
                                             style={{ width: '400px', height: '60px', padding: '10px' }}
@@ -312,6 +313,7 @@ const BusinessTripShowContent = () => {
                                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChangeReason(e, list)}
                                             placeholder="출장 일당과 현장 수당이 겹치는 경우 비고에 출장 날짜 필수 기재"
                                         ></textarea> */}
+                                        { list.TripObject}
                                     </td>
                                 </tr>
                             );

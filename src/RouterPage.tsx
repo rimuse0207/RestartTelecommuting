@@ -159,7 +159,7 @@ const RouterPage = () => {
                                 <Route path="/CeCantactPage" component={CeContactMainPage}></Route>
                                 <Route path="/Amdin/IT_Admin_Access" component={AccessInfoMainPage}></Route>
                             </div>
-
+                            {/* <Route component={ErrorPage}></Route> */}
                             {/* <Redirect path="*" to="/ErrorPage" /> */}
                         </>
                     ) : (
