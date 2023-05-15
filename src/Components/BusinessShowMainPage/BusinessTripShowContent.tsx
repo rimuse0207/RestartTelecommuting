@@ -92,7 +92,7 @@ const BusinessTripShowContent = () => {
                     },
                 }
             );
-            console.log(getPrinterControlFromServer);
+            
             if (getPrinterControlFromServer.data.dataSuccess) {
                 console.log(getPrinterControlFromServer);
                 setPrinterControlData(getPrinterControlFromServer.data.data[0].business_printer_control_type === 1 ? true : false);
@@ -114,7 +114,7 @@ const BusinessTripShowContent = () => {
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
-                console.log(getBusinessDatas);
+                
                 setBusinessDatas(getBusinessDatas.data.datas);
                 setErpDatas(getBusinessDatas.data.ERP_data);
             }
