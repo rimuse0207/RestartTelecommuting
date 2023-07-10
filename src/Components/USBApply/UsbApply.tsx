@@ -62,7 +62,7 @@ export const USBCDApplyFormBoxDiv = styled.div`
             background-color: #efefef;
         }
     }
-    select {
+    select,input {
         width: 80%;
         height: 100%;
         padding: 0;

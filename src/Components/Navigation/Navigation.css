@@ -168,10 +168,11 @@ ul {
     cursor: pointer;
 }
 #menu li {
-    padding: 10px 0 10px 30px;
+    padding: 10px 0 10px 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.14);
     border-top: 1px solid rgba(0, 0, 0, 0.14);
     color: white;
+    font-size:0.9em;
 }
 
 .fa {
@@ -189,7 +190,7 @@ a:visited {
 }
 a > li:hover {
     background-color: #efefef;
-    color: black;
+    color: black !important;
     font-weight: bolder;
 }
 

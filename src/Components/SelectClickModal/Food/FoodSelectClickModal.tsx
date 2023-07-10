@@ -6,8 +6,7 @@ type FoodSelectClickModalProps = {
     modalClose: () => void;
 };
 
-const FoodSelectClickModal = ({ clicksTitle, clicksData, modalClose }: FoodSelectClickModalProps) => {
-    console.log(clicksData);
+const FoodSelectClickModal = ({ clicksTitle, clicksData, modalClose }: FoodSelectClickModalProps) => {    
     const handleDataClick = () => {
         modalClose();
     };

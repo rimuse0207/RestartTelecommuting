@@ -36,7 +36,7 @@ const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const FoodData = useSelector((state: RootState) => state.TeamLeaderFoodData.TeamLeader_FoodDatas);
-    const USBCDData = useSelector((state: RootState) => state.TeamLeaderUSBCDDataGetting.TeamLeader_USBCDDatas);
+    // const USBCDData = useSelector((state: RootState) => state.TeamLeaderUSBCDDataGetting.TeamLeader_USBCDDatas);
     const TeamLeader_TelecommutingData = useSelector(
         (state: RootState) => state.TeamLeader_TelecommutingDataGetting.TeamLeader_TelecommutingDatas
     );
@@ -61,11 +61,11 @@ const TeamLeaderTelecommuting = () => {
             if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
     }, [foodApply_check, getMoment]);
-    useEffect(() => {
-        if (NavAccessTokenState.USBApplyLeaderAccess === 1) {
-            if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-        }
-    }, [usbApply_check, getMoment]);
+    // useEffect(() => {
+    //     if (NavAccessTokenState.USBApplyLeaderAccess === 1) {
+    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
+    //     }
+    // }, [usbApply_check, getMoment]);
     useEffect(() => {
         if (NavAccessTokenState.AfterOTLeaderAccess === 1) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
@@ -722,35 +722,7 @@ const TeamLeaderTelecommuting = () => {
                                                 <div></div>
                                             )}
 
-                                            {USBCDData.dataChecked ? (
-                                                USBCDData.data
-                                                    .filter((names: { name: string }) => names.name.includes(SearchName))
-                                                    .map(
-                                                        (
-                                                            list: { workdate: string; leadercheck: number; number: number; name: string },
-                                                            i: number
-                                                        ) => {
-                                                            return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                                <div
-                                                                    key={list.number}
-                                                                    className={`Telecommuting_Table_Data_Insert ${
-                                                                        list.leadercheck === 0 ? 'blink' : ''
-                                                                    }`}
-                                                                    style={{ backgroundColor: '#773b02' }}
-                                                                    onClick={() => {
-                                                                        setClicksData(list);
-                                                                        setClicksTitle('USB/CD');
-                                                                        setOnClickedSet(true);
-                                                                    }}
-                                                                >{`( USB )_${list.name} ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                            ) : (
-                                                                <div></div>
-                                                            );
-                                                        }
-                                                    )
-                                            ) : (
-                                                <div></div>
-                                            )}
+                                          
                                         </div>
                                     </td>
                                 );
@@ -776,7 +748,7 @@ const TeamLeaderTelecommuting = () => {
                             value={SearchName}
                             onChange={e => setSearchName(e.target.value)}
                         ></input>
-                        <select onChange={e => handleChangeSelectNames(e)} className="TeamLeader_Telecommuting_SearchedNames">
+                        {/* <select onChange={e => handleChangeSelectNames(e)} className="TeamLeader_Telecommuting_SearchedNames">
                             <option value="">이름을 선택해주세요.</option>
                             {belongsName.map((list: { name: string }, i) => {
                                 return (
@@ -785,7 +757,7 @@ const TeamLeaderTelecommuting = () => {
                                     </option>
                                 );
                             })}
-                        </select>
+                        </select> */}
                     </div>
                 </div>
                 <div className="control">
@@ -857,18 +829,7 @@ const TeamLeaderTelecommuting = () => {
                             >
                                 <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
                             </li>
-                            <li
-                                onClick={() => {
-                                    if (usbApply_check) {
-                                        dispatch(USBCDDataShowCheckedFalse());
-                                    } else {
-                                        dispatch(USBCDDataShowCheckedTrue());
-                                    }
-                                    setusbApply_check(!usbApply_check);
-                                }}
-                            >
-                                <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
-                            </li>
+                        
                         </ul>
                     </div>
                 ) : (

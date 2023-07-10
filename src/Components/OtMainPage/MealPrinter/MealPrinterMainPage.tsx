@@ -146,7 +146,7 @@ const MealPrinterMainPage = () => {
                                     className="tailtr"
                                     style={{ fontSize: 'large', border: '0.5px solid black', padding: '10px', fontWeight: 'bolder' }}
                                 >
-                                    <td colSpan={3} style={{ border: '0.5px solid black', padding: '10px' }}>
+                                    <td colSpan={4} style={{ border: '0.5px solid black', padding: '10px' }}>
                                         합계
                                     </td>
                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>
@@ -157,7 +157,7 @@ const MealPrinterMainPage = () => {
                                             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         원
                                     </td>
-                                    <td colSpan={4} style={{ border: '0.5px solid black', padding: '10px' }}></td>
+                                    <td colSpan={3} style={{ border: '0.5px solid black', padding: '10px' }}></td>
                                 </tr>
                             </tbody>
                         </table>

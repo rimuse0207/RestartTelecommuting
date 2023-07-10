@@ -99,7 +99,7 @@ const DatePickerComponents = ({ clicksData }: DatePickerComponentsProps) => {
                         >
                             <option value="initial">항목을 선택 해 주세요.</option>
                             {/* <option value="BusinessTrip">출장 신청</option> */}
-                            <option value="Apply_USB_CD_workspace">USB/CD 신청</option>
+                            {/* <option value="Apply_USB_CD_workspace">USB/CD 신청</option> */}
                             <option value="Apply_Food_workspace">식대정산 신청</option>
                             <option value="Apply_Parts_workspace">업무요청</option>
                         </select>

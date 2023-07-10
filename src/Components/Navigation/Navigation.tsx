@@ -64,7 +64,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
             {DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr' ? (
                 <>
                     <div>
-                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)}>
+                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)} style={{background:"#efefef",color:'black'}}>
                             근무메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -92,13 +92,22 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <Link to="/MonthTelecommuting">
                                             <li>월별 재택 조회</li>
                                         </Link>
+                                        
                                     ) : (
                                         <></>
                                     )}
 
-                                    <Link to="/USbWrite">
-                                        <li>USB/CD 사전 신청</li>
+                                    <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb/')}>
+                                        <li>외부미디어 <br/>사전/사후 신청</li>
                                     </Link>
+                                     {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
+                                          <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb_Approve/')}>
+                                        <li>외부미디어 <br/>사전/사후 신청 승인</li>
+                                    </Link>
+                                        
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             </ul>
                         ) : (
@@ -106,7 +115,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)}>
+                        <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)} style={{background:"#efefef",color:'black'}}>
                             OT메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -182,7 +191,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)}>
+                        <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)} style={{background:"#efefef",color:'black'}}>
                             식대메뉴{' '}
                             <img
                                 src={'/pngegg.png'}
@@ -209,7 +218,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)}>
+                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)} style={{background:"#efefef",color:'black'}}>
                             기타메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -225,8 +234,8 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://125.132.12.165:3332')}>
                                         <li>회의실 예약</li>
                                     </Link>
-                                    <Link to="/CECalendar/1/ALL">
-                                        <li>CSM</li>
+                                    <Link to="#" onClick={() => window.open('http://192.168.2.241:5551')}>
+                                        <li>CSM(Beta)</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
                                         <li>ERP</li>

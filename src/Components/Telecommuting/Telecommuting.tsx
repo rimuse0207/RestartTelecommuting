@@ -18,7 +18,6 @@ const Telecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const FoodData = useSelector((state: RootState) => state.FoodDataGetting.FoodDatas);
-    const USBCDData = useSelector((state: RootState) => state.USBCDDataGetting.USBCDDatas);
     const TelecommutingData = useSelector((state: RootState) => state.TelecommutingDataGetting.TelecommutingDatas);
     const AfterOTData = useSelector((state: RootState) => state.AfterOTData.AfterOTDatas);
     const BeforeOTData = useSelector((state: RootState) => state.BeforeOTData.BeforeOTDatas);
@@ -38,11 +37,10 @@ const Telecommuting = () => {
 
     useEffect(() => {
         if (foodApply_check) dispatch(getFoodDataThunk(getMoment, InfomationState));
-        if (usbApply_check) dispatch(getUSBCDThunk(getMoment, InfomationState));
         if (telecommutingApply_check) dispatch(getTelecommutingThunk(getMoment, InfomationState));
         if (AfterOtApply_check) dispatch(getAFTEROTdataThunk(getMoment, InfomationState));
         if (BeforeOtApply_check) dispatch(getBEFOREOTdataThunk(getMoment, InfomationState));
-        if (Parts_check) dispatch(getPartsdataThunk(getMoment, InfomationState));
+        // if (Parts_check) dispatch(getPartsdataThunk(getMoment, InfomationState));
     }, [getMoment]);
 
     const today = getMoment;
@@ -620,31 +618,8 @@ const Telecommuting = () => {
                                                 <div></div>
                                             )}
 
-                                            {USBCDData.dataChecked ? (
-                                                USBCDData.data.map(
-                                                    (list: { workdate: string; leadercheck: number; number: number }, i: number) => {
-                                                        return list.workdate === days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.number}
-                                                                className={`Telecommuting_Table_Data_Insert ${
-                                                                    list.leadercheck === 0 ? 'blink' : ''
-                                                                }`}
-                                                                onClick={() => {
-                                                                    setClicksData(list);
-                                                                    setClicksTitle('Person_USB/CD');
-                                                                    setOnClickedDataIn(true);
-                                                                }}
-                                                                style={{ backgroundColor: '#773b02' }}
-                                                            >{`( USB ) - 팀장승인: ${list.leadercheck === 0 ? 'X' : 'O'}`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
-                                            ) : (
-                                                <div></div>
-                                            )}
-                                            {Parts_check ? (
+                                           
+                                            {/* {Parts_check ? (
                                                 PartsData.data.map(
                                                     (
                                                         list: {
@@ -685,7 +660,7 @@ const Telecommuting = () => {
                                                 )
                                             ) : (
                                                 <div></div>
-                                            )}
+                                            )} */}
                                         </div>
                                     </td>
                                 );
@@ -772,18 +747,7 @@ const Telecommuting = () => {
                             >
                                 <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
                             </li>
-                            <li
-                                onClick={() => {
-                                    if (usbApply_check) {
-                                        dispatch(USBCDDataShowCheckedFalse());
-                                    } else {
-                                        dispatch(getUSBCDThunk(getMoment, InfomationState));
-                                    }
-                                    setusbApply_check(!usbApply_check);
-                                }}
-                            >
-                                <input type="checkbox" name="usbApply_check" checked={usbApply_check} readOnly></input> USB신청
-                            </li>
+                          
                             {/* <li
                             onClick={() => {
                                 if (Parts_check) {
@@ -818,7 +782,7 @@ const Telecommuting = () => {
                     <tbody>{calendarArr()}</tbody>
                 </table>
             </div>
-            {onClicked ? <CreateModal onClicked={onClicked} modalClose={modalClose} clicksData={clicksData}></CreateModal> : ''}
+            {/* {onClicked ? <CreateModal onClicked={onClicked} modalClose={modalClose} clicksData={clicksData}></CreateModal> : ''} */}
 
             {onClickedDataIn ? (
                 <SelectClickModalMainPage

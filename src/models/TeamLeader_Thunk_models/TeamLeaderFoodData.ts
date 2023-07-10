@@ -35,12 +35,7 @@ const TeamLeader_getFoodDataAsync = createAsyncAction(
 
 const TeamLeader_getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/TeamLeader_Data_get_applyMeal`, {
-        //     id: DecryptKey(InfomationState.id),
-        //     team: InfomationState.team,
-        //     name: DecryptKey(InfomationState.name),
-        //     selectDate: moment(getMoment).format('YYYY-MM'),
-        // });
+        
         const Fooddataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/TeamLeader_Data_get_applyMeal`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
@@ -61,7 +56,7 @@ const actions = {
     TeamLeader_FoodData_Show_TRUE,
     TeamLeader_FoodData_Show_FALSE,
 };
-// type GithubAction = ActionType<typeof GET_FoodData_GET> | ActionType<typeof GET_FoodData_SUCCESS> | ActionType<typeof GET_FoodData_ERROR> | ActionType<any>
+
 type GithubAction = ActionType<typeof actions> | ActionType<any>;
 
 type GithubState = {

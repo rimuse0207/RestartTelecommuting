@@ -6,6 +6,27 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import TeamSelectOTTable from './TeamSelectOTTable';
 import { OneParamsGet } from '../../API/GETApi/GetApi';
+import { FaFileExcel } from "react-icons/fa";
+import styled from 'styled-components';
+import { request } from '../../API/indexs';
+import LoaderMainPage from '../../Loader/LoaderMainPage';
+
+const TeamSelectOTSpaceMainDivBox = styled.div`
+    
+    position:relative;
+    .Excel_Download_Container{
+        position:absolute;
+        top:-40px;
+        right:0px;
+        font-size:2em;
+        color:green;
+        :hover{
+            cursor: pointer;
+        }
+    }
+
+`
+
 type TeamDataProps = {
     show_teams: string;
 };
@@ -16,8 +37,38 @@ const TeamSelectOTSpace = () => {
     const [selectMonth, setSelectMonth] = useState(moment().format('MM'));
     const [selectTeam, setSelectTeam] = useState('');
     const [showTeam, setShowTeam] = useState<TeamDataProps[]>([]);
-
+    const [loading, setLoading] = useState(false);
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
+
+
+
+
+    const HandleExcelDownload = async () => {
+        try {
+            setLoading(true);
+            const Excel_Download_OT_Data_Axios = await request.get('/TeamSelectOT_app_server/Excel_Download_OT_Data', {
+                params: {
+                    selectYear,
+                    selectMonth
+                }
+            })
+
+            if (Excel_Download_OT_Data_Axios.data.dataSuccess) {
+                window.open(`${process.env.REACT_APP_DB_HOST}/${Excel_Download_OT_Data_Axios.data.URL}`, "_blank");
+                setLoading(false);
+            }
+             setLoading(false);
+
+             
+
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+    }
+
+
+
 
     useEffect(() => {
         getTeamsDataFromServer();
@@ -52,6 +103,7 @@ const TeamSelectOTSpace = () => {
                 selectMonth,
                 selectTeam,
             });
+            
             setTeamBelongInfo(getDataShowTeam.data.datas);
         } catch (error) {
             console.log(error);
@@ -59,7 +111,7 @@ const TeamSelectOTSpace = () => {
     };
 
     return (
-        <div>
+        <TeamSelectOTSpaceMainDivBox>
             <div className="TeamSelectOTSpace_main_div">
                 <div className="TeamSelectOTSpace_select_box_div">
                     <select value={selectYear} onChange={e => setSelectYear(e.target.value)}>
@@ -92,7 +144,10 @@ const TeamSelectOTSpace = () => {
                         })}
                     </select>
                 </div>
-                <div>
+                <div style={{position:"relative"}}>
+                     <div className="Excel_Download_Container" onClick={()=>HandleExcelDownload()}>
+                        <FaFileExcel></FaFileExcel>
+                </div>
                     <div style={{ textAlign: 'end' }}>*더블 클릭 시 자세하게 볼 수 있습니다.</div>
                     <TeamSelectOTTable
                         teamBelongInfo={teamBelongInfo}
@@ -102,7 +157,8 @@ const TeamSelectOTSpace = () => {
                     ></TeamSelectOTTable>
                 </div>
             </div>
-        </div>
+            <LoaderMainPage loading={loading}></LoaderMainPage>
+        </TeamSelectOTSpaceMainDivBox>
     );
 };
 

@@ -84,12 +84,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     }, [divisionDate]);
     const OTdataGet = async () => {
         try {
-            // const dataget = await axios.post(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
-            //     divisionDate,
-            //     id: DecryptKey(InfomationState.id),
-            //     team: InfomationState.team,
-            //     name: DecryptKey(InfomationState.name),
-            // });
+          
             const dataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
                 params: {
                     selectDate,
@@ -143,7 +138,9 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 dispatch(
                     getFoodDataThunk(pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'), InfomationState)
                 );
-
+                setMealPrice(0);
+                setMealPlace('');
+                setMealPosition("");
                 toast.show({
                     title: '데이터 저장 완료.',
                     content: `${moment(startDate).format('YYYY년 MM월 DD일')}의 식대정산 데이터가 등록되었습니다.`,
@@ -187,7 +184,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                     getFoodDataThunk(pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'), InfomationState)
                 );
                 toast.show({
-                    title: '데이터 삭제 성공 ',
+                    title: '식대 정산 데이터 삭제.',
                     content: `${datas.dates}일자에 등록된 식대정산 데이터가 삭제되었습니다.`,
                     duration: 6000,
                     DataSuccess: true,
@@ -226,7 +223,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">팀명</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <BsFillPencilFill></BsFillPencilFill>
+                                                
                                             </div>
                                             <input
                                                 className="CElogs_WriteData_FORM_InputBox"
@@ -241,7 +238,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">이름</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <BsFillPencilFill></BsFillPencilFill>
+                                                
                                             </div>
                                             <input
                                                 type="text"
@@ -256,7 +253,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">날짜</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <GiClick></GiClick>
+                                                
                                             </div>
 
                                             <div id="USBCDDivBox">
@@ -266,7 +263,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     locale="ko"
                                                     customInput={<ExampleCustomInput />}
                                                     selected={startDate}
-                                                    withPortal
+                                                    // withPortal
                                                     portalId="root-portal"
                                                     onChange={(date: any) => setStartDate(date)}
                                                 />
@@ -275,7 +272,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">구분</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <CgSelectR></CgSelectR>
+                                                
                                             </div>
 
                                             <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
@@ -286,7 +283,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">금액</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <BsFillPencilFill></BsFillPencilFill>
+                                                
                                             </div>
 
                                             <input
@@ -305,7 +302,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">방문처</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <BsFillPencilFill></BsFillPencilFill>
+                                                
                                             </div>
 
                                             <input
@@ -320,7 +317,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">지역</div>
                                             <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                <BsFillPencilFill></BsFillPencilFill>
+                                                
                                             </div>
 
                                             <input
@@ -458,7 +455,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         )}
 
                                         <tr className="tailtr" style={{ fontSize: 'small' }}>
-                                            <td colSpan={3}>합계</td>
+                                            <td colSpan={4}>합계</td>
                                             <td>
                                                 {applyedData
                                                     .map((list: { calculate: number }) => list.calculate)
@@ -467,7 +464,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                 원
                                             </td>
-                                            <td colSpan={5}></td>
+                                            <td colSpan={4}></td>
                                         </tr>
                                     </tbody>
                                 </table>

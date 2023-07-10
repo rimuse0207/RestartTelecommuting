@@ -129,9 +129,9 @@ const RouterPage = () => {
                                     {/* 상대방 호출 */}
                                     {/* <Route path="/ConnectedNow" component={ConnectedMainPage}></Route> */}
                                     {/* CSM */}
-                                    <Route path="/CECalendar/:pagenumber/:type" component={CeCalendarMainPage}></Route>
+                                    {/* <Route path="/CECalendar/:pagenumber/:type" component={CeCalendarMainPage}></Route>
                                     <Route path="/CECalendar/Renewal" component={ReNewalCSMMainPage}></Route>
-                                    <Route path="/RenewalCSM" component={CeCalendarSearchIcons}></Route>
+                                    <Route path="/RenewalCSM" component={CeCalendarSearchIcons}></Route> */}
                                     {/* 비밀번호 변경 */}
                                     <Route path="/ChangePassword" component={ChangePasswordPage}></Route>
                                     {/* Exicon, YIKC 사용자 등록 */}
