@@ -102,10 +102,10 @@ const AfterMondayComponent = ({ monDateData, setMonDateData, startDate, Business
                 </td>
 
                 <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                    <label htmlFor="mon_holiday_check">
+                    <label htmlFor="mon_week_check">
                         <input
                             type="radio"
-                            id="mon_holiday_check"
+                            id="mon_week_check"
                             name="mon_holiday_check"
                             value="weekday"
                             readOnly
@@ -134,53 +134,61 @@ const AfterMondayComponent = ({ monDateData, setMonDateData, startDate, Business
                     </label>
                 </td>
                 <td rowSpan={3} width="100px">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">시작시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={monDateData.basicStartTime}
-                            label="시작시간"
-                            onChange={event => setMonDateData({ ...monDateData, basicStartTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {monDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">시작시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={monDateData.basicStartTime}
+                                label="시작시간"
+                                onChange={event => setMonDateData({ ...monDateData, basicStartTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
                 <td rowSpan={3} width="100px">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">종료시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={monDateData.basicEndTime}
-                            label="종료시간"
-                            onChange={event => setMonDateData({ ...monDateData, basicEndTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {monDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">종료시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={monDateData.basicEndTime}
+                                label="종료시간"
+                                onChange={event => setMonDateData({ ...monDateData, basicEndTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
-                <td rowSpan={3} width="100px">
+                <td rowSpan={3} width="80px">
                     <span className="sum_time" id="sum_time_mon">
                         {monDateData.basicSumTime}
                     </span>
                     시간
                 </td>
                 {BusinessAcessState ? (
-                    <td rowSpan={3} width="100px">
+                    <td rowSpan={3} width="100px" style={{ fontSize: '0.9em' }}>
                         <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
                             <InputLabel id="demo-select-small">출장OR현장</InputLabel>
                             <Select
@@ -265,13 +273,13 @@ const AfterMondayComponent = ({ monDateData, setMonDateData, startDate, Business
                         </Select>
                     </FormControl>
                 </td>
-                <td rowSpan={3} width="100px">
+                <td rowSpan={3} width="80px">
                     <span className="sum_over_time" id="sum_over_time_monOver">
                         {monDateData.OTSumTime}
                     </span>
                     시간
                 </td>
-                <td rowSpan={3} width="100px">
+                <td rowSpan={3} width="80px">
                     <span id="sum_times_mon"> {monDateData.basicSumTime + monDateData.OTSumTime}</span> 시간
                 </td>
 

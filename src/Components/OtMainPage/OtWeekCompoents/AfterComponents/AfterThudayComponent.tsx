@@ -104,10 +104,10 @@ const AfterThudayComponent = ({ thuDateData, setThuDateData, startDate, Business
                     목요일
                 </td>
                 <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                    <label htmlFor="thu_holiday_check">
+                    <label htmlFor="thu_weekday_check">
                         <input
                             type="radio"
-                            id="thu_holiday_check"
+                            id="thu_weekday_check"
                             name="thu_holiday_check"
                             value="weekday"
                             readOnly
@@ -136,53 +136,61 @@ const AfterThudayComponent = ({ thuDateData, setThuDateData, startDate, Business
                 </td>
 
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">시작시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={thuDateData.basicStartTime}
-                            label="시작시간"
-                            onChange={event => setThuDateData({ ...thuDateData, basicStartTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {thuDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">시작시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={thuDateData.basicStartTime}
+                                label="시작시간"
+                                onChange={event => setThuDateData({ ...thuDateData, basicStartTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">종료시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={thuDateData.basicEndTime}
-                            label="종료시간"
-                            onChange={event => setThuDateData({ ...thuDateData, basicEndTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {thuDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">종료시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={thuDateData.basicEndTime}
+                                label="종료시간"
+                                onChange={event => setThuDateData({ ...thuDateData, basicEndTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span className="sum_time" id="sum_time_thu">
                         {thuDateData.basicSumTime}
                     </span>{' '}
                     시간
                 </td>
                 {BusinessAcessState ? (
-                    <td rowSpan={3} width="100px">
+                    <td rowSpan={3} width="100px" style={{ fontSize: '0.9em' }}>
                         <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
                             <InputLabel id="demo-select-small">출장OR현장</InputLabel>
                             <Select
@@ -267,13 +275,13 @@ const AfterThudayComponent = ({ thuDateData, setThuDateData, startDate, Business
                         </Select>
                     </FormControl>
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span className="sum_over_time" id="sum_over_time_thuOver">
                         {thuDateData.OTSumTime}
                     </span>{' '}
                     시간
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span id="sum_times_thu">{thuDateData.basicSumTime + thuDateData.OTSumTime}</span> 시간
                 </td>
                 <td className="reasontable">

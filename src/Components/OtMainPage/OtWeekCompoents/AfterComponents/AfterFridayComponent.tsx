@@ -105,10 +105,10 @@ const AfterFridayComponent = ({ friDateData, setFriDateData, startDate, Business
                 </td>
 
                 <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                    <label htmlFor="fri_holiday_check">
+                    <label htmlFor="fri_week_check">
                         <input
                             type="radio"
-                            id="fri_holiday_check"
+                            id="fri_week_check"
                             name="fri_holiday_check"
                             value="weekday"
                             readOnly
@@ -136,53 +136,61 @@ const AfterFridayComponent = ({ friDateData, setFriDateData, startDate, Business
                     </label>
                 </td>
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">시작시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={friDateData.basicStartTime}
-                            label="시작시간"
-                            onChange={event => setFriDateData({ ...friDateData, basicStartTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {friDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">시작시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={friDateData.basicStartTime}
+                                label="시작시간"
+                                onChange={event => setFriDateData({ ...friDateData, basicStartTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">종료시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={friDateData.basicEndTime}
-                            label="종료시간"
-                            onChange={event => setFriDateData({ ...friDateData, basicEndTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {friDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">종료시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={friDateData.basicEndTime}
+                                label="종료시간"
+                                onChange={event => setFriDateData({ ...friDateData, basicEndTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span className="sum_time" id="sum_time_fri">
                         {friDateData.basicSumTime}
                     </span>{' '}
                     시간
                 </td>
                 {BusinessAcessState ? (
-                    <td rowSpan={3} width="100px">
+                    <td rowSpan={3} width="100px" style={{ fontSize: '0.9em' }}>
                         <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
                             <InputLabel id="demo-select-small">출장OR현장</InputLabel>
                             <Select
@@ -267,13 +275,13 @@ const AfterFridayComponent = ({ friDateData, setFriDateData, startDate, Business
                         </Select>
                     </FormControl>
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span className="sum_over_time" id="sum_over_time_friOver">
                         {friDateData.OTSumTime}
                     </span>{' '}
                     시간
                 </td>
-                <td rowSpan={3}>
+                <td rowSpan={3} width="80px">
                     <span id="sum_times_fri">{friDateData.basicSumTime + friDateData.OTSumTime}</span> 시간
                 </td>
                 <td className="reasontable">

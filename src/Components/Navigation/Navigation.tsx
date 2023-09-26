@@ -42,11 +42,6 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
     const [ETCMenuClicks, setETCMenuClicks] = useState(true);
     const [onClicked, setOnClickedSet] = useState(false);
     const handleLogout = () => {
-        // socket.emit('LogOut', {
-        //     message: 'user 나감',
-        //     socketsId: socket.id,
-        // });
-
         sessionStorage.clear();
         dispatch(getAccessDataError());
         dispatch(getSessionLOGOUT());
@@ -64,7 +59,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
             {DecryptKey(InfomationState.id).split('@')[1] === 'dhk.co.kr' ? (
                 <>
                     <div>
-                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)} style={{background:"#efefef",color:'black'}}>
+                        <h5 onClick={() => setTeleMenuClicks(!TeleMenuClicks)} style={{ background: '#efefef', color: 'black' }}>
                             근무메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -92,19 +87,23 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <Link to="/MonthTelecommuting">
                                             <li>월별 재택 조회</li>
                                         </Link>
-                                        
                                     ) : (
                                         <></>
                                     )}
 
                                     <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb/')}>
-                                        <li>외부미디어 <br/>사전/사후 신청</li>
+                                        <li>
+                                            외부미디어 <br />
+                                            사전/사후 신청
+                                        </li>
                                     </Link>
-                                     {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
-                                          <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb_Approve/')}>
-                                        <li>외부미디어 <br/>사전/사후 신청 승인</li>
-                                    </Link>
-                                        
+                                    {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
+                                        <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb_Approve/')}>
+                                            <li>
+                                                외부미디어 <br />
+                                                사전/사후 신청 승인
+                                            </li>
+                                        </Link>
                                     ) : (
                                         <></>
                                     )}
@@ -115,7 +114,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)} style={{background:"#efefef",color:'black'}}>
+                        <h5 onClick={() => setOTMenuClicks(!OTMenuClicks)} style={{ background: '#efefef', color: 'black' }}>
                             OT메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -175,7 +174,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <>
                                             {NavAccessTokenState.Nav_TeamLeaderBusinessExcelAccess === 1 ? (
                                                 <Link to="/BusinessExcelUploader">
-                                                    <li>ERP 파일 업로드</li>
+                                                    <li>현장 수당 정산 출력 ON/OFF</li>
                                                 </Link>
                                             ) : (
                                                 <></>
@@ -191,7 +190,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)} style={{background:"#efefef",color:'black'}}>
+                        <h5 onClick={() => setFoodMenuClicks(!FoodMenuClicks)} style={{ background: '#efefef', color: 'black' }}>
                             식대메뉴{' '}
                             <img
                                 src={'/pngegg.png'}
@@ -218,7 +217,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                         )}
                     </div>
                     <div>
-                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)} style={{background:"#efefef",color:'black'}}>
+                        <h5 onClick={() => setETCMenuClicks(!ETCMenuClicks)} style={{ background: '#efefef', color: 'black' }}>
                             기타메뉴
                             <img
                                 src={'/pngegg.png'}
@@ -235,7 +234,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <li>회의실 예약</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:5551')}>
-                                        <li>CSM(Beta)</li>
+                                        <li>CSM</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
                                         <li>ERP</li>
@@ -243,14 +242,21 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>
-                                    <Link
+                                    {/* <Link
                                         to="#"
                                         onClick={() =>
                                             window.open(`http://192.168.2.241:4555/${window.sessionStorage.getItem('DHKS_TOKEN')}`)
                                         }
                                     >
                                         <li>CE 교육 자료</li>
-                                    </Link>
+                                    </Link> */}
+                                    {NavAccessTokenState.PersonAdminAccess === 1 ? (
+                                        <Link to="/AdminAccessCheckingMainPage">
+                                            <li>사용자 권한부여</li>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             ) : (
                                 <></>

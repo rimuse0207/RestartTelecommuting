@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import AdminDashBoardNavigationMainPage from './AdminDashBoardLoginInfo/AdminDashBoardNavigation/AdminDashBoardNavigationMainPage';
 import { useParams } from 'react-router-dom';
@@ -10,7 +10,8 @@ const AdminDashBoardMainPageMainDivBox = styled.div`
 `;
 
 const AdminDashBoardMainPage = () => {
-    const { selected } = useParams<any>();
+    // const { selected } = useParams<any>();
+    const [selected, setselected] = useState('LoginInfo');
     return (
         <AdminDashBoardMainPageMainDivBox>
             <AdminDashBoardNavigationMainPage></AdminDashBoardNavigationMainPage>

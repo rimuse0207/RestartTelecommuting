@@ -175,6 +175,7 @@ const TeamLeaderBusinessTripContent = ({
                                                             style={{
                                                                 marginBottom: '5px',
                                                                 backgroundColor: '#e8f4b0',
+                                                                fontWeight: 'bolder',
                                                             }}
                                                         >
                                                             출장 일당
@@ -191,7 +192,9 @@ const TeamLeaderBusinessTripContent = ({
                                                             <div></div>
                                                         ) : (
                                                             <div>
-                                                                <div style={{ backgroundColor: '#a1aee0' }}>현장 수당</div>
+                                                                <div style={{ backgroundColor: '#a1aee0', fontWeight: 'bolder' }}>
+                                                                    현장 수당
+                                                                </div>
                                                             </div>
                                                         )
                                                     ) : (
@@ -250,14 +253,14 @@ const TeamLeaderBusinessTripContent = ({
                     <tbody>
                         {ErpDatas.map((list, i) => {
                             return (
-                                <tr key={list.FmDate+list.ToDate}>
+                                <tr key={list.FmDate + list.ToDate}>
                                     <td>{list.Name}</td>
                                     <td>{list.TripArea}</td>
-                                    <td>{list.FmDate} ~ { list.ToDate}</td>
-                                    <td>{list.TripDay} 일</td>
-                                    <td style={{ width: '500px' }}>
-                                        {list.TripObject}
+                                    <td>
+                                        {list.FmDate} ~ {list.ToDate}
                                     </td>
+                                    <td>{list.TripDay} 일</td>
+                                    <td style={{ width: '500px' }}>{list.TripObject}</td>
                                 </tr>
                             );
                         })}

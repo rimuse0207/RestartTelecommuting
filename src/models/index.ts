@@ -37,11 +37,11 @@ const rootReducer = combineReducers({
     PartsData,
     numberingTest,
     Access_Control,
-    CSMFiltering,
+    // CSMFiltering,
     Nav_AccessTokens,
-    CSMDataGetting,
-    CSM_User_Used_DataGetting,
-    CSM_Selected_Data_List,
+    // CSMDataGetting,
+    // CSM_User_Used_DataGetting,
+    // CSM_Selected_Data_List,
 });
 
 export default rootReducer;

@@ -234,8 +234,10 @@ const AdminDashBoardShowUsersTable = ({ setStaticsNaviButton, setSelectedUsersDa
                                                     <button onClick={() => handleResetPassword(list)}>비밀번호 초기화</button>
                                                 </div>
                                             </td>
-                                            <td className="DeleteButton" onClick={() => handleDeleteData(list)}>
-                                                <RiDeleteBin6Fill></RiDeleteBin6Fill>
+                                            <td>
+                                                <span className="DeleteButton" onClick={() => handleDeleteData(list)}>
+                                                    <RiDeleteBin6Fill></RiDeleteBin6Fill>
+                                                </span>
                                             </td>
                                         </tr>
                                     );

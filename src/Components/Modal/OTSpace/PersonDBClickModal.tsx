@@ -2,6 +2,29 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
 import axios from 'axios';
+import styled from 'styled-components';
+
+export const Printer_Button_Container_Div_Box = styled.div`
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: 50px;
+    text-align: center;
+    button {
+        width: 300px;
+        height: 100%;
+        background-color: #e8d830;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        font-weight: bolder;
+        :hover {
+            cursor: pointer;
+            color: #e8b000;
+            background-color: #efefef;
+        }
+    }
+`;
+
 const customStyles = {
     content: {
         top: '50%',
@@ -29,8 +52,17 @@ type PersonDBClickModalProps = {
 const PersonDBClickModal = ({ modalIsOpen, closeModal, clickData, dataloading, setDataLoading }: PersonDBClickModalProps) => {
     const [getData, setGetData] = useState([]);
 
+    const HandleClicksPrinterPerson = () => {
+        window.open(
+            `/OtPersonPrinter/${clickData.name}/${clickData.dateYear}/${clickData.dateMonth}`,
+            'popup',
+            'toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=1000, height=500, top=200,left=200'
+        );
+    };
+
     useEffect(() => {
         getDataForMe();
+        console.log(clickData);
     }, [clickData]);
 
     const getDataForMe = async () => {
@@ -317,6 +349,9 @@ const PersonDBClickModal = ({ modalIsOpen, closeModal, clickData, dataloading, s
                                     })}
                             </tbody>
                         </table>
+                        <Printer_Button_Container_Div_Box>
+                            <button onClick={() => HandleClicksPrinterPerson()}>출력하기</button>
+                        </Printer_Button_Container_Div_Box>
                     </div>
                 ) : (
                     <div>Loading.....</div>

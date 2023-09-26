@@ -19,6 +19,7 @@ export type Nav_AccessTokenTypes = {
     BusinessAccess: number;
     BusinessAdminAccess: number;
     CSM_Master_Access: number;
+    PersonAdminAccess: number;
 };
 
 export const NavDataGetting = (data: Nav_AccessTokenTypes) => ({
@@ -50,6 +51,7 @@ const initialState: Nav_AccessTokenTypes = {
     BusinessAccess: 0,
     BusinessAdminAccess: 0,
     CSM_Master_Access: 0,
+    PersonAdminAccess: 0,
 };
 
 export default function Nav_AccessTokens(state: Nav_AccessTokenTypes = initialState, action: Nav_AccessTokenAction): Nav_AccessTokenTypes {

@@ -617,50 +617,6 @@ const Telecommuting = () => {
                                             ) : (
                                                 <div></div>
                                             )}
-
-                                           
-                                            {/* {Parts_check ? (
-                                                PartsData.data.map(
-                                                    (
-                                                        list: {
-                                                            check_date: string;
-                                                            writer: string;
-                                                            indexs: number;
-                                                            colorCheck: number;
-                                                            write_auto_date: string;
-                                                            partdesc: string;
-                                                            write_date: string;
-                                                        },
-                                                        i: number
-                                                    ) => {
-                                                        return moment(list.write_date).format('YYYY-MM-DD') ===
-                                                            days.format('YYYY-MM-DD') ? (
-                                                            <div
-                                                                key={list.indexs}
-                                                                className="Telecommuting_Table_Data_Insert"
-                                                                onClick={() => {
-                                                                    setClicksData(list);
-                                                                    setClicksTitle('Person_Parts');
-                                                                    setOnClickedDataIn(true);
-                                                                }}
-                                                                style={
-                                                                    list.colorCheck === 3
-                                                                        ? { backgroundColor: 'gray' }
-                                                                        : moment(list.write_auto_date).diff(moment(), 'days') === 0
-                                                                        ? { backgroundColor: '#427200' }
-                                                                        : moment(list.write_auto_date).diff(moment(), 'days') === -1
-                                                                        ? { backgroundColor: '#f7b34c' }
-                                                                        : { backgroundColor: '#c13838' }
-                                                                }
-                                                            >{`${list.writer}_${list.partdesc.slice(0, 15)}...`}</div>
-                                                        ) : (
-                                                            <div></div>
-                                                        );
-                                                    }
-                                                )
-                                            ) : (
-                                                <div></div>
-                                            )} */}
                                         </div>
                                     </td>
                                 );
@@ -747,19 +703,6 @@ const Telecommuting = () => {
                             >
                                 <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
                             </li>
-                          
-                            {/* <li
-                            onClick={() => {
-                                if (Parts_check) {
-                                    dispatch(PartsDataShowCheckedFalse());
-                                } else {
-                                    dispatch(getPartsdataThunk(getMoment, InfomationState));
-                                }
-                                setParts_check(!Parts_check);
-                            }}
-                        >
-                            <input type="checkbox" name="usbParts" checked={Parts_check} readOnly></input> 업무요청
-                        </li> */}
                         </ul>
                     </div>
                 ) : (

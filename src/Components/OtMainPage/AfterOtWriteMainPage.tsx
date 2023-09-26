@@ -19,6 +19,7 @@ import AfterSatdayComponent from './OtWeekCompoents/AfterComponents/AfterSatdayC
 import AfterSundayComponent from './OtWeekCompoents/AfterComponents/AfterSundayComponent';
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { BeforeOtWriteMainPageMainDivBox } from './BeforeOtWriteMainPage';
 
 const SelectMainBox = styled.select`
     padding: 15px;
@@ -347,12 +348,12 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
     };
 
     return (
-        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
+        <BeforeOtWriteMainPageMainDivBox className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }}>
             {printerClicked ? (
                 <div></div>
             ) : (
                 <>
-                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3em' }}>
                         <span
                             className="WeekAferOTWorkSpace_date_change_span"
                             style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
@@ -442,15 +443,67 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                                                 borderRight: '1.3px solid black',
                                             }}
                                         >
-                                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
+                                                시작시간
+                                            </td>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
+                                                종료시간
+                                            </td>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
                                                 총 합계 <br /> 시간
                                             </td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
-                                            <td style={{ borderRight: '1.2px solid black' }}>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
+                                                시작시간
+                                            </td>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
+                                                종료시간
+                                            </td>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
+                                                휴게시간
+                                            </td>
+                                            <td
+                                                style={{
+                                                    borderRight: '1.2px solid black',
+                                                    borderBottom: '1.2px solid black',
+                                                    fontWeight: 'bolder',
+                                                }}
+                                            >
                                                 총 합계 <br />
                                                 시간
                                             </td>
@@ -549,8 +602,7 @@ const AfterOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }: 
                     </div>
                 </>
             )}
-      
-        </div>
+        </BeforeOtWriteMainPageMainDivBox>
     );
 };
 

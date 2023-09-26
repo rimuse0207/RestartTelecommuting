@@ -17,10 +17,10 @@ const BeforeTuesdayComponent = ({ tueDateData, setTueDateData, startDate }: OtTu
                 </td>
 
                 <td rowSpan={3} width="100px" style={{ textAlign: 'start', paddingLeft: '10px' }}>
-                    <label htmlFor="tue_holiday_check">
+                    <label htmlFor="tue_week_check">
                         <input
                             type="radio"
-                            id="tue_holiday_check"
+                            id="tue_week_check"
                             name="tue_holiday_check"
                             value="weekday"
                             readOnly
@@ -48,44 +48,52 @@ const BeforeTuesdayComponent = ({ tueDateData, setTueDateData, startDate }: OtTu
                     </label>
                 </td>
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">시작시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={tueDateData.basicStartTime}
-                            label="시작시간"
-                            onChange={event => setTueDateData({ ...tueDateData, basicStartTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {tueDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">시작시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={tueDateData.basicStartTime}
+                                label="시작시간"
+                                onChange={event => setTueDateData({ ...tueDateData, basicStartTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
                 <td rowSpan={3}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                        <InputLabel id="demo-select-small">종료시간</InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={tueDateData.basicEndTime}
-                            label="종료시간"
-                            onChange={event => setTueDateData({ ...tueDateData, basicEndTime: event.target.value })}
-                        >
-                            {TimeClicksOptions.map(list => {
-                                return (
-                                    <MenuItem value={list.value} key={list.value}>
-                                        {list.label}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    {tueDateData.holidayCheck === 'weekday' ? (
+                        <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                            <InputLabel id="demo-select-small">종료시간</InputLabel>
+                            <Select
+                                labelId="demo-select-small"
+                                id="demo-select-small"
+                                value={tueDateData.basicEndTime}
+                                label="종료시간"
+                                onChange={event => setTueDateData({ ...tueDateData, basicEndTime: event.target.value })}
+                            >
+                                {TimeClicksOptions.map(list => {
+                                    return (
+                                        <MenuItem value={list.value} key={list.value}>
+                                            {list.label}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <></>
+                    )}
                 </td>
                 <td rowSpan={3}>
                     <span className="sum_time" id="sum_time_tue">

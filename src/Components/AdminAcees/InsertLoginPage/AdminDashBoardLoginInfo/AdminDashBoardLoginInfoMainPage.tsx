@@ -8,7 +8,7 @@ import AdminDashBoardInsertUsersTable from './AdminDashBoardContent/AdminDashBoa
 const AdminDashBoardLoginInfoMainPageMainDivBox = styled.div`
     width: 100%;
     min-height: 100vh;
-    margin-left: 270px;
+    padding: 10px;
 `;
 
 const AdminDashBoardLoginInfoMainPage = () => {

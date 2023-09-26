@@ -107,7 +107,7 @@ const AfterSundayComponent = ({ sunDateData, setSunDateData, startDate, Business
                 <td rowSpan={3}></td>
                 <td rowSpan={3}></td>
                 {BusinessAcessState ? (
-                    <td rowSpan={3} width="100px">
+                    <td rowSpan={3} width="100px" style={{ fontSize: '0.9em' }}>
                         <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
                             <InputLabel id="demo-select-small">출장OR현장</InputLabel>
                             <Select

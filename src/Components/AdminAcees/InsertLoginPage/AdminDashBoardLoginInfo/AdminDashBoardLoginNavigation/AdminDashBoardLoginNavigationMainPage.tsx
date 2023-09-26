@@ -85,6 +85,18 @@ const AdminDashBoardLoginNavigationMainPage = ({ NaviSelected, setStaticsNaviBut
                             <div className="LineText">임직원 추가</div>
                         )}
                     </li>
+                    <li onClick={() => setStaticsNaviButton('AccessUsersChecking')}>
+                        {NaviSelected === 'AccessUsersChecking' ? (
+                            <>
+                                <div className="LineText" style={{ color: '#2985db', fontWeight: 'bold' }}>
+                                    임직원 권한 추가
+                                </div>
+                                <div className="LineActions"></div>
+                            </>
+                        ) : (
+                            <div className="LineText">임직원 권한 추가</div>
+                        )}
+                    </li>
                 </ul>
             </div>
         </AdminProFileNavigationMainPageMainDivBox>

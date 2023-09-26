@@ -20,6 +20,33 @@ import BeforeSundayComponent from './OtWeekCompoents/BeforeComponents/BeforeSund
 
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import styled from 'styled-components';
+
+export const BeforeOtWriteMainPageMainDivBox = styled.div`
+    font-size: 0.8em;
+    table {
+        thead {
+            font-size: 0.9em;
+        }
+        tbody {
+            tr {
+                td {
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
+            }
+        }
+    }
+    textarea {
+        resize: vertical;
+    }
+    .MuiOutlinedInput-root {
+        font-size: 1.2em;
+    }
+    .MuiFormControl-root {
+        min-width: 80px;
+    }
+`;
 
 registerLocale('ko', ko);
 
@@ -204,15 +231,15 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
             }, 500);
         }
     };
-    useEffect(() => {
-        // getDataOTData();
-        toast.show({
-            title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
-            content: '초과근로 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
-            duration: 3000,
-            DataSuccess: false,
-        });
-    }, []);
+    // useEffect(() => {
+    //     // getDataOTData();
+    //     toast.show({
+    //         title: '효율적인 근무시간 관리로 초과근로를 최소화 합시다.',
+    //         content: '초과근로 신청 사유는 구체적이고 명확하게 작성하여 주십시오.',
+    //         duration: 3000,
+    //         DataSuccess: false,
+    //     });
+    // }, []);
 
     useEffect(() => {
         setLeaderCheck(false);
@@ -837,8 +864,8 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
     };
 
     return (
-        <div className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }} ref={TimeOverCheck}>
-            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <BeforeOtWriteMainPageMainDivBox className="WeekAfterOTWorkSpace_big_div" style={{ marginTop: '20px' }} ref={TimeOverCheck}>
+            <div style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3em' }}>
                 <span
                     className="WeekAferOTWorkSpace_date_change_span"
                     style={{ fontSize: '1.2em', fontWeight: 'bolder' }}
@@ -930,15 +957,25 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
                                 borderRight: '1.3px solid black',
                             }}
                         >
-                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                            <td style={{ borderRight: '1.2px solid black' }}>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
+                                시작시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
+                                종료시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
                                 총 합계 <br /> 시간
                             </td>
-                            <td style={{ borderRight: '1.2px solid black' }}>시작시간</td>
-                            <td style={{ borderRight: '1.2px solid black' }}>종료시간</td>
-                            <td style={{ borderRight: '1.2px solid black' }}>휴게시간</td>
-                            <td style={{ borderRight: '1.2px solid black' }}>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
+                                시작시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
+                                종료시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
+                                휴게시간
+                            </td>
+                            <td style={{ borderRight: '1.2px solid black', borderBottom: '1.2px solid black', fontWeight: 'bolder' }}>
                                 총 합계 <br />
                                 시간
                             </td>
@@ -1026,7 +1063,7 @@ const BeforeOtWriteMainPage = ({ startDate, endDate, setStartDate, setEndDate }:
                     </div>
                 )}
             </div>
-        </div>
+        </BeforeOtWriteMainPageMainDivBox>
     );
 };
 

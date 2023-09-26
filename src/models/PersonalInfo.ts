@@ -27,7 +27,7 @@ export const getPersionalLOGOUT = () => ({
 
 type PersonalInfoAction = ReturnType<typeof getPersionalInfo> | ReturnType<typeof getPersionalLOGOUT>;
 
-type PersonalInfoState = {
+export type PersonalInfoState = {
     loginCheck: boolean;
     infomation: {
         name: string;

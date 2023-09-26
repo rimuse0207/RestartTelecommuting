@@ -138,15 +138,10 @@ const customStyles = {
 };
 Modal.setAppElement('#COVIDUpdate');
 const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
-    const dispatch = useDispatch();
     const myMenuRef = useRef<any>('null');
     const [hambergerOpen, setHambergerOpen] = useState(false);
-    // const socket = useSelector((state: RootState) => state.Socket.socket);
-    const loginChecked = useSelector((state: RootState) => state.PersonalInfo.loginCheck);
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const [menuStatus, setMenuStatus] = useState('');
-    const [noticeData, setNoticeData] = useState([]);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const _menuToggle = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         hambergerOpen ? setMenuStatus('') : setMenuStatus('isopen');
@@ -166,60 +161,9 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
         };
     }, [myMenuRef]);
 
-    // useEffect(() => {
-    //     socketconnect();
-    //     // getCovidData();
-    // }, []);
-
-    // const getCovidData = async () => {
-    //     try {
-    //         const getCovidDatas = await axios.get(`${process.env.REACT_APP_DB_HOST}/Covid_app_server/covid_getData`);
-    //         if (getCovidDatas.data.dataSuccess) {
-    //             setNoticeData(getCovidDatas.data.datas);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    function isEmptyObj(obj: {}) {
-        if (obj.constructor === Object && Object.keys(obj).length === 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    // const handleUpdateCovidText = () => {
-    //     if (DecryptKey(InfomationState.id) === 'jychoi@dhk.co.kr' || DecryptKey(InfomationState.id) === 'sjyoo@dhk.co.kr') {
-    //         setModalIsOpen(true);
-    //     }
-    // };
-    // function closeModal() {
-    //     getCovidData();
-    //     setModalIsOpen(false);
-    // }
     return (
         <div ref={myMenuRef}>
             <div className="menubar">
-                {/* <NotificationMainBoxdiv>
-                    <div className="TextMovingBoxdiv" onDoubleClick={handleUpdateCovidText}>
-                        <Marquee gradient={false} speed={66} pauseOnHover={true}>
-                            {noticeData.map((list: { indexs: number; notice_text: string }, i) => {
-                                return (
-                                    <div key={list.indexs} style={{ marginLeft: '100px', fontSize: '1.3em' }}>
-                                        <div>
-                                            {i + 1}. {list.notice_text}{' '}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                            <div style={{ marginLeft: '100px', fontSize: '1.3em' }}>
-                                <CovidVirusMainPage></CovidVirusMainPage>
-                            </div>
-                        </Marquee>
-                    </div>
-                </NotificationMainBoxdiv> */}
                 <div className="MainTitles">
                     <h1>{titles}</h1>
                 </div>
@@ -230,7 +174,6 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
                     <span></span>
                     <span></span>
                 </div>
-                <div className="title">{/* <span className="Navigation_title_text_css">{subtitles}</span> */}</div>
                 <div>
                     <div className="Navigation_Info_div">
                         <div>
@@ -256,20 +199,6 @@ const HambergerMenu = ({ titles, subtitles }: HambergerMenu) => {
             <div>
                 <Navigation menuStatus={menuStatus} setHambergerOpen={(e: React.MouseEvent<HTMLElement>) => _menuToggle(e)} />
             </div>
-
-            {/* <div>
-                <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
-                    <div style={{ marginTop: '50px' }}></div>
-                    <CloseModalButtonMainDivBox>
-                        <button onClick={closeModal}>X</button>
-                    </CloseModalButtonMainDivBox>
-                    <div>
-                        <div>
-                            <CovidTextShowWrite></CovidTextShowWrite>
-                        </div>
-                    </div>
-                </Modal>
-            </div> */}
         </div>
     );
 };
