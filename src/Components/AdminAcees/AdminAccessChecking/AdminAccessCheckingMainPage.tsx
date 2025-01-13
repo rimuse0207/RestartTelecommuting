@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import HambergerMenu from '../../Navigation/HambergerMenu';
 import ContentMainPage from './Content/ContentMainPage';
 
-const AdminAccessCheckingMainPageMainDivBox = styled.div`
-    border: 1px solid black;
-`;
+const AdminAccessCheckingMainPageMainDivBox = styled.div``;
 
 const AdminAccessCheckingMainPage = () => {
     return (

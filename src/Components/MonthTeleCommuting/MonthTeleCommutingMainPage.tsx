@@ -28,7 +28,6 @@ const MonthTeleCommutingMainPage = () => {
             const getTeamData = await OneParamsGet(`/Tele_app_server/TeamSelectGet`, { id: NavAccessTokenState.id });
             if (getTeamData.data.dataSuccess) {
                 setShowTeam(getTeamData.data.teamData);
-            } else {
             }
         } catch (error) {
             console.log(error);
@@ -44,6 +43,8 @@ const MonthTeleCommutingMainPage = () => {
                     onChange={e => setSelectedYear(e.target.value)}
                     className="TeamLeader_Telecommuting_SearchedNames"
                 >
+                    <option value="2025">2025년</option>
+                    <option value="2024">2024년</option>
                     <option value="2023">2023년</option>
                     <option value="2022">2022년</option>
                     <option value="2021">2021년</option>

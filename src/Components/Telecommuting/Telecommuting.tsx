@@ -35,6 +35,7 @@ const Telecommuting = () => {
     const [Parts_check, setParts_check] = useState(true);
     const [clicksTitle, setClicksTitle] = useState('');
 
+    ///날짜 변경 시, 마다 데이터 불러오기
     useEffect(() => {
         if (foodApply_check) dispatch(getFoodDataThunk(getMoment, InfomationState));
         if (telecommutingApply_check) dispatch(getTelecommutingThunk(getMoment, InfomationState));
@@ -51,6 +52,7 @@ const Telecommuting = () => {
         setOnClickedSet(!onClicked);
     };
 
+    //캘린더
     const calendarArr = () => {
         let result: Array<any> = [];
         let week: number = firstWeek;
@@ -727,6 +729,7 @@ const Telecommuting = () => {
             </div>
             {/* {onClicked ? <CreateModal onClicked={onClicked} modalClose={modalClose} clicksData={clicksData}></CreateModal> : ''} */}
 
+            {/* 데이터 클릭 시, 모달 발생 */}
             {onClickedDataIn ? (
                 <SelectClickModalMainPage
                     onClicked={onClickedDataIn}

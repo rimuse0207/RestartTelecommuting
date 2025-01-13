@@ -10,7 +10,7 @@ import moment from 'moment';
 import { getFoodDataThunk } from '../../models/Thunk_models/FoodData';
 import { toast } from '../ToastMessage/ToastManager';
 import PrinterApplyMealPage from './PrinterApplyMealPage';
-import { BsFillPencilFill } from 'react-icons/bs';
+import { BsFillPencilFill, BsPeople } from 'react-icons/bs';
 import { GiClick } from 'react-icons/gi';
 import { CgSelectR } from 'react-icons/cg';
 import { USBCDApplyFormBoxDiv, SubMitButton } from '../USBApply/UsbApply';
@@ -31,6 +31,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     const [MealPrice, setMealPrice] = useState<any>(0);
     const [MealPlace, setMealPlace] = useState('');
     const [MealPosition, setMealPosition] = useState('');
+    const [people, setPeople] = useState('');
+    const [names, setNames] = useState('');
     const [Caution, setCaution] = useState(sessionStorage.getItem('FoodCaution') === 'accept' ? true : false);
     const [applyedData, setApplyedData] = useState([]);
     const [divisionDate, setDivisionDate] = useState<any>([]);
@@ -84,7 +86,6 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
     }, [divisionDate]);
     const OTdataGet = async () => {
         try {
-          
             const dataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/Data_get_OTMealCheck`, {
                 params: {
                     selectDate,
@@ -132,6 +133,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 id: DecryptKey(InfomationState.id),
                 team: InfomationState.team,
                 name: DecryptKey(InfomationState.name),
+                people,
+                names,
             });
             if (dataSend.data.dataSuccess) {
                 data_get();
@@ -140,7 +143,9 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                 );
                 setMealPrice(0);
                 setMealPlace('');
-                setMealPosition("");
+                setMealPosition('');
+                setPeople('');
+                setNames('');
                 toast.show({
                     title: '데이터 저장 완료.',
                     content: `${moment(startDate).format('YYYY년 MM월 DD일')}의 식대정산 데이터가 등록되었습니다.`,
@@ -172,6 +177,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
         spending: number;
         calculate: number;
         place: string;
+        people: string;
+        names: string;
         location: string;
     }) => {
         try {
@@ -222,9 +229,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                     <form className="form" id="form1" onSubmit={e => e.preventDefault()}>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">팀명</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
                                             <input
                                                 className="CElogs_WriteData_FORM_InputBox"
                                                 name="team"
@@ -237,9 +242,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">이름</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
                                             <input
                                                 type="text"
                                                 className="CElogs_WriteData_FORM_InputBox"
@@ -252,9 +255,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">날짜</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
 
                                             <div id="USBCDDivBox">
                                                 <DatePicker
@@ -271,9 +272,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">구분</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
 
                                             <select name="division" value={Whatmeal} onChange={e => setWhatmeal(e.target.value)}>
                                                 <option value="중식">중식</option>
@@ -282,9 +281,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">금액</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
 
                                             <input
                                                 className="CElogs_WriteData_FORM_InputBox"
@@ -301,9 +298,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">방문처</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
 
                                             <input
                                                 className="CElogs_WriteData_FORM_InputBox"
@@ -316,9 +311,7 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                         </USBCDApplyFormBoxDiv>
                                         <USBCDApplyFormBoxDiv>
                                             <div className="CElogs_WriteData_FORM_Text_label">지역</div>
-                                            <div className="CElogs_WriteData_FORM_emoticon_div">
-                                                
-                                            </div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
 
                                             <input
                                                 className="CElogs_WriteData_FORM_InputBox"
@@ -327,6 +320,32 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                 onChange={e => setMealPosition(e.target.value)}
                                                 placeholder="지역 ex) 이천, 온양"
                                                 id="location"
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">동석자수</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
+
+                                            <input
+                                                className="CElogs_WriteData_FORM_InputBox"
+                                                type="text"
+                                                value={people}
+                                                onChange={e => setPeople(e.target.value)}
+                                                placeholder="동석자의 수"
+                                                id="people"
+                                            ></input>
+                                        </USBCDApplyFormBoxDiv>
+                                        <USBCDApplyFormBoxDiv>
+                                            <div className="CElogs_WriteData_FORM_Text_label">동석자명</div>
+                                            <div className="CElogs_WriteData_FORM_emoticon_div"></div>
+
+                                            <input
+                                                className="CElogs_WriteData_FORM_InputBox"
+                                                type="text"
+                                                value={names}
+                                                onChange={e => setNames(e.target.value)}
+                                                placeholder="동석자의 모두의 이름"
+                                                id="names"
                                             ></input>
                                         </USBCDApplyFormBoxDiv>
                                         <SubMitButton>
@@ -399,6 +418,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                 금액
                                             </th>
                                             <th>방문처</th>
+                                            <th>동석자수</th>
+                                            <th>동석자명</th>
                                             <th>지역</th>
                                             <th>비고</th>
                                             <th>삭제</th>
@@ -414,6 +435,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                     spending: number;
                                                     calculate: number;
                                                     place: string;
+                                                    people: string;
+                                                    names: string;
                                                     location: string;
                                                 },
                                                 i
@@ -426,6 +449,8 @@ const ApplyMealPage = ({ pickerDate }: ApplyMealPageProps) => {
                                                         <td>{list.spending.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</td>
                                                         <td>{list.calculate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</td>
                                                         <td>{list.place}</td>
+                                                        <td>{list.people}</td>
+                                                        <td>{list.names}</td>
                                                         <td>{list.location}</td>
                                                         <td className="DISCO_PC_etc_width">
                                                             {OTDatas.map((item: { dates: string; OTTimes: number }, j) => {

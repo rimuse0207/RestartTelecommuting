@@ -44,11 +44,14 @@ const getTeamLeaderDataAfterOTApply = async (getMoment: {}, InfomationState: { i
         const AfterOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_AfterOT_get_data`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),
             },
         });
+
         return AfterOTdataget.data.data;
     } catch (error) {
         console.log(error);

@@ -1,5 +1,5 @@
 import { request } from '../indexs';
-
+import axios from 'axios';
 export const NothingGet = (RequestURL: string) => {
     return request.get(RequestURL);
 };

@@ -35,10 +35,10 @@ const TeamLeader_getFoodDataAsync = createAsyncAction(
 
 const TeamLeader_getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; team: string; name: string }) => {
     try {
-        
         const Fooddataget = await axios.get(`${process.env.REACT_APP_API_URL}/Meal_app_servers/TeamLeader_Data_get_applyMeal`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
+                id: DecryptKey(InfomationState.id),
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),

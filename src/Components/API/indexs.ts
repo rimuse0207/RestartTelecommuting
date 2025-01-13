@@ -22,9 +22,12 @@ export const Axios_Get_Moduls = async (Path_URL: string, Params_Data: any) => {
         });
         if (Axios_Get_Moduls_Axios.data.status === 200) {
             return Axios_Get_Moduls_Axios.data.data;
-        } else {
+        } else if (Axios_Get_Moduls_Axios.data.status === 401) {
             alert('세션이 종료되었습니다. 재 로그인 바랍니다.');
             window.location.href = '/Login_Page';
+        } else {
+            alert('Error 발생. Axios_Error_Code 1999 IT팀에 문의바랍니다.');
+            return false;
         }
     } catch (error) {
         console.log(error);

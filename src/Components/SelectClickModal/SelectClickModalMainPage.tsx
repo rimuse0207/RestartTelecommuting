@@ -41,11 +41,13 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                         X
                     </div>
                 </div>
+                {/* USB 관련 모달 */}
                 {clicksTitle === 'USB/CD' ? (
                     <CDSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></CDSelectClickModal>
                 ) : (
                     <div></div>
                 )}
+                {/* 재택 근무 관련 모달 */}
                 {clicksTitle === 'Telecommuting' ? (
                     <TeleSelectClickModal
                         clicksTitle={clicksTitle}
@@ -56,11 +58,13 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
+                {/* 식대정산 관련 모달 */}
                 {clicksTitle === 'Food' ? (
                     <FoodSelectClickModal clicksTitle={clicksTitle} clicksData={clicksData} modalClose={modalClose}></FoodSelectClickModal>
                 ) : (
                     <div></div>
                 )}
+
                 {clicksTitle === 'Person_Parts' ? (
                     <div>
                         <PersonPartsSelectClickModal
@@ -72,6 +76,7 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
+                {/* OT관련 모달 */}
                 {clicksTitle === 'BeforeOT' ? (
                     <BeforeSelectClickModal
                         clicksTitle={clicksTitle}
@@ -90,6 +95,7 @@ const SelectClickModalMainPage = ({ onClicked, modalClose, clicksData, clicksTit
                 ) : (
                     <div></div>
                 )}
+                {/* 팀장 관련 OT  */}
                 {clicksTitle === 'TeamLeaderBeforeOT' ? (
                     <TeamLeaderBeforeSelectClickModal
                         clicksTitle={clicksTitle}

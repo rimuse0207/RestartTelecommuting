@@ -3,6 +3,20 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import ExcelDataFormat from './ExcelDataFormat';
 import ModalMealMonthDetailPage from './ModalMealMonthDetailPage';
+import styled from 'styled-components';
+
+const MealMonthMainPageMainDivBox = styled.div`
+    .TeamLeader_Telecommuting_SearchedNames {
+        width: 200px;
+        height: 40px;
+        font-size: medium;
+        font-weight: bolder;
+        margin-top: 10px;
+        margin-left: 0px;
+        background-color: #fff;
+        border-radius: 0px;
+    }
+`;
 
 const MealMonthMainPage = () => {
     const [selectedYear, setSelectedYear] = useState(moment().format('YYYY'));
@@ -40,15 +54,25 @@ const MealMonthMainPage = () => {
     };
 
     return (
-        <div>
+        <MealMonthMainPageMainDivBox>
             <div style={{ width: '90%', margin: '0 auto' }}>
                 <div>
-                    <select value={selectedYear} onChange={e => setSelectedYear(e.target.value)}>
+                    <select
+                        value={selectedYear}
+                        onChange={e => setSelectedYear(e.target.value)}
+                        className="TeamLeader_Telecommuting_SearchedNames"
+                    >
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>
                     </select>
-                    <select value={selectedMonth} onChange={e => setSelectedMonth(e.target.value)}>
+                    <select
+                        value={selectedMonth}
+                        onChange={e => setSelectedMonth(e.target.value)}
+                        className="TeamLeader_Telecommuting_SearchedNames"
+                    >
                         <option value="01">1월</option>
                         <option value="02">2월</option>
                         <option value="03">3월</option>
@@ -62,7 +86,11 @@ const MealMonthMainPage = () => {
                         <option value="11">11월</option>
                         <option value="12">12월</option>
                     </select>
-                    <select value={selectedTeam} onChange={e => setSelectedTeam(e.target.value)}>
+                    <select
+                        value={selectedTeam}
+                        onChange={e => setSelectedTeam(e.target.value)}
+                        className="TeamLeader_Telecommuting_SearchedNames"
+                    >
                         <option value="All">전체</option>
                         <option value="장비영업">장비영업</option>
                         <option value="부품소재">부품소재</option>
@@ -73,6 +101,7 @@ const MealMonthMainPage = () => {
                         <option value="grinder">Grinder</option>
                         <option value="아산CE">아산CE</option>
                         <option value="OEM">OEM</option>
+                        <option value="CE지원팀">CE지원팀</option>
                     </select>
                     <span style={{ marginLeft: '50px' }}>
                         <ExcelDataFormat
@@ -162,7 +191,7 @@ const MealMonthMainPage = () => {
                     <div></div>
                 )}
             </div>
-        </div>
+        </MealMonthMainPageMainDivBox>
     );
 };
 

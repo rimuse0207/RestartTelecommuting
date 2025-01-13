@@ -5,6 +5,8 @@ import AdminDashBoardShowUsersTable from './AdminDashBoardContent/AdminDashBoard
 import AdminDashBoardUpdateUsersTable from './AdminDashBoardContent/AdminDashBoardUpdateUsersTable';
 import { useEffect } from 'react';
 import AdminDashBoardInsertUsersTable from './AdminDashBoardContent/AdminDashBoardInsertUsersTable';
+import UserAccessTable from '../../AdminAccessChecking/Content/UserAccessTable/UserAccessTable';
+import UserDepartmentAccessTable from '../../AdminAccessChecking/Content/UserAccessTable/UserDepartmentAccessTable';
 const AdminDashBoardLoginInfoMainPageMainDivBox = styled.div`
     width: 100%;
     min-height: 100vh;
@@ -45,6 +47,8 @@ const AdminDashBoardLoginInfoMainPage = () => {
                     <div></div>
                 )}
                 {StaticsNaviButton === 'InsertUsers' ? <AdminDashBoardInsertUsersTable></AdminDashBoardInsertUsersTable> : <div></div>}
+                {StaticsNaviButton === 'AccessUsersChecking' ? <UserAccessTable></UserAccessTable> : <></>}
+                {StaticsNaviButton === 'DepartmentAccessUsersChecking' ? <UserDepartmentAccessTable></UserDepartmentAccessTable> : <></>}
             </div>
         </AdminDashBoardLoginInfoMainPageMainDivBox>
     );

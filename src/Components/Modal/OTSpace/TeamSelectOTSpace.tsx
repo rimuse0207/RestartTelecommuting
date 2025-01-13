@@ -6,26 +6,24 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../models';
 import TeamSelectOTTable from './TeamSelectOTTable';
 import { OneParamsGet } from '../../API/GETApi/GetApi';
-import { FaFileExcel } from "react-icons/fa";
+import { FaFileExcel } from 'react-icons/fa';
 import styled from 'styled-components';
 import { request } from '../../API/indexs';
 import LoaderMainPage from '../../Loader/LoaderMainPage';
 
 const TeamSelectOTSpaceMainDivBox = styled.div`
-    
-    position:relative;
-    .Excel_Download_Container{
-        position:absolute;
-        top:-40px;
-        right:0px;
-        font-size:2em;
-        color:green;
-        :hover{
+    position: relative;
+    .Excel_Download_Container {
+        position: absolute;
+        top: -40px;
+        right: 0px;
+        font-size: 2em;
+        color: green;
+        :hover {
             cursor: pointer;
         }
     }
-
-`
+`;
 
 type TeamDataProps = {
     show_teams: string;
@@ -40,35 +38,26 @@ const TeamSelectOTSpace = () => {
     const [loading, setLoading] = useState(false);
     const [teamBelongInfo, setTeamBelongInfo] = useState([]);
 
-
-
-
     const HandleExcelDownload = async () => {
         try {
             setLoading(true);
             const Excel_Download_OT_Data_Axios = await request.get('/TeamSelectOT_app_server/Excel_Download_OT_Data', {
                 params: {
                     selectYear,
-                    selectMonth
-                }
-            })
+                    selectMonth,
+                },
+            });
 
             if (Excel_Download_OT_Data_Axios.data.dataSuccess) {
-                window.open(`${process.env.REACT_APP_DB_HOST}/${Excel_Download_OT_Data_Axios.data.URL}`, "_blank");
+                window.open(`${process.env.REACT_APP_DB_HOST}/${Excel_Download_OT_Data_Axios.data.URL}`, '_blank');
                 setLoading(false);
             }
-             setLoading(false);
-
-             
-
+            setLoading(false);
         } catch (error) {
             console.log(error);
             setLoading(false);
         }
-    }
-
-
-
+    };
 
     useEffect(() => {
         getTeamsDataFromServer();
@@ -78,7 +67,6 @@ const TeamSelectOTSpace = () => {
             const getTeamData = await OneParamsGet(`/Tele_app_server/TeamSelectGet`, { id: NavAccessTokenState.id });
             if (getTeamData.data.dataSuccess) {
                 setShowTeam(getTeamData.data.teamData);
-            } else {
             }
         } catch (error) {
             console.log(error);
@@ -103,7 +91,7 @@ const TeamSelectOTSpace = () => {
                 selectMonth,
                 selectTeam,
             });
-            
+
             setTeamBelongInfo(getDataShowTeam.data.datas);
         } catch (error) {
             console.log(error);
@@ -115,6 +103,8 @@ const TeamSelectOTSpace = () => {
             <div className="TeamSelectOTSpace_main_div">
                 <div className="TeamSelectOTSpace_select_box_div">
                     <select value={selectYear} onChange={e => setSelectYear(e.target.value)}>
+                        <option value="2025">2025년</option>
+                        <option value="2024">2024년</option>
                         <option value="2023">2023년</option>
                         <option value="2022">2022년</option>
                         <option value="2021">2021년</option>
@@ -144,10 +134,10 @@ const TeamSelectOTSpace = () => {
                         })}
                     </select>
                 </div>
-                <div style={{position:"relative"}}>
-                     <div className="Excel_Download_Container" onClick={()=>HandleExcelDownload()}>
+                <div style={{ position: 'relative' }}>
+                    <div className="Excel_Download_Container" onClick={() => HandleExcelDownload()}>
                         <FaFileExcel></FaFileExcel>
-                </div>
+                    </div>
                     <div style={{ textAlign: 'end' }}>*더블 클릭 시 자세하게 볼 수 있습니다.</div>
                     <TeamSelectOTTable
                         teamBelongInfo={teamBelongInfo}

@@ -36,7 +36,6 @@ const TeamLeaderTelecommuting = () => {
     const dispatch = useDispatch();
     const InfomationState = useSelector((state: RootState) => state.PersonalInfo.infomation);
     const FoodData = useSelector((state: RootState) => state.TeamLeaderFoodData.TeamLeader_FoodDatas);
-    // const USBCDData = useSelector((state: RootState) => state.TeamLeaderUSBCDDataGetting.TeamLeader_USBCDDatas);
     const TeamLeader_TelecommutingData = useSelector(
         (state: RootState) => state.TeamLeader_TelecommutingDataGetting.TeamLeader_TelecommutingDatas
     );
@@ -61,11 +60,7 @@ const TeamLeaderTelecommuting = () => {
             if (foodApply_check) dispatch(TeamLeader_getFoodDataThunk(getMoment, InfomationState));
         }
     }, [foodApply_check, getMoment]);
-    // useEffect(() => {
-    //     if (NavAccessTokenState.USBApplyLeaderAccess === 1) {
-    //         if (usbApply_check) dispatch(TeamLeader_getUSBCDThunk(getMoment, InfomationState));
-    //     }
-    // }, [usbApply_check, getMoment]);
+
     useEffect(() => {
         if (NavAccessTokenState.AfterOTLeaderAccess === 1) {
             if (AfterOtApply_check) dispatch(getTeamLeaderAFTEROTdataThunk(getMoment, InfomationState));
@@ -721,8 +716,6 @@ const TeamLeaderTelecommuting = () => {
                                             ) : (
                                                 <div></div>
                                             )}
-
-                                          
                                         </div>
                                     </td>
                                 );
@@ -829,7 +822,6 @@ const TeamLeaderTelecommuting = () => {
                             >
                                 <input type="checkbox" name="foodApply_check" checked={foodApply_check} readOnly></input> 식대 정산
                             </li>
-                        
                         </ul>
                     </div>
                 ) : (

@@ -67,6 +67,8 @@ const PrinterApplyMealPage = ({
                                         <th>정산 금액</th>
                                         <th>방문처</th>
                                         <th>지역</th>
+                                        <th>명수</th>
+                                        <th>동반인명</th>
                                         <th>비고</th>
                                     </tr>
                                 </thead>
@@ -80,6 +82,8 @@ const PrinterApplyMealPage = ({
                                                 spending: number;
                                                 calculate: number;
                                                 place: string;
+                                                people: string;
+                                                names: string;
                                                 location: string;
                                             },
                                             i: number
@@ -95,6 +99,8 @@ const PrinterApplyMealPage = ({
                                                         {list.calculate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원
                                                     </td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.place}</td>
+                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.people}</td>
+                                                    <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.names}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>{list.location}</td>
                                                     <td style={{ border: '0.5px solid black', padding: '10px' }}>
                                                         {/* {OTDatas.map((item: { dates: string; OTTimes: number }) => {
@@ -136,7 +142,7 @@ const PrinterApplyMealPage = ({
                             </table>
                         </div>
                     </div>
-                    <div style={{ marginTop: '30px', marginLeft: '30px' }}>* 영수증 첨부 (카드영수증, 현금영수증, PAYCO이용내역)</div>
+                    {/* <div style={{ marginTop: '30px', marginLeft: '30px' }}>* 영수증 첨부 (카드영수증, 현금영수증, PAYCO이용내역)</div> */}
                 </Modal>
             </div>
         </div>

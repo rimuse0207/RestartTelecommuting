@@ -72,7 +72,9 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/">
                                         <li>종합 업무 현황</li>
                                     </Link>
-                                    {NavAccessTokenState.Nav_TeamLeaderCalendarAccess === 1 ? (
+                                    {NavAccessTokenState.TeleLeaderAccess === 1 ||
+                                    NavAccessTokenState.AfterOTLeaderAccess === 1 ||
+                                    NavAccessTokenState.FoodLeaderAccess === 1 ? (
                                         <Link to="/TeamLeaderTelecommutingMainpage">
                                             <li>팀원 종합 업무 현황</li>
                                         </Link>
@@ -83,7 +85,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/Telecommuting_workspace">
                                         <li>재택근무</li>
                                     </Link>
-                                    {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
+                                    {NavAccessTokenState.TeleLeaderAccess === 1 ? (
                                         <Link to="/MonthTelecommuting">
                                             <li>월별 재택 조회</li>
                                         </Link>
@@ -97,7 +99,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                             사전/사후 신청
                                         </li>
                                     </Link>
-                                    {NavAccessTokenState.Nav_TeamLeaderTeleAccess === 1 ? (
+                                    {NavAccessTokenState.AfterOTLeaderAccess === 1 ? (
                                         <Link to="#" onClick={() => window.open('http://10.1.181.237/DHK_ExMediaWeb_Approve/')}>
                                             <li>
                                                 외부미디어 <br />
@@ -127,7 +129,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/AfterOTTest">
                                         <li>OT 신청</li>
                                     </Link>
-                                    {NavAccessTokenState.Nav_TeamLeaderOTAccess === 1 ? (
+                                    {NavAccessTokenState.AfterOTLeaderAccess === 1 || NavAccessTokenState.BeforeOTLeaderAccess === 1 ? (
                                         <>
                                             <Link to="/TeamLeaderPageMainPage">
                                                 <li>팀원 OT 승인</li>
@@ -161,7 +163,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         </>
                                     )}
 
-                                    {NavAccessTokenState.Nav_TeamLeaderMonthOTAccess === 1 ? (
+                                    {NavAccessTokenState.AfterOTLeaderAccess === 1 || NavAccessTokenState.BeforeOTLeaderAccess === 1 ? (
                                         <>
                                             <Link to="/TeamSelectOTWorkSpace">
                                                 <li>근무 실시보고서</li>
@@ -172,7 +174,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     )}
                                     {BusinessAdminAcessState ? (
                                         <>
-                                            {NavAccessTokenState.Nav_TeamLeaderBusinessExcelAccess === 1 ? (
+                                            {NavAccessTokenState.BusinessAdminAccess === 1 ? (
                                                 <Link to="/BusinessExcelUploader">
                                                     <li>현장 수당 정산 출력 ON/OFF</li>
                                                 </Link>
@@ -203,7 +205,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="/meal_settlement">
                                         <li>식대 정산 신청</li>
                                     </Link>
-                                    {NavAccessTokenState.Nav_TeamLeaderFoodAccess === 1 ? (
+                                    {NavAccessTokenState.FoodLeaderAccess === 1 ? (
                                         <Link to="/Admin_meal_Select">
                                             <li>식대 정산 월별 조회</li>
                                         </Link>
@@ -231,7 +233,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                         <li>상대방 호출</li>
                                     </Link> */}
                                     <Link to="#" onClick={() => window.open('http://125.132.12.165:3332')}>
-                                        <li>회의실 예약</li>
+                                        <li>회의실 및 법인 예약</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://192.168.2.241:5551')}>
                                         <li>CSM</li>
@@ -239,8 +241,14 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://192.168.0.145:8087')}>
                                         <li>ERP</li>
                                     </Link>
-                                    <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/PartyPost')}>
                                         <li>당직근무보고</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/overseas')}>
+                                        <li>해외출장</li>
+                                    </Link>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/Document_Education')}>
+                                        <li>DHKS 회계 전표 작성 안내 동영상</li>
                                     </Link>
                                     {/* <Link
                                         to="#"
@@ -328,7 +336,7 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     {/* <Link to="#" onClick={() => window.open('http://125.132.12.163:3000')}>
                                         <li>시설이용</li>
                                     </Link> */}
-                                    <Link to="#" onClick={() => window.open('http://192.168.2.241:3100/PartyPost')}>
+                                    <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>
                                     {NavAccessTokenState.Nav_TeamLeaderCalendarAccess === 1 && InfomationState.company === 'YIKC' ? (

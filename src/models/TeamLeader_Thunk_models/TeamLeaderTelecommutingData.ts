@@ -52,6 +52,9 @@ const getDataFoodApply = async (getMoment: {}, InfomationState: { id: string; te
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
                 selectCompany: InfomationState.company,
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),

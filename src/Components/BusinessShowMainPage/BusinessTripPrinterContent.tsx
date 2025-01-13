@@ -127,7 +127,6 @@ const BusinessTripPrinterContent = () => {
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
-                console.log(getBusinessDatas);
                 await setBusinessDatas(getBusinessDatas.data.datas);
                 await setErpDatas(getBusinessDatas.data.ERP_data);
                 await setLoading(true);
@@ -278,11 +277,11 @@ const BusinessTripPrinterContent = () => {
                                 <tr>
                                     <td>{list.Name}</td>
                                     <td>{list.TripArea}</td>
-                                    <td>{list.FmDate} ~ {list.ToDate}</td>
-                                    <td>{list.TripDay} 일</td>
-                                    <td style={{ width: '300px' }}>
-                                        {list.TripObject}
+                                    <td>
+                                        {list.FmDate} ~ {list.ToDate}
                                     </td>
+                                    <td>{list.TripDay} 일</td>
+                                    <td style={{ width: '300px' }}>{list.TripObject}</td>
                                 </tr>
                             );
                         })}

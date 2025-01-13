@@ -44,6 +44,9 @@ const getTemLeader_DataBeforeOTApply = async (getMoment: {}, InfomationState: { 
         const TeamLeaderBeforeOTdataget = await axios.get(`${process.env.REACT_APP_API_URL}/OT_app_server/TeamLeader_BeforeOT_get_data`, {
             params: {
                 selectDate: moment(getMoment).format('YYYY-MM'),
+                id: DecryptKey(InfomationState.id),
+                team: InfomationState.team,
+                name: DecryptKey(InfomationState.name),
             },
             headers: {
                 Authorization: sessionStorage.getItem('DHKS_TOKEN'),

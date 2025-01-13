@@ -92,9 +92,8 @@ const BusinessTripShowContent = () => {
                     },
                 }
             );
-            
+
             if (getPrinterControlFromServer.data.dataSuccess) {
-                console.log(getPrinterControlFromServer);
                 setPrinterControlData(getPrinterControlFromServer.data.data[0].business_printer_control_type === 1 ? true : false);
             }
         } catch (error) {
@@ -114,7 +113,6 @@ const BusinessTripShowContent = () => {
                 },
             });
             if (getBusinessDatas.data.dataSuccess) {
-                
                 setBusinessDatas(getBusinessDatas.data.datas);
                 setErpDatas(getBusinessDatas.data.ERP_data);
             }
@@ -304,7 +302,9 @@ const BusinessTripShowContent = () => {
                                 <tr>
                                     <td>{list.Name}</td>
                                     <td>{list.TripArea}</td>
-                                    <td>{list.FmDate} ~ {list.ToDate}</td>
+                                    <td>
+                                        {list.FmDate} ~ {list.ToDate}
+                                    </td>
                                     <td>{list.TripDay} 일</td>
                                     <td style={{ width: '500px' }}>
                                         {/* <textarea
@@ -313,7 +313,7 @@ const BusinessTripShowContent = () => {
                                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChangeReason(e, list)}
                                             placeholder="출장 일당과 현장 수당이 겹치는 경우 비고에 출장 날짜 필수 기재"
                                         ></textarea> */}
-                                        { list.TripObject}
+                                        {list.TripObject}
                                     </td>
                                 </tr>
                             );

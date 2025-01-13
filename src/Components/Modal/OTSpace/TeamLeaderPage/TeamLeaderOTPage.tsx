@@ -8,6 +8,21 @@ import axios from 'axios';
 import './TeamLeader.css';
 import { DecryptKey } from '../../../../config';
 import { OneParamsGet } from '../../../API/GETApi/GetApi';
+import styled from 'styled-components';
+
+const TeamLeaderOTPageMainDivBox = styled.div`
+    .TeamLeader_Telecommuting_SearchedNames {
+        width: 200px;
+        height: 40px;
+        font-size: medium;
+        font-weight: bolder;
+        margin-top: 10px;
+        margin-left: 0px;
+        background-color: #fff;
+        border-radius: 0px;
+    }
+`;
+
 type TeamDataProps = {
     show_teams: string;
 };
@@ -71,15 +86,16 @@ const TeamLeaderOTPage = () => {
         getDataSelectTeam();
     };
     return (
-        <div style={{ width: '90%', margin: '0 auto' }}>
+        <TeamLeaderOTPageMainDivBox style={{ width: '90%', margin: '0 auto' }}>
             <div>
                 <div className="TeamSelectOTSpace_select_box_div" style={{ marginTop: '20px', marginBottom: '20px' }}>
                     <select
-                        style={{ margin: 0, width: '100px' }}
                         value={selectYear}
                         onChange={e => setSelectYear(e.target.value)}
                         className="TeamLeader_Telecommuting_SearchedNames"
                     >
+                        <option value="2025">2025년</option>
+                        <option value="2024">2024년</option>
                         <option value="2023">2023년</option>
                         <option value="2022">2022년</option>
                         <option value="2021">2021년</option>
@@ -88,7 +104,6 @@ const TeamLeaderOTPage = () => {
                         value={selectMonth}
                         onChange={e => setSelectMonth(e.target.value)}
                         className="TeamLeader_Telecommuting_SearchedNames"
-                        style={{ margin: 0, width: '100px' }}
                     >
                         <option value="01">1월</option>
                         <option value="02">2월</option>
@@ -107,7 +122,6 @@ const TeamLeaderOTPage = () => {
                         value={selectTeam}
                         onChange={e => setSelectTeam(e.target.value)}
                         className="TeamLeader_Telecommuting_SearchedNames"
-                        style={{ margin: 0, width: '100px' }}
                     >
                         <option value="">팀 선택</option>
                         {showTeam.map((list, i) => {
@@ -122,7 +136,6 @@ const TeamLeaderOTPage = () => {
                         value={selectName}
                         onChange={e => setSelectName(e.target.value)}
                         className="TeamLeader_Telecommuting_SearchedNames"
-                        style={{ margin: 0, width: '100px' }}
                     >
                         {ShowName.map((list: { name: string; id: string }, i) => {
                             return (
@@ -155,7 +168,7 @@ const TeamLeaderOTPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </TeamLeaderOTPageMainDivBox>
     );
 };
 export default TeamLeaderOTPage;

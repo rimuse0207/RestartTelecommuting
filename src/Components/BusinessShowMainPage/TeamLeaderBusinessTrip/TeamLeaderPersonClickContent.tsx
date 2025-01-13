@@ -11,6 +11,15 @@ import { OneParamsGet } from '../../API/GETApi/GetApi';
 const TeamLeaderPersonClickContentMainDivBox = styled.div`
     padding-left: 20px;
     padding-right: 20px;
+    .TeamLeader_Telecommuting_SearchedNames {
+        width: 200px;
+        height: 40px;
+        font-size: medium;
+        font-weight: bolder;
+        margin-top: 10px;
+        margin-left: 0px;
+        background-color: #fff;
+    }
 `;
 type TeamDataProps = {
     show_teams: string;
@@ -81,12 +90,9 @@ const TeamLeaderPersonClickContent = () => {
     return (
         <TeamLeaderPersonClickContentMainDivBox>
             <div className="TeamSelectOTSpace_select_box_div" style={{ marginTop: '20px', marginBottom: '20px' }}>
-                <select
-                    style={{ margin: 0, width: '100px' }}
-                    value={selectYear}
-                    onChange={e => setSelectYear(e.target.value)}
-                    className="TeamLeader_Telecommuting_SearchedNames"
-                >
+                <select value={selectYear} onChange={e => setSelectYear(e.target.value)} className="TeamLeader_Telecommuting_SearchedNames">
+                    <option value="2025">2025년</option>
+                    <option value="2024">2024년</option>
                     <option value="2023">2023년</option>
                     <option value="2022">2022년</option>
                     <option value="2021">2021년</option>
@@ -95,7 +101,6 @@ const TeamLeaderPersonClickContent = () => {
                     value={selectMonth}
                     onChange={e => setSelectMonth(e.target.value)}
                     className="TeamLeader_Telecommuting_SearchedNames"
-                    style={{ margin: 0, width: '100px' }}
                 >
                     <option value="01">1월</option>
                     <option value="02">2월</option>
@@ -110,12 +115,7 @@ const TeamLeaderPersonClickContent = () => {
                     <option value="11">11월</option>
                     <option value="12">12월</option>
                 </select>
-                <select
-                    value={selectTeam}
-                    onChange={e => setSelectTeam(e.target.value)}
-                    className="TeamLeader_Telecommuting_SearchedNames"
-                    style={{ margin: 0, width: '100px' }}
-                >
+                <select value={selectTeam} onChange={e => setSelectTeam(e.target.value)} className="TeamLeader_Telecommuting_SearchedNames">
                     <option value="">팀 선택</option>
                     {showTeam.map((list, i) => {
                         return (
@@ -132,7 +132,6 @@ const TeamLeaderPersonClickContent = () => {
                         setSelectId(e.target.value.split('||')[1]);
                     }}
                     className="TeamLeader_Telecommuting_SearchedNames"
-                    style={{ margin: 0, width: '100px' }}
                 >
                     {ShowName.map((list: { name: string; id: string }, i) => {
                         return (

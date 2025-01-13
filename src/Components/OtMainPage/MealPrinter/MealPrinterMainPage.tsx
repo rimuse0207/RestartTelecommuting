@@ -167,7 +167,7 @@ const MealPrinterMainPage = () => {
                 <div>Loading....</div>
             )}
 
-            <div style={{ marginTop: '30px', marginLeft: '30px' }}>* 영수증 첨부 (카드영수증, 현금영수증, PAYCO이용내역)</div>
+            {/* <div style={{ marginTop: '30px', marginLeft: '30px' }}>* 영수증 첨부 (카드영수증, 현금영수증, PAYCO이용내역)</div> */}
         </MealPrinterMainPageDivBox>
     );
 };
