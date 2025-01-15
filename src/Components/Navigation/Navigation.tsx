@@ -244,18 +244,15 @@ const Navigation = ({ menuStatus, setHambergerOpen }: Navigation) => {
                                     <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/PartyPost')}>
                                         <li>당직근무보고</li>
                                     </Link>
-<<<<<<< HEAD
+
                                     <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/overseas')}>
                                         <li>해외출장</li>
                                     </Link>
                                     <Link to="#" onClick={() => window.open('http://125.132.12.165:3332/Document_Education')}>
                                         <li>DHKS 회계 전표 작성 안내 동영상</li>
                                     </Link>
-                                    {/* <Link
-=======
 
-                                    <Link
->>>>>>> 93fabf7471aff8822fd2caf122be62a5d92d36a1
+                                    {/* <Link
                                         to="#"
                                         onClick={() =>
                                             window.open(`http://192.168.2.241:4555/${window.sessionStorage.getItem('DHKS_TOKEN')}`)
